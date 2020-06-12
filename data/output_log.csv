@@ -1,2 +1,5 @@
 ,date,time,instrument,ordr_type,units,profit_pips,orderID
 0,2020-06-12,16:40:21,EUR_USD,long,1,0.0002,457
+0,2020-06-12,18:01:47,EUR_USD,long,1,0.0007,467
+0,2020-06-12,19:27:23,EUR_USD,short,-1,0.0002,503
+0,2020-06-12,19:34:35,EUR_USD,long,1,0.0001,509
