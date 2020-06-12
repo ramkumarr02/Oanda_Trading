@@ -2,5 +2,4 @@ tradenv
 .ipynb_checkpoints
 config
 .gitattributes
-oldversions
 historic_data
