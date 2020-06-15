@@ -1,0 +1,114 @@
+OSError                Traceback (most recent call last)
+d:\ram\pcal\data science\projects\trading\oanda_trading\tradenv\lib\site-packages\urllib3\response.py in _error_catcher(self)
+    436             try:
+--> 437                 yield
+    438 
+
+d:\ram\pcal\data science\projects\trading\oanda_trading\tradenv\lib\site-packages\urllib3\response.py in read_chunked(self, amt, decode_content)
+    763             while True:
+--> 764                 self._update_chunk_length()
+    765                 if self.chunk_left == 0:
+
+d:\ram\pcal\data science\projects\trading\oanda_trading\tradenv\lib\site-packages\urllib3\response.py in _update_chunk_length(self)
+    693             return
+--> 694         line = self._fp.fp.readline()
+    695         line = line.split(b";", 1)[0]
+
+c:\users\91989\appdata\local\programs\python\python36\lib\socket.py in readinto(self, b)
+    585             try:
+--> 586                 return self._sock.recv_into(b)
+    587             except timeout:
+
+c:\users\91989\appdata\local\programs\python\python36\lib\ssl.py in recv_into(self, buffer, nbytes, flags)
+   1008                   self.__class__)
+-> 1009             return self.read(nbytes, buffer)
+   1010         else:
+
+c:\users\91989\appdata\local\programs\python\python36\lib\ssl.py in read(self, len, buffer)
+    870         try:
+--> 871             return self._sslobj.read(len, buffer)
+    872         except SSLError as x:
+
+c:\users\91989\appdata\local\programs\python\python36\lib\ssl.py in read(self, len, buffer)
+    630         if buffer is not None:
+--> 631             v = self._sslobj.read(len, buffer)
+    632         else:
+
+OSError: [WinError 10051] A socket operation was attempted to an unreachable network
+
+During handling of the above exception, another exception occurred:
+
+ProtocolError          Traceback (most recent call last)
+d:\ram\pcal\data science\projects\trading\oanda_trading\tradenv\lib\site-packages\requests\models.py in generate()
+    750                 try:
+--> 751                     for chunk in self.raw.stream(chunk_size, decode_content=True):
+    752                         yield chunk
+
+d:\ram\pcal\data science\projects\trading\oanda_trading\tradenv\lib\site-packages\urllib3\response.py in stream(self, amt, decode_content)
+    571         if self.chunked and self.supports_chunked_reads():
+--> 572             for line in self.read_chunked(amt, decode_content=decode_content):
+    573                 yield line
+
+d:\ram\pcal\data science\projects\trading\oanda_trading\tradenv\lib\site-packages\urllib3\response.py in read_chunked(self, amt, decode_content)
+    792             if self._original_response:
+--> 793                 self._original_response.close()
+    794 
+
+c:\users\91989\appdata\local\programs\python\python36\lib\contextlib.py in __exit__(self, type, value, traceback)
+     98             try:
+---> 99                 self.gen.throw(type, value, traceback)
+    100             except StopIteration as exc:
+
+d:\ram\pcal\data science\projects\trading\oanda_trading\tradenv\lib\site-packages\urllib3\response.py in _error_catcher(self)
+    454                 # This includes IncompleteRead.
+--> 455                 raise ProtocolError("Connection broken: %r" % e, e)
+    456 
+
+ProtocolError: ("Connection broken: OSError(10051, 'A socket operation was attempted to an unreachable network', None, 10051, None)", OSError(10051, 'A socket operation was attempted to an unreachable network', None, 10051, None))
+
+During handling of the above exception, another exception occurred:
+
+ChunkedEncodingError   Traceback (most recent call last)
+<ipython-input-30-b60656720ec4> in <module>
+----> 1 direction, df_reached_targets, tick_list = run_direction_engine(instrument, num, target_num, min_count)
+      2 print(f'Direction : {direction}')
+      3 
+      4 if direction == 'no_direction':
+      5     print('no_direction : Run again')
+
+<ipython-input-6-20da54eedd63> in run_direction_engine(instrument, num, target_num, min_count)
+     24     start_time = time.time()
+     25 
+---> 26     for i, resp in tqdm(enumerate(rv)):
+     27 
+     28         if i < num: # Check if we are within the required number of price iterations
+
+d:\ram\pcal\data science\projects\trading\oanda_trading\tradenv\lib\site-packages\tqdm\std.py in __iter__(self)
+   1127 
+   1128         try:
+-> 1129             for obj in iterable:
+   1130                 yield obj
+   1131                 # Update and possibly print the progressbar.
+
+d:\ram\pcal\data science\projects\trading\oanda_trading\tradenv\lib\site-packages\oandapyV20\oandapyV20.py in __stream_request(self, method, url, request_args, headers)
+    255                                   headers=headers, stream=True)
+    256         lines = response.iter_lines(ITER_LINES_CHUNKSIZE)
+--> 257         for line in lines:
+    258             if line:
+    259                 data = json.loads(line.decode("utf-8"))
+
+d:\ram\pcal\data science\projects\trading\oanda_trading\tradenv\lib\site-packages\requests\models.py in iter_lines(self, chunk_size, decode_unicode, delimiter)
+    793         pending = None
+    794 
+--> 795         for chunk in self.iter_content(chunk_size=chunk_size, decode_unicode=decode_unicode):
+    796 
+    797             if pending is not None:
+
+d:\ram\pcal\data science\projects\trading\oanda_trading\tradenv\lib\site-packages\requests\models.py in generate()
+    752                         yield chunk
+    753                 except ProtocolError as e:
+--> 754                     raise ChunkedEncodingError(e)
+    755                 except DecodeError as e:
+    756                     raise ContentDecodingError(e)
+
+ChunkedEncodingError: ("Connection broken: OSError(10051, 'A socket operation was attempted to an unreachable network', None, 10051, None)", OSError(10051, 'A socket operation was attempted to an unreachable network', None, 10051, None))
