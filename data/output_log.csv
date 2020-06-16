@@ -16,3 +16,6 @@
 0,2020-06-15,16:31:39,EUR_USD,long,1,-0.0005,Stop_Loss,iters,638
 0,2020-06-15,17:07:50,EUR_USD,short,-1,0.0002,Programmed_close,417,649
 0,2020-06-15,17:12:16,EUR_USD,short,-1,-0.0005,Stop_Loss,210,654
+0,2020-06-16,03:32:47,EUR_USD,long,1,-0.0004,Stop_Loss,44,678
+0,2020-06-16,03:57:37,EUR_USD,short,-1,0.0003,Programmed_close,145,683
+0,2020-06-16,04:15:03,EUR_USD,short,-1,-0.0001,Stop_Loss,6,694
