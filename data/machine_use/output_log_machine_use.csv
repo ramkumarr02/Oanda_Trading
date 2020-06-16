@@ -24,12 +24,12 @@ date,time,instrument,direction,ordr_type,units,profit_pips,close_reason,Iteratio
 2020-06-16,11:55:44,EUR_USD,no_direction,,,,,,
 2020-06-16,11:56:10,EUR_USD,no_direction,,,,,,
 2020-06-16,12:27:32,EUR_USD,positive,long,1,-0.0002,Min trans moves,30,855
-2020-06-16,12:33:12,EUR_USD,positive,long,1,0,Min trans moves,31,861
+2020-06-16,12:33:12,EUR_USD,positive,long,1,0.0000,Min trans moves,31,861
 2020-06-16,12:33:26,EUR_USD,positive,long,1,-0.0001,Min trans moves,30,867
 2020-06-16,12:34:13,EUR_USD,positive,long,1,0.0002,Take_profit,43,873
 2020-06-16,12:34:22,EUR_USD,positive,long,1,0.0004,Take_profit,19,879
 2020-06-16,12:34:28,EUR_USD,positive,long,1,0.0001,Take_profit,15,885
-2020-06-16,12:34:43,EUR_USD,positive,long,1,0,Min trans moves,30,891
+2020-06-16,12:34:43,EUR_USD,positive,long,1,0.0000,Min trans moves,30,891
 2020-06-16,12:34:56,EUR_USD,positive,long,1,0.0002,Take_profit,30,897
 2020-06-16,12:35:08,EUR_USD,positive,long,1,-0.0002,Min trans moves,31,903
 2020-06-16,12:35:22,EUR_USD,no_direction,,,,,,
@@ -40,11 +40,11 @@ date,time,instrument,direction,ordr_type,units,profit_pips,close_reason,Iteratio
 2020-06-16,12:45:19,EUR_USD,no_direction,,,,,,
 2020-06-16,12:49:22,EUR_USD,no_direction,,,,,,
 2020-06-16,12:49:52,EUR_USD,negative,short,-1,0.0002,Take_profit,22,921
-2020-06-16,12:50:11,EUR_USD,negative,short,-1,0,Min trans moves,30,927
+2020-06-16,12:50:11,EUR_USD,negative,short,-1,0.0000,Min trans moves,30,927
 2020-06-16,12:50:28,EUR_USD,negative,short,-1,-0.0004,Min trans moves,31,933
 2020-06-16,12:50:45,EUR_USD,no_direction,,,,,,
-2020-06-16,12:51:23,EUR_USD,negative,short,-1,0,Min trans moves,30,939
+2020-06-16,12:51:23,EUR_USD,negative,short,-1,0.0000,Min trans moves,30,939
 2020-06-16,12:51:37,EUR_USD,negative,short,-1,-0.0005,Min trans moves,30,945
 2020-06-16,12:53:30,EUR_USD,positive,long,1,0.0001,Take_profit,161,951
-2020-06-16,12:53:50,EUR_USD,positive,long,1,0,Min trans moves,30,957
+2020-06-16,12:53:50,EUR_USD,positive,long,1,0.0000,Min trans moves,30,957
 2020-06-16,12:53:59,EUR_USD,positive,long,1,0.0002,Take_profit,16,963
