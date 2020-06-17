@@ -135,3 +135,55 @@ date,time,instrument,direction,ordr_type,units,profit_pips,close_reason,Iteratio
 2020-06-16,16:38:59,EUR_USD,positive,long,1,0.0001,Take_profit,129,1328
 2020-06-17,04:10:05,EUR_USD,negative,short,-1,-0.0003,Min trans moves,30,1340
 2020-06-17,04:27:49,EUR_USD,no_direction,,,,,,
+2020-06-17,07:17:44,EUR_USD,positive,long,1,0.0003,Take_profit,101,1352
+2020-06-17,07:39:11,EUR_USD,positive,long,1,0.0001,Take_profit,356,1364
+2020-06-17,07:52:48,EUR_USD,positive,long,1,-0.0007,Min trans moves,1027,1370
+2020-06-17,07:54:55,EUR_USD,positive,long,1,0.0001,Take_profit,47,1376
+2020-06-17,07:55:34,EUR_USD,negative,short,-1,0.0000,Take_profit,12,1382
+2020-06-17,07:56:09,EUR_USD,negative,short,-1,0.0001,Take_profit,17,1388
+2020-06-17,07:56:30,,no_direction,,,,,,
+2020-06-17,07:56:58,,no_direction,,,,,,
+2020-06-17,07:57:18,,no_direction,,,,,,
+2020-06-17,07:57:54,EUR_USD,negative,short,-1,0.0001,Take_profit,15,1394
+2020-06-17,07:58:38,EUR_USD,negative,short,-1,0.0001,Take_profit,27,1400
+2020-06-17,08:14:32,,no_direction,,,,,,
+2020-06-17,08:15:51,EUR_USD,negative,short,-1,-0.0002,Full Neg half min trans,87,1406
+2020-06-17,08:17:35,EUR_USD,positive,long,1,0.0005,Take_profit,157,1412
+2020-06-17,08:17:50,,no_direction,,,,,,
+2020-06-17,08:19:08,EUR_USD,negative,short,-1,-0.0003,Full Neg half min trans,86,1418
+2020-06-17,08:20:29,EUR_USD,positive,long,1,0.0002,Take_profit,120,1424
+2020-06-17,08:20:38,,no_direction,,,,,,
+2020-06-17,08:20:45,,no_direction,,,,,,
+2020-06-17,08:21:02,,no_direction,,,,,,
+2020-06-17,08:21:16,,no_direction,,,,,,
+2020-06-17,08:55:30,EUR_USD,positive,long,1,-0.0014,stop_loss,464,1435
+2020-06-17,09:12:44,EUR_USD,positive,long,1,-0.0014,stop_loss,140,1445
+2020-06-17,09:15:16,EUR_USD,positive,long,1,-0.0014,stop_loss,183,1449
+2020-06-17,09:17:18,EUR_USD,positive,long,1,0.0003,Take_profit,178,1454
+2020-06-17,09:17:44,,no_direction,,,,,,
+2020-06-17,09:19:31,EUR_USD,positive,long,1,0.0000,Full Neg half min trans,112,1460
+2020-06-17,09:19:57,,no_direction,,,,,,
+2020-06-17,09:20:26,,no_direction,,,,,,
+2020-06-17,09:22:39,EUR_USD,negative,short,-1,-0.0002,Full Neg half min trans,156,1466
+2020-06-17,09:26:10,EUR_USD,negative,short,-1,-0.0001,Full Neg half min trans,181,1472
+2020-06-17,09:29:35,EUR_USD,positive,long,1,-0.0001,Full Neg half min trans,165,1478
+2020-06-17,09:39:12,EUR_USD,positive,long,1,-0.0001,Full Neg half min trans,155,1484
+2020-06-17,09:40:06,,no_direction,,,,,,
+2020-06-17,09:45:20,EUR_USD,positive,long,1,-0.0001,Full Neg half min trans,326,1490
+2020-06-17,09:47:09,EUR_USD,negative,short,-1,0.0002,Take_profit,43,1496
+2020-06-17,09:47:50,EUR_USD,negative,short,-1,0.0002,Take_profit,32,1502
+2020-06-17,09:51:10,EUR_USD,positive,long,1,-0.0002,Full Neg half min trans,385,1508
+2020-06-17,09:51:51,,no_direction,,,,,,
+2020-06-17,09:57:28,EUR_USD,positive,long,1,-0.0001,Full Neg half min trans,384,1514
+2020-06-17,09:58:24,EUR_USD,negative,short,-1,0.0001,Take_profit,27,1520
+2020-06-17,09:58:58,EUR_USD,negative,short,-1,0.0001,Take_profit,25,1526
+2020-06-17,10:54:26,EUR_USD,negative,short,-1,0.0002,Take_profit,98,1532
+2020-06-17,10:55:37,,no_direction,,,,,,
+2020-06-17,10:59:34,EUR_USD,positive,long,1,0.0004,Take_profit,166,1538
+2020-06-17,11:00:15,,no_direction,,,,,,
+2020-06-17,11:01:43,EUR_USD,positive,long,1,0.0003,Take_profit,39,1544
+2020-06-17,11:03:39,EUR_USD,positive,long,1,0.0001,Take_profit,119,1550
+2020-06-17,11:04:48,EUR_USD,negative,short,-1,0.0002,Take_profit,30,1556
+2020-06-17,11:05:38,,no_direction,,,,,,
+2020-06-17,11:11:00,EUR_USD,positive,long,1,-0.0002,Full Neg half min trans,355,1562
+2020-06-17,11:36:18,EUR_USD,positive,long,1,-0.0001,Full Neg half min trans,1521,1568
