@@ -133,3 +133,5 @@ date,time,instrument,direction,ordr_type,units,profit_pips,close_reason,Iteratio
 2020-06-16,16:28:47,EUR_USD,positive,long,1,-0.0002,Min trans moves,1102,1322
 2020-06-16,16:29:38,EUR_USD,no_direction,,,,,,
 2020-06-16,16:38:59,EUR_USD,positive,long,1,0.0001,Take_profit,129,1328
+2020-06-17,04:10:05,EUR_USD,negative,short,-1,-0.0003,Min trans moves,30,1340
+2020-06-17,04:27:49,EUR_USD,no_direction,,,,,,
