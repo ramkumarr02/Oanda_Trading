@@ -245,3 +245,13 @@ date,time,instrument,direction,ordr_type,units,profit_pips,close_reason,Iteratio
 2020-06-18,13:32:20,EUR_USD,negative,short,-1.0,-0.0001,25 Neg half min trans,153.0,1748.0
 2020-06-18,13:36:01,EUR_USD,positive,long,1.0,-0.0002,25 Neg half min trans,369.0,1754.0
 2020-06-18,13:38:55,EUR_USD,positive,long,1.0,0.0001,Take_profit,239.0,1760.0
+2020-06-18,16:14:07,,no_direction,,,,,,
+2020-06-18,16:15:20,,no_direction,,,,,,
+2020-06-18,16:17:56,EUR_USD,negative,short,-1.0,0.0002,Take_profit,127.0,1772.0
+2020-06-18,16:18:21,,no_direction,,,,,,
+2020-06-18,16:29:58,,no_direction,,,,,,
+2020-06-18,16:31:09,,no_direction,,,,,,
+2020-06-18,16:35:42,EUR_USD,negative,short,-1.0,0.0002,Take_profit,161.0,1784.0
+2020-06-18,16:37:39,EUR_USD,negative,short,-1.0,0.0001,Take_profit,54.0,1790.0
+2020-06-18,16:38:14,,no_direction,,,,,,
+2020-06-18,16:43:32,EUR_USD,negative,short,-1.0,0.0001,Take_profit,260.0,1796.0
