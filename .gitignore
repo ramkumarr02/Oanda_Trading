@@ -1,5 +1,6 @@
 tradenv
-.ipynb_checkpoints
-config
-.gitattributes
+machine_use
 historic_data
+.gitattributes
+access_token.yaml
+.ipynb_checkpoints
