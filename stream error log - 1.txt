@@ -1,0 +1,198 @@
+Direction : positive
+Running OE :  500.0 {50: {'half_min_trans_num': -250.0, 'max_loss': -0.0001}, 55: {'half_min_trans_num': -275.0, 'max_loss': -0.0002}, 60: {'half_min_trans_num': -300.0, 'max_loss': -0.0003}, 65: {'half_min_trans_num': -325.0, 'max_loss': -0.0004}, 70: {'half_min_trans_num': -350.0, 'max_loss': -0.0005}, 75: {'half_min_trans_num': -375.0, 'max_loss': -0.0006}, 80: {'half_min_trans_num': -400.0, 'max_loss': -0.0007}, 85: {'half_min_trans_num': -425.0, 'max_loss': -0.0008}, 90: {'half_min_trans_num': -450.0, 'max_loss': -0.0009}}
+66it [4:13:35, 230.54s/it]
+---------------------------------------------------
+ConnectionResetErrorTraceback (most recent call last)
+d:\ram\pcal\data science\projects\trading\oanda_trading\tradenv\lib\site-packages\urllib3\connectionpool.py in urlopen(self, method, url, body, headers, retries, redirect, assert_same_host, timeout, pool_timeout, release_conn, chunked, body_pos, **response_kw)
+    676                 headers=headers,
+--> 677                 chunked=chunked,
+    678             )
+
+d:\ram\pcal\data science\projects\trading\oanda_trading\tradenv\lib\site-packages\urllib3\connectionpool.py in _make_request(self, conn, method, url, timeout, chunked, **httplib_request_kw)
+    425                     # Otherwise it looks like a bug in the code.
+--> 426                     six.raise_from(e, None)
+    427         except (SocketTimeout, BaseSSLError, SocketError) as e:
+
+d:\ram\pcal\data science\projects\trading\oanda_trading\tradenv\lib\site-packages\urllib3\packages\six.py in raise_from(value, from_value)
+
+d:\ram\pcal\data science\projects\trading\oanda_trading\tradenv\lib\site-packages\urllib3\connectionpool.py in _make_request(self, conn, method, url, timeout, chunked, **httplib_request_kw)
+    420                 try:
+--> 421                     httplib_response = conn.getresponse()
+    422                 except BaseException as e:
+
+c:\users\91989\appdata\local\programs\python\python36\lib\http\client.py in getresponse(self)
+   1330             try:
+-> 1331                 response.begin()
+   1332             except ConnectionError:
+
+c:\users\91989\appdata\local\programs\python\python36\lib\http\client.py in begin(self)
+    296         while True:
+--> 297             version, status, reason = self._read_status()
+    298             if status != CONTINUE:
+
+c:\users\91989\appdata\local\programs\python\python36\lib\http\client.py in _read_status(self)
+    257     def _read_status(self):
+--> 258         line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+    259         if len(line) > _MAXLINE:
+
+c:\users\91989\appdata\local\programs\python\python36\lib\socket.py in readinto(self, b)
+    585             try:
+--> 586                 return self._sock.recv_into(b)
+    587             except timeout:
+
+c:\users\91989\appdata\local\programs\python\python36\lib\ssl.py in recv_into(self, buffer, nbytes, flags)
+   1008                   self.__class__)
+-> 1009             return self.read(nbytes, buffer)
+   1010         else:
+
+c:\users\91989\appdata\local\programs\python\python36\lib\ssl.py in read(self, len, buffer)
+    870         try:
+--> 871             return self._sslobj.read(len, buffer)
+    872         except SSLError as x:
+
+c:\users\91989\appdata\local\programs\python\python36\lib\ssl.py in read(self, len, buffer)
+    630         if buffer is not None:
+--> 631             v = self._sslobj.read(len, buffer)
+    632         else:
+
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+
+During handling of the above exception, another exception occurred:
+
+ProtocolError     Traceback (most recent call last)
+d:\ram\pcal\data science\projects\trading\oanda_trading\tradenv\lib\site-packages\requests\adapters.py in send(self, request, stream, timeout, verify, cert, proxies)
+    448                     retries=self.max_retries,
+--> 449                     timeout=timeout
+    450                 )
+
+d:\ram\pcal\data science\projects\trading\oanda_trading\tradenv\lib\site-packages\urllib3\connectionpool.py in urlopen(self, method, url, body, headers, retries, redirect, assert_same_host, timeout, pool_timeout, release_conn, chunked, body_pos, **response_kw)
+    724             retries = retries.increment(
+--> 725                 method, url, error=e, _pool=self, _stacktrace=sys.exc_info()[2]
+    726             )
+
+d:\ram\pcal\data science\projects\trading\oanda_trading\tradenv\lib\site-packages\urllib3\util\retry.py in increment(self, method, url, response, error, _pool, _stacktrace)
+    402             if read is False or not self._is_method_retryable(method):
+--> 403                 raise six.reraise(type(error), error, _stacktrace)
+    404             elif read is not None:
+
+d:\ram\pcal\data science\projects\trading\oanda_trading\tradenv\lib\site-packages\urllib3\packages\six.py in reraise(tp, value, tb)
+    733             if value.__traceback__ is not tb:
+--> 734                 raise value.with_traceback(tb)
+    735             raise value
+
+d:\ram\pcal\data science\projects\trading\oanda_trading\tradenv\lib\site-packages\urllib3\connectionpool.py in urlopen(self, method, url, body, headers, retries, redirect, assert_same_host, timeout, pool_timeout, release_conn, chunked, body_pos, **response_kw)
+    676                 headers=headers,
+--> 677                 chunked=chunked,
+    678             )
+
+d:\ram\pcal\data science\projects\trading\oanda_trading\tradenv\lib\site-packages\urllib3\connectionpool.py in _make_request(self, conn, method, url, timeout, chunked, **httplib_request_kw)
+    425                     # Otherwise it looks like a bug in the code.
+--> 426                     six.raise_from(e, None)
+    427         except (SocketTimeout, BaseSSLError, SocketError) as e:
+
+d:\ram\pcal\data science\projects\trading\oanda_trading\tradenv\lib\site-packages\urllib3\packages\six.py in raise_from(value, from_value)
+
+d:\ram\pcal\data science\projects\trading\oanda_trading\tradenv\lib\site-packages\urllib3\connectionpool.py in _make_request(self, conn, method, url, timeout, chunked, **httplib_request_kw)
+    420                 try:
+--> 421                     httplib_response = conn.getresponse()
+    422                 except BaseException as e:
+
+c:\users\91989\appdata\local\programs\python\python36\lib\http\client.py in getresponse(self)
+   1330             try:
+-> 1331                 response.begin()
+   1332             except ConnectionError:
+
+c:\users\91989\appdata\local\programs\python\python36\lib\http\client.py in begin(self)
+    296         while True:
+--> 297             version, status, reason = self._read_status()
+    298             if status != CONTINUE:
+
+c:\users\91989\appdata\local\programs\python\python36\lib\http\client.py in _read_status(self)
+    257     def _read_status(self):
+--> 258         line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+    259         if len(line) > _MAXLINE:
+
+c:\users\91989\appdata\local\programs\python\python36\lib\socket.py in readinto(self, b)
+    585             try:
+--> 586                 return self._sock.recv_into(b)
+    587             except timeout:
+
+c:\users\91989\appdata\local\programs\python\python36\lib\ssl.py in recv_into(self, buffer, nbytes, flags)
+   1008                   self.__class__)
+-> 1009             return self.read(nbytes, buffer)
+   1010         else:
+
+c:\users\91989\appdata\local\programs\python\python36\lib\ssl.py in read(self, len, buffer)
+    870         try:
+--> 871             return self._sslobj.read(len, buffer)
+    872         except SSLError as x:
+
+c:\users\91989\appdata\local\programs\python\python36\lib\ssl.py in read(self, len, buffer)
+    630         if buffer is not None:
+--> 631             v = self._sslobj.read(len, buffer)
+    632         else:
+
+ProtocolError: ('Connection aborted.', ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None))
+
+During handling of the above exception, another exception occurred:
+
+ConnectionError   Traceback (most recent call last)
+<timed exec> in <module>
+
+<ipython-input-12-f27ba179f1b1> in run_order_engine(accountID, instrument, direction, profit_target_num, loss_limit_num, price_allowed_buff, min_trans_num, pip_size, loss_limits)
+     17     for i, resp in tqdm(enumerate(rv)):
+     18         open_positions_r = positions.OpenPositions(accountID=accountID)
+---> 19         open_positions_rv = api.request(open_positions_r)
+     20         open_positions = len(open_positions_rv['positions'])
+     21         resp_type = resp['type']
+
+d:\ram\pcal\data science\projects\trading\oanda_trading\tradenv\lib\site-packages\oandapyV20\oandapyV20.py in request(self, endpoint)
+    304 
+    305             response = self.__request(method, url,
+--> 306                                       request_args, headers=headers)
+    307             content = response.content.decode('utf-8')
+    308             content = json.loads(content)
+
+d:\ram\pcal\data science\projects\trading\oanda_trading\tradenv\lib\site-packages\oandapyV20\oandapyV20.py in __request(self, method, url, request_args, headers, stream)
+    232         except requests.RequestException as err:
+    233             logger.error("request %s failed [%s]", url, err)
+--> 234             raise err
+    235 
+    236         # Handle error responses
+
+d:\ram\pcal\data science\projects\trading\oanda_trading\tradenv\lib\site-packages\oandapyV20\oandapyV20.py in __request(self, method, url, request_args, headers, stream)
+    229             logger.info("performing request %s", url)
+    230             response = func(url, stream=stream, headers=headers,
+--> 231                             **request_args)
+    232         except requests.RequestException as err:
+    233             logger.error("request %s failed [%s]", url, err)
+
+d:\ram\pcal\data science\projects\trading\oanda_trading\tradenv\lib\site-packages\requests\sessions.py in get(self, url, **kwargs)
+    541 
+    542         kwargs.setdefault('allow_redirects', True)
+--> 543         return self.request('GET', url, **kwargs)
+    544 
+    545     def options(self, url, **kwargs):
+
+d:\ram\pcal\data science\projects\trading\oanda_trading\tradenv\lib\site-packages\requests\sessions.py in request(self, method, url, params, data, headers, cookies, files, auth, timeout, allow_redirects, proxies, hooks, stream, verify, cert, json)
+    528         }
+    529         send_kwargs.update(settings)
+--> 530         resp = self.send(prep, **send_kwargs)
+    531 
+    532         return resp
+
+d:\ram\pcal\data science\projects\trading\oanda_trading\tradenv\lib\site-packages\requests\sessions.py in send(self, request, **kwargs)
+    641 
+    642         # Send the request
+--> 643         r = adapter.send(request, **kwargs)
+    644 
+    645         # Total elapsed time of the request (approximately)
+
+d:\ram\pcal\data science\projects\trading\oanda_trading\tradenv\lib\site-packages\requests\adapters.py in send(self, request, stream, timeout, verify, cert, proxies)
+    496 
+    497         except (ProtocolError, socket.error) as err:
+--> 498             raise ConnectionError(err, request=request)
+    499 
+    500         except MaxRetryError as e:
+
+ConnectionError: ('Connection aborted.', ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None))
