@@ -1,26 +1,26 @@
 tick_speed:
-  num_ticks: 300
+  iter_num: 300
 
 
 direction:
-  max_pip_levels: 3
-  dir_ratio: 2
-  min_count: 1
-  long_run_multiplier: 2
-  short_run_multiplier: 1  
-  recalc_multiplier: 5
+  target_num: 3
+  min_count: 2
+  min_count_mulitplier: 1
+  dir_min_trans_multiplier_long: 2
+  dir_min_trans_multiplier_short: 1  
+  dir_recalc_multiplier: 5
 
 
 profit:
-  min_profit_pips: 1
-  pip_buffer: 0.5 
-  stop_loss_pips: 25
+  profit_target_num: 1
+  price_allowed_buffer: 0.5 
+  loss_limit_num: 25
 
 
 order_run:  
-  run_multiplier: 25
+  run_min_trans_multiplier: 25
   
 
 execution:  
   instrument: 'EUR_USD'
-  num_bets: 10
+  num_of_bets: 10
