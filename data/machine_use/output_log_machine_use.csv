@@ -328,3 +328,32 @@ date,time,instrument,direction,ordr_type,units,profit_pips,close_reason,Iteratio
 2020-06-22,11:05:58,EUR_USD,positive,long,1,-0.0001,5 Neg half min trans,117,2088
 2020-06-22,11:07:20,EUR_USD,negative,short,-1,0.0000,Take_profit,84,2094
 2020-06-22,11:08:16,EUR_USD,negative,short,-1,-0.0001,5 Neg half min trans,56,2100
+2020-06-22,13:24:36,,no_direction,,,,,,
+2020-06-22,13:25:02,,no_direction,,,,,,
+2020-06-22,13:27:16,EUR_USD,positive,long,1,-0.0001,10 Neg half min trans,88,2112
+2020-06-22,13:30:12,EUR_USD,positive,long,1,-0.0002,20 Neg half min trans,147,2118
+2020-06-22,13:50:57,EUR_USD,negative,short,-1,0.0001,Take_profit,52,2154
+2020-06-22,13:52:37,EUR_USD,negative,short,-1,-0.0003,30 Neg half min trans,165,2160
+2020-06-22,13:53:27,EUR_USD,positive,long,1,0.0002,Take_profit,65,2166
+2020-06-22,13:54:09,EUR_USD,positive,long,1,0.0004,Take_profit,73,2172
+2020-06-22,13:54:52,EUR_USD,positive,long,1,0.0003,Take_profit,80,2178
+2020-06-22,13:55:12,EUR_USD,positive,long,1,0.0000,10 Neg half min trans,42,2184
+2020-06-22,13:57:09,EUR_USD,positive,long,1,-0.0003,30 Neg half min trans,199,2190
+2020-06-22,13:58:02,EUR_USD,negative,short,-1,0.0000,10 Neg half min trans,89,2196
+2020-06-22,13:58:31,EUR_USD,negative,short,-1,-0.0001,10 Neg half min trans,42,2202
+2020-06-22,13:59:19,EUR_USD,positive,long,1,-0.0001,10 Neg half min trans,55,2208
+2020-06-22,14:32:45,EUR_USD,positive,long,1,-0.0002,stop_loss,4,2213
+2020-06-22,14:34:09,EUR_USD,negative,short,-1,0.0001,Take_profit,127,2218
+2020-06-22,14:35:55,EUR_USD,negative,short,-1,-0.0002,stop_loss,16,2229
+2020-06-22,14:37:03,EUR_USD,positive,long,1,0.0001,Take_profit,104,2234
+2020-06-22,14:37:17,EUR_USD,positive,long,1,-0.0002,stop_loss,16,2239
+2020-06-22,14:37:21,EUR_USD,negative,short,-1,-0.0002,stop_loss,2,2243
+2020-06-22,15:12:00,EUR_USD,positive,long,1,-0.0001,stop_loss,55,2249
+2020-06-22,15:12:04,EUR_USD,negative,short,-1,-0.0001,stop_loss,2,2253
+2020-06-22,15:13:14,EUR_USD,positive,long,1,-0.0001,stop_loss,20,2257
+2020-06-22,15:39:04,,no_direction,,,,,,
+2020-06-22,15:39:28,,no_direction,,,,,,
+2020-06-22,15:39:58,,no_direction,,,,,,
+2020-06-22,15:48:11,EUR_USD,positive,long,1,-0.0001,10 Neg half min trans,98,2262
+2020-06-22,15:53:30,EUR_USD,negative,short,-1,-0.0003,30 Neg half min trans,239,2268
+2020-06-22,15:57:36,EUR_USD,positive,long,1,0.0001,Take_profit,159,2274
