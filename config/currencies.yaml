@@ -1,16 +1,16 @@
 currs:
   EUR_USD:
     pip_size: 0.0001
-    pip_gap: 0.5
+    pip_gap: 1
 
   USD_JPY:
     pip_size: 0.01
-    pip_gap: 0.5
+    pip_gap: 1
 
   AUD_USD:
     pip_size: 0.0001
-    pip_gap: 0.5
+    pip_gap: 1
 
   AUD_JPY:
     pip_size: 0.01
-    pip_gap: 1.5
+    pip_gap: 2
