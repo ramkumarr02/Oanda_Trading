@@ -1,5 +1,5 @@
 chart:
   instrument: "EUR_USD"
-  short_moving_window: 2
-  long_moving_window: 5
-  lists_size: 10
+  short_moving_window: 20
+  long_moving_window: 200
+  lists_size: 100
