@@ -11,6 +11,8 @@ import numpy as np
 import collections
 import pandas as pd
 from tqdm import tqdm
+from IPython import display
+import matplotlib.pyplot as plt
 warnings.filterwarnings('ignore')
 
 # Oanda Packages
