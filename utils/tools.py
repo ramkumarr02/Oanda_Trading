@@ -13,6 +13,46 @@ def terminate_connection():
 
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+def get_hit_speed(access_token, accountID, instrument, iter_limit = 100):
+    api = API(access_token = access_token)
+    params = {'instruments': instrument}
+    r = pricing.PricingStream(accountID=accountID, params=params)
+    rv = api.request(r)
+    iter_counts = 0
+    heart_beats = 0
+    
+    start_time = time.time()
+    
+    for i, resp in tqdm(enumerate(rv)):        
+        resp_type = resp['type']     
+        
+        if resp_type == 'HEARTBEAT': 
+            heart_beats += 1
+            
+        elif resp_type == 'PRICE': 
+            iter_counts += 1
+            
+        if i == iter_limit-1:
+            break
+
+    end_time = time.time()    
+    seconds_elapsed = round((end_time - start_time),0)
+    sec_per_iter = round((seconds_elapsed / i),0)
+        
+    iter_per = round((iter_counts / (i+1)),2)
+    heart_per = round((heart_beats / (i+1)),2)
+    
+    print(f'seconds_elapsed:{seconds_elapsed}')
+    print(f'sec_per_iter:{sec_per_iter}')
+    print(f'iter_counts:{iter_counts} --- iter_per:{iter_per}')
+    print(f'heart_beats:{heart_beats} --- heart_per:{heart_per}')
+    
+    return(seconds_elapsed, sec_per_iter, iter_counts, heart_beats, iter_per, heart_per)
+#=============================================================================================================================================================================    
+
+
+
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 def convert_to_df(tick_list, short_wma_list, long_wma_list):
     df = pd.DataFrame({'tick_list':tick_list, 'short_wma_list':short_wma_list, 'long_wma_list':long_wma_list}, 
                       columns = ['tick_list', 'short_wma_list', 'long_wma_list'])

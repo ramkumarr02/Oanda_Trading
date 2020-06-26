@@ -1,0 +1,5 @@
+seconds_elapsed,sec_per_iter,iter_counts,heart_beats,iter_per,heart_per,short_moving_window,long_moving_window,lists_size,chart_duration
+14.0,2.0,8,2,0.8,0.2,2,3,5,0:0:7
+93.0,1.0,82,18,0.82,0.18,20,300,500,0:18:48
+114.0,1.0,78,22,0.78,0.22,20,300,100,0:11:29
+84.0,1.0,84,16,0.84,0.16,20,300,100,0:10:58
