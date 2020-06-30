@@ -1,3 +1,7 @@
 oanda_demo_account:
   token: 'd8805ce30848563f82d3fe25e0e4e232-9a5df5620ec9fb72a8b8c1b3c2554f37'
   account_id: '101-003-15069707-001'
+
+oanda_live_account:
+  token: '588aeef2afeb49ef697456d8cb49f9a9-695d3890555c0a1c09e6840d1787f7a6'
+  account_id: '001-003-4481261-001'  
