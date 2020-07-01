@@ -1,1 +1,5 @@
-date,time,instrument,ordr_type,units,profit_pips,close_reason,orderID
+date,time,instrument,ordr_type,units,profit_pips,close_reason,orderID,end_reason
+2020-07-01,13:18:49,EUR_USD,short,1,-0.0004,MARKET_ORDER_POSITION_CLOSEOUT,2658,direction_change
+2020-07-01,13:20:49,EUR_USD,short,1,-0.0002,MARKET_ORDER_POSITION_CLOSEOUT,2664,direction_change
+2020-07-01,13:21:10,EUR_USD,short,1,-0.0002,MARKET_ORDER_POSITION_CLOSEOUT,2670,direction_change
+2020-07-01,13:36:25,EUR_USD,short,1,-0.0002,MARKET_ORDER_POSITION_CLOSEOUT,2676,direction_change
