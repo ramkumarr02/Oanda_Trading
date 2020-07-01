@@ -151,8 +151,26 @@ def get_targets(start_price, target_num, pip_size):
 
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-def make_order(accountID, stop_price, instrument, units, api):
+'''def make_order(accountID, stop_price, instrument, units, api):
     stopLossOnFill = StopLossDetails(price=stop_price)
+
+    ordr = MarketOrderRequest(
+        instrument = instrument,
+        units=units,
+        stopLossOnFill=stopLossOnFill.data)
+
+    r = orders.OrderCreate(accountID, data=ordr.data)
+    rv = api.request(r)
+    return(rv)'''
+#=============================================================================================================================================================================
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+def make_order(accountID, stop_price, instrument, units, order_type, api):
+    stopLossOnFill = StopLossDetails(price=stop_price)
+    
+    if order_type == 'long':
+        units = units * 1
+    elif order_type == 'short':
+        units = units * (-1)
 
     ordr = MarketOrderRequest(
         instrument = instrument,
@@ -181,6 +199,71 @@ def close_order(accountID, order_type, instrument, api):
                                 data=data)
     rv = api.request(r)
     return(rv)
+#=============================================================================================================================================================================
+
+
+
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+def parse_output_data(trans_rv, output_data, api):
+    time_stamp = trans_rv['transaction']['fullPrice']['timestamp']
+    dt, full_time = time_stamp.split(sep = 'T')
+    tm, time_fraction = full_time.split(sep = '.')
+    inst = trans_rv['transaction']['instrument']
+    unts = int(trans_rv['transaction']['units'])
+    prfit_pips = trans_rv['transaction']['pl']
+    reason = trans_rv['transaction']['reason']
+    ordrID = trans_rv['transaction']['orderID']
+
+    if unts > 0:
+        ordr_type = 'short'
+    elif unts < 0:
+        ordr_type = 'long'
+
+    unts = abs(unts)
+
+    output_data['date'].append(dt)  
+    output_data['time'].append(tm)
+    output_data['instrument'].append(inst)
+    output_data['ordr_type'].append(ordr_type)
+    output_data['units'].append(unts)
+    output_data['profit_pips'].append(prfit_pips)
+    output_data['orderID'].append(ordrID)
+    output_data['close_reason'].append(reason)
+    return(output_data)
+#=============================================================================================================================================================================
+
+
+
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+def get_wma_output_data(accountID, instrument, end_reason, api):
+    last_position_r = positions.PositionDetails(accountID, instrument)
+    last_position_rv = api.request(last_position_r)
+    transactionID = int(last_position_rv['lastTransactionID'])
+
+    output_data = {'date':[], 'time':[], 'instrument':[], 'ordr_type':[], 'units':[], 'profit_pips':[], 'close_reason':[], 'orderID':[], 'end_reason':[]}
+    output_data['end_reason'].append(end_reason)   
+    
+    params = {'instruments': instrument}
+    trans_r = trans.TransactionDetails(accountID=accountID, transactionID=transactionID)
+    trans_rv = api.request(trans_r)
+    last_order_type = trans_rv['transaction']['type']
+
+    if last_order_type == 'ORDER_CANCEL':
+        trans_r = trans.TransactionDetails(accountID=accountID, transactionID=(transactionID-1))
+        trans_rv = api.request(trans_r)
+        output_data = parse_output_data(trans_rv, output_data, api)
+
+    elif last_order_type == 'ORDER_FILL':
+        trans_r = trans.TransactionDetails(accountID=accountID, transactionID = transactionID)
+        trans_rv = api.request(trans_r)
+        reason = trans_rv['transaction']['reason']
+        if reason == 'STOP_LOSS_ORDER':
+            output_data = parse_output_data(trans_rv, output_data, api)
+
+    if len(output_data['date']) > 0:
+        output_df = pd.DataFrame()
+        output_df = pd.DataFrame(output_data)    
+        output_df.to_csv('data/machine_use/wma_log.csv', mode='a', header=False, index = False)
 #=============================================================================================================================================================================
 
 
