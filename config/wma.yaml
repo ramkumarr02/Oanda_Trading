@@ -4,13 +4,14 @@ currency:
 
 wma:
   lists_size: 300
-  long_moving_window: 200
-  short_moving_window: 20
+  long_moving_window: 300
+  short_moving_window: 50
 
 order:  
   units: 1
   stop_loss_limit: 3
-  profit_target: 0.25 
+  order_num_limit: 10
+  profit_target: 0.1
   price_allowed_buffer: 0.1 
 
 loss_skip:

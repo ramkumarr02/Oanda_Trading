@@ -219,13 +219,10 @@ def parse_output_data(trans_rv, output_data, api):
     elif unts < 0:
         ordr_type = 'long'
 
-    unts = abs(unts)
-
     output_data['date'].append(dt)  
     output_data['time'].append(tm)
     output_data['instrument'].append(inst)
     output_data['ordr_type'].append(ordr_type)
-    output_data['units'].append(unts)
     output_data['profit_pips'].append(prfit_pips)
     output_data['orderID'].append(ordrID)
     output_data['close_reason'].append(reason)
@@ -235,13 +232,24 @@ def parse_output_data(trans_rv, output_data, api):
 
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-def get_wma_output_data(accountID, instrument, end_reason, api):
+def get_wma_output_data(accountID, instrument, end_reason, api, short_moving_window, long_moving_window, lists_size, units, loss_limit_num, profit_target, price_allowed_buffer, max_skips, consecutive_losses):
     last_position_r = positions.PositionDetails(accountID, instrument)
     last_position_rv = api.request(last_position_r)
     transactionID = int(last_position_rv['lastTransactionID'])
 
-    output_data = {'date':[], 'time':[], 'instrument':[], 'ordr_type':[], 'units':[], 'profit_pips':[], 'close_reason':[], 'orderID':[], 'end_reason':[]}
+    output_data = {'date':[],'time':[], 'instrument':[], 'ordr_type':[], 'units':[], 'profit_pips':[], 'close_reason':[], 'orderID':[], 'end_reason':[],'short_moving_window':[],'long_moving_window':[], 'lists_size':[], 'loss_limit_num':[], 'profit_target':[], 'price_allowed_buffer':[], 'max_skips':[], 'consecutive_losses':[]}
+    
     output_data['end_reason'].append(end_reason)   
+    output_data['short_moving_window'].append(short_moving_window)
+    output_data['long_moving_window'].append(long_moving_window)
+    output_data['lists_size'].append(lists_size)
+    output_data['units'].append(units)
+    output_data['loss_limit_num'].append(loss_limit_num)
+    output_data['profit_target'].append(profit_target)
+    output_data['price_allowed_buffer'].append(price_allowed_buffer)
+    output_data['max_skips'].append(max_skips)
+    output_data['consecutive_losses'].append(consecutive_losses)
+
     
     params = {'instruments': instrument}
     trans_r = trans.TransactionDetails(accountID=accountID, transactionID=transactionID)
