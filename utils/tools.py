@@ -271,6 +271,7 @@ def get_wma_output_data(accountID, instrument, end_reason, api, short_moving_win
     if len(output_data['date']) > 0:
         output_df = pd.DataFrame()
         output_df = pd.DataFrame(output_data)    
+        output_df = output_df.drop_duplicates()
         output_df.to_csv('data/machine_use/wma_log_machine_use.csv', mode='a', header=False, index = False)
 #=============================================================================================================================================================================
 

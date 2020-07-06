@@ -3,9 +3,10 @@ currency:
   pip: 0.0001
 
 wma:
-  lists_size: 300
-  long_moving_window: 1000
-  short_moving_window: 50
+  lists_size: 100
+  long_moving_window: 200
+  short_moving_window: 25
+
 
 order:  
   units: 1
