@@ -343,3 +343,37 @@ def get_min_trans_num(instrument,accountID,iter_num, pip_gap, pip_size, api):
     min_trans = round(np.mean(iter_req),0)
     return(np.mean(min_trans))    
 #=============================================================================================================================================================================
+
+
+
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+def get_slopes(short_wma_list, long_wma_list, num, pip, lists_size):
+    l1 = []
+    for i in range(num):
+        l1.append(1 + ((i+1)*pip*0.1))
+    
+    short_slope_y = list(short_wma_list)[-num:]
+    short_slope_x = l1
+    short_slope_x_plt = list(np.arange(lists_size - num + 1, lists_size+1))
+    #short_slope, short_intercept = np.polyfit(short_slope_x, short_slope_y, 1)
+    short_slope, short_intercept, _, _, _ = linregress(short_slope_x, short_slope_y)
+    abline_short = [short_slope * i + short_intercept for i in short_slope_x]
+    
+    long_slope_y = list(long_wma_list)[-num:]
+    long_slope_x = l1
+    long_slope_x_plt = list(np.arange(lists_size - num + 1, lists_size+1))
+    #long_slope, long_intercept = np.polyfit(long_slope_x, long_slope_y, 1)
+    long_slope, long_intercept, _, _, _ = linregress(long_slope_x, long_slope_y)    
+    abline_long = [long_slope * i + long_intercept for i in long_slope_x]
+    
+    numerator = short_slope - long_slope
+    denominator = 1 + (short_slope * long_slope)
+    angle = math.degrees(math.atan(abs(numerator / denominator)))
+    angle = round(angle)
+
+    return(short_slope_x_plt, long_slope_x_plt, abline_short, abline_long, angle)
+#=============================================================================================================================================================================
+
+
+
+

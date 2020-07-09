@@ -9,9 +9,11 @@ pip_size:
 
 
 wma:
-  lists_size: 50
-  long_moving_window: 50
-  short_moving_window: 10
+  lists_size: 100
+  long_moving_window: 100
+  short_moving_window: 20
+  slope_num: 10
+  min_order_angle: 20
 
 
 order:  
