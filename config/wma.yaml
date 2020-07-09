@@ -9,11 +9,11 @@ pip_size:
 
 
 wma:
-  lists_size: 300
-  long_moving_window: 700
+  lists_size: 100
+  long_moving_window: 500
   short_moving_window: 20
   slope_num: 20
-  min_order_angle: 20
+  min_order_angle: 25
 
 
 order:  
@@ -21,7 +21,7 @@ order:
   stop_loss_limit: 3
   order_num_limit: 10
   profit_target: 0.2
-  price_allowed_buffer: 0.3 
+  price_allowed_buffer: 0.2 
 
 loss_skip:
   max_skips: 1
