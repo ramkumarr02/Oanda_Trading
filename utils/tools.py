@@ -257,7 +257,8 @@ def get_wma_output_data(accountID, instrument, end_reason, api, short_moving_win
     last_order_type = trans_rv['transaction']['type']
 
     if last_order_type == 'ORDER_CANCEL':
-        trans_r = trans.TransactionDetails(accountID=accountID, transactionID=(transactionID-1))
+        transactionID_old = trans_rv['transaction']['tradeCloseTransactionID']
+        trans_r = trans.TransactionDetails(accountID=accountID, transactionID=transactionID_old)
         trans_rv = api.request(trans_r)
         output_data = parse_output_data(trans_rv, output_data, api)
 
