@@ -10,20 +10,34 @@ pip_size:
 
 wma:
   lists_size: 300
-  long_moving_window: 1000
+  long_moving_window: 1500
   short_moving_window: 10
-  slope_num: 20
-  min_order_angle: 25
+  slope_num: 25
+  min_order_angle: 30
 
 
 order:  
-  units: 1
-  stop_loss_limit: 2
   order_num_limit: 10
-  profit_target: 0.2
+  units: 1
+  stop_loss_limit: 3
   price_allowed_buffer: 0.2 
+  profit_target: 0.2
+
 
 loss_skip:
   max_skips: 1
   consecutive_losses: 2
+
+
+strategy:
+  no_cross_ordering: True  
+  stepped_orders: False
+
+
+no_cross_order:
+  min_diff: 2
+  no_cross_num: 3
+
+stepped_order:
+  profit_level: 2
 

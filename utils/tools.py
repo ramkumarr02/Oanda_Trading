@@ -367,12 +367,19 @@ def get_slopes(short_wma_list, long_wma_list, num, pip, lists_size):
     long_slope, long_intercept, _, _, _ = linregress(long_slope_x, long_slope_y)    
     abline_long = [long_slope * i + long_intercept for i in long_slope_x]
     
+
     numerator = short_slope - long_slope
     denominator = 1 + (short_slope * long_slope)
     angle = math.degrees(math.atan(abs(numerator / denominator)))
     angle = round(angle)
 
-    return(short_slope_x_plt, long_slope_x_plt, abline_short, abline_long, angle)
+    x_axis_slope = 0
+    numerator = short_slope - x_axis_slope
+    denominator = 1 + (short_slope * x_axis_slope)
+    angle2 = math.degrees(math.atan(abs(numerator / denominator)))
+    angle2 = round(angle2)
+
+    return(short_slope_x_plt, long_slope_x_plt, abline_short, abline_long, angle, angle2)
 #=============================================================================================================================================================================
 
 
