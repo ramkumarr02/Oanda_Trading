@@ -10,9 +10,10 @@ pip_size:
 
 wma:
   lists_size: 100
-  long_moving_window: 500
+  long_moving_window: 100
   short_moving_window: 10
   slope_num: 25
+  short_slope_num: 5
   min_order_angle: 10
 
 
@@ -35,11 +36,10 @@ strategy:
 
 
 no_cross_order:
-  min_diff: 2
+  min_diff: 1
   
 
 stepped_order:
   profit_level: 2
-  num_of_profits: 3
 
   
