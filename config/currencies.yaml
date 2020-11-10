@@ -1,5 +1,5 @@
 currs:
-  EURUSD:
+  EUR_USD:
     pip_size: 0.0001
     pip_gap: 1
 
