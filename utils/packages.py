@@ -18,6 +18,7 @@ from IPython import display
 import matplotlib.pyplot as plt
 warnings.filterwarnings('ignore')
 from scipy.stats import linregress
+from datetime import datetime, timedelta
 
 # Oanda Packages
 from oandapyV20 import API
