@@ -1,6 +1,7 @@
 tradenv
 machine_use
 historic_data
+data
 .gitattributes
 access_token.yaml
 .ipynb_checkpoints
