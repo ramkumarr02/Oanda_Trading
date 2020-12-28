@@ -3,6 +3,6 @@ machine_use
 historic_data
 data
 .gitattributes
-access_token.yaml
+config
 .ipynb_checkpoints
 access_keys.yaml
