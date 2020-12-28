@@ -1,8 +1,8 @@
+config
 tradenv
 machine_use
 historic_data
 data
-.gitattributes
-config
-.ipynb_checkpoints
 access_keys.yaml
+.gitattributes
+.ipynb_checkpoints
