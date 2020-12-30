@@ -16,6 +16,7 @@ from tqdm import tqdm
 from pylab import text
 from IPython import display
 import matplotlib.pyplot as plt
+from matplotlib.pyplot import figure
 warnings.filterwarnings('ignore')
 from scipy.stats import linregress
 from datetime import datetime, timedelta
