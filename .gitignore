@@ -2,6 +2,7 @@ config
 tradenv
 machine_use
 historic_data
+linux
 data
 access_keys.yaml
 .gitattributes
