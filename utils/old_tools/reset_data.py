@@ -1,34 +1,37 @@
 from utils.packages import *
 
-
 #--------------------------------------------------------------------------------------------------------------------------
 def reset_data(data):
     #global data    
+    
+    param_df = pd.read_csv('utils\parameters.csv')
     
     # Parameters ##############################################################################
     #Order details ------------------------------------------    
     data['instrument'] = "EUR_USD"
     data['pip_size'] = 0.0001
 
-    data['order_num'] = 1
+    data['order_num']                 = param_df['order_num'][0]
     
-    data['stop_loss_val']  = 10
-    data['timed_loss_limit'] = 1
-    data['timed_loss_windows'] = 1
+    data['stop_loss_val']             = param_df['stop_loss_val'][0]
+    data['timed_loss_limit']          = param_df['timed_loss_limit'][0]
+    data['timed_loss_windows']        = param_df['timed_loss_windows'][0]
     
-    
-    data['take_profit_val'] = 0.5 
-    data['pip_take_profit_ratio'] = 0.3        
+    data['take_profit_val']           = param_df['take_profit_val'][0] 
+    data['pip_take_profit_ratio']     = param_df['pip_take_profit_ratio'][0]        
     
     #Data Gen ------------------------------------------    
-    data['num_of_ticks'] = 300
-    data['rsi_len'] = 14   
-    data['sma_len'] = 5
-    data['lma_len'] = 10    
+    data['num_of_ticks']              = param_df['num_of_ticks'][0]
+    data['rsi_len']                   = param_df['rsi_len'][0]   
+    data['sma_len']                   = param_df['sma_len'][0]
+    data['lma_len']                   = param_df['lma_len'][0]    
     
-    data['loss_iter_limit'] = data['num_of_ticks'] * data['timed_loss_windows']
-    data['timed_loss_limit'] = data['timed_loss_limit'] * data['pip_size'] * -1
+    data['loss_iter_limit']           = data['num_of_ticks']          * data['timed_loss_windows']        
+    data['pip_take_profit']           = data['take_profit_val']       * data['pip_size']
+    data['timed_loss_limit']          = data['timed_loss_limit']      * data['pip_size'] * -1
 
+    data['max_lema_loss']             = 0
+    data['stop_loss_pip']             = 0
 
     # ############################################################################################################################################################
     # ############################################################################################################################################################
@@ -40,7 +43,10 @@ def reset_data(data):
     data['time_diff'] = 0
     data['max_time_diff'] = 15
 
-
+    data['act_max_tick'] = 0
+    data['act_min_tick'] = 0
+    data['act_tick_gap'] = 0
+    
     #Data Gen ------------------------------------------
     data['rs_max'] = 1e6
     data['remove_cols'] = ['tick_avg', 'sema', 'ssma', 'lema', 'lsma', 'max_tick', 'min_tick', 'rs']
@@ -68,8 +74,6 @@ def reset_data(data):
     data['order_val'] = 0
     data['order_current_open'] = False
     data['order_create'] = None
-    data['stop_loss_pip'] = data['stop_loss_val'] * data['pip_size']
-    #data['stop_loss_pip'] = data['tick_gap'] * 3
 
     data['positions_info'] = None
     data['positions_long'] = 0
@@ -91,18 +95,20 @@ def reset_data(data):
     data['short_buffer_val'] = 0
     data['short_buffer_profit'] = 0
 
-    data['pip_take_profit'] = data['take_profit_val'] * data['pip_size']
 
     # Timed Stop loss ------------------------------------------
     data['long_loss_val'] = 0
-    data['long_loss_list'] = []
+    data['long_loss_list'] = collections.deque([])
     data['long_loss_list_len'] = 0
     data['long_loss_lema'] = 0
     
     data['short_loss_val'] = 0
-    data['short_loss_list'] = []
+    data['short_loss_list'] = collections.deque([])
     data['short_loss_list_len'] = 0
     data['short_loss_lema'] = 0   
+    
+    data['full_loss_list'] = collections.deque([])
+    data['full_loss_list_len'] = 0
     
     return(data)
 #==========================================================================================================================
