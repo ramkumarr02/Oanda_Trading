@@ -1,2 +1,2 @@
 num_of_ticks,rsi_len,sma_len,lma_len,order_num,stop_loss_val,timed_loss_limit,timed_loss_windows,take_profit_val,pip_take_profit_ratio
-300,14,5,10,1,4,1,2,0.5,0.3
+300,14,5,10,1,4,1,1,0.5,0.3
