@@ -1,0 +1,11 @@
+pytz
+pyyaml
+joblib
+datetime
+statistics
+numpy
+pandas
+scipy
+oandapyV20
+xgboost
+requests
