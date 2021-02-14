@@ -1,0 +1,8 @@
+ERROR:root:must be str, not int
+ERROR:root:must be str, not int
+ERROR:root:2021-02-14 19:30:38.386713, must be str, not int
+ERROR:root:2021-02-14 19:30:38.386713, must be str, not int
+ERROR:root:Timestamp : 2021-02-14 19:31:39.356740, Error : must be str, not int
+ERROR:root:Timestamp : 2021-02-14 19:31:39.356740, Error : must be str, not int
+ERROR:root:--- Timestamp-2021-02-14 19:32:17.261127, Error-must be str, not int
+ERROR:root:--- Timestamp-2021-02-14 19:32:17.262125, Error-must be str, not int
