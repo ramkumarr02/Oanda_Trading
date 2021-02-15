@@ -60,12 +60,11 @@ def get_prices(resp, data):
 
 
 # ### Loops
-
 # #### Tick AVG
 def tick_gap_checker():
     if data['act_tick_gap'] > 0.1:
         for i in range(10):
-            winsound.PlaySound('C:\\Windows\\Media\\tada.wav', winsound.SND_ASYNC)            
+            #winsound.PlaySound('C:\\Windows\\Media\\tada.wav', winsound.SND_ASYNC)            
             data['tick_gap_error'] =  True  
             time.sleep(1)
     return()
@@ -583,7 +582,7 @@ def run_engine(data, live_df_full):
 
         if data['live_df_ready']:
             if data['alarm_flag']:
-                winsound.PlaySound('C:\\Windows\\Media\\notify.wav', winsound.SND_ASYNC)
+                #winsound.PlaySound('C:\\Windows\\Media\\notify.wav', winsound.SND_ASYNC)
                 data['alarm_flag'] = False  
                 
             new_data = {your_key: data[your_key] for your_key in data['select_keys']}
@@ -875,7 +874,10 @@ data = check_for_open_orders(data)
 
 run_flg = True 
 data = reset_data(data)
-data['start_ts'] = datetime.now().strftime("%Y-%b-%d, %I:%M:%S (%p)")
+
+#data['start_ts'] = datetime.now().strftime("%Y-%b-%d, %I:%M:%S (%p)")
+data['start_ts'] = (datetime.now() + timedelta(hours=8, minutes=0)).strftime("%Y-%b-%d, %I:%M:%S (%p)")
+
 data["start_ts_internal"] = time.time()
 
 data, live_df_full = run_engine(data, live_df_full)        
