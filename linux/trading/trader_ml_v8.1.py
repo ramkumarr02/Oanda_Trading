@@ -842,16 +842,16 @@ data = check_for_open_orders(data)
 data = check_for_open_orders(data)
 logging.basicConfig(filename='traderrun.log', level=logging.DEBUG)
 
-run_flg = true 
+run_flg = True 
 data = reset_data(data)
 data['start_ts'] = datetime.now().strftime("%y-%b-%d, %i:%m:%s (%p)")
 data["start_ts_internal"] = time.time()
 
-while run_flg ==  true:
+while run_flg ==  True:
     try:        
         data, live_df_full = run_engine(data, live_df_full)        
     
-    except keyboardinterrupt:
+    except KeyboardInterrupt:
         print("Run manually stopped")
         ts = dt.datetime.now()
         err_msg = 'KeyboardInterrupt'
