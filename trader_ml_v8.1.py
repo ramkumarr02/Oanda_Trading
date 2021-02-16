@@ -5,16 +5,16 @@
 from utils.packages import *
 warnings.filterwarnings('ignore')
 
-
 # ### Inputs and Parameters
 # #### Read Yaml files
 temp_file = 'config/access_keys.yaml'
 with open(temp_file) as temp_file:
     config = yaml.load(temp_file)     
     
-model_new = joblib.load('data/model/model_xg.pkl')  
-scaler_obj = joblib.load('data/model/scaler_obj.pkl')
-y_map = joblib.load('data/model/y_map.pkl') 
+
+filename = 'data/model/xgb.model'
+model_new = xgboost.XGBClassifier(tree_method='gpu_hist', gpu_id=0)
+model_new.load_model(filename)
 
 
 # ## Functions
@@ -32,11 +32,11 @@ def get_date_time(resp, data):
     data['ts_time_val'] = datetime.strptime(data['ts_time_val'], '%H:%M:%S')
 
     tot_ts = datetime.combine(datetime.date(data['ts_date_val']), datetime.time(data['ts_time_val']))
-    tot_ts = tot_ts + timedelta(hours=8)
+    #tot_ts = tot_ts + timedelta(hours=8)
     data['tot_ts'] = tot_ts.strftime("%Y-%b-%d, %I:%M:%S (%p)")
       
-    #t2 = datetime.now()    
-    t2 = datetime.now() - timedelta(hours=8, minutes=0)
+    t2 = datetime.now()    
+    #t2 = datetime.now() + timedelta(hours=5, minutes=0)
     data['time_diff'] = (t2 - tot_ts).total_seconds()
     
     return(data)
@@ -56,14 +56,10 @@ def get_prices(resp, data):
 
 
 # ### Loops
-
 # #### Tick AVG
 def tick_gap_checker():
     if data['act_tick_gap'] > 0.1:
-        for i in range(10):
-            winsound.PlaySound('C:\\Windows\\Media\\tada.wav', winsound.SND_ASYNC)            
-            data['tick_gap_error'] =  True  
-            time.sleep(1)
+        data['tick_gap_error'] =  True  
     return()
 
 #--------------------------------------------------------------------------------------------------------------------------
@@ -578,10 +574,7 @@ def run_engine(data, live_df_full):
             data['live_df_ready'] = True
 
         if data['live_df_ready']:
-            if data['alarm_flag']:
-                winsound.PlaySound('C:\\Windows\\Media\\notify.wav', winsound.SND_ASYNC)
-                data['alarm_flag'] = False  
-                
+               
             new_data = {your_key: data[your_key] for your_key in data['select_keys']}
             live_df = pd.DataFrame([new_data])        
             live_df.drop(data['remove_cols'], axis=1, inplace=True)
@@ -843,23 +836,36 @@ request_stream_data = pricing.PricingStream(accountID=data['accountID'], params=
 response_stream = data['api'].request(request_stream_data)
 
 
-# ## Never Ending loop
+# # ## Never Ending loop
+# data = check_for_open_orders(data)
+# data = check_for_open_orders(data)
+# data = check_for_open_orders(data)
+
+# run_flg = True 
+# data = reset_data(data)
+# data['start_ts'] = datetime.now().strftime("%Y-%b-%d, %I:%M:%S (%p)")
+# data["start_ts_internal"] = time.time()
+
+# while run_flg ==  True:
+#     try:        
+#         data, live_df_full = run_engine(data, live_df_full)        
+#     except KeyboardInterrupt:
+#         print("Run manually stopped")
+#         break        
+#     except:
+#         data['error_count'] = data['error_count'] + 1
+
+# ## Single loop for testing
 data = check_for_open_orders(data)
 data = check_for_open_orders(data)
 data = check_for_open_orders(data)
 
 run_flg = True 
 data = reset_data(data)
-data['start_ts'] = datetime.now().strftime("%Y-%b-%d, %I:%M:%S (%p)")
+
+#data['start_ts'] = datetime.now().strftime("%Y-%b-%d, %I:%M:%S (%p)")
+data['start_ts'] = (datetime.now() + timedelta(hours=8, minutes=0)).strftime("%Y-%b-%d, %I:%M:%S (%p)")
+
 data["start_ts_internal"] = time.time()
 
-while run_flg ==  True:
-    try:        
-        data, live_df_full = run_engine(data, live_df_full)        
-    except KeyboardInterrupt:
-        print("Run manually stopped")
-        #winsound.PlaySound('C:\\Windows\\Media\\notify.wav', winsound.SND_ASYNC)
-        break        
-    except:
-        #winsound.PlaySound('C:\\Windows\\Media\\notify.wav', winsound.SND_ASYNC)
-        data['error_count'] = data['error_count'] + 1
+data, live_df_full = run_engine(data, live_df_full)        

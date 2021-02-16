@@ -1,4 +1,5 @@
 xgboost
+sklearn
 pytz
 pyyaml
 joblib
