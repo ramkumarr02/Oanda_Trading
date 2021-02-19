@@ -19,7 +19,7 @@ import collections
 import pandas as pd
 from tqdm import tqdm
 from pylab import text
-#from ipython import display
+from IPython import display
 import matplotlib.pyplot as plt
 from matplotlib.pyplot import figure
 from scipy.stats import linregress

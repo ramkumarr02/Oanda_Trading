@@ -81,7 +81,7 @@ def after_avg_len(data):
     data['act_min_tick'] = np.min(data['list_tick_avg'])
     data['act_tick_gap'] = float(data['act_max_tick'] - data['act_min_tick'])
     
-    data['max_lema_loss'] = data['act_tick_gap'] * (data['stop_loss_val'] / 2)
+    data['max_lema_loss'] = data['act_tick_gap'] * (data['stop_loss_val'] / 3)
     data['max_lema_loss'] = min(-data['max_lema_loss'], -0.0002)
     
     data['stop_loss_pip'] = data['act_tick_gap'] * data['stop_loss_val']
@@ -418,7 +418,8 @@ def take_profit(data):
         data['long_profit_val']      = data['price_bid'] - data['price_order_ask']
         
         data['long_max_profit']      = max(data['long_max_profit'], data['long_profit_val'])        
-        data['long_buffer_val']      = max(data['pip_take_profit'], data['long_max_profit'] * data['pip_take_profit_ratio'])        
+        data['long_buffer_val']      = max(data['pip_take_profit'], data['long_max_profit'] * data['pip_take_profit_ratio'])  
+        data['long_buffer_val']      = min(data['long_buffer_val'], data['max_take_profit'])      
         data['long_buffer_profit']   = data['long_max_profit'] - data['long_buffer_val']
         
         if data['long_profit_val'] <= data['long_buffer_profit'] and data['long_profit_val'] >= data['pip_take_profit']:
@@ -434,6 +435,7 @@ def take_profit(data):
         
         data['short_max_profit']      = max(data['short_max_profit'], data['short_profit_val'])        
         data['short_buffer_val']      = max(data['pip_take_profit'], data['short_max_profit'] * data['pip_take_profit_ratio'])        
+        data['short_buffer_val']      = min(data['short_buffer_val'], data['max_take_profit'])
         data['short_buffer_profit']   = data['short_max_profit'] - data['short_buffer_val']
         
         if data['short_profit_val'] <= data['short_buffer_profit'] and data['short_profit_val'] >= data['pip_take_profit']:
@@ -474,7 +476,7 @@ def timed_stop_loss(data):
                 data = check_for_open_orders(data)
                 data['num_timed_stop_loss'] = data['num_timed_stop_loss'] + 1         
 
-        if data['long_loss_val'] < data['max_lema_loss']:
+        if data['long_loss_lema'] < data['max_lema_loss']:
             data = close_long_orders(data)
             data = reset_data(data)
             print(2)
@@ -504,7 +506,7 @@ def timed_stop_loss(data):
                 data = check_for_open_orders(data)      
                 data['num_timed_stop_loss'] = data['num_timed_stop_loss'] + 1
                 
-        if data['short_loss_val'] < data['max_lema_loss']:
+        if data['short_loss_lema'] < data['max_lema_loss']:
             data = close_short_orders(data)
             data = reset_data(data)
             print(4)
@@ -686,6 +688,7 @@ def reset_data(data):
     
     data['take_profit_val']           = param_df['take_profit_val'][0] 
     data['pip_take_profit_ratio']     = param_df['pip_take_profit_ratio'][0]        
+    data['max_take_profit']           = param_df['max_take_profit'][0]
     
     #Data Gen ------------------------------------------    
     data['num_of_ticks']              = param_df['num_of_ticks'][0]

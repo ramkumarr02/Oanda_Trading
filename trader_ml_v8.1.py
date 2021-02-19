@@ -81,7 +81,7 @@ def after_avg_len(data):
     data['act_min_tick'] = np.min(data['list_tick_avg'])
     data['act_tick_gap'] = float(data['act_max_tick'] - data['act_min_tick'])
     
-    data['max_lema_loss'] = data['act_tick_gap'] * (data['stop_loss_val'] / 2)
+    data['max_lema_loss'] = data['act_tick_gap'] * (data['stop_loss_val'] / 3)
     data['max_lema_loss'] = min(-data['max_lema_loss'], -0.0002)
     
     data['stop_loss_pip'] = data['act_tick_gap'] * data['stop_loss_val']
@@ -418,7 +418,8 @@ def take_profit(data):
         data['long_profit_val']      = data['price_bid'] - data['price_order_ask']
         
         data['long_max_profit']      = max(data['long_max_profit'], data['long_profit_val'])        
-        data['long_buffer_val']      = max(data['pip_take_profit'], data['long_max_profit'] * data['pip_take_profit_ratio'])        
+        data['long_buffer_val']      = max(data['pip_take_profit'], data['long_max_profit'] * data['pip_take_profit_ratio'])  
+        data['long_buffer_val']      = min(data['long_buffer_val'], data['max_take_profit'])      
         data['long_buffer_profit']   = data['long_max_profit'] - data['long_buffer_val']
         
         if data['long_profit_val'] <= data['long_buffer_profit'] and data['long_profit_val'] >= data['pip_take_profit']:
@@ -434,6 +435,7 @@ def take_profit(data):
         
         data['short_max_profit']      = max(data['short_max_profit'], data['short_profit_val'])        
         data['short_buffer_val']      = max(data['pip_take_profit'], data['short_max_profit'] * data['pip_take_profit_ratio'])        
+        data['short_buffer_val']      = min(data['short_buffer_val'], data['max_take_profit'])
         data['short_buffer_profit']   = data['short_max_profit'] - data['short_buffer_val']
         
         if data['short_profit_val'] <= data['short_buffer_profit'] and data['short_profit_val'] >= data['pip_take_profit']:
@@ -474,7 +476,7 @@ def timed_stop_loss(data):
                 data = check_for_open_orders(data)
                 data['num_timed_stop_loss'] = data['num_timed_stop_loss'] + 1         
 
-        if data['long_loss_val'] < data['max_lema_loss']:
+        if data['long_loss_lema'] < data['max_lema_loss']:
             data = close_long_orders(data)
             data = reset_data(data)
             print(2)
@@ -504,7 +506,7 @@ def timed_stop_loss(data):
                 data = check_for_open_orders(data)      
                 data['num_timed_stop_loss'] = data['num_timed_stop_loss'] + 1
                 
-        if data['short_loss_val'] < data['max_lema_loss']:
+        if data['short_loss_lema'] < data['max_lema_loss']:
             data = close_short_orders(data)
             data = reset_data(data)
             print(4)
@@ -686,6 +688,7 @@ def reset_data(data):
     
     data['take_profit_val']           = param_df['take_profit_val'][0] 
     data['pip_take_profit_ratio']     = param_df['pip_take_profit_ratio'][0]        
+    data['max_take_profit']           = param_df['max_take_profit'][0]
     
     #Data Gen ------------------------------------------    
     data['num_of_ticks']              = param_df['num_of_ticks'][0]
@@ -836,36 +839,44 @@ request_stream_data = pricing.PricingStream(accountID=data['accountID'], params=
 response_stream = data['api'].request(request_stream_data)
 
 
-# # ## Never Ending loop
-# data = check_for_open_orders(data)
-# data = check_for_open_orders(data)
-# data = check_for_open_orders(data)
-
-# run_flg = True 
-# data = reset_data(data)
-# data['start_ts'] = datetime.now().strftime("%Y-%b-%d, %I:%M:%S (%p)")
-# data["start_ts_internal"] = time.time()
-
-# while run_flg ==  True:
-#     try:        
-#         data, live_df_full = run_engine(data, live_df_full)        
-#     except KeyboardInterrupt:
-#         print("Run manually stopped")
-#         break        
-#     except:
-#         data['error_count'] = data['error_count'] + 1
-
-# ## Single loop for testing
+# ## never ending loop
 data = check_for_open_orders(data)
 data = check_for_open_orders(data)
 data = check_for_open_orders(data)
+logging.basicConfig(filename='traderrun.log', level=logging.DEBUG)
 
 run_flg = True 
 data = reset_data(data)
-
-#data['start_ts'] = datetime.now().strftime("%Y-%b-%d, %I:%M:%S (%p)")
-data['start_ts'] = (datetime.now() + timedelta(hours=8, minutes=0)).strftime("%Y-%b-%d, %I:%M:%S (%p)")
-
+data['start_ts'] = datetime.now().strftime("%y-%b-%d, %i:%m:%s (%p)")
 data["start_ts_internal"] = time.time()
 
-data, live_df_full = run_engine(data, live_df_full)        
+while run_flg ==  True:
+    try:        
+        data, live_df_full = run_engine(data, live_df_full)        
+    
+    except KeyboardInterrupt:
+        print("Run manually stopped")
+        ts = dt.datetime.now()
+        err_msg = 'KeyboardInterrupt'
+        logging.error(f'--- Timestamp-{ts}, Error-{err_msg}')
+        break           
+    
+    except Exception as err_msg:
+        data['error_count'] = data['error_count'] + 1
+        ts = dt.datetime.now()
+        logging.error(f'--- Timestamp-{ts}, Error-{err_msg}')
+
+
+# ## Single loop for testing
+# data = check_for_open_orders(data)
+# data = check_for_open_orders(data)
+# data = check_for_open_orders(data)
+
+# data = reset_data(data)
+
+# #data['start_ts'] = datetime.now().strftime("%Y-%b-%d, %I:%M:%S (%p)")
+# data['start_ts'] = (datetime.now() + timedelta(hours=8, minutes=0)).strftime("%Y-%b-%d, %I:%M:%S (%p)")
+
+# data["start_ts_internal"] = time.time()
+
+# data, live_df_full = run_engine(data, live_df_full)        
