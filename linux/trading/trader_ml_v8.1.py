@@ -49,7 +49,7 @@ def get_prices(resp, data):
     #global data
     data['price_bid'] = float(resp['bids'][0]['price'])    
     data['price_ask'] = float(resp['asks'][0]['price'])
-    data['price_spread'] = data['price_ask'] - data['price_bid']
+    data['price_spread'] = data['price_ask'] - data['price_bid'] - 0.00005
     data['price_tick'] = (data['price_ask'] + data['price_bid']) / 2
     return(data)
 #==========================================================================================================================
