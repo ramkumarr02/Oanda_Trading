@@ -3,6 +3,8 @@ tradenv
 machine_use
 historic_data
 data
+wenv
+misc
 access_keys.yaml
 .gitattributes
 .ipynb_checkpoints
