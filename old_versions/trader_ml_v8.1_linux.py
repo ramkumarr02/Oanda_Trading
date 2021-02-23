@@ -49,7 +49,7 @@ def get_prices(resp, data):
     #global data
     data['price_bid'] = float(resp['bids'][0]['price'])    
     data['price_ask'] = float(resp['asks'][0]['price'])
-    data['price_spread'] = data['price_ask'] - data['price_bid']
+    data['price_spread'] = data['price_ask'] - data['price_bid'] - 0.00005
     data['price_tick'] = (data['price_ask'] + data['price_bid']) / 2
     return(data)
 #==========================================================================================================================
@@ -81,7 +81,7 @@ def after_avg_len(data):
     data['act_min_tick'] = np.min(data['list_tick_avg'])
     data['act_tick_gap'] = float(data['act_max_tick'] - data['act_min_tick'])
     
-    data['max_lema_loss'] = data['act_tick_gap'] * (data['stop_loss_val'] / 3)
+    data['max_lema_loss'] = data['act_tick_gap'] * (data['stop_loss_val'] / 2)
     data['max_lema_loss'] = min(-data['max_lema_loss'], -0.0002)
     
     data['stop_loss_pip'] = data['act_tick_gap'] * data['stop_loss_val']
@@ -843,11 +843,12 @@ response_stream = data['api'].request(request_stream_data)
 data = check_for_open_orders(data)
 data = check_for_open_orders(data)
 data = check_for_open_orders(data)
-logging.basicConfig(filename='traderrun.log', level=logging.DEBUG)
+logging.basicConfig(filename='traderrun.log', level=logging.ERROR)
 
 run_flg = True 
 data = reset_data(data)
-data['start_ts'] = datetime.now().strftime("%y-%b-%d, %i:%m:%s (%p)")
+#data['start_ts'] = datetime.now().strftime("%Y-%b-%d, %H:%M:%S (%p)")
+data['start_ts'] = (datetime.now() + timedelta(hours=8, minutes=0)).strftime("%Y-%b-%d, %I:%M:%S (%p)")
 data["start_ts_internal"] = time.time()
 
 while run_flg ==  True:
@@ -859,12 +860,14 @@ while run_flg ==  True:
         ts = dt.datetime.now()
         err_msg = 'KeyboardInterrupt'
         logging.error(f'--- Timestamp-{ts}, Error-{err_msg}')
+        logging.error(f'-----------------------------------------------------------------------')
         break           
     
     except Exception as err_msg:
         data['error_count'] = data['error_count'] + 1
         ts = dt.datetime.now()
         logging.error(f'--- Timestamp-{ts}, Error-{err_msg}')
+        logging.error(f'-----------------------------------------------------------------------')
 
 
 # ## Single loop for testing

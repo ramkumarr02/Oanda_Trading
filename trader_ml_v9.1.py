@@ -40,8 +40,28 @@ def get_date_time(resp, data):
     data['time_diff'] = (t2 - tot_ts).total_seconds()
     
     return(data)
-#==========================================================================================================================
 
+#--------------------------------------------------------------------------------------------------------------------------
+# Get average candle height
+def get_avg_candle_height(candle_count, granularity):
+    global data
+    data["candle_param"] = {"count": candle_count, "granularity": granularity}
+    data["candle_r"] = instruments.InstrumentsCandles(instrument=data['instrument'], params=data["candle_param"])
+    data["api"].request(data["candle_r"])
+    data["candle_data"] = data["candle_r"].response
+
+    candle_height_list = []
+
+    for candle in data["candle_data"]['candles']:
+        high = np.float(candle['mid']['h'])
+        low = np.float(candle['mid']['l'])
+        candle_height_list.append(high - low) 
+
+    data['avg_candle_height'] = np.round(np.mean(candle_height_list),5)
+    data['stop_loss_pip'] = data['avg_candle_height'] / 2
+    data['stop_loss_pip'] = max(data['stop_loss_pip'], 0.0005)
+    return()
+#==========================================================================================================================
 
 #--------------------------------------------------------------------------------------------------------------------------
 # Get bid and ask prices
@@ -49,7 +69,7 @@ def get_prices(resp, data):
     #global data
     data['price_bid'] = float(resp['bids'][0]['price'])    
     data['price_ask'] = float(resp['asks'][0]['price'])
-    data['price_spread'] = data['price_ask'] - data['price_bid'] - 0.00005
+    data['price_spread'] = data['price_ask'] - data['price_bid']
     data['price_tick'] = (data['price_ask'] + data['price_bid']) / 2
     return(data)
 #==========================================================================================================================
@@ -79,14 +99,12 @@ def after_avg_len(data):
     
     data['act_max_tick'] = np.max(data['list_tick_avg'])
     data['act_min_tick'] = np.min(data['list_tick_avg'])
-    data['act_tick_gap'] = float(data['act_max_tick'] - data['act_min_tick'])
     
-    data['max_lema_loss'] = data['act_tick_gap'] * (data['stop_loss_val'] / 3)
-    data['max_lema_loss'] = min(-data['max_lema_loss'], -0.0002)
-    
-    data['stop_loss_pip'] = data['act_tick_gap'] * data['stop_loss_val']
-    data['stop_loss_pip'] = max(data['stop_loss_pip'], 0.0002)
-    
+    # data['act_tick_gap'] = float(data['act_max_tick'] - data['act_min_tick'])    
+    # data['max_lema_loss'] = data['act_tick_gap'] * (data['stop_loss_val'] / 3)
+    # data['max_lema_loss'] = min(-data['max_lema_loss'], -0.0002)    
+    # data['stop_loss_pip'] = data['act_tick_gap'] * data['stop_loss_val']
+    # data['stop_loss_pip'] = max(data['stop_loss_pip'], 0.0002)
     
     data['list_tick_avg'] = collections.deque([])
     data['list_spread'] = collections.deque([])
@@ -540,9 +558,14 @@ def run_engine(data, live_df_full):
             print(data['time_diff'])
             raise ValueError('Time difference is above limit')
 
+        today_date = datetime.today().date()
+        if data['curr_date'] != today_date:
+            data['curr_date'] = today_date
+            get_avg_candle_height(candle_count = 5, granularity = 'D')
+
         data = get_prices(resp, data)
         data = take_profit(data)
-        data = timed_stop_loss(data)
+        #data = timed_stop_loss(data)
         
         # Build avg tick ---------------------------------------------    
         if len(data['list_tick_avg']) < data['num_of_ticks']:
@@ -701,7 +724,7 @@ def reset_data(data):
     data['timed_loss_limit']          = data['timed_loss_limit']      * data['pip_size'] * -1
 
     data['max_lema_loss']             = 0
-    data['stop_loss_pip']             = 0
+    #data['stop_loss_pip']             = 0
 
     # ############################################################################################################################################################
     # ############################################################################################################################################################
@@ -783,6 +806,7 @@ def reset_data(data):
 live_df_full = pd.DataFrame()
 
 data = {}
+
 data['instrument'] = "EUR_USD"
 data['pip_size'] = 0.0001
 data['iter'] = 0
@@ -833,6 +857,8 @@ data['num_timed_stop_loss'] = 0
 data['access_token'] = config['oanda_demo_hedge']['token']
 data['accountID'] = config['oanda_demo_hedge']['account_id']
 data['params'] = {'instruments': data['instrument']}
+
+data['curr_date'] = None
 
 data['api'] = API(access_token = data['access_token'])
 request_stream_data = pricing.PricingStream(accountID=data['accountID'], params=data['params'])
