@@ -9,6 +9,7 @@ from utils.reset import *
 warnings.filterwarnings('ignore')
 
 
+
 # ### Core Engine
 def run_engine(data, live_df_full):
     
@@ -18,6 +19,9 @@ def run_engine(data, live_df_full):
     data['api'] = API(access_token = data['access_token'])
     request_stream_data = pricing.PricingStream(accountID=data['accountID'], params=data['params'])
     response_stream = data['api'].request(request_stream_data)
+
+    model_new = xgboost.XGBClassifier(tree_method='gpu_hist', gpu_id=0)
+    model_new.load_model('data/model/xgb.model')
     
     for data['iter'], resp in enumerate(response_stream):
         #if i % data['num_of_ticks'] == 0:

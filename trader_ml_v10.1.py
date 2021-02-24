@@ -12,9 +12,6 @@ temp_file = 'config/access_keys.yaml'
 with open(temp_file) as temp_file:
     config = yaml.load(temp_file)     
     
-model_new = xgboost.XGBClassifier(tree_method='gpu_hist', gpu_id=0)
-model_new.load_model('data/model/xgb.model')
-
 logging.basicConfig(filename='traderrun.log', level=logging.ERROR)
 
 data['access_token'] = config['oanda_demo_hedge']['token']

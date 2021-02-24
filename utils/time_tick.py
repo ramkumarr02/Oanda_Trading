@@ -15,14 +15,11 @@ def get_date_time(resp, data):
 
     tot_ts = datetime.combine(datetime.date(data['ts_date_val']), datetime.time(data['ts_time_val']))
     
-    #Windows-------------------------
-    tot_ts = tot_ts + timedelta(hours=8)
-    #Windows-------------------------
+    if data['os'] == 'windows':
+        tot_ts = tot_ts + timedelta(hours=8)
     
-    data['tot_ts'] = tot_ts.strftime("%Y-%b-%d, %I:%M:%S (%p)")
-      
+    data['tot_ts'] = tot_ts.strftime("%Y-%b-%d, %I:%M:%S (%p)")      
     t2 = datetime.now()    
-    #t2 = datetime.now() + timedelta(hours=5, minutes=0)
     data['time_diff'] = (t2 - tot_ts).total_seconds()
     
     return(data)

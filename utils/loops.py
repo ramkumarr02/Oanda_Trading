@@ -1,6 +1,7 @@
 # ### Packages
 from utils.packages import *
-
+from utils.slope_map import *
+ 
 # #### Tick AVG
 def tick_gap_checker():
     if data['act_tick_gap'] > 0.1:
