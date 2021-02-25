@@ -8,8 +8,6 @@ from utils.loops import *
 from utils.reset import *
 warnings.filterwarnings('ignore')
 
-
-
 # ### Core Engine
 def run_engine(data, live_df_full):
     
@@ -32,14 +30,16 @@ def run_engine(data, live_df_full):
 
         # Date and Data ---------------------------------------------
         data = get_date_time(resp, data)
+        #data = check_for_open_orders(data)
+
         if data['time_diff'] > data['max_time_diff']:
             print(data['time_diff'])
             raise ValueError('Time difference is above limit')
 
-        today_date = datetime.today().date()
-        if data['curr_date'] != today_date:
-            data['curr_date'] = today_date
-            get_avg_candle_height(data, candle_count = 5, granularity = 'D')
+        # today_date = datetime.today().date()
+        # if data['curr_date'] != today_date:
+        #     data['curr_date'] = today_date
+        #     get_avg_candle_height(data, candle_count = 12, granularity = 'M5')
 
         data = get_prices(resp, data)
         data = take_profit(data)

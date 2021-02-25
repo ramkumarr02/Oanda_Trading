@@ -55,7 +55,7 @@ data['num_orders'] = 0
 data['num_took_profit'] = 0
 data['num_timed_stop_loss'] = 0
 
-data['curr_date'] = None
+#data['curr_date'] = None
 
 data["run_flg"] = True 
 

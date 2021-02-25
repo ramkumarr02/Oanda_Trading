@@ -34,7 +34,12 @@ def check_for_open_orders(data):
 #--------------------------------------------------------------------------------------------------------------------------
 def make_order(data):
     #global data
+    data = check_for_open_orders(data)
+    
     if not data['order_current_open']:
+        
+        get_ema_diff(data = data, granularity = 'M5', ema_long = 50, ema_short = 5)
+
         if data['order_create'] == 'long':      
             
             data['order_val'] = data['order_num'] * 1
@@ -79,6 +84,7 @@ def make_order(data):
 # #### close_order
 def close_long_orders(data):
     #global data
+    data = check_for_open_orders(data)
     data_long = {"longUnits": "ALL"}
     order_close_data = positions.PositionClose(accountID=data['accountID'],
                                 instrument=data['instrument'],
@@ -88,6 +94,7 @@ def close_long_orders(data):
 
 def close_short_orders(data):
     #global data
+    data = check_for_open_orders(data)
     data_short = {"shortUnits": "ALL"}
     order_close_data = positions.PositionClose(accountID=data['accountID'],
                                 instrument=data['instrument'],

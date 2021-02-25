@@ -23,6 +23,18 @@ def get_date_time(resp, data):
     data['time_diff'] = (t2 - tot_ts).total_seconds()
     
     return(data)
+#==========================================================================================================================
+
+#--------------------------------------------------------------------------------------------------------------------------
+# Get bid and ask prices
+def get_prices(resp, data):    
+    #global data
+    data['price_bid'] = float(resp['bids'][0]['price'])    
+    data['price_ask'] = float(resp['asks'][0]['price'])
+    data['price_spread'] = data['price_ask'] - data['price_bid']
+    data['price_tick'] = (data['price_ask'] + data['price_bid']) / 2
+    return(data)
+#==========================================================================================================================
 
 #--------------------------------------------------------------------------------------------------------------------------
 # Get average candle height
@@ -41,18 +53,24 @@ def get_avg_candle_height(data, candle_count, granularity):
         candle_height_list.append(high - low) 
 
     data['avg_candle_height'] = np.round(np.mean(candle_height_list),5)
-    data['stop_loss_pip'] = data['avg_candle_height'] / 2
+    data['stop_loss_pip'] = data['avg_candle_height'] * 4
     data['stop_loss_pip'] = max(data['stop_loss_pip'], 0.0005)
     return()
 #==========================================================================================================================
 
 #--------------------------------------------------------------------------------------------------------------------------
-# Get bid and ask prices
-def get_prices(resp, data):    
-    #global data
-    data['price_bid'] = float(resp['bids'][0]['price'])    
-    data['price_ask'] = float(resp['asks'][0]['price'])
-    data['price_spread'] = data['price_ask'] - data['price_bid']
-    data['price_tick'] = (data['price_ask'] + data['price_bid']) / 2
-    return(data)
-#==========================================================================================================================
+# Get Ema Diff
+def get_ema_diff(data, granularity, ema_long, ema_short):    
+    
+    data["candle_param"] = {"count": ema_long, "granularity": granularity}
+    data["candle_r"] = instruments.InstrumentsCandles(instrument=data['instrument'], params=data["candle_param"])
+    data["api"].request(data["candle_r"])
+    data["candle_data"] = data["candle_r"].response
+    
+    ema_l = pd.DataFrame([x['mid']['c'] for x in data["candle_data"]['candles']]).ewm(span=ema_long).mean()[0][ema_long - 1]
+    ema_s = pd.DataFrame([x['mid']['c'] for x in data["candle_data"]['candles']]).ewm(span=ema_short).mean()[0][ema_short - 1]   
+
+    data['stop_loss_pip'] = min(abs(ema_s - ema_l), data['stop_loss_val'])
+    
+    return()
+#==========================================================================================================================    
