@@ -21,7 +21,7 @@ def reset_data(data):
     
     data['take_profit_val']           = param_df['take_profit_val'][0] 
     data['pip_take_profit_ratio']     = param_df['pip_take_profit_ratio'][0]        
-    #data['max_take_profit']           = param_df['max_take_profit'][0]
+    data['stop_profit_ratio']           = param_df['stop_profit_ratio'][0]
     
     #Data Gen ------------------------------------------    
     data['num_of_ticks']              = param_df['num_of_ticks'][0]

@@ -40,7 +40,10 @@ def make_order(data):
     if not data['order_current_open']:
         
         get_ema_diff(data = data, granularity = 'M5', ema_long = 50, ema_short = 5)
-
+        get_avg_candle_height(data, candle_count = 5, granularity = 'M5')
+        data['stop_loss_pip'] = max(data['stop_loss_candle_height'], data['stop_loss_ema_diff'])
+        data['max_take_profit'] = data['stop_loss_pip'] * data['stop_profit_ratio']
+        
         if data['order_create'] == 'long':      
             
             data['order_val'] = data['order_num'] * 1

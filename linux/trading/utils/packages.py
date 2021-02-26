@@ -12,16 +12,10 @@ import logging
 import warnings
 import datetime
 import datetime as dt
-#import winsound
 import statistics
 import numpy as np
 import collections
 import pandas as pd
-#from tqdm import tqdm
-#from pylab import text
-#from IPython import display
-#import matplotlib.pyplot as plt
-#from matplotlib.pyplot import figure
 from scipy.stats import linregress
 from datetime import datetime, timedelta
 
@@ -38,4 +32,12 @@ import oandapyV20.endpoints.instruments as instruments
 from oandapyV20.contrib.requests import StopLossDetails
 from oandapyV20.contrib.requests import MarketOrderRequest
 
+
+
+# import winsound
+# from tqdm import tqdm
+# from pylab import text
+# from IPython import display
+# import matplotlib.pyplot as plt
+# from matplotlib.pyplot import figure
 #from oandapyV20.contrib.requests import TrailingStopLossDetails
