@@ -40,7 +40,10 @@ def make_order(data):
     if not data['order_current_open']:
         
         get_ema_diff(data = data, granularity = 'M5', ema_long = 50, ema_short = 5)
-
+        get_avg_candle_height(data, candle_count = 5, granularity = 'M5')
+        data['stop_loss_pip'] = max(data['stop_loss_candle_height'], data['stop_loss_ema_diff'])
+        data['max_take_profit'] = data['stop_loss_pip'] * data['stop_profit_ratio']
+        
         if data['order_create'] == 'long':      
             
             data['order_val'] = data['order_num'] * 1
@@ -118,6 +121,7 @@ def take_profit(data):
         data['long_buffer_val']      = max(data['pip_take_profit'], data['long_max_profit'] * data['pip_take_profit_ratio'])  
         data['long_buffer_val']      = min(data['long_buffer_val'], data['max_take_profit'])      
         data['long_buffer_profit']   = data['long_max_profit'] - data['long_buffer_val']
+        data['long_buffer_profit']   = max(data['long_buffer_profit'], data['pip_take_profit'])
         
         if data['long_profit_val'] <= data['long_buffer_profit'] and data['long_profit_val'] >= data['pip_take_profit']:
             data = close_long_orders(data)
@@ -135,6 +139,7 @@ def take_profit(data):
         data['short_buffer_val']      = max(data['pip_take_profit'], data['short_max_profit'] * data['pip_take_profit_ratio'])        
         data['short_buffer_val']      = min(data['short_buffer_val'], data['max_take_profit'])
         data['short_buffer_profit']   = data['short_max_profit'] - data['short_buffer_val']
+        data['short_buffer_profit']   = max(data['short_buffer_profit'], data['pip_take_profit'])
         
         if data['short_profit_val'] <= data['short_buffer_profit'] and data['short_profit_val'] >= data['pip_take_profit']:
             data = close_short_orders(data)

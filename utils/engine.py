@@ -36,11 +36,6 @@ def run_engine(data, live_df_full):
             print(data['time_diff'])
             raise ValueError('Time difference is above limit')
 
-        # today_date = datetime.today().date()
-        # if data['curr_date'] != today_date:
-        #     data['curr_date'] = today_date
-        #     get_avg_candle_height(data, candle_count = 12, granularity = 'M5')
-
         data = get_prices(resp, data)
         data = take_profit(data)
         #data = timed_stop_loss(data)

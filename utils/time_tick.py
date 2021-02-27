@@ -45,16 +45,9 @@ def get_avg_candle_height(data, candle_count, granularity):
     data["api"].request(data["candle_r"])
     data["candle_data"] = data["candle_r"].response
 
-    candle_height_list = []
-
-    for candle in data["candle_data"]['candles']:
-        high = np.float(candle['mid']['h'])
-        low = np.float(candle['mid']['l'])
-        candle_height_list.append(high - low) 
-
-    data['avg_candle_height'] = np.round(np.mean(candle_height_list),5)
-    data['stop_loss_pip'] = data['avg_candle_height'] * 4
-    data['stop_loss_pip'] = max(data['stop_loss_pip'], 0.0005)
+    data['avg_candle_height'] = np.round(np.mean([(np.float(x['mid']['h']) - np.float(x['mid']['l'])) for x in data["candle_data"]['candles']]),5)
+    data['stop_loss_candle_height'] = data['avg_candle_height']
+    data['stop_loss_candle_height'] = max(data['stop_loss_candle_height'], 0.0005)
     return()
 #==========================================================================================================================
 
@@ -70,7 +63,7 @@ def get_ema_diff(data, granularity, ema_long, ema_short):
     ema_l = pd.DataFrame([x['mid']['c'] for x in data["candle_data"]['candles']]).ewm(span=ema_long).mean()[0][ema_long - 1]
     ema_s = pd.DataFrame([x['mid']['c'] for x in data["candle_data"]['candles']]).ewm(span=ema_short).mean()[0][ema_short - 1]   
 
-    data['stop_loss_pip'] = max(abs(ema_s - ema_l)/2, data['stop_loss_val'])
-    data['max_take_profit'] = data['stop_loss_pip'] * data['pip_take_profit_ratio']
+    data['stop_loss_ema_diff'] = max(abs(ema_s - ema_l)/2, data['stop_loss_val'])
+    
     return()
 #==========================================================================================================================    

@@ -122,6 +122,11 @@ def take_profit(data):
         data['long_buffer_val']      = min(data['long_buffer_val'], data['max_take_profit'])      
         data['long_buffer_profit']   = data['long_max_profit'] - data['long_buffer_val']
         
+        if data['pip_take_profit'] > data['long_buffer_profit'] > 0:
+            data['long_buffer_profit'] = data['pip_take_profit']
+
+        data['long_buffer_profit']   = max(data['long_buffer_profit'], data['pip_take_profit'])
+        
         if data['long_profit_val'] <= data['long_buffer_profit'] and data['long_profit_val'] >= data['pip_take_profit']:
             data = close_long_orders(data)
             data = reset_data(data)
@@ -138,6 +143,9 @@ def take_profit(data):
         data['short_buffer_val']      = max(data['pip_take_profit'], data['short_max_profit'] * data['pip_take_profit_ratio'])        
         data['short_buffer_val']      = min(data['short_buffer_val'], data['max_take_profit'])
         data['short_buffer_profit']   = data['short_max_profit'] - data['short_buffer_val']
+
+        if data['pip_take_profit'] > data['short_buffer_profit'] > 0:
+            data['short_buffer_profit'] = data['pip_take_profit']
         
         if data['short_profit_val'] <= data['short_buffer_profit'] and data['short_profit_val'] >= data['pip_take_profit']:
             data = close_short_orders(data)
