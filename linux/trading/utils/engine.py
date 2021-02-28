@@ -30,14 +30,14 @@ def run_engine(data, live_df_full):
 
         # Date and Data ---------------------------------------------
         data = get_date_time(resp, data)
-        #data = check_for_open_orders(data)
 
         if data['time_diff'] > data['max_time_diff']:
             print(data['time_diff'])
             raise ValueError('Time difference is above limit')
 
         data = get_prices(resp, data)
-        data = take_profit(data)
+        data = check_for_open_orders(data)
+        #data = take_profit(data)
         #data = timed_stop_loss(data)
         
         # Build avg tick ---------------------------------------------    

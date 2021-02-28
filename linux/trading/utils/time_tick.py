@@ -18,10 +18,12 @@ def get_date_time(resp, data):
     if data['os'] == 'windows':
         tot_ts = tot_ts + timedelta(hours=8)
     
-    data['tot_ts'] = tot_ts.strftime("%Y-%b-%d, %I:%M:%S (%p)")      
+    data['tot_ts']    = tot_ts.strftime("%Y-%b-%d, %I:%M:%S (%p)")      
     t2 = datetime.now()    
     data['time_diff'] = (t2 - tot_ts).total_seconds()
-    
+    data['weekday']   = t2.weekday()
+    data['hour']      = t2.hour
+
     return(data)
 #==========================================================================================================================
 

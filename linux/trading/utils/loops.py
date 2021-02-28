@@ -196,6 +196,13 @@ def after_lma(data):
     data['lema'] = list(pd.DataFrame(list(data['lsma_list'])).ewm(span=data['lma_len']).mean()[0])[data['lma_len'] - 1]
     data['long_sema_slope'] = get_slope(data['lsma_list'], data)
     data['slope_diff'] = data['small_sema_slope'] - data['long_sema_slope']
+
+    data['candle_max_val'] = np.max(data['lsma_list'])
+    data['candle_min_val'] = np.min(data['lsma_list'])
+    data['candle_height'] = data['candle_max_val'] - data['candle_min_val']
+
+    data['top_diff'] = data['candle_max_val'] - data['price_tick']
+    data['bottom_diff'] = data['price_tick'] - data['candle_min_val'] 
     
     if len(data['lsma_ready']) < 2:
         data['lsma_ready'].append(data['lsma'])

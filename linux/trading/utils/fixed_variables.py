@@ -59,6 +59,16 @@ data['num_timed_stop_loss'] = 0
 
 data["run_flg"] = True 
 
+#Data Gen ------------------------------------------
+data['rs_max'] = 1e6
+
+#data['select_keys'] = ['tick_avg', 'spread_avg', 'tick_sd', 'diff', 'avg_gain','avg_loss', 'rs', 'rsi', 'sema',  'sema_diff', 'ssma', 'ssma_diff', 'lema', 'lema_diff', 'lsma', 'lsma_diff', 'ema_diff', 'sma_diff', 'max_tick', 'min_tick', 'max_gap', 'min_gap', 'small_sema_slope', 'long_sema_slope', 'slope_diff']
+#data['col_order'] = ['spread_avg', 'tick_sd', 'sema_diff', 'lema_diff', 'diff', 'avg_gain','avg_loss', 'rsi', 'ssma_diff', 'lsma_diff', 'sma_diff', 'max_gap','min_gap', 'ema_diff', 'small_sema_slope', 'long_sema_slope', 'slope_diff']
+
+data['select_keys'] = ['tick_avg', 'spread_avg', 'tick_sd', 'diff', 'avg_gain','avg_loss', 'rs', 'rsi', 'sema',  'sema_diff', 'ssma', 'ssma_diff', 'lema', 'lema_diff', 'lsma', 'lsma_diff', 'ema_diff', 'sma_diff', 'max_tick', 'min_tick', 'max_gap', 'min_gap', 'small_sema_slope', 'long_sema_slope', 'slope_diff', 'weekday', 'hour', 'candle_height', 'top_diff', 'bottom_diff']
+data['remove_cols'] = ['tick_avg', 'sema', 'ssma', 'lema', 'lsma', 'max_tick', 'min_tick', 'rs']
+data['col_order'] = ['weekday', 'hour', 'spread_avg', 'tick_sd', 'candle_height', 'sema_diff', 'lema_diff', 'top_diff', 'bottom_diff', 'diff', 'avg_gain', 'avg_loss', 'rsi', 'ssma_diff', 'lsma_diff', 'sma_diff', 'max_gap', 'min_gap', 'ema_diff', 'small_sema_slope', 'long_sema_slope', 'slope_diff']
+
 # data['run_type'] = 'single'
 # data['os'] = 'windows'
 

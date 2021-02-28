@@ -31,8 +31,7 @@ import oandapyV20.definitions.pricing as defpricing
 import oandapyV20.endpoints.instruments as instruments
 from oandapyV20.contrib.requests import StopLossDetails
 from oandapyV20.contrib.requests import MarketOrderRequest
-
-
+from oandapyV20.contrib.requests import TakeProfitDetails
 
 # import winsound
 # from tqdm import tqdm

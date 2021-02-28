@@ -49,13 +49,17 @@ def make_order(data):
             data['order_val'] = data['order_num'] * 1
                         
             # !!!!!!!!!!stop loss line max to be introduced and tested    
-            data['price_stop'] = data['price_ask'] - data['stop_loss_pip']
-            
+            data['price_stop']          = data['price_ask'] - data['stop_loss_pip']
             stopLossOnFill = StopLossDetails(price=data['price_stop'])
+            
+            data['price_take_profit']   = data['price_bid'] + data['max_take_profit']
+            takeProfitOnFillOrder = TakeProfitDetails(price=data['price_take_profit'])
+            
                        
             ordr = MarketOrderRequest(instrument = data['instrument'], 
                                       units=data['order_val'], 
-                                      stopLossOnFill=stopLossOnFill.data)
+                                      stopLossOnFill=stopLossOnFill.data,
+                                      takeProfitOnFill=takeProfitOnFillOrder.data)
 
             order_request_data = orders.OrderCreate(accountID=data['accountID'], data=ordr.data)
             
@@ -71,9 +75,13 @@ def make_order(data):
             data['price_stop'] = data['price_bid'] + data['stop_loss_pip']
             stopLossOnFill = StopLossDetails(price=data['price_stop'])
 
+            data['price_take_profit']   = data['price_ask'] - data['max_take_profit']
+            takeProfitOnFillOrder = TakeProfitDetails(price=data['price_take_profit'])
+
             ordr = MarketOrderRequest(instrument = data['instrument'], 
                                       units=data['order_val'], 
-                                      stopLossOnFill=stopLossOnFill.data)
+                                      stopLossOnFill=stopLossOnFill.data,
+                                      takeProfitOnFill=takeProfitOnFillOrder.data)
             
             order_request_data = orders.OrderCreate(accountID=data['accountID'], data=ordr.data)
             
