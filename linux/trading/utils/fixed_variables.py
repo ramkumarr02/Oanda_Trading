@@ -57,6 +57,8 @@ data['num_timed_stop_loss'] = 0
 
 #data['curr_date'] = None
 
+data['order_was_open'] = False
+
 data["run_flg"] = True 
 
 #Data Gen ------------------------------------------
@@ -73,4 +75,4 @@ data['col_order'] = ['weekday', 'hour', 'spread_avg', 'tick_sd', 'candle_height'
 # data['os'] = 'windows'
 
 data['run_type'] = 'loop'
-data['os'] = 'linux'
+data['os'] = 'windows'

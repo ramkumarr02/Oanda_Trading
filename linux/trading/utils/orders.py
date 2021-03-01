@@ -27,6 +27,14 @@ def check_for_open_orders(data):
         elif data['positions_long'] == 0 and data['positions_short'] >= 1:
             data['order_current_open'] = 'short'                              
 
+    if data['order_current_open'] != False:
+        data['order_was_open'] = True
+
+    if not data['order_current_open']:
+        if data['order_was_open']:            
+            data = reset_data(data)
+            data['order_was_open'] = False
+
     return(data)
 #==========================================================================================================================    
 

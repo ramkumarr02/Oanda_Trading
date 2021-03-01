@@ -62,10 +62,10 @@ def get_ema_diff(data, granularity, ema_long, ema_short):
     data["api"].request(data["candle_r"])
     data["candle_data"] = data["candle_r"].response
     
-    ema_l = pd.DataFrame([x['mid']['c'] for x in data["candle_data"]['candles']]).ewm(span=ema_long).mean()[0][ema_long - 1]
-    ema_s = pd.DataFrame([x['mid']['c'] for x in data["candle_data"]['candles']]).ewm(span=ema_short).mean()[0][ema_short - 1]   
+    ema_l = pd.DataFrame([x['mid']['c'] for x in data["candle_data"]['candles']]).ewm(span=ema_long).mean()[0].iloc[-1]
+    ema_s = pd.DataFrame([x['mid']['c'] for x in data["candle_data"]['candles']]).ewm(span=ema_short).mean()[0].iloc[-1]
 
-    data['stop_loss_ema_diff'] = max(abs(ema_s - ema_l)/2, data['stop_loss_val'])
+    data['stop_loss_ema_diff'] = max(abs(ema_s - ema_l), data['stop_loss_val'])
     
     return()
 #==========================================================================================================================    

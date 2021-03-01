@@ -154,7 +154,7 @@ def after_sma(data):
     data['ssma_list'].append(data['tick_avg'])
 
     data['ssma'] = np.mean(data['ssma_list'])
-    data['sema'] = list(pd.DataFrame(list(data['ssma_list'])).ewm(span=data['sma_len']).mean()[0])[data['sma_len'] - 1]
+    data['sema'] = list(pd.DataFrame(list(data['ssma_list'])).ewm(span=data['sma_len']).mean()[0])[-1]
     
     data['small_sema_slope'] = get_slope(data['ssma_list'], data)
     
@@ -193,7 +193,7 @@ def after_lma(data):
     data['lsma_list'].append(data['tick_avg'])
 
     data['lsma'] = np.mean(data['lsma_list'])
-    data['lema'] = list(pd.DataFrame(list(data['lsma_list'])).ewm(span=data['lma_len']).mean()[0])[data['lma_len'] - 1]
+    data['lema'] = list(pd.DataFrame(list(data['lsma_list'])).ewm(span=data['lma_len']).mean()[0])[-1]
     data['long_sema_slope'] = get_slope(data['lsma_list'], data)
     data['slope_diff'] = data['small_sema_slope'] - data['long_sema_slope']
 
