@@ -47,10 +47,18 @@ def make_order(data):
     
     if not data['order_current_open']:
         
-        get_ema_diff(data = data, granularity = 'M5', ema_long = 50, ema_short = 5)
-        get_avg_candle_height(data, candle_count = 5, granularity = 'M5')
-        data['stop_loss_pip'] = max(data['stop_loss_candle_height'], data['stop_loss_ema_diff'])
-        data['max_take_profit'] = data['stop_loss_pip'] * data['stop_profit_ratio']
+        #get_ema_diff(data = data, granularity = 'M5', ema_long = 50, ema_short = 5)
+        get_avg_candle_height(data, candle_count = 6, granularity = 'M5')
+        
+        #data['stop_loss_pip'] = max(data['stop_loss_candle_height'], data['stop_loss_ema_diff'])
+        
+        #data['stop_loss_pip'] = data['stop_loss_candle_height']
+        #data['stop_loss_pip'] = data['stop_loss_pip'] * data['len_multiplier']
+        #data['max_take_profit'] = data['stop_loss_pip'] * data['stop_profit_ratio']
+        
+        data['max_take_profit'] = data['stop_loss_candle_height']
+        data['max_take_profit'] = data['max_take_profit'] * data['len_multiplier']        
+        data['stop_loss_pip'] = data['max_take_profit'] * data['stop_profit_ratio']
         
         if data['order_create'] == 'long':      
             
@@ -152,7 +160,7 @@ def take_profit(data):
                 
     if data['order_current_open'] == 'short':
         data = check_for_open_orders(data)
-        data['price_order_bid'] = float(data['positions_info']['positions'][0]['short']['averagePrice'])
+        data['price_order_bid']       = float(data['positions_info']['positions'][0]['short']['averagePrice'])
         data['short_profit_val']      = data['price_order_bid'] - data['price_ask']
         
         data['short_max_profit']      = max(data['short_max_profit'], data['short_profit_val'])        

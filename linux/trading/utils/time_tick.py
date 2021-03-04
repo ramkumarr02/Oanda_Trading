@@ -49,7 +49,7 @@ def get_avg_candle_height(data, candle_count, granularity):
 
     data['avg_candle_height'] = np.round(np.mean([(np.float(x['mid']['h']) - np.float(x['mid']['l'])) for x in data["candle_data"]['candles']]),5)
     data['stop_loss_candle_height'] = data['avg_candle_height']
-    data['stop_loss_candle_height'] = max(data['stop_loss_candle_height'], 0.0005)
+    data['stop_loss_candle_height'] = max(data['stop_loss_candle_height'], 0.0002)
     return()
 #==========================================================================================================================
 
@@ -66,6 +66,7 @@ def get_ema_diff(data, granularity, ema_long, ema_short):
     ema_s = pd.DataFrame([x['mid']['c'] for x in data["candle_data"]['candles']]).ewm(span=ema_short).mean()[0].iloc[-1]
 
     data['stop_loss_ema_diff'] = max(abs(ema_s - ema_l), data['stop_loss_val'])
-    
+    #data['stop_loss_ema_diff'] = data['stop_loss_ema_diff'] * 1.5
+
     return()
 #==========================================================================================================================    

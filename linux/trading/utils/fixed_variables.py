@@ -72,7 +72,7 @@ data['remove_cols'] = ['tick_avg', 'sema', 'ssma', 'lema', 'lsma', 'max_tick', '
 data['col_order'] = ['weekday', 'hour', 'spread_avg', 'tick_sd', 'candle_height', 'sema_diff', 'lema_diff', 'top_diff', 'bottom_diff', 'diff', 'avg_gain', 'avg_loss', 'rsi', 'ssma_diff', 'lsma_diff', 'sma_diff', 'max_gap', 'min_gap', 'ema_diff', 'small_sema_slope', 'long_sema_slope', 'slope_diff']
 
 # data['run_type'] = 'single'
-# data['os'] = 'windows'
-
 data['run_type'] = 'loop'
-data['os'] = 'windows'
+
+#data['os'] = 'windows'
+data['os'] = 'linux'
