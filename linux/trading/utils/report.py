@@ -1,5 +1,7 @@
 # ### Packages
 from utils.packages import *
+from pylab import text
+from IPython import display
 
 # ### Report
 #--------------------------------------------------------------------------------------------------------------------------
@@ -9,6 +11,8 @@ def print_report(data, live_df_full):
         os.system('cls')
     elif data['os'] == 'linux':
         os.system('clear')
+    elif data['os'] == 'notebook':
+        display.clear_output(wait = True)
     
     end_ts = time.time()
     elasped_time1 = end_ts - data["start_ts_internal"]
@@ -54,7 +58,18 @@ def print_report(data, live_df_full):
         print(f'full_loss_list_len    : {data["full_loss_list_len"]}')
         print(f'long_loss_list_len    : {data["long_loss_list_len"]}')
         print(f'long_loss_lema        : {data["long_loss_lema"]}')
-        
+
+        print(f'take_profit_flag : {data["take_profit_flag"]}')
+        print(f'stop_loss_flag : {data["stop_loss_flag"]}')
+        print(f'max_take_profit : {data["max_take_profit"]}')
+        print(f'long_loss_val : {data["long_loss_val"]}')
+        print(f'long_min_loss : {data["long_min_loss"]}')
+        print(f'long_buffer_loss : {data["long_buffer_loss"]}')
+        print(f'stop_loss_pip : {data["stop_loss_pip"]}')
+        print(f'short_loss_val : {data["short_loss_val"]}')
+        print(f'short_min_loss : {data["short_min_loss"]}')
+        print(f'short_buffer_loss : {data["short_buffer_loss"]}')
+        print(f'num_took_loss : {data["num_took_loss"]}')        
 
     elif data['order_current_open'] == 'short':
         print(f'short_max_profit       : {data["short_max_profit"]}')
@@ -65,6 +80,22 @@ def print_report(data, live_df_full):
         print(f'full_loss_list_len     : {data["full_loss_list_len"]}')        
         print(f'short_loss_list_len    : {data["short_loss_list_len"]}')
         print(f'short_loss_lema        : {data["short_loss_lema"]}')
+
+        print(f'take_profit_flag : {data["take_profit_flag"]}')
+        print(f'stop_loss_flag : {data["stop_loss_flag"]}')
+        print(f'max_take_profit : {data["max_take_profit"]}')
+        print(f'long_loss_val : {data["long_loss_val"]}')
+        print(f'long_min_loss : {data["long_min_loss"]}')
+        print(f'long_buffer_loss : {data["long_buffer_loss"]}')
+        print(f'stop_loss_pip : {data["stop_loss_pip"]}')
+        print(f'short_loss_val : {data["short_loss_val"]}')
+        print(f'short_min_loss : {data["short_min_loss"]}')
+        print(f'short_buffer_loss : {data["short_buffer_loss"]}')
+        print(f'num_took_loss : {data["num_took_loss"]}')
+
+
+
+
     print('===============================================================================')
     
     return(data, live_df_full)
