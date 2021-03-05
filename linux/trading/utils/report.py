@@ -48,7 +48,8 @@ def print_report(data, live_df_full):
     print('===============================================================================')
     print('                          ORDER')
     print(f'order_current_open    : {data["order_current_open"]}')
-          
+    print(f'pip_take_profit : {data["pip_take_profit"]}')
+
     if data['order_current_open'] == 'long':
         print(f'long_max_profit       : {data["long_max_profit"]}')
         print(f'long_buffer_val       : {data["long_buffer_val"]}')        
@@ -73,6 +74,8 @@ def print_report(data, live_df_full):
 
     elif data['order_current_open'] == 'short':
         print(f'short_max_profit       : {data["short_max_profit"]}')
+        print(f'stop_loss_pip : {data["stop_loss_pip"]}')
+        
         print(f'short_buffer_val       : {data["short_buffer_val"]}')        
         print(f'short_buffer_profit    : {data["short_buffer_profit"]}')
         print(f'short_p&l              : {data["short_profit_val"]}')
@@ -84,19 +87,20 @@ def print_report(data, live_df_full):
         print(f'take_profit_flag : {data["take_profit_flag"]}')
         print(f'stop_loss_flag : {data["stop_loss_flag"]}')
         print(f'max_take_profit : {data["max_take_profit"]}')
+        print('------------------------------------')
+
         print(f'long_loss_val : {data["long_loss_val"]}')
         print(f'long_min_loss : {data["long_min_loss"]}')
         print(f'long_buffer_loss : {data["long_buffer_loss"]}')
-        print(f'stop_loss_pip : {data["stop_loss_pip"]}')
+        print('------------------------------------')
+        
         print(f'short_loss_val : {data["short_loss_val"]}')
         print(f'short_min_loss : {data["short_min_loss"]}')
         print(f'short_buffer_loss : {data["short_buffer_loss"]}')
         print(f'num_took_loss : {data["num_took_loss"]}')
 
 
-
-
-    print('===============================================================================')
+    print('{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}}')
     
     return(data, live_df_full)
 #==========================================================================================================================   

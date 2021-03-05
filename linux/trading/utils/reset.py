@@ -32,7 +32,7 @@ def reset_data(data):
     data['lma_len']                   = param_df['lma_len'][0]    
     
     data['loss_iter_limit']           = data['num_of_ticks']          * data['timed_loss_windows']        
-    data['pip_take_profit']           = data['take_profit_val']       * data['pip_size']
+    #data['pip_take_profit']           = data['take_profit_val']       * data['pip_size']
     data['timed_loss_limit']          = data['timed_loss_limit']      * data['pip_size'] * -1
 
 
@@ -74,7 +74,7 @@ def reset_data(data):
     data['positions_info'] = None
     data['positions_long'] = 0
     data['positions_short'] = 0
-    data['response_order'] = None
+    #data['response_order'] = None
     data['response_close'] = None
 
 
@@ -94,13 +94,13 @@ def reset_data(data):
     data['take_profit_flag'] = False
     data['max_take_profit'] = 0
     data['long_loss_val'] = 0
-    data['long_min_loss'] = 50   
+    data['long_min_loss'] = -50   
     data['long_buffer_loss'] = 0
 
     data['stop_loss_flag'] = False
     data['stop_loss_pip'] = 0
     data['short_loss_val'] = 0
-    data['short_min_loss'] = 50
+    data['short_min_loss'] = -50
     data['short_buffer_loss'] = 0
     data['num_took_loss'] = 0
 

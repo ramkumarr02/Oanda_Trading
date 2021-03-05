@@ -15,7 +15,7 @@ def get_date_time(resp, data):
 
     tot_ts = datetime.combine(datetime.date(data['ts_date_val']), datetime.time(data['ts_time_val']))
     
-    if data['os'] == 'windows':
+    if data['os'] != 'linux':
         tot_ts = tot_ts + timedelta(hours=8)
     
     data['tot_ts']    = tot_ts.strftime("%Y-%b-%d, %I:%M:%S (%p)")      
@@ -49,7 +49,7 @@ def get_avg_candle_height(data, candle_count, granularity):
 
     data['avg_candle_height'] = np.round(np.mean([(np.float(x['mid']['h']) - np.float(x['mid']['l'])) for x in data["candle_data"]['candles']]),5)
     data['stop_loss_candle_height'] = data['avg_candle_height']
-    data['stop_loss_candle_height'] = max(data['stop_loss_candle_height'], 0.0002)
+    data['stop_loss_candle_height'] = max(data['stop_loss_candle_height'], 0.0003)
     return()
 #==========================================================================================================================
 

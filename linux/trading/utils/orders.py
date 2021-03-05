@@ -54,6 +54,7 @@ def make_order(data):
 
         data['max_take_profit'] = data['stop_loss_candle_height'] * data['len_multiplier']        
         data['stop_loss_pip'] = data['max_take_profit'] * data['stop_profit_ratio']
+        data['pip_take_profit'] = data['take_profit_val'] * data['max_take_profit']
         
         if data['order_create'] == 'long':      
             
@@ -135,39 +136,45 @@ def dynamic_take_profit(data):
     #global data
     
     if data['order_current_open'] == 'long':
-        data = check_for_open_orders(data)
+        # data = check_for_open_orders(data)
         data['long_profit_val']      = data['price_bid'] - data['price_order_ask']
         
-        if data['long_profit_val'] >= data['max_take_profit'] + data['pip_take_profit']:
+        if data['long_profit_val'] >= data['max_take_profit']:
             data['take_profit_flag'] = True
 
         if data['take_profit_flag']:
             data['long_max_profit']     = max(data['long_max_profit'], data['long_profit_val'])        
             data['long_buffer_profit']  = data['long_max_profit'] - data['pip_take_profit']
-                       
-            if data['long_profit_val'] <= data['long_buffer_profit']:
-                data = close_long_orders(data)
+            data['long_buffer_profit']  = max(data['max_take_profit'], data['long_buffer_profit'])
+
+            if data['long_profit_val'] < data['long_buffer_profit']:
+                data = close_long_orders(data)      
+                print(data)
+                raise ValueError('tp long done')        
                 data = reset_data(data)
                 data = check_for_open_orders(data)
                 data['num_took_profit'] = data['num_took_profit'] + 1
                 
                 
     if data['order_current_open'] == 'short':
-        data = check_for_open_orders(data)
+        # data = check_for_open_orders(data)
         data['short_profit_val']      = data['price_order_bid'] - data['price_ask']
 
-        if data['short_profit_val'] >= data['max_take_profit'] + data['pip_take_profit']:
+        if data['short_profit_val'] >= data['max_take_profit']:
             data['take_profit_flag'] = True
 
         if data['take_profit_flag']:
             data['short_max_profit']      = max(data['short_max_profit'], data['short_profit_val'])        
             data['short_buffer_profit']   = data['short_max_profit'] - data['pip_take_profit']
+            data['short_buffer_profit']   = max(data['max_take_profit'], data['short_buffer_profit'])
         
-        if data['short_profit_val'] <= data['short_buffer_profit']:
-            data = close_short_orders(data)
-            data = reset_data(data)
-            data = check_for_open_orders(data)
-            data['num_took_profit'] = data['num_took_profit'] + 1
+            if data['short_profit_val'] < data['short_buffer_profit']:
+                data = close_short_orders(data)
+                print(data)
+                raise ValueError('tp short done')        
+                data = reset_data(data)
+                data = check_for_open_orders(data)
+                data['num_took_profit'] = data['num_took_profit'] + 1
     
     return(data)
 #==========================================================================================================================
@@ -179,39 +186,45 @@ def dynamic_stop_loss(data):
     #global data
     
     if data['order_current_open'] == 'long':
-        data = check_for_open_orders(data)
+        #data = check_for_open_orders(data)
         data['long_loss_val']      = data['price_bid'] - data['price_order_ask']
         
-        if data['long_loss_val'] >= data['stop_loss_pip'] - data['pip_take_profit']:
+        if data['long_loss_val'] <= -data['stop_loss_pip'] + data['pip_take_profit']:
             data['stop_loss_flag'] = True
 
         if data['stop_loss_flag']:
-            data['long_min_loss']     = min(data['long_min_loss'], data['long_loss_val'])        
-            data['long_buffer_loss']  = data['long_min_loss'] + data['pip_take_profit']
+            data['long_min_loss']     = max(data['long_min_loss'], data['long_loss_val'])        
+            data['long_buffer_loss']  = data['long_min_loss'] - data['pip_take_profit']
+            data['long_buffer_loss']  = max(data['long_buffer_loss'], -data['stop_loss_pip'])
                        
-            if data['long_loss_val'] >= data['long_buffer_loss']:
-                data = close_long_orders(data)
+            if data['long_loss_val'] < data['long_buffer_loss']:
+                data = close_long_orders(data)   
+                print(data)
+                raise ValueError('sl long done')                    
                 data = reset_data(data)
                 data = check_for_open_orders(data)
                 data['num_took_loss'] = data['num_took_loss'] + 1
                 
                 
     if data['order_current_open'] == 'short':
-        data = check_for_open_orders(data)
+        #data = check_for_open_orders(data)
         data['short_loss_val']      = data['price_order_bid'] - data['price_ask']
 
-        if data['short_loss_val'] >= data['stop_loss_pip'] - data['pip_take_profit']:
+        if data['short_loss_val'] <= -data['stop_loss_pip'] + data['pip_take_profit']:
             data['stop_loss_flag'] = True
 
         if data['stop_loss_flag']:
-            data['short_min_loss']      = min(data['short_min_loss'], data['short_loss_val'])        
-            data['short_buffer_loss']  = data['short_min_loss'] + data['pip_take_profit']
+            data['short_min_loss']     = max(data['short_min_loss'], data['short_loss_val'])        
+            data['short_buffer_loss']  = data['short_min_loss'] - data['pip_take_profit']
+            data['short_buffer_loss']  = max(data['short_buffer_loss'], -data['stop_loss_pip'])
         
-        if data['short_loss_val'] >= data['short_buffer_loss']:
-            data = close_short_orders(data)
-            data = reset_data(data)
-            data = check_for_open_orders(data)
-            data['num_took_loss'] = data['num_took_loss'] + 1
+            if data['short_loss_val'] < data['short_buffer_loss']:
+                data = close_short_orders(data)
+                print(data)
+                raise ValueError('sl short done')        
+                data = reset_data(data)
+                data = check_for_open_orders(data)
+                data['num_took_loss'] = data['num_took_loss'] + 1
     
     return(data)
 #==========================================================================================================================

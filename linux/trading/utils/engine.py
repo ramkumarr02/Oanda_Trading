@@ -88,6 +88,6 @@ def run_engine(data, live_df_full):
             
             data = map_predictions(data)            
             data = check_for_open_orders(data)
-            data = make_order(data)
-               
+            data = make_order(data) 
+
     return(data, live_df_full)

@@ -55,6 +55,8 @@ data['num_orders'] = 0
 data['num_took_profit'] = 0
 data['num_timed_stop_loss'] = 0
 
+data['response_order'] = None
+
 #data['curr_date'] = None
 
 data['order_was_open'] = False
