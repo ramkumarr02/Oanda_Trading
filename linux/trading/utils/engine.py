@@ -37,8 +37,8 @@ def run_engine(data, live_df_full):
 
         data = get_prices(resp, data)
         data = check_for_open_orders(data)
-        data = dynamic_take_profit(data)
-        data = dynamic_stop_loss(data)        
+        # data = dynamic_take_profit(data)
+        # data = dynamic_stop_loss(data)        
         
         # Build avg tick ---------------------------------------------    
         if len(data['list_tick_avg']) < data['num_of_ticks']:

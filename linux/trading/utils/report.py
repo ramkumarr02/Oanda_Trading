@@ -1,7 +1,5 @@
 # ### Packages
 from utils.packages import *
-from pylab import text
-from IPython import display
 
 # ### Report
 #--------------------------------------------------------------------------------------------------------------------------
@@ -33,9 +31,9 @@ def print_report(data, live_df_full):
     print('===============================================================================')   
     print('                      PARAMETERS')
     print(f'instrument            : {data["instrument"]}          take_profit_val       : {data["take_profit_val"]}')
-    print(f'pip_size              : {data["pip_size"]}           pip_take_profit_ratio : {data["pip_take_profit_ratio"]}') 
+    print(f'pip_size              : {data["pip_size"]}           stop_profit_ratio : {data["stop_profit_ratio"]}') 
     print(f'order_num             : {data["order_num"]}                stop_loss_pip         : {round(data["stop_loss_pip"],5)}')
-    print(f'timed_loss_windows    : {data["timed_loss_windows"]}                timed_loss_limit      : {round(data["timed_loss_limit"],5)}')
+    print(f'timed_loss_windows    : {data["timed_loss_windows"]}                len_multiplier      : {data["len_multiplier"]}')
     print(f'act_tick_gap          : {round(data["act_tick_gap"],5)}          max_lema_loss         : {round(data["max_lema_loss"],5)}')    
 
     print('===============================================================================')
@@ -44,7 +42,7 @@ def print_report(data, live_df_full):
     print(f'order_create          : {data["order_create"]}')
     print('===============================================================================')
     print('                         Results')
-    print(f'num_took_profit       : {data["num_took_profit"]}                num_timed_stop_loss   : {data["num_timed_stop_loss"]}')
+    print(f'num_took_profit       : {data["num_took_profit"]}                num_took_loss   : {data["num_took_loss"]}')
     print('===============================================================================')
     print('                          ORDER')
     print(f'order_current_open    : {data["order_current_open"]}')
@@ -100,7 +98,7 @@ def print_report(data, live_df_full):
         print(f'num_took_loss : {data["num_took_loss"]}')
 
 
-    print('{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}}')
+    print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
     
     return(data, live_df_full)
 #==========================================================================================================================   

@@ -1,16 +1,19 @@
-oanda_demo_account:
-  token: 'd8805ce30848563f82d3fe25e0e4e232-9a5df5620ec9fb72a8b8c1b3c2554f37'
-  account_id: '101-003-15069707-001'
-
 oanda_live_account:
   token: '588aeef2afeb49ef697456d8cb49f9a9-695d3890555c0a1c09e6840d1787f7a6'
   account_id: '001-003-4481261-001'  
 
-oanda_demo_hedge:
-  token: 'd8805ce30848563f82d3fe25e0e4e232-9a5df5620ec9fb72a8b8c1b3c2554f37'
-  account_id: '101-003-15069707-003'
-
 oanda_live_account2:
   token: '68e337e69e3cecf23b436706463e0371-9875ccdd17a8acae526d1e7385928830'
   account_id: '001-003-4481261-001' 
-  
+
+oanda_demo_primary:
+  token: 'd8805ce30848563f82d3fe25e0e4e232-9a5df5620ec9fb72a8b8c1b3c2554f37'
+  account_id: '101-003-15069707-001'
+
+oanda_demo_1:
+  token: 'd8805ce30848563f82d3fe25e0e4e232-9a5df5620ec9fb72a8b8c1b3c2554f37'
+  account_id: '101-003-15069707-003'
+
+oanda_demo_2:
+  token: 'd8805ce30848563f82d3fe25e0e4e232-9a5df5620ec9fb72a8b8c1b3c2554f37'
+  account_id: '101-003-15069707-004'  

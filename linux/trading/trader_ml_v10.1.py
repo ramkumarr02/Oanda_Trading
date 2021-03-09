@@ -14,8 +14,10 @@ with open(temp_file) as temp_file:
     
 logging.basicConfig(filename='traderrun.log', level=logging.ERROR)
 
-data['access_token'] = config['oanda_demo_hedge']['token']
-data['accountID'] = config['oanda_demo_hedge']['account_id']
+data['account'] = 'oanda_demo_primary'
+
+data['access_token'] = config[data['account']]['token']
+data['accountID'] = config[data['account']]['account_id']
 data['params'] = {'instruments': data['instrument']}
 
 data['api'] = API(access_token = data['access_token'])

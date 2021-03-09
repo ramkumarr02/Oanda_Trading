@@ -33,6 +33,7 @@ def reset_data(data):
     
     data['loss_iter_limit']           = data['num_of_ticks']          * data['timed_loss_windows']        
     #data['pip_take_profit']           = data['take_profit_val']       * data['pip_size']
+    data['pip_take_profit']           = 0
     data['timed_loss_limit']          = data['timed_loss_limit']      * data['pip_size'] * -1
 
 
