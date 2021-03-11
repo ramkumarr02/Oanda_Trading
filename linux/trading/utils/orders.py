@@ -46,19 +46,21 @@ def make_order(data):
     
     if not data['order_current_open']:
         
-        get_avg_candle_height(data, candle_count = 5, granularity = 'M5')
+        # get_avg_candle_height(data, candle_count = 5, granularity = 'M5')        
+        # data['max_take_profit'] = data['stop_loss_candle_height'] * data['len_multiplier']        
+        # data['pip_take_profit'] = data['take_profit_val'] * data['max_take_profit']
+        # data['stop_loss_pip'] = data['max_take_profit'] * data['stop_profit_ratio']
         
-        data['max_take_profit'] = data['stop_loss_candle_height'] * data['len_multiplier']        
-        data['pip_take_profit'] = data['take_profit_val'] * data['max_take_profit']
-        data['stop_loss_pip'] = data['max_take_profit'] * data['stop_profit_ratio']
-        
+        data['stop_loss_pip']  = data['fixed_sl'] 
+        data['max_take_profit'] = data['fixed_tp']
+
         if data['order_create'] == 'long':      
             
             data['order_val'] = data['order_num'] * 1
                         
             # !!!!!!!!!!stop loss line max to be introduced and tested    
             data['price_stop']          = data['price_ask'] - data['stop_loss_pip']            
-            data['price_take_profit']   = data['price_bid'] + data['max_take_profit']
+            data['price_take_profit']   = data['price_ask'] + data['max_take_profit']
             
             stopLossOnFill = StopLossDetails(price=data['price_stop'])
             takeProfitOnFillOrder = TakeProfitDetails(price=data['price_take_profit'])
@@ -79,8 +81,8 @@ def make_order(data):
             data['order_val'] = data['order_num'] * -1
             
             # !!!!!!!!!!stop loss line min to be introduced and tested            
-            data['price_stop'] = data['price_bid'] + data['stop_loss_pip']
-            data['price_take_profit']   = data['price_ask'] - data['max_take_profit']
+            data['price_stop']          = data['price_bid'] + data['stop_loss_pip']
+            data['price_take_profit']   = data['price_bid'] - data['max_take_profit']
             
             stopLossOnFill = StopLossDetails(price=data['price_stop'])
             takeProfitOnFillOrder = TakeProfitDetails(price=data['price_take_profit'])

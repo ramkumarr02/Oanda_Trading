@@ -23,7 +23,8 @@ def reset_data(data):
     data['pip_take_profit_ratio']     = param_df['pip_take_profit_ratio'][0]        
     data['stop_profit_ratio']         = param_df['stop_profit_ratio'][0]
     data['len_multiplier']            = param_df['len_multiplier'][0]
-
+    data['fixed_tp']                  = param_df['fixed_tp'][0] * data['pip_size']
+    data['fixed_sl']                  = param_df['fixed_sl'][0] * data['pip_size']
 
     #Data Gen ------------------------------------------    
     data['num_of_ticks']              = param_df['num_of_ticks'][0]
