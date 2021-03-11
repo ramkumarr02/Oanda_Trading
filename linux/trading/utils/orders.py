@@ -46,13 +46,13 @@ def make_order(data):
     
     if not data['order_current_open']:
         
-        # get_avg_candle_height(data, candle_count = 5, granularity = 'M5')        
-        # data['max_take_profit'] = data['stop_loss_candle_height'] * data['len_multiplier']        
+        get_avg_candle_height(data, candle_count = 5, granularity = 'M5')        
+        data['max_take_profit'] = data['stop_loss_candle_height'] * data['len_multiplier']        
         # data['pip_take_profit'] = data['take_profit_val'] * data['max_take_profit']
-        # data['stop_loss_pip'] = data['max_take_profit'] * data['stop_profit_ratio']
+        data['stop_loss_pip'] = data['max_take_profit'] * data['stop_profit_ratio']
         
-        data['stop_loss_pip']  = data['fixed_sl'] 
-        data['max_take_profit'] = data['fixed_tp']
+        # data['stop_loss_pip']  = data['fixed_sl'] 
+        # data['max_take_profit'] = data['fixed_tp']
 
         if data['order_create'] == 'long':      
             
