@@ -6,7 +6,7 @@ from utils.packages import *
 def make_order(data):
     if not data['open_order']:
         if data['dir_change']:
-            if data['position'] > 0 and data['angle'] >= 20:
+            if data['position'] > 0 and data['angle'] >= data['mandatory_order_angle']:
                 data['order_ask_price'] = data['ask']
                 data['open_order'] = True
                 data['open_order_type'] = 'long'
@@ -14,7 +14,7 @@ def make_order(data):
                 data['buy_markers_x'].append(data['i_list'][-1])
                 data['buy_markers_y'].append(data['ask'])
                 
-            elif data['position'] < 0 and data['angle'] <= -20:
+            elif data['position'] < 0 and data['angle'] <= -data['mandatory_order_angle']:
                 data['order_bid_price'] = data['bid']
                 data['open_order'] = True
                 data['open_order_type'] = 'short'
@@ -31,7 +31,7 @@ def make_order(data):
 def close_order(data):
     if data['open_order']:
         if data['dir_change']:
-            if data['position'] < 0 and data['angle'] <= -20:
+            if data['position'] < 0 and data['angle'] <= -data['mandatory_order_angle']:
                 data['close_bid_price'] = data['bid']
                 data['pl'] = np.round(data['close_bid_price'] - data['order_ask_price'], 4)
                 data['pl_list'].append(data['pl'])
@@ -41,7 +41,7 @@ def close_order(data):
                 data['sell_markers_x'].append(data['i_list'][-1])
                 data['sell_markers_y'].append(data['bid'])               
                 
-            elif data['position'] > 0 and data['angle'] >= 20:
+            elif data['position'] > 0 and data['angle'] >= data['mandatory_order_angle']:
                 data['close_ask_price'] = data['ask']
                 data['pl'] = np.round(data['order_bid_price'] - data['close_ask_price'], 4)
                 data['pl_list'].append(data['pl'])
@@ -60,7 +60,7 @@ def close_order(data):
 def angle_close(data):
     if data['open_order']:
         if data['open_order_type'] == 'short':
-            if data['lema'] - data['tick'] <= 0.0002 and data['angle'] >= 30:
+            if data['lema'] - data['tick'] <= 0.0002 and data['angle'] >= data['close_angle']:
                 data['close_ask_price'] = data['ask']
                 data['pl'] = np.round(data['order_bid_price'] - data['close_ask_price'], 4)
                 data['pl_list'].append(data['pl'])
@@ -71,7 +71,7 @@ def angle_close(data):
                 data['sell_markers_y'].append(data['ask'])  
                 
         if data['open_order_type'] == 'long':
-            if data['tick'] - data['lema'] >= 0.0002 and data['angle'] <= -30:
+            if data['tick'] - data['lema'] >= 0.0002 and data['angle'] <= -data['close_angle']:
                 data['close_bid_price'] = data['bid']
                 data['pl'] = np.round(data['close_bid_price'] - data['order_ask_price'], 4)
                 data['pl_list'].append(data['pl'])
@@ -90,7 +90,7 @@ def angle_close(data):
 def tick_close(data):
     if data['open_order']:
         if data['open_order_type'] == 'short':
-            if data['tick'] - data['lema'] >= 0 and data['angle'] >= 20:
+            if data['tick'] - data['lema'] >= 0 and data['angle'] >= data['mandatory_order_angle']:
                 data['close_ask_price'] = data['ask']
                 data['pl'] = np.round(data['order_bid_price'] - data['close_ask_price'], 4)
                 data['pl_list'].append(data['pl'])
@@ -101,7 +101,7 @@ def tick_close(data):
                 data['sell_markers_y'].append(data['ask'])  
                 
         if data['open_order_type'] == 'long':
-            if data['lema'] - data['tick'] >= 0 and data['angle'] <= -20:
+            if data['lema'] - data['tick'] >= 0 and data['angle'] <= -data['mandatory_order_angle']:
                 data['close_bid_price'] = data['bid']
                 data['pl'] = np.round(data['close_bid_price'] - data['order_ask_price'], 4)
                 data['pl_list'].append(data['pl'])

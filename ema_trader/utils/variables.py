@@ -28,6 +28,9 @@ data['open_order'] = False
 data['open_order_type'] = None
 data['df_subset_size'] = None
 
+data['mandatory_order_angle'] = 20
+data['close_angle'] = 30
+
 data["year"] = 2021
 data['input_rows'] = None
 
