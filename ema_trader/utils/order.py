@@ -1,5 +1,5 @@
 from utils.packages import *
-
+from utils.i_o import *
 
 
 #...............................................................................................
@@ -39,7 +39,9 @@ def close_order(data):
                 data['open_order'] = False
                 
                 data['sell_markers_x'].append(data['i_list'][-1])
-                data['sell_markers_y'].append(data['bid'])               
+                data['sell_markers_y'].append(data['bid'])      
+                
+                create_report(data)         
                 
             elif data['position'] > 0 and data['angle'] >= data['mandatory_order_angle']:
                 data['close_ask_price'] = data['ask']
@@ -51,6 +53,8 @@ def close_order(data):
                 data['sell_markers_x'].append(data['i_list'][-1])
                 data['sell_markers_y'].append(data['ask'])                  
                 
+                create_report(data)
+
     return(data)    
 #...............................................................................................
 
@@ -69,6 +73,8 @@ def angle_close(data):
                 
                 data['sell_markers_x'].append(data['i_list'][-1])
                 data['sell_markers_y'].append(data['ask'])  
+
+                create_report(data)
                 
         if data['open_order_type'] == 'long':
             if data['tick'] - data['lema'] >= 0.0002 and data['angle'] <= -data['close_angle']:
@@ -79,7 +85,9 @@ def angle_close(data):
                 data['open_order'] = False
                 
                 data['sell_markers_x'].append(data['i_list'][-1])
-                data['sell_markers_y'].append(data['bid'])                  
+                data['sell_markers_y'].append(data['bid'])     
+
+                create_report(data)             
                 
     return(data)    
 #...............................................................................................
@@ -100,6 +108,8 @@ def tick_close(data):
                 data['sell_markers_x'].append(data['i_list'][-1])
                 data['sell_markers_y'].append(data['ask'])  
                 
+                create_report(data)
+
         if data['open_order_type'] == 'long':
             if data['lema'] - data['tick'] >= 0 and data['angle'] <= -data['mandatory_order_angle']:
                 data['close_bid_price'] = data['bid']
@@ -109,7 +119,9 @@ def tick_close(data):
                 data['open_order'] = False
                 
                 data['sell_markers_x'].append(data['i_list'][-1])
-                data['sell_markers_y'].append(data['bid'])                  
+                data['sell_markers_y'].append(data['bid'])   
+
+                create_report(data)               
                 
     return(data)    
 #...............................................................................................    

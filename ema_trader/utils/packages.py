@@ -1,4 +1,5 @@
 #...............................................................................................
+import os
 import numpy as np
 import pandas as pd
 import datetime as dt
@@ -13,11 +14,6 @@ from IPython import display
 import matplotlib.pyplot as plt
 from matplotlib.pyplot import figure
 
-import winsound
-
 import warnings
 warnings.filterwarnings('ignore')
-
-import cProfile
-import pstats
 #...............................................................................................
