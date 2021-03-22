@@ -120,8 +120,8 @@ def plot_graph(data):
     for x_val in data['line_list']:
         plt.axvline(x=x_val, color='black')
 
-    ax1.scatter(data['buy_markers_x'], data['buy_markers_y'], s=300, c='b')
-    ax1.scatter(data['sell_markers_x'], data['sell_markers_y'], s=300, c='r')
+    ax1.scatter(data['buy_markers_x'], data['buy_markers_y'], s=150, c='b')
+    ax1.scatter(data['sell_markers_x'], data['sell_markers_y'], s=150, c='r')
 
     ax2.plot(data['df']["angle"], c='g', label = 'angle', linestyle = 'dashed')
 
