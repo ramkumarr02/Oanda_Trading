@@ -5,6 +5,7 @@ historic_data
 data
 wenv
 misc
+ema_trader_analysis
 access_keys.yaml
 .gitattributes
 .ipynb_checkpoints

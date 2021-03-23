@@ -54,7 +54,10 @@ def get_date_lines(data):
     data['line_list'] = []
     
     for dt_val  in data['date_list']:    
-        data['line_list'].append(data["df"][data["df"]['DateTime'].str.contains(dt_val)].index[0])
+        try:
+            data['line_list'].append(data["df"][data["df"]['DateTime'].str.contains(dt_val)].index[0])
+        except:
+            pass
     
     return(data)
 #...............................................................................................
@@ -138,6 +141,8 @@ def plot_graph(data):
     plt.title('trade chart')
     plt.grid()
     plt.show()    
+    data['chart_name'] = f'{data["file_name"].split(".")[0]}.png'
+    fig.savefig(data['chart_name'])
 #...............................................................................................
 
 
@@ -158,5 +163,7 @@ def create_report(data):
     elif data['running_in'] == 'notebook':
         display.clear_output(wait = True)
 
+    print(np.sum(data['report_df'][['pls']]))
+    print('--------------------------------------')
     print(data['report_df'][['date', 'pls']])
 #...............................................................................................    
