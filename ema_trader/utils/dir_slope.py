@@ -46,7 +46,9 @@ def get_slope(data):
     
     slope_tick, intercept, _, _, _ = linregress(x_axis, data['y_axis'])
     data['angle'] = math.degrees(math.atan(slope_tick))
-    data['angle_list'].append(data['angle'])
+
+    if data["plot"]:
+        data['angle_list'].append(data['angle'])
     
     return(data)    
 #...............................................................................................    

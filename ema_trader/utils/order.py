@@ -11,16 +11,18 @@ def make_order(data):
                 data['open_order'] = True
                 data['open_order_type'] = 'long'
                 
-                data['buy_markers_x'].append(data['i_list'][-1])
-                data['buy_markers_y'].append(data['ask'])
+                if data["plot"]:
+                    data['buy_markers_x'].append(data['i_list'][-1])
+                    data['buy_markers_y'].append(data['ask'])
                 
             elif data['position'] < 0 and data['angle'] <= -data['order_angle']:
                 data['order_bid_price'] = data['bid']
                 data['open_order'] = True
                 data['open_order_type'] = 'short'
-                
-                data['buy_markers_x'].append(data['i_list'][-1])
-                data['buy_markers_y'].append(data['bid'])
+
+                if data["plot"]:
+                    data['buy_markers_x'].append(data['i_list'][-1])
+                    data['buy_markers_y'].append(data['bid'])
                 
     return(data)
 #...............................................................................................
@@ -37,9 +39,10 @@ def close_order(data):
                 data['pl_list'].append(data['pl'])
                 data['dt_list'].append(data['dt_val'])
                 data['open_order'] = False
-                
-                data['sell_markers_x'].append(data['i_list'][-1])
-                data['sell_markers_y'].append(data['bid'])      
+
+                if data["plot"]:
+                    data['sell_markers_x'].append(data['i_list'][-1])
+                    data['sell_markers_y'].append(data['bid'])      
                 
                 create_report(data)         
                 
@@ -49,9 +52,10 @@ def close_order(data):
                 data['pl_list'].append(data['pl'])
                 data['dt_list'].append(data['dt_val'])
                 data['open_order'] = False
-                
-                data['sell_markers_x'].append(data['i_list'][-1])
-                data['sell_markers_y'].append(data['ask'])                  
+
+                if data["plot"]:
+                    data['sell_markers_x'].append(data['i_list'][-1])
+                    data['sell_markers_y'].append(data['ask'])                  
                 
                 create_report(data)
 
@@ -71,8 +75,9 @@ def angle_close(data):
                 data['dt_list'].append(data['dt_val'])
                 data['open_order'] = False
                 
-                data['sell_markers_x'].append(data['i_list'][-1])
-                data['sell_markers_y'].append(data['ask'])  
+                if data["plot"]:
+                    data['sell_markers_x'].append(data['i_list'][-1])
+                    data['sell_markers_y'].append(data['ask'])  
 
                 create_report(data)
                 
@@ -84,8 +89,9 @@ def angle_close(data):
                 data['dt_list'].append(data['dt_val'])
                 data['open_order'] = False
                 
-                data['sell_markers_x'].append(data['i_list'][-1])
-                data['sell_markers_y'].append(data['bid'])     
+                if data["plot"]:
+                    data['sell_markers_x'].append(data['i_list'][-1])
+                    data['sell_markers_y'].append(data['bid'])     
 
                 create_report(data)             
                 
@@ -105,8 +111,9 @@ def tick_close(data):
                 data['dt_list'].append(data['dt_val'])
                 data['open_order'] = False
                 
-                data['sell_markers_x'].append(data['i_list'][-1])
-                data['sell_markers_y'].append(data['ask'])  
+                if data["plot"]:
+                    data['sell_markers_x'].append(data['i_list'][-1])
+                    data['sell_markers_y'].append(data['ask'])  
                 
                 create_report(data)
 
@@ -118,8 +125,9 @@ def tick_close(data):
                 data['dt_list'].append(data['dt_val'])
                 data['open_order'] = False
                 
-                data['sell_markers_x'].append(data['i_list'][-1])
-                data['sell_markers_y'].append(data['bid'])   
+                if data["plot"]:
+                    data['sell_markers_x'].append(data['i_list'][-1])
+                    data['sell_markers_y'].append(data['bid'])   
 
                 create_report(data)               
                 

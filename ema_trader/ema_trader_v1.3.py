@@ -10,7 +10,9 @@ data = get_date_list(data)
 data = read_data(data)
 data = run_engine(data)
 
-plot_graph(data)
+if data["plot"]:
+    plot_graph(data)
+
 print('-----------------------------------------------------')
 print_report(data)
 print('-----------------------------------------------------')

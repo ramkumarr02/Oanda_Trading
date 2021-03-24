@@ -17,10 +17,11 @@ def run_engine(data):
         
         data['ask'] = data['ask_series'][i]
         data['bid'] = data['bid_series'][i]
-        data['tick'] = (data['ask'] + data['bid'])/2    
-        data["tick_list"].append(data['tick'])
-        
+        data['tick'] = (data['ask'] + data['bid'])/2                 
         data['dt_val'] = dt.datetime.strptime(data['dt_series'][i].split(".")[0],"%Y%m%d %H:%M:%S")
+        
+        if data["plot"]:     
+            data['i_list'].append(i)
 
         # sema before after loops --------------------------------
         if len(data['sema_list']) < data['sema_len']:
@@ -41,13 +42,13 @@ def run_engine(data):
         # ----------------------------------------------------------
                                    
         # Get Angle --------------------------------
-        data['y_axis'] = list(data["tick_list"][-data['angle_len']:])        
+        data['y_axis'] = list(data["lema_list"])[-data['angle_len']:]        
         if 0 not in data['y_axis']:            
             if len(data['y_axis']) >= data['angle_len']:
                 data = get_slope(data)            
-        # ----------------------------------------------------------         
-             
-        data['i_list'].append(i)
+        # ----------------------------------------------------------  
+               
+        
         data = get_dir(data)
 
         # Get Dirs --------------------------------
@@ -64,22 +65,22 @@ def run_engine(data):
         data = close_order(data)
         data = make_order(data)    
 
-    
-    # Adjust df len to lema(shortest) len
-    data["df"] = data['df'][-len(data["df_lema_list"]):]   
-    data["df"] = data["df"].reset_index(drop = True)    
-    
-    # Assign sema, lema and tick to df
-    data["df"]['lema'] = data["df_lema_list"]            
-    data["df"]['sema'] = list(data["df_sema_list"])[-len(data["df_lema_list"]):]    
-    data['df']["tick"] = list(data["tick_list"])[-len(data["df_lema_list"]):]
-    data['df']["angle"] = list(data["angle_list"])[-len(data["df_lema_list"]):]
-    
-    # Adjust buy sell markers to the shortened df
-    data['len_to_subtract'] = data['lema_len']
-    data['buy_markers_x'] = list(np.array(data['buy_markers_x']) - data['len_to_subtract'])
-    data['sell_markers_x'] = list(np.array(data['sell_markers_x']) - data['len_to_subtract'])    
-    data["df"] = data["df"].reset_index(drop = True)
+    if data["plot"]:
+        # Adjust df len to lema(shortest) len
+        data["df"] = data['df'][-len(data["df_lema_list"]):]   
+        data["df"] = data["df"].reset_index(drop = True)    
+        
+        # Assign sema, lema and tick to df
+        data["df"]['lema'] = data["df_lema_list"]            
+        data["df"]['sema'] = list(data["df_sema_list"])[-len(data["df_lema_list"]):]    
+        data['df']["tick"] = list(data["lema_list"])[-len(data["df_lema_list"]):]
+        data['df']["angle"] = list(data["angle_list"])[-len(data["df_lema_list"]):]
+        
+        # Adjust buy sell markers to the shortened df
+        data['len_to_subtract'] = data['lema_len']
+        data['buy_markers_x'] = list(np.array(data['buy_markers_x']) - data['len_to_subtract'])
+        data['sell_markers_x'] = list(np.array(data['sell_markers_x']) - data['len_to_subtract'])    
+        data["df"] = data["df"].reset_index(drop = True)
     
     return(data)
 #...............................................................................................    
