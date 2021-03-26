@@ -22,6 +22,7 @@ def run_engine(data):
         
         if data["plot"]:     
             data['i_list'].append(i)
+            data["df_tick_list"].append(data['tick'])
 
         # sema before after loops --------------------------------
         if len(data['sema_list']) < data['sema_len']:
@@ -61,7 +62,7 @@ def run_engine(data):
         # ----------------------------------------------------------
 
         data = angle_close(data)
-        data = tick_close(data)
+        #data = tick_close(data)
         data = close_order(data)
         data = make_order(data)    
 
@@ -73,7 +74,7 @@ def run_engine(data):
         # Assign sema, lema and tick to df
         data["df"]['lema'] = data["df_lema_list"]            
         data["df"]['sema'] = list(data["df_sema_list"])[-len(data["df_lema_list"]):]    
-        data['df']["tick"] = list(data["lema_list"])[-len(data["df_lema_list"]):]
+        data['df']["tick"] = list(data["df_tick_list"])[-len(data["df_lema_list"]):]
         data['df']["angle"] = list(data["angle_list"])[-len(data["df_lema_list"]):]
         
         # Adjust buy sell markers to the shortened df

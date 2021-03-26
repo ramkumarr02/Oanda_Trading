@@ -123,8 +123,8 @@ def plot_graph(data):
     for x_val in data['line_list']:
         plt.axvline(x=x_val, color='black')
 
-    ax1.scatter(data['buy_markers_x'], data['buy_markers_y'], s=150, c='b')
-    ax1.scatter(data['sell_markers_x'], data['sell_markers_y'], s=150, c='r')
+    ax1.scatter(data['buy_markers_x'], data['buy_markers_y'], s=300, c='b', marker=10)
+    ax1.scatter(data['sell_markers_x'], data['sell_markers_y'], s=300, c='r', marker=11)
 
     ax2.plot(data['df']["angle"], c='g', label = 'angle', linestyle = 'dashed')
 
@@ -149,10 +149,11 @@ def plot_graph(data):
 
 #...............................................................................................
 def create_report(data):
-    data['report_df'] = pd.DataFrame({'date':data['dt_list'], 'pls': data['pl_list']})
+    data['report_df'] = pd.DataFrame({'date':data['dt_list'], 'pls': data['pl_list'], 'close_type': data['close_type']})
     split_date_col(data)
-    data['report_df'] = data['report_df'][['date', 'year_val', 'month_val', 'date_val', 'hour_val','minute_val', 'pls']]
+    data['report_df'] = data['report_df'][['date', 'year_val', 'month_val', 'date_val', 'hour_val','minute_val', 'close_type', 'pls']]
     data["report_df"] = data["report_df"].reset_index(drop = True)    
+    
     data['file_name'] = f'data/{data["start_date"].year}-{data["start_date"].month}-({data["start_date"].day}-{data["end_date"].day}).csv'
     data['report_df'].to_csv(data['file_name'], index = False) 
     
@@ -165,5 +166,5 @@ def create_report(data):
 
     print(np.sum(data['report_df'][['pls']]))
     print('--------------------------------------')
-    print(data['report_df'][['date', 'pls']])
+    print(data['report_df'][['date', 'close_type', 'pls']])
 #...............................................................................................    

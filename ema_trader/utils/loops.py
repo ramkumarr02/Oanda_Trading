@@ -18,7 +18,7 @@ def after_sema(data):
     
     if data["plot"]:
         data["df_sema_list"].append(data['sema'])
-    
+        
     return(data)
 #...............................................................................................
 
