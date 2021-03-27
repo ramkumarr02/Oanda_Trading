@@ -52,8 +52,17 @@ def run_engine(data):
         
         data = get_dir(data)
 
-        #data = tick_close(data)
-        #data = stop_loss(data)
+        # Get Dirs --------------------------------
+        if len(data['dir_list']) < 2:
+            data['dir_list'].append(data['position'])   
+            continue
+            
+        elif len(data['dir_list']) == 2:
+            data = after_dir(data)
+        # ----------------------------------------------------------
+        
+        # data = tick_close(data)
+        # data = stop_loss(data)
         data = angle_close(data)
         data = close_order(data)
         data = make_order(data)    
