@@ -126,7 +126,8 @@ def plot_graph(data):
     ax1.scatter(data['buy_markers_x'], data['buy_markers_y'], s=300, c='b', marker=10)
     ax1.scatter(data['sell_markers_x'], data['sell_markers_y'], s=300, c='r', marker=11)
 
-    ax2.plot(data['df']["angle"], c='g', label = 'angle', linestyle = 'dashed')
+    ax2.plot(data['df']["sema_angle"], c='k', label = 'sema_angle', linestyle = 'dashed')
+    ax2.plot(data['df']["lema_angle"], c='b', label = 'lema_angle', linestyle = 'dashed')
 
     legend = ax1.legend(loc='upper left', fontsize='xx-large')
     legend = ax2.legend(loc='upper right', fontsize='xx-large')
@@ -153,8 +154,8 @@ def create_report(data):
     split_date_col(data)
     data['report_df'] = data['report_df'][['date', 'year_val', 'month_val', 'date_val', 'hour_val','minute_val', 'close_type', 'pls']]
     data["report_df"] = data["report_df"].reset_index(drop = True)    
-    
-    data['file_name'] = f'data/{data["start_date"].year}-{data["start_date"].month}-({data["start_date"].day}-{data["end_date"].day}).csv'
+
+    data['file_name'] = f'data/{data["start_date"].year}-{data["start_date"].month}-({data["start_date"].day}-{data["end_date"].day})-{data["start_ts"]}.csv'
     data['report_df'].to_csv(data['file_name'], index = False) 
     
     if data['running_in'] == 'windows':

@@ -34,7 +34,7 @@ def after_dir(data):
 
 
 #...............................................................................................
-def get_slope(data):
+def get_slope(data, ma_type):
     pip_decimal_num = 6
     
     data['y_axis'] = list(np.round(data['y_axis'],pip_decimal_num))
@@ -45,10 +45,16 @@ def get_slope(data):
         x_axis.append(1 + ((i+1) * 10**(-pip_decimal_num)))
     
     slope_tick, intercept, _, _, _ = linregress(x_axis, data['y_axis'])
-    data['angle'] = math.degrees(math.atan(slope_tick))
-
-    if data["plot"]:
-        data['angle_list'].append(data['angle'])
     
+    if ma_type == 'sema':
+        data['sema_angle'] = math.degrees(math.atan(slope_tick))
+        if data["plot"]:
+            data['df_sema_angle_list'].append(data['sema_angle'])
+
+    if ma_type == 'lema':
+        data['lema_angle'] = math.degrees(math.atan(slope_tick))
+        if data["plot"]:
+            data['df_lema_angle_list'].append(data['lema_angle'])
+
     return(data)    
 #...............................................................................................    
