@@ -6,29 +6,12 @@ from utils.packages import *
 def get_dir(data):
     
     if data['sema'] > data['lema']:
-        data['position'] = 1
+        data['position'] = 'above'
 
     elif data['sema'] < data['lema']:
-        data['position'] = -1
+        data['position'] = 'below'
     
     return(data)
-#...............................................................................................
-
-
-
-#...............................................................................................
-def after_dir(data):   
-    
-    data['dir_list'].popleft()
-    data['dir_list'].append(data['position'])   
-    
-    if sum(data['dir_list']) != 0:
-        data['dir_change'] = False
-
-    elif sum(data['dir_list']) == 0:
-        data['dir_change'] = True
-
-    return(data)    
 #...............................................................................................
 
 
