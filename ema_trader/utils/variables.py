@@ -37,21 +37,24 @@ data['close_type'] = []
 
 data['running_in'] = 'notebook'
 
-data['sema_make_order_angle'] = 40
-data['sema_close_order_angle'] = 40
-data['tick_order_angle'] = 40
-data['close_angle'] = 40
+data['sema_make_order_angle'] = 1
+data['sema_close_order_angle'] = 1
+
+data['close_angle'] = 55
+data['angle_close_pip'] = 0.0002
+
+data['tick_order_angle'] = 20
 data['stop_loss_pip'] = 0.0010
 
 data["year"] = 2021
 data['input_rows'] = None
 data["plot"] = True
 
-data['start_date'] = {'year':2021, 'month':3, 'date':2}
-data['end_date']   = {'year':2021, 'month':3, 'date':2}
+data['start_date'] = {'year':2021, 'month':3, 'date':1}
+data['end_date']   = {'year':2021, 'month':3, 'date':3}
 
-data['sema_len'] = 500
-data['lema_len'] = 50000
+data['sema_len'] = 60
+data['lema_len'] = 30000
 
-data['angle_len'] = 50
+data['angle_len'] = 600
 #...............................................................................................

@@ -70,34 +70,36 @@ def close_order(data):
 def angle_close(data):
     if data['open_order']:
         if data['open_order_type'] == 'short':
-            if data['lema'] - data['tick'] <= 0.0002 and data['sema_angle'] > data['close_angle']:
+            if data['sema_angle'] > data['close_angle']:
                 data['close_ask_price'] = data['ask']
                 data['pl'] = np.round(data['order_bid_price'] - data['close_ask_price'], 4)
-                data['pl_list'].append(data['pl'])
-                data['dt_list'].append(data['dt_val'])
-                data['open_order'] = False
-                data['close_type'].append('angle_close')
-                
-                if data["plot"]:
-                    data['sell_markers_x'].append(data['i_list'][-1])
-                    data['sell_markers_y'].append(data['ask'])  
+                if data['pl'] >= data['angle_close_pip']:
+                    data['pl_list'].append(data['pl'])
+                    data['dt_list'].append(data['dt_val'])
+                    data['open_order'] = False
+                    data['close_type'].append('angle_close')
+                    
+                    if data["plot"]:
+                        data['sell_markers_x'].append(data['i_list'][-1])
+                        data['sell_markers_y'].append(data['ask'])  
 
-                create_report(data)
+                    create_report(data)
                 
         if data['open_order_type'] == 'long':
-            if data['tick'] - data['lema'] >= 0.0002 and data['sema_angle'] < -data['close_angle']:
+            if data['sema_angle'] < -data['close_angle']:
                 data['close_bid_price'] = data['bid']
                 data['pl'] = np.round(data['close_bid_price'] - data['order_ask_price'], 4)
-                data['pl_list'].append(data['pl'])
-                data['dt_list'].append(data['dt_val'])
-                data['open_order'] = False
-                data['close_type'].append('angle_close')
-                
-                if data["plot"]:
-                    data['sell_markers_x'].append(data['i_list'][-1])
-                    data['sell_markers_y'].append(data['bid'])     
+                if data['pl'] >= data['angle_close_pip']:
+                    data['pl_list'].append(data['pl'])
+                    data['dt_list'].append(data['dt_val'])
+                    data['open_order'] = False
+                    data['close_type'].append('angle_close')
+                    
+                    if data["plot"]:
+                        data['sell_markers_x'].append(data['i_list'][-1])
+                        data['sell_markers_y'].append(data['bid'])     
 
-                create_report(data)             
+                    create_report(data)             
                 
     return(data)    
 #...............................................................................................

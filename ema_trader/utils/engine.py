@@ -67,11 +67,10 @@ def run_engine(data):
             data = after_dir(data)
         # ----------------------------------------------------------
         
-        data = tick_close(data)
-        # data = stop_loss(data)
         data = angle_close(data)
         data = close_order(data)
         data = make_order(data)    
+        
 
     if data["plot"]:
         # Adjust df len to lema(shortest) len

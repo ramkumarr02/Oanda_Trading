@@ -109,13 +109,15 @@ def print_report(data):
 
 #...............................................................................................
 def plot_graph(data):
+    linestyle = (0, (1, 3))
+    
     fig, ax1 = plt.subplots(figsize=(50,10))
     ax2 = ax1.twinx()
 
     x_axis = np.arange(0,len(data["df"]['tick']))
 
-    ax1.plot(x_axis, data["df"]['tick'], label='tick', color='green', linestyle='dotted')
-    ax1.plot(x_axis, data["df"]['sema'], label='sema', color='black')
+    ax1.plot(x_axis, data["df"]['tick'], label='tick', color='gray', linestyle='dotted')
+    ax1.plot(x_axis, data["df"]['sema'], label='sema', color='maroon')
     ax1.plot(x_axis, data["df"]['lema'], label='lema', color='blue')
 
     data = get_date_lines(data)
@@ -123,11 +125,11 @@ def plot_graph(data):
     for x_val in data['line_list']:
         plt.axvline(x=x_val, color='black')
 
-    ax1.scatter(data['buy_markers_x'], data['buy_markers_y'], s=300, c='b', marker=10)
-    ax1.scatter(data['sell_markers_x'], data['sell_markers_y'], s=300, c='r', marker=11)
+    ax1.scatter(data['buy_markers_x'], data['buy_markers_y'], s=300, c='darkblue', marker=10)
+    ax1.scatter(data['sell_markers_x'], data['sell_markers_y'], s=300, c='red', marker=11)
 
-    ax2.plot(data['df']["sema_angle"], c='k', label = 'sema_angle', linestyle = 'dashed')
-    ax2.plot(data['df']["lema_angle"], c='b', label = 'lema_angle', linestyle = 'dashed')
+    ax2.plot(data['df']["sema_angle"], c='maroon', label = 'sema_angle', linestyle = linestyle)
+    ax2.plot(data['df']["lema_angle"], c='blue', label = 'lema_angle', linestyle = linestyle)
 
     legend = ax1.legend(loc='upper left', fontsize='xx-large')
     legend = ax2.legend(loc='upper right', fontsize='xx-large')
@@ -155,7 +157,7 @@ def create_report(data):
     data['report_df'] = data['report_df'][['date', 'year_val', 'month_val', 'date_val', 'hour_val','minute_val', 'close_type', 'pls']]
     data["report_df"] = data["report_df"].reset_index(drop = True)    
 
-    data['file_name'] = f'data/{data["start_date"].year}-{data["start_date"].month}-({data["start_date"].day}-{data["end_date"].day})-{data["start_ts"]}.csv'
+    data['file_name'] = f'data/{data["start_date"].year}-({data["start_date"].month}-{data["end_date"].month})-({data["start_date"].day}-{data["end_date"].day})-{data["start_ts"]}.csv'
     data['report_df'].to_csv(data['file_name'], index = False) 
     
     if data['running_in'] == 'windows':
