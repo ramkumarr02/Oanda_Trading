@@ -25,38 +25,34 @@ def check_for_open_orders(data):
         elif data['positions_long'] == 0 and data['positions_short'] >= 1:
             data['order_current_open'] = 'short'                              
 
-    if data['order_current_open'] != False:
-        data['order_was_open'] = True
-
-    if not data['order_current_open']:
-        if data['order_was_open']:            
-            data = reset_data(data)
-            data['order_was_open'] = False
-
     return(data)
 #==========================================================================================================================    
 #...............................................................................................
 def make_order(data):
-    if not data['open_order']:
+    if not data['order_current_open']:
         if data['dir_change']:
-            if data['position'] > 0 and data['sema_angle'] > data['sema_make_order_angle']:
-                data['order_ask_price'] = data['ask']
-                data['open_order'] = True
-                data['open_order_type'] = 'long'
+            if data['to_order'] == 'long':
+                data['order_val']           = data['order_num'] * 1                
+                ordr                        = MarketOrderRequest(instrument = data['instrument'],units=data['order_val'])
+                order_request_data          = orders.OrderCreate(accountID=data['accountID'], data=ordr.data)
                 
-                if data["plot"]:
-                    data['buy_markers_x'].append(data['i_list'][-1])
-                    data['buy_markers_y'].append(data['ask'])
-                
-            elif data['position'] < 0 and data['sema_angle'] < -data['sema_make_order_angle']:
-                data['order_bid_price'] = data['bid']
-                data['open_order'] = True
-                data['open_order_type'] = 'short'
+                data['response_order']      = data['api'].request(order_request_data)
+                data['num_orders']          = data['num_orders'] + 1
+                data                        = check_for_open_orders(data)
+                data['price_order_ask']     = float(data['positions_info']['positions'][0]['long']['averagePrice'])
+                data['opened_order']        = 'long'
 
-                if data["plot"]:
-                    data['buy_markers_x'].append(data['i_list'][-1])
-                    data['buy_markers_y'].append(data['bid'])
+            if data['to_order'] == 'short':
+        
+                data['order_val']           = data['order_num'] * -1                
+                ordr                        = MarketOrderRequest(instrument = data['instrument'],units=data['order_val'])
+                order_request_data          = orders.OrderCreate(accountID=data['accountID'], data=ordr.data)
                 
+                data['response_order']      = data['api'].request(order_request_data)
+                data['num_orders']          = data['num_orders'] + 1
+                data                        = check_for_open_orders(data)
+                data['price_order_ask']     = float(data['positions_info']['positions'][0]['short']['averagePrice'])
+                data['opened_order']        = 'short'
     return(data)
 #...............................................................................................
 
