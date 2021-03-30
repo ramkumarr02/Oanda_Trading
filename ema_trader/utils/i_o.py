@@ -25,7 +25,7 @@ def print_report(data):
     print(f"sema angle      : {data['sema_angle']}")
     print(f"lema angle      : {data['lema_angle']}")
     print(f"pl              : {data['pl']}")
-    # print(f"sema list     : {data['sema_tick_list']}")
-    # print(f"lema list     : {data['lema_tick_list']}")
+    print(f"error_count     : {data['error_count']}")
+    print(f"num_orders      : {data['num_orders']}")
     print('---------------------------')    
 #...............................................................................................    

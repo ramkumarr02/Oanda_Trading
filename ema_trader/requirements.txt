@@ -1,6 +1,5 @@
 numpy
 pandas
+oandapyV20
+requests
 scipy
-tqdm
-IPython
-matplotlib

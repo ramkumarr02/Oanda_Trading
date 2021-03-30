@@ -1,0 +1,4 @@
+ERROR:root:--- Timestamp-2021-03-30 21:21:13.126039, Error-'function' object has no attribute 'clear_output'
+ERROR:root:--- Timestamp-2021-03-30 21:21:14.549617, Error-'function' object has no attribute 'clear_output'
+ERROR:root:--- Timestamp-2021-03-30 21:21:15.829964, Error-'function' object has no attribute 'clear_output'
+ERROR:root:--- Timestamp-2021-03-30 21:21:17.043059, Error-KeyboardInterrupt

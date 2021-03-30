@@ -13,7 +13,8 @@ def get_date_time(data):
     data['ts_time_val'] = dt.datetime.strptime(data['ts_time_val'], '%H:%M:%S')
     tot_ts = dt.datetime.combine(dt.datetime.date(data['ts_date_val']), dt.datetime.time(data['ts_time_val']))
     # --------------------------------------------------------
-    tot_ts = tot_ts + timedelta(hours=8)
+    if data['os'] != 'linux':
+        tot_ts = tot_ts + timedelta(hours=8)        
     # --------------------------------------------------------
     data['tot_ts']    = tot_ts.strftime("%Y-%b-%d, %I:%M:%S (%p)")      
     t2 = dt.datetime.now()    
