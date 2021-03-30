@@ -38,6 +38,8 @@ def get_cross_dir(data):
 
     else:
         data['dir_change'] = False
+        data['to_order'] = None
+
 
     return(data)    
 #...............................................................................................
@@ -66,8 +68,11 @@ def get_slope(data, ma_type):
 
     if ma_type == 'sema':
         data['sema_angle'] = math.degrees(math.atan(slope_tick))
+        data['sema_angle'] = np.round(data['sema_angle'],1)
+
     elif ma_type == 'lema':
         data['lema_angle'] = math.degrees(math.atan(slope_tick))
-
+        data['lema_angle'] = np.round(data['lema_angle'],1)
+    
     return(data)    
 #...............................................................................................    

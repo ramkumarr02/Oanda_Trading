@@ -24,10 +24,13 @@ data['num_orders'] = 0
 
 data['order_num'] = 1
 
+data['sema_len'] = 60
+data['lema_len'] = 600
+data['angle_len'] = 10
 
-data['sema_len'] = 10
-data['lema_len'] = 100
-data['angle_len'] = 5
+data['close_angle'] = 30
+data['angle_close_pip'] = 0.0001
+data['pl'] = np.float()
 
 data['os'] = 'notebook'
 data['max_time_diff'] = 15
