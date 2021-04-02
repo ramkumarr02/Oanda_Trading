@@ -125,7 +125,7 @@ def angle_close(data):
                 data = close_long_order(data)
 
     if data['order_current_open'] == 'short':
-        if data['sema_angle'] < data['close_angle']:
+        if data['sema_angle'] > data['close_angle']:
             data['pl'] = data['price_order_bid'] - data['ask']            
             
             if data['pl'] >= data['angle_close_pip']:

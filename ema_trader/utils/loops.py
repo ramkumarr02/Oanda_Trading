@@ -15,7 +15,7 @@ def after_sema(data):
     data['sema_tick_list'].popleft()
     data['sema_tick_list'].append(data['tick'])
     data['sema'] = list(pd.DataFrame(list(data['sema_tick_list'])).ewm(span=data['sema_len']).mean()[0])[-1]      
-    data['sema'] = np.round(data['sema'],5)              
+    # data['sema'] = np.round(data['sema'],5)              
     return(data)
 #...............................................................................................
 
@@ -34,7 +34,7 @@ def after_lema(data):
     data['lema_tick_list'].popleft()
     data['lema_tick_list'].append(data['tick'])
     data['lema'] = list(pd.DataFrame(list(data['lema_tick_list'])).ewm(span=data['lema_len']).mean()[0])[-1]
-    data['lema'] = np.round(data['lema'],5)
+    # data['lema'] = np.round(data['lema'],5)
     return(data)
 #...............................................................................................    
 

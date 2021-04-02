@@ -48,7 +48,7 @@ def get_cross_dir(data):
 
 #...............................................................................................
 def get_slope(data, ma_type):
-    pip_decimal_num = 5
+    pip_decimal_num = 6
 
     if ma_type =='sema':
         data['y_axis'] = list(data["sema_angle_list"])

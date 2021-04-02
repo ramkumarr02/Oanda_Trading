@@ -50,8 +50,8 @@ data["year"] = 2021
 data['input_rows'] = None
 data["plot"] = False
 
-data['start_date'] = {'year':2021, 'month':1, 'date':1}
-data['end_date']   = {'year':2021, 'month':3, 'date':12}
+data['start_date'] = {'year':2021, 'month':1, 'date':6}
+data['end_date']   = {'year':2021, 'month':1, 'date':7}
 
 data['sema_len'] = 60
 data['lema_len'] = 30000

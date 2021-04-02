@@ -31,10 +31,10 @@ def get_prices(data):
     data['spread']  = data['ask'] - data['bid']
     data['tick']    = (data['ask'] + data['bid']) / 2
 
-    data['bid']     = np.round(data['bid'],5) 
-    data['ask']     = np.round(data['ask'],5) 
-    data['spread']  = np.round(data['spread'],5) 
-    data['tick']    = np.round(data['tick'],5) 
+    # data['bid']     = np.round(data['bid'],5) 
+    # data['ask']     = np.round(data['ask'],5) 
+    # data['spread']  = np.round(data['spread'],5) 
+    # data['tick']    = np.round(data['tick'],5) 
 
     return(data)
 #==========================================================================================================================
