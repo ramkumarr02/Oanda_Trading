@@ -1,11 +1,11 @@
 from utils.packages import *
+from utils.variables import *
 
 
 
 #...............................................................................................
-def read_data(data):
-    #source_file_path = f'..\\data\\yearly_tick_data\\{data["year"]}.csv'
-    source_file_path = f'data/{data["year"]}.csv'
+def read_data(data):   
+    source_file_path = f'data/{data["product"]}/{data["input_file_name"]}'
 
     if data['input_rows'] is None:
         data["df"] = pd.read_csv(source_file_path)
@@ -157,7 +157,7 @@ def create_report(data):
     data['report_df'] = data['report_df'][['date', 'year_val', 'month_val', 'date_val', 'hour_val','minute_val', 'close_type', 'pls']]
     data["report_df"] = data["report_df"].reset_index(drop = True)    
 
-    data['file_name'] = f'data/{data["start_date"].year}-({data["start_date"].month}-{data["end_date"].month})-({data["start_date"].day}-{data["end_date"].day})-{data["start_ts"]}.csv'
+    data['file_name'] = f'data/{data["product"]}/{data["start_date"].year}-({data["start_date"].month}-{data["end_date"].month})-({data["start_date"].day}-{data["end_date"].day})-{data["start_ts"]}.csv'
     data['report_df'].to_csv(data['file_name'], index = False) 
     
     try:

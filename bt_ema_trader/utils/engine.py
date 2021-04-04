@@ -56,19 +56,19 @@ def run_engine(data):
             data = after_angle(data)                  
         # ----------------------------------------------------------
 
-        data = get_dir(data)
+        data = get_position(data)
 
         # Get Dirs --------------------------------
         if len(data['dir_list']) < 2:
             data['dir_list'].append(data['position'])   
             continue
-            
+
         elif len(data['dir_list']) == 2:
-            data = after_dir(data)
-        # ----------------------------------------------------------
+            data = get_cross_dir(data)
+        # ----------------------------------------------------------  
         
         data = angle_close(data)
-        data = close_order(data)
+        data = reverse_order(data)
         data = make_order(data)    
         
 

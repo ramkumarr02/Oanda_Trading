@@ -1,7 +1,6 @@
 from utils.packages import *
 
 
-
 #...............................................................................................
 data = {}
 
@@ -46,15 +45,25 @@ data['angle_close_pip'] = 0.0002
 data['tick_order_angle'] = 20
 data['stop_loss_pip'] = 0.0010
 
-data["year"] = 2021
+# data["input_file_name"] = 'eurusd_2021'
+
+data["product"] = 'audusd'
+data["input_year"] = 2021
+data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
+
 data['input_rows'] = None
-data["plot"] = False
+data["plot"] = True
 
-data['start_date'] = {'year':2021, 'month':1, 'date':6}
-data['end_date']   = {'year':2021, 'month':1, 'date':7}
+data['start_date'] = {'year':2021, 'month':3, 'date':30}
+data['end_date']   = {'year':2021, 'month':3, 'date':31}
 
-data['sema_len'] = 60
-data['lema_len'] = 30000
-
+data['sema_len']  = 60
+data['lema_len']  = 30000
 data['angle_len'] = 600
+
+# data['sema_len']        = 5
+# data['lema_len']        = 2000
+# data['angle_len']       = 60
+
+data['pip_decimal_num'] = 6
 #...............................................................................................

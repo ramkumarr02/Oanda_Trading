@@ -3,9 +3,12 @@ from utils.packages import *
 
 
 #...............................................................................................
-def get_dir(data):
-    
-    if data['sema'] > data['lema']:
+def get_position(data):
+
+    if data['sema'] == data['lema']:
+        data['position'] = 0
+
+    elif data['sema'] > data['lema']:
         data['position'] = 1
 
     elif data['sema'] < data['lema']:
@@ -17,32 +20,41 @@ def get_dir(data):
 
 
 #...............................................................................................
-def after_dir(data):   
+def get_cross_dir(data):   
     
     data['dir_list'].popleft()
     data['dir_list'].append(data['position'])   
     
-    if sum(data['dir_list']) != 0:
-        data['dir_change'] = False
+    pos_1 = data['dir_list'][0]
+    pos_2 = data['dir_list'][1]
+    
+    if pos_2 == 1 and pos_2 != pos_1:
+        data['dir_change'] = True    
+        data['to_order'] = 'long'
 
-    elif sum(data['dir_list']) == 0:
+    elif pos_2 == -1 and pos_2 != pos_1:
         data['dir_change'] = True
+        data['to_order'] = 'short'
+
+    else:
+        data['dir_change'] = False
+        data['to_order'] = None
+
 
     return(data)    
-#...............................................................................................
+#................................................................................................
 
 
 
 #...............................................................................................
 def get_slope(data, ma_type):
-    pip_decimal_num = 6
     
-    data['y_axis'] = list(np.round(data['y_axis'],pip_decimal_num))
+    data['y_axis'] = list(np.round(data['y_axis'],data['pip_decimal_num']))
     ma_len = len(data['y_axis'])
     
     x_axis = []
     for i in range(ma_len):
-        x_axis.append(1 + ((i+1) * 10**(-pip_decimal_num)))
+        x_axis.append(1 + ((i+1) * 10**(-data['pip_decimal_num'])))
     
     slope_tick, intercept, _, _, _ = linregress(x_axis, data['y_axis'])
     
