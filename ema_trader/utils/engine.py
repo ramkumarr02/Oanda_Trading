@@ -78,10 +78,13 @@ def run_engine(data):
         data = angle_close(data)
         
         data = check_for_open_orders(data)
-        data = reverse_order(data)
+        data = close_order(data)
         
         data = check_for_open_orders(data)
         data = make_order(data)    
     
+        data = check_for_open_orders(data)
+        data = follow_order(data)
+
     return(data)
 #...............................................................................................    

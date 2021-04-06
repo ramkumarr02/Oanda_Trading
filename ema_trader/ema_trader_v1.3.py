@@ -27,6 +27,8 @@ data['request_stream_data'] = pricing.PricingStream(accountID=data['accountID'],
 data['response_stream'] = data['api'].request(data['request_stream_data'])
 data["start_ts"] = dt.datetime.strftime(dt.datetime.now(), '%Y-%m-%d-%H-%M')
 
+data = get_invest_details(data)
+
 data = check_for_open_orders(data)
 data = check_for_open_orders(data)
 data = check_for_open_orders(data)

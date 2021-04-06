@@ -58,6 +58,9 @@ def run_engine(data):
 
         data = get_position(data)
 
+        if not data['position']:
+            continue
+
         # Get Dirs --------------------------------
         if len(data['dir_list']) < 2:
             data['dir_list'].append(data['position'])   

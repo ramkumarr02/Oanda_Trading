@@ -1,4 +1,16 @@
-ERROR:root:--- Timestamp-2021-03-30 21:21:13.126039, Error-'function' object has no attribute 'clear_output'
-ERROR:root:--- Timestamp-2021-03-30 21:21:14.549617, Error-'function' object has no attribute 'clear_output'
-ERROR:root:--- Timestamp-2021-03-30 21:21:15.829964, Error-'function' object has no attribute 'clear_output'
-ERROR:root:--- Timestamp-2021-03-30 21:21:17.043059, Error-KeyboardInterrupt
+ERROR:root:--- Timestamp-2021-04-06 13:38:03.277710, Error-KeyboardInterrupt
+ERROR:root:--- Timestamp-2021-04-06 14:08:24.883599, Error-KeyboardInterrupt
+ERROR:root:--- Timestamp-2021-04-06 15:39:17.086047, Error-KeyboardInterrupt
+ERROR:root:--- Timestamp-2021-04-06 18:07:29.968514, Error-Time difference is above limit
+ERROR:root:--- Timestamp-2021-04-06 18:16:04.607829, Error-KeyboardInterrupt
+ERROR:root:--- Timestamp-2021-04-06 19:06:07.070573, Error-KeyboardInterrupt
+ERROR:root:--- Timestamp-2021-04-06 19:16:36.147896, Error-('Connection broken: IncompleteRead(0 bytes read)', IncompleteRead(0 bytes read))
+ERROR:root:--- Timestamp-2021-04-06 19:59:53.434652, Error-Time difference is above limit
+ERROR:root:--- Timestamp-2021-04-06 20:07:27.311312, Error-Time difference is above limit
+ERROR:root:--- Timestamp-2021-04-06 20:13:51.165042, Error-Time difference is above limit
+ERROR:root:--- Timestamp-2021-04-06 20:26:43.247281, Error-Time difference is above limit
+ERROR:root:--- Timestamp-2021-04-06 20:27:19.782974, Error-Time difference is above limit
+ERROR:root:--- Timestamp-2021-04-06 20:28:20.924902, Error-Time difference is above limit
+ERROR:root:--- Timestamp-2021-04-06 20:31:13.784322, Error-Time difference is above limit
+ERROR:root:--- Timestamp-2021-04-06 20:34:28.979080, Error-Time difference is above limit
+ERROR:root:--- Timestamp-2021-04-06 20:35:39.863001, Error-KeyboardInterrupt

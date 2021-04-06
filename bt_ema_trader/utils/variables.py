@@ -28,6 +28,7 @@ data['buy_markers_y'] = []
 data['sell_markers_x'] = []
 data['sell_markers_y'] = []
 
+data['position'] = False
 data['open_order'] = False    
 data['open_order_type'] = None
 data['df_subset_size'] = None
@@ -55,15 +56,14 @@ data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 data['input_rows'] = None
 data["plot"] = True
 
-data['start_date'] = {'year':2021, 'month':1, 'date':6}
+data['start_date'] = {'year':2021, 'month':1, 'date':5}
 data['end_date']   = {'year':2021, 'month':1, 'date':7}
 
 data['close_angle'] = 55
 data['lema_close_angle'] = 10
 data['angle_close_pip'] = 0.0003
 
-
-data['gap_cushion'] = data['pip_size'] * 2
+data['gap_cushion'] = data['pip_size'] * 1
 
 data['sema_len']  = 60
 data['lema_len']  = 30000

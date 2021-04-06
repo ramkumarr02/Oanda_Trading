@@ -4,16 +4,29 @@ from utils.packages import *
 
 #...............................................................................................
 def get_position(data):
+    
+    data['ema_gap'] = data['sema'] - data['lema']
 
-    if data['sema'] == data['lema']:
+    if abs(data['ema_gap']) <= data['gap_cushion'] * 0.1:
         data['position'] = 0
 
-    elif data['sema'] > data['lema']:
+    elif data['ema_gap'] > data['gap_cushion']:
         data['position'] = 1
 
-    elif data['sema'] < data['lema']:
+    elif data['ema_gap'] < -data['gap_cushion']:
         data['position'] = -1
     
+
+    if data['sema'] == data['lema']:
+        data['position_without_cushion'] = 0
+
+    elif data['sema'] > data['lema']:
+        data['position_without_cushion'] = 1
+
+    elif data['sema'] < data['lema']:
+        data['position_without_cushion'] = -1
+
+
     return(data)
 #...............................................................................................
 
@@ -48,7 +61,7 @@ def get_cross_dir(data):
 
 #...............................................................................................
 def get_slope(data, ma_type):
-    pip_decimal_num = 6
+    data['pip_decimal_num'] = 6
 
     if ma_type =='sema':
         data['y_axis'] = list(data["sema_angle_list"])
@@ -56,12 +69,12 @@ def get_slope(data, ma_type):
         data['y_axis'] = list(data["lema_angle_list"])
     
 
-    data['y_axis'] = list(np.round(data['y_axis'],pip_decimal_num))
+    data['y_axis'] = list(np.round(data['y_axis'],data['pip_decimal_num']))
     ma_len = len(data['y_axis'])
     
     x_axis = []
     for i in range(ma_len):
-        x_axis.append(1 + ((i+1) * 10**(-pip_decimal_num)))
+        x_axis.append(1 + ((i+1) * 10**(-data['pip_decimal_num'])))
     
     slope_tick, intercept, _, _, _ = linregress(x_axis, data['y_axis'])
     

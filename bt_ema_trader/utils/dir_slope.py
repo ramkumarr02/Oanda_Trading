@@ -21,7 +21,7 @@ def get_position(data):
 
     data['ema_gap'] = data['sema'] - data['lema']
 
-    if abs(data['ema_gap']) <= data['gap_cushion']:
+    if abs(data['ema_gap']) <= data['gap_cushion'] * 0.1:
         data['position'] = 0
 
     elif data['ema_gap'] > data['gap_cushion']:
