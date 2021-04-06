@@ -32,6 +32,8 @@ data['open_order'] = False
 data['open_order_type'] = None
 data['df_subset_size'] = None
 
+data['position_without_cushion'] = None
+
 data['close_type'] = []
 
 # data['running_in'] = 'linux'
@@ -39,23 +41,29 @@ data['close_type'] = []
 data['sema_make_order_angle'] = 1
 data['sema_close_order_angle'] = 1
 
-data['close_angle'] = 55
-data['angle_close_pip'] = 0.0002
+data['pip_size'] = 0.0001
 
 data['tick_order_angle'] = 20
 data['stop_loss_pip'] = 0.0010
 
 # data["input_file_name"] = 'eurusd_2021'
 
-data["product"] = 'audusd'
+data["product"] = 'eurusd'
 data["input_year"] = 2021
 data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 
 data['input_rows'] = None
 data["plot"] = True
 
-data['start_date'] = {'year':2021, 'month':3, 'date':30}
-data['end_date']   = {'year':2021, 'month':3, 'date':31}
+data['start_date'] = {'year':2021, 'month':1, 'date':6}
+data['end_date']   = {'year':2021, 'month':1, 'date':7}
+
+data['close_angle'] = 55
+data['lema_close_angle'] = 10
+data['angle_close_pip'] = 0.0003
+
+
+data['gap_cushion'] = data['pip_size'] * 2
 
 data['sema_len']  = 60
 data['lema_len']  = 30000

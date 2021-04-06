@@ -28,7 +28,43 @@ def make_order(data):
 #...............................................................................................
 
 #...............................................................................................
-def reverse_order(data):
+def close_order(data):
+    if data['open_order']:
+        if data['open_order_type'] == 'long':
+            if data['position_without_cushion'] == -1:
+                data['close_bid_price'] = data['bid']
+                data['pl'] = np.round(data['close_bid_price'] - data['order_ask_price'], 4)
+                data['pl_list'].append(data['pl'])
+                data['dt_list'].append(data['dt_val'])
+                data['open_order'] = False
+                data['close_type'].append('sema_close')
+
+                if data["plot"]:
+                    data['sell_markers_x'].append(data['i_list'][-1])
+                    data['sell_markers_y'].append(data['bid'])      
+                
+                create_report(data)         
+            
+        if data['open_order_type'] == 'short':
+            if data['position_without_cushion'] == 1:
+                data['close_ask_price'] = data['ask']
+                data['pl'] = np.round(data['order_bid_price'] - data['close_ask_price'], 4)
+                data['pl_list'].append(data['pl'])
+                data['dt_list'].append(data['dt_val'])
+                data['open_order'] = False
+                data['close_type'].append('sema_close')
+
+                if data["plot"]:
+                    data['sell_markers_x'].append(data['i_list'][-1])
+                    data['sell_markers_y'].append(data['ask'])                  
+                
+                create_report(data)
+
+    return(data)    
+#...............................................................................................
+
+#...............................................................................................
+def close_order_old_1(data):
     if data['open_order']:
         if data['dir_change']:
             if data['open_order_type'] == 'long':
@@ -65,7 +101,7 @@ def reverse_order(data):
 #...............................................................................................
 
 #...............................................................................................
-def close_order(data):
+def close_order_old_2(data):
     if data['open_order']:
         if data['dir_change']:
             if data['position'] < 0 and data['open_order_type'] == 'long' and data['sema_angle'] < -data['sema_close_order_angle']:
