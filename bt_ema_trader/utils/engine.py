@@ -71,7 +71,7 @@ def run_engine(data):
         # ----------------------------------------------------------  
         
         data = angle_close(data)
-        data = close_order(data)
+        data = reverse_order(data)
         data = make_order(data)    
         
 

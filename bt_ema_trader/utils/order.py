@@ -64,7 +64,7 @@ def close_order(data):
 #...............................................................................................
 
 #...............................................................................................
-def close_order_old_1(data):
+def reverse_order(data):
     if data['open_order']:
         if data['dir_change']:
             if data['open_order_type'] == 'long':

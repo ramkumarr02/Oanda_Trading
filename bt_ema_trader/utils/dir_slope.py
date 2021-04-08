@@ -3,21 +3,23 @@ from utils.packages import *
 
 
 #...............................................................................................
-# def get_position(data):
-
-#     if data['sema'] == data['lema']:
-#         data['position'] = 0
-
-#     elif data['sema'] > data['lema']:
-#         data['position'] = 1
-
-#     elif data['sema'] < data['lema']:
-#         data['position'] = -1
-    
-#     return(data)
-#...............................................................................................
-#...............................................................................................
 def get_position(data):
+
+    if data['sema'] == data['lema']:
+        data['position'] = 0
+
+    elif data['sema'] > data['lema']:
+        data['position'] = 1
+
+    elif data['sema'] < data['lema']:
+        data['position'] = -1
+    
+    return(data)
+#...............................................................................................
+
+
+#...............................................................................................
+def get_cushion_position(data):
 
     data['ema_gap'] = data['sema'] - data['lema']
 

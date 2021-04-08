@@ -13,7 +13,8 @@ def print_report(data):
 
     print('---------------------------')
     print(f"iter            : {data['iter']}")
-    print(f"time            : {data['tot_ts']}")
+    print(f"time            : {data['disp_ts']}")
+    print(f"time_diff       : {data['time_diff']}")
     print(f"tick            : {data['tick']}")
     print(f"sema len        : {len(data['sema_tick_list'])}")
     print(f"lema len        : {len(data['lema_tick_list'])}")

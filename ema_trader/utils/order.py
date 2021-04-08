@@ -12,9 +12,10 @@ def check_for_open_orders(data):
     data['positions_info'] = data['api'].request(request_position_data)
 
     if len(data['positions_info']['positions']) == 0:
-        data['order_current_open'] = False
-        data['positions_long'] = 0
-        data['positions_short'] = 0
+        data['order_current_open']  = False
+        data['positions_long']      = 0
+        data['positions_short']     = 0
+        data['pl']                  = 0
 
     elif len(data['positions_info']['positions']) == 1:
         data['positions_long'] = abs(int(data['positions_info']['positions'][0]['long']['units']))

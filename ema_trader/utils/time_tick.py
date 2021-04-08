@@ -14,9 +14,14 @@ def get_date_time(data):
     tot_ts = dt.datetime.combine(dt.datetime.date(data['ts_date_val']), dt.datetime.time(data['ts_time_val']))
     # --------------------------------------------------------
     if data['os'] != 'linux':
-        tot_ts = tot_ts + timedelta(hours=8)        
+        tot_ts = tot_ts + timedelta(hours=8)   
+        disp_ts = tot_ts             
+    else:
+        disp_ts = tot_ts + timedelta(hours=8)
     # --------------------------------------------------------
-    data['tot_ts']    = tot_ts.strftime("%Y-%b-%d, %I:%M:%S (%p)")      
+    data['tot_ts']  = tot_ts.strftime("%Y-%b-%d, %I:%M:%S (%p)")      
+    data['disp_ts'] = disp_ts.strftime("%Y-%b-%d, %I:%M:%S (%p)")      
+        
     t2 = dt.datetime.now()    
     data['time_diff'] = (t2 - tot_ts).total_seconds()
 

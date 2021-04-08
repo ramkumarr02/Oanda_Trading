@@ -57,17 +57,17 @@ data['input_rows'] = None
 data["plot"] = True
 
 data['start_date'] = {'year':2021, 'month':1, 'date':5}
-data['end_date']   = {'year':2021, 'month':1, 'date':7}
+data['end_date']   = {'year':2021, 'month':1, 'date':6}
 
-data['close_angle'] = 55
+data['close_angle'] = 50
 data['lema_close_angle'] = 10
-data['angle_close_pip'] = 0.0003
+data['angle_close_pip'] = 0.0002
 
-data['gap_cushion'] = data['pip_size'] * 1
+data['gap_cushion'] = data['pip_size'] * 2
 
-data['sema_len']  = 60
+data['sema_len']  = 3000
 data['lema_len']  = 30000
-data['angle_len'] = 600
+data['angle_len'] = 100
 
 # data['sema_len']        = 5
 # data['lema_len']        = 2000
