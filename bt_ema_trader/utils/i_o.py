@@ -109,7 +109,7 @@ def print_report(data):
 
 #...............................................................................................
 def plot_graph(data):
-    linestyle = (0, (1, 3))
+    linestyle = (0, (1, 25))
     
     fig, ax1 = plt.subplots(figsize=(50,10))
     ax2 = ax1.twinx()
@@ -128,8 +128,8 @@ def plot_graph(data):
     ax1.scatter(data['buy_markers_x'], data['buy_markers_y'], s=300, c='darkblue', marker=10)
     ax1.scatter(data['sell_markers_x'], data['sell_markers_y'], s=300, c='red', marker=11)
 
-    ax2.plot(data['df']["sema_angle"], c='maroon', label = 'sema_angle', linestyle = linestyle)
-    ax2.plot(data['df']["lema_angle"], c='blue', label = 'lema_angle', linestyle = linestyle)
+    ax2.plot(data['df']["sema_angle"], c='violet', label = 'sema_angle', linestyle = linestyle)
+    # ax2.plot(data['df']["lema_angle"], c='blue', label = 'lema_angle', linestyle = linestyle)
 
     legend = ax1.legend(loc='upper left', fontsize='xx-large')
     legend = ax2.legend(loc='upper right', fontsize='xx-large')
