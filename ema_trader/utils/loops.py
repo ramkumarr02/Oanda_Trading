@@ -43,7 +43,7 @@ def after_lema(data):
 #...............................................................................................
 def before_angle(data):   
     data['sema_angle_list'].append(data['sema'])
-    data['lema_angle_list'].append(data['lema'])
+    # data['lema_angle_list'].append(data['lema'])
     return(data)
 #...............................................................................................
 
@@ -52,13 +52,14 @@ def before_angle(data):
 #...............................................................................................
 def after_angle(data):     
     data['sema_angle_list'].popleft()
-    data['lema_angle_list'].popleft()
     data['sema_angle_list'].append(data['sema'])
-    data['lema_angle_list'].append(data['lema'])
+    
+    # data['lema_angle_list'].popleft()
+    # data['lema_angle_list'].append(data['lema'])
 
     # Get Angles --------------------------------        
     data = get_slope(data, 'sema')            
-    data = get_slope(data, 'lema')            
+    # data = get_slope(data, 'lema')            
     # -------------------------------------------  
         
     return(data)

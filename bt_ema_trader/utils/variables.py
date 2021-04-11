@@ -59,16 +59,13 @@ data["plot"] = True
 data['start_date'] = {'year':2021, 'month':1, 'date':5}
 data['end_date']   = {'year':2021, 'month':1, 'date':7}
 
-data['close_angle'] = 20
+data['close_angle'] = 40
 data['lema_close_angle'] = 10
 data['angle_close_pip'] = 0.0002
 
 data['gap_cushion'] = data['pip_size'] * 2
 
-# ---------------------------------------------------
 data['sema_len']  = 3000
-# Reduce sema_len to 3000 - 6000 and test
-# ---------------------------------------------------
 
 data['lema_len']  = 30000
 data['angle_len'] = 10

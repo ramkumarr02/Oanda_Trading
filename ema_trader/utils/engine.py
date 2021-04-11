@@ -45,8 +45,8 @@ def run_engine(data):
         # lema before after loops --------------------------------
         if len(data['lema_tick_list']) < data['lema_len']:
             data = before_lema(data)        
-            continue
-
+            continue        
+        
         if len(data['lema_tick_list']) == data['lema_len']:
             data = after_lema(data)                  
         # ----------------------------------------------------------
@@ -80,13 +80,10 @@ def run_engine(data):
         data = angle_close(data)
         
         data = check_for_open_orders(data)
-        data = close_order(data)
+        data = reverse_order(data)
         
         data = check_for_open_orders(data)
         data = make_order(data)    
-    
-        data = check_for_open_orders(data)
-        data = follow_order(data)
 
     return(data)
 #...............................................................................................    

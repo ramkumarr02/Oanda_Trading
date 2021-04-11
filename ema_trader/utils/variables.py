@@ -43,19 +43,19 @@ data['pip_size'] = 0.0001
 data['pip_decimal_num'] = 6
 
 # data['os'] = 'windows'
-# data['os'] = 'notebook'
-data['os'] = 'linux'
+data['os'] = 'notebook'
+# data['os'] = 'linux'
 
 # data['run_type'] = 'single'
 data['run_type']  = 'loop'
 
-data['order_num'] = 1
+data['order_num'] = np.float()
 data['gap_cushion'] = data['pip_size'] * 2
 
-data['sema_len'] = 60
+data['sema_len'] = 3000
 data['lema_len'] = 30000
-data['angle_len'] = 600
+data['angle_len'] = 10
 
-data['close_angle'] = 50
+data['close_angle'] = 40
 data['angle_close_pip'] = 0.0002
 #...............................................................................................
