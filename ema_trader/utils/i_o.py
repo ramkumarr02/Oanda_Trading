@@ -9,6 +9,7 @@ def print_report(data):
     elif data['os'] == 'linux':
         os.system('clear')
     elif data['os'] == 'notebook':
+        from IPython import display
         display.clear_output(wait = True)    
 
     print('---------------------------')
