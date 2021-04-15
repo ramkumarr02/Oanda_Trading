@@ -43,8 +43,8 @@ data['pip_size'] = 0.0001
 data['pip_decimal_num'] = 6
 
 # data['os'] = 'windows'
-data['os'] = 'notebook'
-# data['os'] = 'linux'
+# data['os'] = 'notebook'
+data['os'] = 'linux'
 
 # data['run_type'] = 'single'
 data['run_type']  = 'loop'
