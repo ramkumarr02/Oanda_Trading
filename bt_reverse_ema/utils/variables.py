@@ -64,9 +64,9 @@ data['input_rows'] = None
 data["plot"] = True
 
 data['start_date'] = {'year':2021, 'month':1, 'date':5}
-data['end_date']   = {'year':2021, 'month':1, 'date':7}
+data['end_date']   = {'year':2021, 'month':1, 'date':5}
 
-data['close_angle'] = 40
+data['close_angle'] = 20
 data['lema_close_angle'] = 10
 data['angle_close_pip'] = 0.0002
 
