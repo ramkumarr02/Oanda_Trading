@@ -58,4 +58,9 @@ data['angle_len'] = 10
 
 data['close_angle'] = 40
 data['angle_close_pip'] = 0.0002
+
+
+data['stop_loss_pip']       =   0.0010 
+data['trailing_stop_pip']   =   0.0010
+data['take_profit_pip']     =   0.0100
 #...............................................................................................

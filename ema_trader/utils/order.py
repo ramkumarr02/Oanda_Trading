@@ -50,7 +50,20 @@ def get_invest_details(data):
 #...............................................................................................
 def make_long_order(data):
     data['order_val']           = data['order_num'] * 1       
-    ordr                        = MarketOrderRequest(instrument = data['instrument'],units=data['order_val'])
+
+    data['price_stop']          = data['ask'] - data['stop_loss_pip']            
+    data['price_take_profit']   = data['ask'] + data['take_profit_pip']
+    
+    stopLossOnFill              = StopLossDetails(price=data['price_stop'])
+    takeProfitOnFillOrder       = TakeProfitDetails(price=data['price_take_profit'])
+    trailingStopLossOnFill      = TrailingStopLossDetails(distance=data['trailing_stop_pip'])
+
+    ordr                        = MarketOrderRequest(instrument = data['instrument'],
+                                                    units=data['order_val'],
+                                                    stopLossOnFill=stopLossOnFill.data,
+                                                    takeProfitOnFill=takeProfitOnFillOrder.data,
+                                                    trailingStopLossOnFill=trailingStopLossOnFill.data)
+
     order_request_data          = orders.OrderCreate(accountID=data['accountID'], data=ordr.data)
     
     data['response_order']      = data['api'].request(order_request_data)
@@ -65,7 +78,20 @@ def make_long_order(data):
 #...............................................................................................
 def make_short_order(data):
     data['order_val']           = data['order_num'] * -1                
-    ordr                        = MarketOrderRequest(instrument = data['instrument'],units=data['order_val'])
+    
+    data['price_stop']          = data['bid'] + data['stop_loss_pip']            
+    data['price_take_profit']   = data['bid'] - data['take_profit_pip']
+    
+    stopLossOnFill              = StopLossDetails(price=data['price_stop'])
+    takeProfitOnFillOrder       = TakeProfitDetails(price=data['price_take_profit'])
+    trailingStopLossOnFill      = TrailingStopLossDetails(distance=data['trailing_stop_pip'])
+
+    ordr                        = MarketOrderRequest(instrument = data['instrument'],
+                                                    units=data['order_val'],
+                                                    stopLossOnFill=stopLossOnFill.data,
+                                                    takeProfitOnFill=takeProfitOnFillOrder.data,
+                                                    trailingStopLossOnFill=trailingStopLossOnFill.data)
+
     order_request_data          = orders.OrderCreate(accountID=data['accountID'], data=ordr.data)
     
     data['response_order']      = data['api'].request(order_request_data)
