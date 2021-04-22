@@ -62,6 +62,7 @@ def run_engine(data):
         # ----------------------------------------------------------
         
         data = get_candle_size(data)
+        data = set_take_profit(data)
         data = order_dir_check(data)
 
         data = check_for_open_orders(data)

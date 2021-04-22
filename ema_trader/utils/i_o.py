@@ -25,7 +25,7 @@ def print_report(data):
     print(f"position        : {data['position']}")  
     print(f"dir_change      : {data['dir_change']}")    
     print(f"to_order        : {data['to_order']}")    
-    print(f"follow_order_num: {data['follow_order_num']}")  
+    print(f"take_profit_flg : {data['take_profit_flg']}")  
     print(f"sema angle      : {data['sema_angle']}")
     print(f"lema angle      : {data['lema_angle']}")
     print(f"pl              : {data['pl']}")

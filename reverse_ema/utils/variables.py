@@ -7,7 +7,7 @@ data = {}
 
 data['instrument'] = "EUR_USD"
 #data['account'] = 'oanda_demo_primary'
-data['account'] = 'oanda_demo_1'
+data['account'] = 'oanda_demo_2'
 
 data['sema_tick_list'] = collections.deque()
 data['lema_tick_list'] = collections.deque()
@@ -30,9 +30,10 @@ data['follow_order'] = False
 data['dir_change'] = False
 data['position'] = False
 data["run_flg"] =  True
+data["take_profit_flg"] =  False
 # data['candle_avg_height'] = None
 data['avg_ema_gap'] = None
-
+data['ema_diff'] = None
 
 
 data['num_orders'] = 0
@@ -47,18 +48,18 @@ data['pip_size'] = 0.0001
 data['pip_decimal_num'] = 6
 
 # data['os'] = 'windows'
-data['os'] = 'notebook'
-# data['os'] = 'linux'
+# data['os'] = 'notebook'
+data['os'] = 'linux'
 
-data['run_type'] = 'single'
-# data['run_type']  = 'loop'
+# data['run_type'] = 'single'
+data['run_type']  = 'loop'
 
 data['order_num'] = np.float()
 data['gap_cushion'] = data['pip_size'] * 2
 
-data['sema_len'] = 10
-data['lema_len'] = 100
-data['angle_len'] = 30
+data['sema_len'] = 3000
+data['lema_len'] = 30000
+data['angle_len'] = 10
 
 data['candle_count'] = 5
 data['candle_granularity'] = 'H4'

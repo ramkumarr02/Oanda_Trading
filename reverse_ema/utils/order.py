@@ -13,6 +13,7 @@ def check_for_open_orders(data):
 
     if len(data['positions_info']['positions']) == 0:
         data['order_current_open']  = False
+        data["take_profit_flg"]     = False
         data['positions_long']      = 0
         data['positions_short']     = 0
         data['pl']                  = 0
@@ -23,12 +24,30 @@ def check_for_open_orders(data):
 
         if data['positions_long'] >= 1 and data['positions_short'] == 0:
             data['order_current_open'] = 'long'
+            data['trade_id'] = data['positions_info']['positions'][0]['long']['tradeIDs'][0]
+
         elif data['positions_long'] == 0 and data['positions_short'] >= 1:
             data['order_current_open'] = 'short'                              
+            data['trade_id'] = data['positions_info']['positions'][0]['short']['tradeIDs'][0]
 
     return(data)
 #==========================================================================================================================    
 
+
+
+#...............................................................................................
+def set_take_profit(data):
+
+    if not data["take_profit_flg"]:
+        if data['order_current_open']:
+            if data['pl'] > data['trailing_stop_pip']:
+                ordr = TrailingStopLossOrderRequest(tradeID=data['trade_id'], distance=data['trailing_stop_pip'])
+                take_profit_data = orders.OrderCreate(data['accountID'], data=ordr.data)
+                data['take_profit_info'] = data['api'].request(take_profit_data)
+                data["take_profit_flg"] = True
+
+    return(data)
+#...............................................................................................
 
 
 
@@ -61,8 +80,8 @@ def make_long_order(data):
     ordr                        = MarketOrderRequest(instrument = data['instrument'],
                                                     units=data['order_val'],
                                                     stopLossOnFill=stopLossOnFill.data,
-                                                    takeProfitOnFill=takeProfitOnFillOrder.data,
-                                                    trailingStopLossOnFill=trailingStopLossOnFill.data)
+                                                    # trailingStopLossOnFill=trailingStopLossOnFill.data,
+                                                    takeProfitOnFill=takeProfitOnFillOrder.data)
 
     order_request_data          = orders.OrderCreate(accountID=data['accountID'], data=ordr.data)
     
@@ -89,8 +108,8 @@ def make_short_order(data):
     ordr                        = MarketOrderRequest(instrument = data['instrument'],
                                                     units=data['order_val'],
                                                     stopLossOnFill=stopLossOnFill.data,
-                                                    takeProfitOnFill=takeProfitOnFillOrder.data,
-                                                    trailingStopLossOnFill=trailingStopLossOnFill.data)
+                                                    # trailingStopLossOnFill=trailingStopLossOnFill.data,
+                                                    takeProfitOnFill=takeProfitOnFillOrder.data)
 
     order_request_data          = orders.OrderCreate(accountID=data['accountID'], data=ordr.data)
     
@@ -112,6 +131,8 @@ def close_long_order(data):
     data['response_close']      = data['api'].request(order_close_data)
     data['follow_order']        = False
     data['pl']                  = 0    
+    data["take_profit_flg"]     = False
+
     return(data)
 #...............................................................................................
 
@@ -124,6 +145,8 @@ def close_short_order(data):
     data['response_close']      = data['api'].request(order_close_data)
     data['follow_order']        = False
     data['pl']                  = 0
+    data["take_profit_flg"]     = False
+
     return(data)
 #...............................................................................................
 

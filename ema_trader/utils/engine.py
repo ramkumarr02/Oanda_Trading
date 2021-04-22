@@ -75,8 +75,11 @@ def run_engine(data):
         elif len(data['dir_list']) == 2:
             data = get_cross_dir(data)
         # ----------------------------------------------------------  
+                
         
+
         data = check_for_open_orders(data)
+        data = set_take_profit(data)
         data = angle_close(data)
         
         data = check_for_open_orders(data)

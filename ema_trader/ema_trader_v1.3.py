@@ -44,18 +44,24 @@ if data['run_type'] == 'single':
 
 elif data['run_type'] == 'loop':
     while data["run_flg"] ==  True:
-        try:        
-            data = run_engine(data)        
-        
-        except KeyboardInterrupt:
-            print("Run manually stopped")
-            ts = dt.datetime.now()
-            err_msg = 'KeyboardInterrupt'
-            logging.error(f'--- Timestamp-{ts}, Error-{err_msg}')
-            break           
-        
+        try:
+            try:        
+                data = run_engine(data)        
+            
+            except KeyboardInterrupt:
+                print("Run manually stopped")
+                ts = dt.datetime.now()
+                err_msg = 'KeyboardInterrupt'
+                logging.error(f'--- Timestamp-{ts}, Error-{err_msg}')
+                break           
+            
+            except Exception as err_msg:
+                data['error_count'] = data['error_count'] + 1
+                ts = dt.datetime.now()
+                logging.error(f'--- Timestamp-{ts}, Error-{err_msg}')
+
         except Exception as err_msg:
             data['error_count'] = data['error_count'] + 1
             ts = dt.datetime.now()
-            logging.error(f'--- Timestamp-{ts}, Error-{err_msg}')
+            logging.error(f'--- Timestamp-{ts}, Double Error-{err_msg}')
 #==========================================================================================================================            
