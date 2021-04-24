@@ -129,7 +129,7 @@ def close_long_order(data):
     data_long                   = {"longUnits": "ALL"}
     order_close_data            = positions.PositionClose(accountID=data['accountID'], instrument=data['instrument'], data=data_long)
     data['response_close']      = data['api'].request(order_close_data)
-    data['follow_order']        = False
+    data['to_order']            = None
     data['pl']                  = 0    
     data["take_profit_flg"]     = False
 
@@ -143,7 +143,7 @@ def close_short_order(data):
     data_short                  = {"shortUnits": "ALL"}
     order_close_data            = positions.PositionClose(accountID=data['accountID'], instrument=data['instrument'], data=data_short)
     data['response_close']      = data['api'].request(order_close_data)
-    data['follow_order']        = False
+    data['to_order']            = None
     data['pl']                  = 0
     data["take_profit_flg"]     = False
 

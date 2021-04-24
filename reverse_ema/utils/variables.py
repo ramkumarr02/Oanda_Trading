@@ -49,9 +49,9 @@ data['pip_decimal_num'] = 6
 
 # data['os'] = 'windows'
 # data['os'] = 'notebook'
-data['os'] = 'linux'
-
 # data['run_type'] = 'single'
+
+data['os'] = 'linux'
 data['run_type']  = 'loop'
 
 data['order_num'] = np.float()
