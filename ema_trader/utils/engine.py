@@ -77,8 +77,8 @@ def run_engine(data):
         # ----------------------------------------------------------  
                 
         
-
         data = check_for_open_orders(data)
+        data = get_candle_size(data)
         data = set_take_profit(data)
         data = angle_close(data)
         

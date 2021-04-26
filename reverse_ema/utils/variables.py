@@ -65,10 +65,10 @@ data['candle_count'] = 5
 data['candle_granularity'] = 'H4'
 data['gap_ratio'] = 0.75
 
-data['close_angle'] = 20
+data['close_angle'] = 30
 data['angle_close_pip'] = 0.0002
 
-data['stop_loss_pip']       =   0.0010 
-data['trailing_stop_pip']   =   0.0010
+data['stop_loss_pip']       =   None 
+data['trailing_stop_pip']   =   None
 data['take_profit_pip']     =   0.0100
 #...............................................................................................

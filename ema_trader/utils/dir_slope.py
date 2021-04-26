@@ -1,6 +1,25 @@
 from utils.packages import *
 
 
+#...............................................................................................
+def get_candle_size(data):
+    params = {"count": data['candle_count']+1, "granularity": data['candle_granularity']}
+    candle_size_data = instruments.InstrumentsCandles(instrument="EUR_USD", params=params)
+    data['candle_size_info'] = data["api"].request(candle_size_data)
+    
+    height_list = []
+    for candle in data['candle_size_info']['candles']:
+        if candle['complete']:
+            height_list.append(np.float(candle['mid']['h']) - np.float(candle['mid']['l']))
+    
+    data['avg_ema_gap']         = np.mean(height_list)
+    data['candle_swing']        = data['avg_ema_gap'] * data['gap_ratio']
+    data['stop_loss_pip']       =   data['candle_swing'] 
+    data['trailing_stop_pip']   =   data['candle_swing']
+
+    return(data)
+#...............................................................................................
+
 
 #...............................................................................................
 def get_position(data):
