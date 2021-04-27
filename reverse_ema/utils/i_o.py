@@ -23,7 +23,7 @@ def print_report(data):
     print(f"sema            : {data['sema']}")
     print(f"lema            : {data['lema']}")    
     print(f"ema_diff        : {data['ema_diff']}")    
-    print(f"avg_ema_gap     : {data['avg_ema_gap']}")    
+    print(f"candle_swing    : {data['candle_swing']}")    
     print(f"to_order        : {data['to_order']}")    
     print(f"sema angle      : {data['sema_angle']}")
     print(f"pl              : {data['pl']}")

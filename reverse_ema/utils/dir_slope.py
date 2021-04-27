@@ -12,10 +12,10 @@ def get_candle_size(data):
         if candle['complete']:
             height_list.append(np.float(candle['mid']['h']) - np.float(candle['mid']['l']))
     
-    data['avg_ema_gap']         = np.mean(height_list)
-    data['candle_swing']        = data['avg_ema_gap'] * data['gap_ratio']
-    data['stop_loss_pip']       =   data['candle_swing'] 
-    data['trailing_stop_pip']   =   data['candle_swing']
+    data['avg_ema_gap']         =   np.mean(height_list)
+    data['candle_swing']        =   data['avg_ema_gap'] * data['gap_ratio']
+    data['stop_loss_pip']       =   data['candle_swing'] * data['gap_ratio'] 
+    data['trailing_stop_pip']   =   data['candle_swing'] * data['gap_ratio']
 
     return(data)
 #...............................................................................................

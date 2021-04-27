@@ -23,7 +23,7 @@ def print_report(data):
     print(f"sema            : {data['sema']}")
     print(f"lema            : {data['lema']}")    
     print(f"position        : {data['position']}")  
-    print(f"dir_change      : {data['dir_change']}")    
+    print(f"candle_swing    : {data['candle_swing']}")    
     print(f"to_order        : {data['to_order']}")    
     print(f"take_profit_flg : {data['take_profit_flg']}")  
     print(f"sema angle      : {data['sema_angle']}")
