@@ -8,11 +8,12 @@ from utils.time_tick import *
 #...............................................................................................
 def run_engine(data):
 
+    data['api'] = API(access_token = data['access_token'])
+    data['request_stream_data'] = pricing.PricingStream(accountID=data['accountID'], params=data['params'])
+    data['response_stream'] = data['api'].request(data['request_stream_data'])
+
     for data['iter'], data['resp'] in enumerate(data['response_stream']):    
 
-        data['api'] = API(access_token = data['access_token'])
-        data['request_stream_data'] = pricing.PricingStream(accountID=data['accountID'], params=data['params'])
-        data['response_stream'] = data['api'].request(data['request_stream_data'])
         data["start_ts"] = dt.datetime.strftime(dt.datetime.now(), '%Y-%m-%d-%H-%M')
         
         # Heartbeat check ---------------------------------------------
@@ -25,7 +26,7 @@ def run_engine(data):
         
         # Time diff check ---------------------------------------------
         if data['time_diff'] > data['max_time_diff']:        
-            print(data['time_diff'])
+            # print(data['time_diff'])
             raise ValueError('Time difference is above limit')
         
         # Get Data ---------------------------------------------
