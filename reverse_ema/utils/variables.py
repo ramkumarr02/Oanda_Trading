@@ -29,11 +29,14 @@ data['opened_order'] = None
 data['follow_order'] = False
 data['dir_change'] = False
 data['position'] = False
+data['old_position'] = None
+
 data["run_flg"] =  True
 data["take_profit_flg"] =  False
 # data['candle_avg_height'] = None
 data['avg_ema_gap'] = None
 data['ema_diff'] = None
+data['candle_swing'] = None
 
 
 data['num_orders'] = 0

@@ -61,6 +61,7 @@ def run_engine(data):
             data = after_angle(data)                  
         # ----------------------------------------------------------
         
+        data = get_position(data)
         data = get_candle_size(data)
         data = set_take_profit(data)
         data = order_dir_check(data)

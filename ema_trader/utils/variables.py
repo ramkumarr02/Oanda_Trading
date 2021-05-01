@@ -60,6 +60,7 @@ data['angle_len'] = 10
 data['candle_count'] = 5
 data['candle_granularity'] = 'H4'
 data['gap_ratio'] = 0.75
+data['candle_swing'] = None
 
 data['close_angle'] = 30
 data['angle_close_pip'] = 0.0002

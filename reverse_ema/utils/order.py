@@ -155,13 +155,17 @@ def close_short_order(data):
 #...............................................................................................
 def make_order(data):
     if not data['order_current_open']:
-        data = get_invest_details(data)
-        
-        if data['to_order'] == 'long':
-            make_long_order(data)
+        if data['dir_change']:
+            data = get_invest_details(data)
+            
+            if data['to_order'] == 'long':
+                make_long_order(data)
 
-        if data['to_order'] == 'short':
-            make_short_order(data)
+            if data['to_order'] == 'short':
+                make_short_order(data)
+
+            data['dir_change'] = False
+            
     return(data)
 #...............................................................................................
 
@@ -182,24 +186,6 @@ def angle_close(data):
         if data['sema_angle'] > data['close_angle']:            
             if data['pl'] >= data['angle_close_pip']:
                 data = close_short_order(data)
-
-    return(data)
-#...............................................................................................
-
-
-
-#...............................................................................................
-def reverse_order(data):
-    if data['dir_change']:
-        if data['order_current_open'] == 'long':
-            if data['to_order'] == 'short':
-                data = close_long_order(data)
-                data = make_short_order(data)
-
-        if data['order_current_open'] == 'short':
-            if data['to_order'] == 'long':
-                data = close_short_order(data)
-                data = make_long_order(data)        
 
     return(data)
 #...............................................................................................

@@ -66,3 +66,24 @@ def get_slope(data, ma_type):
     
     return(data)    
 #...............................................................................................    
+
+
+
+#...............................................................................................
+def get_position(data):
+
+    if data['sema'] == data['lema']:
+        data['position'] = 0
+
+    elif data['sema'] > data['lema']:
+        data['position'] = 1
+
+    elif data['sema'] < data['lema']:
+        data['position'] = -1
+    
+    if data['old_position'] != data['position']:
+        data['dir_change'] = True
+        data['old_position'] == data['position']
+ 
+    return(data)
+#...............................................................................................
