@@ -13,20 +13,23 @@ def get_date_time(data):
     data['ts_time_val'] = dt.datetime.strptime(data['ts_time_val'], '%H:%M:%S')
     tot_ts = dt.datetime.combine(dt.datetime.date(data['ts_date_val']), dt.datetime.time(data['ts_time_val']))
     # --------------------------------------------------------
-    if data['os'] != 'linux':
-        tot_ts = tot_ts + timedelta(hours=8)   
-        disp_ts = tot_ts             
-    else:
-        disp_ts = tot_ts + timedelta(hours=8)
+    # if data['os'] != 'linux':
+    #     tot_ts = tot_ts + timedelta(hours=8)   
+    #     disp_ts = tot_ts             
+    # else:
+    #     disp_ts = tot_ts + timedelta(hours=8)
     # --------------------------------------------------------
     data['tot_ts']  = tot_ts.strftime("%Y-%b-%d, %I:%M:%S (%p)")      
-    data['disp_ts'] = disp_ts.strftime("%Y-%b-%d, %I:%M:%S (%p)")      
+    data['disp_ts'] = data['tot_ts']
         
-    t2 = dt.datetime.now()    
+    t2 = dt.datetime.utcnow()    
+        
     data['time_diff'] = (t2 - tot_ts).total_seconds()
 
     return(data)
 #==========================================================================================================================
+
+
 
 #--------------------------------------------------------------------------------------------------------------------------
 # Get bid and ask prices
@@ -43,3 +46,70 @@ def get_prices(data):
 
     return(data)
 #==========================================================================================================================
+
+
+
+#--------------------------------------------------------------------------------------------------------------------------
+# sleep over weekend
+def sleep_check():
+    curr_time = dt.datetime.utcnow()
+
+    if curr_time.weekday() >= 4:
+
+        if curr_time.weekday() == 4:
+            start_ts = datetime(year   = curr_time.year, 
+                                month  = curr_time.month, 
+                                day    = curr_time.day, 
+                                hour   = 21, 
+                                minute = 0, 
+                                second = 1)
+
+            end_ts = datetime(year   = curr_time.year, 
+                              month  = curr_time.month, 
+                              day    = curr_time.day, 
+                              hour   = 21, 
+                              minute = 59, 
+                              second = 59) + timedelta(days = 2)        
+
+
+            if curr_time > start_ts:
+                start_ts = curr_time
+                end_ts = datetime(year   = curr_time.year, 
+                                  month  = curr_time.month, 
+                                  day    = curr_time.day, 
+                                  hour   = 21, 
+                                  minute = 59, 
+                                  second = 59) + timedelta(days = 2)        
+
+
+
+        if curr_time.weekday() == 5:
+            start_ts = curr_time
+            end_ts = datetime(year   = curr_time.year, 
+                              month  = curr_time.month, 
+                              day    = curr_time.day, 
+                              hour   = 21, 
+                              minute = 59, 
+                              second = 59) + timedelta(days = 1)        
+
+        if curr_time.weekday() == 6:
+            start_ts = curr_time
+            end_ts = datetime(year   = curr_time.year, 
+                              month  = curr_time.month, 
+                              day    = curr_time.day, 
+                              hour   = 21, 
+                              minute = 59, 
+                              second = 59)
+
+
+        if end_ts > curr_time >= start_ts:
+            duration_secs = np.floor((end_ts - curr_time).total_seconds())
+            print('---------------------------------------------------')
+            print('SLEEPING')
+            print(f"Sleep start time  : {curr_time}")        
+            print(f'Sleeping duration : {int(duration_secs)} seconds')
+            print(f"Wake up time      : {end_ts}")
+            time.sleep(duration_secs)
+            print('---------------------------------------------------')    
+    return()
+#==========================================================================================================================    

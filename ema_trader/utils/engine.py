@@ -14,6 +14,9 @@ def run_engine(data):
 
     for data['iter'], data['resp'] in enumerate(data['response_stream']):    
 
+        # Check for sleeping window
+        sleep_check()
+
         data["start_ts"] = dt.datetime.strftime(dt.datetime.now(), '%Y-%m-%d-%H-%M')
         
         # Heartbeat check ---------------------------------------------
@@ -26,8 +29,7 @@ def run_engine(data):
         
         # Time diff check ---------------------------------------------
         if data['time_diff'] > data['max_time_diff']:        
-            # print(data['time_diff'])
-            raise ValueError('Time difference is above limit')
+            raise ValueError(f'Time difference is above limit : {data["time_diff"]}')
         
         # Get Data ---------------------------------------------
         data = get_prices(data)
