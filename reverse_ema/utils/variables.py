@@ -75,3 +75,11 @@ data['stop_loss_pip']       =   None
 data['trailing_stop_pip']   =   None
 data['take_profit_pip']     =   0.0100
 #...............................................................................................
+
+
+# data['sema_len'] = 30
+# data['lema_len'] = 300
+
+# data['candle_count'] = 5
+# data['candle_granularity'] = 'M1'
+# data['os'] = 'notebook'

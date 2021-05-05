@@ -22,7 +22,7 @@ def get_date_time(data):
     data['tot_ts']  = tot_ts.strftime("%Y-%b-%d, %I:%M:%S (%p)")      
     data['disp_ts'] = data['tot_ts']
         
-    t2 = dt.datetime.now()    
+    t2 = dt.datetime.utcnow()    
     data['time_diff'] = (t2 - tot_ts).total_seconds()
 
     return(data)
@@ -35,11 +35,6 @@ def get_prices(data):
     data['ask']     = float(data['resp']['asks'][0]['price'])
     data['spread']  = data['ask'] - data['bid']
     data['tick']    = (data['ask'] + data['bid']) / 2
-
-    # data['bid']     = np.round(data['bid'],5) 
-    # data['ask']     = np.round(data['ask'],5) 
-    # data['spread']  = np.round(data['spread'],5) 
-    # data['tick']    = np.round(data['tick'],5) 
 
     return(data)
 #==========================================================================================================================

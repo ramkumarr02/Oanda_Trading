@@ -13,6 +13,8 @@ def print_report(data):
         display.clear_output(wait = True)    
 
     print('---------------------------')
+    print(f"Bot             : EMA - {data['instrument']}")
+    print('---------------------------')
     print(f"iter            : {data['iter']}")
     print(f"time            : {data['disp_ts']}")
     print(f"time_diff       : {data['time_diff']}")

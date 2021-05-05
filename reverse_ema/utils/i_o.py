@@ -13,6 +13,8 @@ def print_report(data):
         display.clear_output(wait = True)    
 
     print('---------------------------')
+    print(f"Bot             : Rev - {data['instrument']}")
+    print('---------------------------')
     print(f"iter            : {data['iter']}")
     print(f"time            : {data['disp_ts']}")
     print(f"time_diff       : {data['time_diff']}")
@@ -25,6 +27,7 @@ def print_report(data):
     print(f"ema_diff        : {data['ema_diff']}")    
     print(f"position        : {data['position']}")    
     print(f"old_position    : {data['old_position']}")    
+    print(f"position        : {data['position']}")    
     print(f"dir_change      : {data['dir_change']}")    
     print(f"candle_swing    : {data['candle_swing']}")    
     print(f"to_order        : {data['to_order']}")    
