@@ -36,6 +36,7 @@ def after_lema(data):
     data['lema'] = list(pd.DataFrame(list(data['lema_tick_list'])).ewm(span=data['lema_len']).mean()[0])[-1]
     # data['lema'] = np.round(data['lema'],5)
     data['ema_diff'] = data['sema'] - data['lema']
+    data['tick_lema_diff'] = data['tick'] - data['lema']
     return(data)
 #...............................................................................................    
 

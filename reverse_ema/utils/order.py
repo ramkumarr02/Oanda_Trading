@@ -90,6 +90,8 @@ def make_long_order(data):
     data                        = check_for_open_orders(data)
     data['price_order_ask']     = float(data['positions_info']['positions'][0]['long']['averagePrice'])
     data['opened_order']        = 'long'
+    data['dir_change']          = False
+
     return(data)
 #...............................................................................................
 
@@ -118,6 +120,8 @@ def make_short_order(data):
     data                        = check_for_open_orders(data)    
     data['price_order_bid']     = float(data['positions_info']['positions'][0]['short']['averagePrice'])
     data['opened_order']        = 'short'
+    data['dir_change']          = False
+    
     return(data)
 #...............................................................................................
 
@@ -163,8 +167,6 @@ def make_order(data):
 
             if data['to_order'] == 'short':
                 make_short_order(data)
-
-            data['dir_change'] = False
             
     return(data)
 #...............................................................................................

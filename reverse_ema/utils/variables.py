@@ -36,6 +36,7 @@ data["take_profit_flg"] =  False
 # data['candle_avg_height'] = None
 data['avg_ema_gap'] = None
 data['ema_diff'] = None
+data['tick_lema_diff'] = None
 data['candle_swing'] = None
 
 

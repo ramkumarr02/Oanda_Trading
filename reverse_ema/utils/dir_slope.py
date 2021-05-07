@@ -14,7 +14,8 @@ def get_candle_size(data):
     
     data['avg_ema_gap']         =   np.mean(height_list)
     
-    data['candle_swing']        =   data['avg_ema_gap'] * data['gap_ratio']
+    # data['candle_swing']        =   data['avg_ema_gap'] * data['gap_ratio']
+    data['candle_swing']        =   data['avg_ema_gap']
     
     data['stop_loss_pip']       =   data['avg_ema_gap']
     data['trailing_stop_pip']   =   data['avg_ema_gap']
@@ -30,7 +31,7 @@ def get_candle_size(data):
 #...............................................................................................
 def order_dir_check(data):
     if not data['order_current_open']:
-        if abs(data['ema_diff']) >= data['candle_swing']:
+        if abs(data['tick_lema_diff']) >= data['candle_swing']:
             if data['ema_diff'] < 0:
                     data['to_order'] = 'long'
 
