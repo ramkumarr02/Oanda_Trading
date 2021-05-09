@@ -5,7 +5,8 @@ from utils.variables import *
 
 #...............................................................................................
 def read_data(data):   
-    source_file_path = f'data/{data["product"]}/{data["input_file_name"]}'
+    # source_file_path = f'data/{data["product"]}/{data["input_file_name"]}'
+    source_file_path = f'../data/products/{data["product"]}/{data["input_file_name"]}'
 
     if data['input_rows'] is None:
         data["df"] = pd.read_csv(source_file_path)
@@ -109,7 +110,7 @@ def print_report(data):
 
 #...............................................................................................
 def plot_graph(data):
-    linestyle = (0, (1, 25))
+    linestyle = (0, (1, 3))
     
     fig, ax1 = plt.subplots(figsize=(50,10))
     ax2 = ax1.twinx()

@@ -56,8 +56,8 @@ data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 data['input_rows'] = None
 data["plot"] = True
 
-data['start_date'] = {'year':2021, 'month':1, 'date':5}
-data['end_date']   = {'year':2021, 'month':1, 'date':7}
+data['start_date'] = {'year':2021, 'month':5, 'date':6}
+data['end_date']   = {'year':2021, 'month':5, 'date':7}
 
 data['close_angle'] = 40
 data['lema_close_angle'] = 10
@@ -66,13 +66,13 @@ data['angle_close_pip'] = 0.0002
 data['gap_cushion'] = data['pip_size'] * 2
 
 data['sema_len']  = 3000
-
 data['lema_len']  = 30000
 data['angle_len'] = 10
 
-# data['sema_len']        = 5
-# data['lema_len']        = 2000
-# data['angle_len']       = 60
+data['sema_len']        = 1000
+data['lema_len']        = 30000
+data['angle_len']       = 100
+data['close_angle']     = 45
 
 data['pip_decimal_num'] = 6
 #...............................................................................................
