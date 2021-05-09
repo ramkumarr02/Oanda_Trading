@@ -22,6 +22,7 @@ data['lema_angle_list'] =  collections.deque()
 
 data['dir_list'] = collections.deque()
 
+data['sleep_check'] = True
 data['position'] = None
 data['to_order'] = None
 data['order_type'] = None

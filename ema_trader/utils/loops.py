@@ -64,3 +64,16 @@ def after_angle(data):
         
     return(data)
 #............................................................................................... 
+
+
+
+#............................................................................................... 
+def get_back_data(data):
+    
+    params = {"count": data['candle_count'], "granularity": data['candle_granularity']}
+    candle_size_data = instruments.InstrumentsCandles(instrument="EUR_USD", params=params)
+    data['candle_size_info'] = data["api"].request(candle_size_data)
+    data['back_ticks'] = [candle['mid']['c'] for candle in data['candle_size_info']['candles']]
+    
+    return(data)
+#............................................................................................... 

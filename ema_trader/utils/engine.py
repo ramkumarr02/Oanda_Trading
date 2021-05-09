@@ -15,7 +15,8 @@ def run_engine(data):
     for data['iter'], data['resp'] in enumerate(data['response_stream']):    
 
         # Check for sleeping window
-        sleep_check()
+        if data['sleep_check']:
+            sleep_check()
 
         data["start_ts"] = dt.datetime.strftime(dt.datetime.now(), '%Y-%m-%d-%H-%M')
         

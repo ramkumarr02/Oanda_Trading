@@ -70,7 +70,7 @@ data['lema_len']  = 30000
 data['angle_len'] = 10
 
 data['sema_len']        = 1000
-data['lema_len']        = 30000
+data['lema_len']        = 15000
 data['angle_len']       = 100
 data['close_angle']     = 45
 
