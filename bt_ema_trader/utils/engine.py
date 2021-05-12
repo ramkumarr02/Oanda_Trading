@@ -72,6 +72,14 @@ def run_engine(data):
         
         data = angle_close(data)
         data = reverse_order(data)
+
+        if data['pl_move_flag']:
+            data = pl_positive_check(data)
+            data = pl_move_close(data)
+
+        if data['tick_close_flag']:
+            data = tick_close(data)
+        
         data = make_order(data)    
         
 

@@ -1,49 +1,16 @@
-ERROR:root:--- Timestamp-2021-05-02 12:21:07.047144, Error-name 'json' is not defined
-ERROR:root:--- Timestamp-2021-05-02 12:21:08.145756, Error-name 'json' is not defined
-ERROR:root:--- Timestamp-2021-05-02 12:21:08.985301, Error-name 'json' is not defined
-ERROR:root:--- Timestamp-2021-05-02 12:21:09.596720, Error-name 'json' is not defined
-ERROR:root:--- Timestamp-2021-05-02 12:21:10.106065, Error-name 'json' is not defined
-ERROR:root:--- Timestamp-2021-05-02 12:21:10.622910, Error-name 'json' is not defined
-ERROR:root:--- Timestamp-2021-05-02 12:21:11.133068, Error-name 'json' is not defined
-ERROR:root:--- Timestamp-2021-05-02 12:21:11.743427, Error-name 'json' is not defined
-ERROR:root:--- Timestamp-2021-05-02 12:21:12.267718, Error-name 'json' is not defined
-ERROR:root:--- Timestamp-2021-05-02 12:21:12.666752, Error-name 'json' is not defined
-ERROR:root:--- Timestamp-2021-05-02 12:21:13.292291, Error-name 'json' is not defined
-ERROR:root:--- Timestamp-2021-05-02 12:21:13.729685, Error-name 'json' is not defined
-ERROR:root:--- Timestamp-2021-05-02 12:21:14.214439, Error-name 'json' is not defined
-ERROR:root:--- Timestamp-2021-05-02 12:21:14.827813, Error-name 'json' is not defined
-ERROR:root:--- Timestamp-2021-05-02 12:21:15.342840, Error-name 'json' is not defined
-ERROR:root:--- Timestamp-2021-05-02 12:21:15.382273, Error-KeyboardInterrupt
-ERROR:root:--- Timestamp-2021-05-02 12:22:02.446484, Error-Time difference is above limit : 112929.446484
-ERROR:root:--- Timestamp-2021-05-02 12:22:02.954066, Error-Time difference is above limit : 112929.954066
-ERROR:root:--- Timestamp-2021-05-02 12:22:03.467428, Error-Time difference is above limit : 112930.467428
-ERROR:root:--- Timestamp-2021-05-02 12:22:03.978307, Error-Time difference is above limit : 112930.978307
-ERROR:root:--- Timestamp-2021-05-02 12:22:04.492363, Error-Time difference is above limit : 112931.492363
-ERROR:root:--- Timestamp-2021-05-02 12:22:04.992699, Error-Time difference is above limit : 112931.992699
-ERROR:root:--- Timestamp-2021-05-02 12:22:05.514561, Error-Time difference is above limit : 112932.514561
-ERROR:root:--- Timestamp-2021-05-02 12:22:06.743905, Error-KeyboardInterrupt
-ERROR:root:--- Timestamp-2021-05-04 17:21:03.555387, Error-KeyboardInterrupt
-ERROR:root:--- Timestamp-2021-05-04 17:21:52.705908, Error-KeyboardInterrupt
-ERROR:root:--- Timestamp-2021-05-09 18:07:22.249682, Error-Time difference is above limit : 133648.249682
-ERROR:root:--- Timestamp-2021-05-09 18:07:23.507729, Error-Time difference is above limit : 133649.507729
-ERROR:root:--- Timestamp-2021-05-09 18:07:24.772007, Error-Time difference is above limit : 133650.772007
-ERROR:root:--- Timestamp-2021-05-09 18:07:25.901003, Error-Time difference is above limit : 133651.901003
-ERROR:root:--- Timestamp-2021-05-09 18:07:27.332471, Error-Time difference is above limit : 133653.332471
-ERROR:root:--- Timestamp-2021-05-09 18:07:28.660465, Error-Time difference is above limit : 133654.660465
-ERROR:root:--- Timestamp-2021-05-09 18:07:29.892293, Error-Time difference is above limit : 133655.892293
-ERROR:root:--- Timestamp-2021-05-09 18:07:31.330330, Error-Time difference is above limit : 133657.33033
-ERROR:root:--- Timestamp-2021-05-09 18:07:32.452733, Error-Time difference is above limit : 133658.452733
-ERROR:root:--- Timestamp-2021-05-09 18:07:33.787801, Error-Time difference is above limit : 133659.787801
-ERROR:root:--- Timestamp-2021-05-09 18:07:35.114849, Error-Time difference is above limit : 133661.114849
-ERROR:root:--- Timestamp-2021-05-09 18:07:36.343293, Error-Time difference is above limit : 133662.343293
-ERROR:root:--- Timestamp-2021-05-09 18:07:37.474272, Error-Time difference is above limit : 133663.474272
-ERROR:root:--- Timestamp-2021-05-09 18:07:38.706607, Error-Time difference is above limit : 133664.706607
-ERROR:root:--- Timestamp-2021-05-09 18:07:39.891227, Error-Time difference is above limit : 133665.891227
-ERROR:root:--- Timestamp-2021-05-09 18:07:41.264648, Error-Time difference is above limit : 133667.264648
-ERROR:root:--- Timestamp-2021-05-09 18:07:42.583907, Error-Time difference is above limit : 133668.583907
-ERROR:root:--- Timestamp-2021-05-09 18:07:43.734778, Error-Time difference is above limit : 133669.734778
-ERROR:root:--- Timestamp-2021-05-09 18:07:45.255650, Error-Time difference is above limit : 133671.25565
-ERROR:root:--- Timestamp-2021-05-09 18:07:46.690555, Error-Time difference is above limit : 133672.690555
-ERROR:root:--- Timestamp-2021-05-09 18:07:48.220216, Error-Time difference is above limit : 133674.220216
-ERROR:root:--- Timestamp-2021-05-09 18:07:49.553074, Error-Time difference is above limit : 133675.553074
-ERROR:root:--- Timestamp-2021-05-09 18:07:50.883044, Error-KeyboardInterrupt
+ERROR:root:--- Timestamp-2021-05-10 20:10:57.003592, Error-KeyboardInterrupt
+ERROR:root:--- Timestamp-2021-05-10 20:15:39.123157, Error-KeyboardInterrupt
+ERROR:root:--- Timestamp-2021-05-10 20:16:16.920238, Error-'list' object has no attribute 'popleft'
+ERROR:root:--- Timestamp-2021-05-10 20:16:18.251149, Error-'list' object has no attribute 'popleft'
+ERROR:root:--- Timestamp-2021-05-10 20:16:19.468984, Error-'list' object has no attribute 'popleft'
+ERROR:root:--- Timestamp-2021-05-10 20:16:20.712490, Error-'list' object has no attribute 'popleft'
+ERROR:root:--- Timestamp-2021-05-10 20:16:21.979987, Error-'list' object has no attribute 'popleft'
+ERROR:root:--- Timestamp-2021-05-10 20:16:23.366988, Error-'list' object has no attribute 'popleft'
+ERROR:root:--- Timestamp-2021-05-10 20:16:24.604466, Error-'list' object has no attribute 'popleft'
+ERROR:root:--- Timestamp-2021-05-10 20:16:25.824833, Error-'list' object has no attribute 'popleft'
+ERROR:root:--- Timestamp-2021-05-10 20:16:27.151306, Error-'list' object has no attribute 'popleft'
+ERROR:root:--- Timestamp-2021-05-10 20:16:28.519018, Error-'list' object has no attribute 'popleft'
+ERROR:root:--- Timestamp-2021-05-10 20:16:29.726034, Error-'list' object has no attribute 'popleft'
+ERROR:root:--- Timestamp-2021-05-10 20:16:31.051339, Error-'list' object has no attribute 'popleft'
+ERROR:root:--- Timestamp-2021-05-10 20:16:32.379567, Error-KeyboardInterrupt
+ERROR:root:--- Timestamp-2021-05-10 20:18:48.359234, Error-KeyboardInterrupt
