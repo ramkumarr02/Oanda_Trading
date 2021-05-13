@@ -184,7 +184,7 @@ def tick_close(data):
     if data['open_order']:
         if data['pl_positive'] == False:
             if data['open_order_type'] == 'short':
-                if data['tick'] - data['lema'] >= 0 and data['sema_angle'] > data['tick_order_angle']:
+                if data['tick'] - data['lema'] >= 0 and data['sema_angle'] >= data['tick_close_angle']:
                     data['close_ask_price'] = data['ask']
                     data['pl'] = np.round(data['order_bid_price'] - data['close_ask_price'], 5)
                     data['pl_list'].append(data['pl'])
@@ -199,7 +199,7 @@ def tick_close(data):
                     create_report(data)
 
             if data['open_order_type'] == 'long':
-                if data['lema'] - data['tick'] >= 0 and data['sema_angle'] < -data['tick_order_angle']:
+                if data['lema'] - data['tick'] >= 0 and data['sema_angle'] <= -data['tick_close_angle']:
                     data['close_bid_price'] = data['bid']
                     data['pl'] = np.round(data['close_bid_price'] - data['order_ask_price'], 5)
                     data['pl_list'].append(data['pl'])
@@ -268,7 +268,7 @@ def pl_positive_check(data):
             data['close_bid_price'] = data['bid']
             data['pl'] = np.round(data['close_bid_price'] - data['order_ask_price'], 5)
 
-        if data['pl'] >= 0.00015:
+        if data['pl'] >= data['pl_move_trigger']:
             data['pl_positive'] = True
     
     return(data)
@@ -282,7 +282,7 @@ def pl_move_close(data):
             data['pl'] = np.round(data['close_bid_price'] - data['order_ask_price'], 5)
 
             if data['pl_positive']:
-                if data['pl'] <= 0.000075:
+                if data['pl'] <= data['pl_move_min']:
                     data['pl_list'].append(data['pl'])
                     data['dt_list'].append(data['dt_val'])
                     data['open_order'] = False
@@ -295,20 +295,20 @@ def pl_move_close(data):
                     create_report(data)               
                 
         if data['open_order_type'] == 'short':
-                data['close_ask_price'] = data['ask']
-                data['pl'] = np.round(data['order_bid_price'] - data['close_ask_price'], 5)
+            data['close_ask_price'] = data['ask']
+            data['pl'] = np.round(data['order_bid_price'] - data['close_ask_price'], 5)
 
-                if data['pl_positive']:
-                    if data['pl'] <= 0.000075:
-                        data['pl_list'].append(data['pl'])
-                        data['dt_list'].append(data['dt_val'])
-                        data['open_order'] = False
-                        data['close_type'].append('pl_move_close')
-                        
-                        if data["plot"]:
-                            data['sell_markers_x'].append(data['i_list'][-1])
-                            data['sell_markers_y'].append(data['ask'])  
-                        
-                        create_report(data)
+            if data['pl_positive']:
+                if data['pl'] <= data['pl_move_min']:
+                    data['pl_list'].append(data['pl'])
+                    data['dt_list'].append(data['dt_val'])
+                    data['open_order'] = False
+                    data['close_type'].append('pl_move_close')
+                    
+                    if data["plot"]:
+                        data['sell_markers_x'].append(data['i_list'][-1])
+                        data['sell_markers_y'].append(data['ask'])  
+                    
+                    create_report(data)
 
     return(data)    

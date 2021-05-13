@@ -36,6 +36,7 @@ data['pl_positive'] = False
 data['tick_close_flag'] = False
 data['pl_move_flag'] = False
 
+
 data['position_without_cushion'] = None
 
 data['close_type'] = []
@@ -68,14 +69,19 @@ data['angle_close_pip'] = 0.0002
 
 data['gap_cushion'] = data['pip_size'] * 2
 
+data['pl_move_trigger'] = 0.0006
+data['pl_move_min']     = 0.00006
+data['tick_close_angle'] = 10
+
 data['sema_len']  = 3000
 data['lema_len']  = 30000
 data['angle_len'] = 10
 
-data['sema_len']        = 300
-data['lema_len']        = 6000
-data['angle_len']       = 60
-data['close_angle']     = 45
+data['sema_len']        = 1200
+data['lema_len']        = 12000
+data['angle_len']       = 10
+data['close_angle']     = 25
+
 
 data['pip_decimal_num'] = 6
 #...............................................................................................
