@@ -129,8 +129,11 @@ def plot_graph(data):
     ax1.scatter(data['buy_markers_x'], data['buy_markers_y'], s=300, c='darkblue', marker=10)
     ax1.scatter(data['sell_markers_x'], data['sell_markers_y'], s=300, c='red', marker=11)
 
-    ax2.plot(data['df']["sema_angle"], c='violet', label = 'sema_angle', linestyle = linestyle)
-    # ax2.plot(data['df']["lema_angle"], c='blue', label = 'lema_angle', linestyle = linestyle)
+    ax2.plot(data['df']["sema_angle"], c='pink', label = 'sema_angle', linestyle = linestyle)
+    # ax2.plot(data['df']["lema_angle"], c='violet', label = 'lema_angle', linestyle = linestyle)
+
+    angle_diff_list = list(np.array(data['df']["sema_angle"]) - np.array(data['df']["lema_angle"]))
+    ax2.plot(angle_diff_list, c='violet', label = 'angle_diff', linestyle = linestyle)
 
     legend = ax1.legend(loc='upper left', fontsize='xx-large')
     legend = ax2.legend(loc='upper right', fontsize='xx-large')

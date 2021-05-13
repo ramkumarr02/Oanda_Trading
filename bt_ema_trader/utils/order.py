@@ -6,25 +6,26 @@ from utils.i_o import *
 def make_order(data):
     if not data['open_order']:
         if data['dir_change']:
-            if data['to_order'] == 'long':
-                data['order_ask_price'] = data['ask']
-                data['open_order'] = True
-                data['open_order_type'] = 'long'
-                data['pl_positive'] = False
-                
-                if data["plot"]:
-                    data['buy_markers_x'].append(data['i_list'][-1])
-                    data['buy_markers_y'].append(data['ask'])
-                
-            elif data['to_order'] == 'short':
-                data['order_bid_price'] = data['bid']
-                data['open_order'] = True
-                data['open_order_type'] = 'short'
-                data['pl_positive'] = False
+            if data['angle_diff'] > 20:
+                if data['to_order'] == 'long':
+                    data['order_ask_price'] = data['ask']
+                    data['open_order'] = True
+                    data['open_order_type'] = 'long'
+                    data['pl_positive'] = False
+                    
+                    if data["plot"]:
+                        data['buy_markers_x'].append(data['i_list'][-1])
+                        data['buy_markers_y'].append(data['ask'])
+                    
+                elif data['to_order'] == 'short':
+                    data['order_bid_price'] = data['bid']
+                    data['open_order'] = True
+                    data['open_order_type'] = 'short'
+                    data['pl_positive'] = False
 
-                if data["plot"]:
-                    data['buy_markers_x'].append(data['i_list'][-1])
-                    data['buy_markers_y'].append(data['bid'])
+                    if data["plot"]:
+                        data['buy_markers_x'].append(data['i_list'][-1])
+                        data['buy_markers_y'].append(data['bid'])
                 
     return(data)
 #...............................................................................................

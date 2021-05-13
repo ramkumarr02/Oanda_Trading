@@ -93,8 +93,8 @@ def get_slope(data, ma_type):
 
     if ma_type == 'lema':
         data['lema_angle'] = math.degrees(math.atan(slope_tick))
+        data['angle_diff'] = abs(data['sema_angle'] - data['lema_angle'])        
         if data["plot"]:
             data['df_lema_angle_list'].append(data['lema_angle'])
-
     return(data)    
 #...............................................................................................    
