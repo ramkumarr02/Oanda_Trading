@@ -13,6 +13,7 @@ data['pl_list'] =  collections.deque()
 data['sema_angle_list'] =  collections.deque()
 data['lema_angle_list'] =  collections.deque()
 
+data['i'] = None
 data['i_list'] = []
 data['tick_list'] = []
 data['angle_list'] = []
@@ -21,7 +22,7 @@ data['df_lema_list'] = []
 data['df_tick_list'] = []
 data['df_sema_angle_list'] = []
 data['df_lema_angle_list'] = []
-
+data['old_sema_angle'] = False
 
 data['buy_markers_x'] = []
 data['buy_markers_y'] = []
@@ -74,9 +75,10 @@ data['pl_move_min']     = 0.00006
 data['tick_close_angle'] = 5
 
 
-data['sema_len']        = 1200
-data['lema_len']        = 12000
-data['angle_len']       = 100
+# data['sema_len']        = 1200
+# data['lema_len']        = 12000
+data['angle_len']       = 900
+
 data['min_order_angle'] = 20
 data['close_angle']     = 25
 

@@ -118,22 +118,18 @@ def plot_graph(data):
     x_axis = np.arange(0,len(data["df"]['tick']))
 
     ax1.plot(x_axis, data["df"]['tick'], label='tick', color='gray', linestyle='dotted')
-    ax1.plot(x_axis, data["df"]['sema'], label='sema', color='maroon')
-    ax1.plot(x_axis, data["df"]['lema'], label='lema', color='blue')
+
 
     data = get_date_lines(data)
 
     for x_val in data['line_list']:
         plt.axvline(x=x_val, color='black')
 
-    ax1.scatter(data['buy_markers_x'], data['buy_markers_y'], s=300, c='darkblue', marker=10)
-    ax1.scatter(data['sell_markers_x'], data['sell_markers_y'], s=300, c='red', marker=11)
-
     ax2.plot(data['df']["sema_angle"], c='pink', label = 'sema_angle', linestyle = linestyle)
-    # ax2.plot(data['df']["lema_angle"], c='violet', label = 'lema_angle', linestyle = linestyle)
+    ax2.scatter(data['buy_markers_x'], data['buy_markers_y'], s=50, c='darkblue', marker=10)
 
-    # angle_diff_list = list(np.array(data['df']["sema_angle"]) - np.array(data['df']["lema_angle"]))
-    # ax2.plot(angle_diff_list, c='violet', label = 'angle_diff', linestyle = linestyle)
+    temp = data['df']["sema_angle"] - data['df']["sema_angle"]
+    ax2.plot(temp, c='black', label = 'sema_angle', linestyle = linestyle)
 
     legend = ax1.legend(loc='upper left', fontsize='xx-large')
     legend = ax2.legend(loc='upper right', fontsize='xx-large')
@@ -142,12 +138,12 @@ def plot_graph(data):
     ax1.tick_params(axis='y', colors='red', labelsize = 25)
     ax2.tick_params(axis='y', colors='red', labelsize = 25)
 
-
     plt.xlabel('tick num')
     plt.ylabel('prices')
     plt.title('trade chart')
     plt.grid()
     plt.show()    
+    data['file_name'] = f'data/{data["product"]}/{data["start_date"].year}-({data["start_date"].month}-{data["end_date"].month})-({data["start_date"].day}-{data["end_date"].day})-{data["start_ts"]}.csv'
     data['chart_name'] = f'{data["file_name"].split(".")[0]}.png'
     fig.savefig(data['chart_name'])
 #...............................................................................................

@@ -14,7 +14,7 @@ def make_order(data):
                     data['pl_positive'] = False
                     
                     if data["plot"]:
-                        data['buy_markers_x'].append(data['i_list'][-1])
+                        data['buy_markers_x'].append(data['i'])
                         data['buy_markers_y'].append(data['ask'])
                     
                 elif data['to_order'] == 'short':
@@ -24,7 +24,7 @@ def make_order(data):
                     data['pl_positive'] = False
 
                     if data["plot"]:
-                        data['buy_markers_x'].append(data['i_list'][-1])
+                        data['buy_markers_x'].append(data['i'])
                         data['buy_markers_y'].append(data['bid'])
                 
     return(data)
@@ -43,7 +43,7 @@ def close_order(data):
                 data['close_type'].append('sema_close')
 
                 if data["plot"]:
-                    data['sell_markers_x'].append(data['i_list'][-1])
+                    data['sell_markers_x'].append(data['i'])
                     data['sell_markers_y'].append(data['bid'])      
                 
                 create_report(data)         
@@ -58,7 +58,7 @@ def close_order(data):
                 data['close_type'].append('sema_close')
 
                 if data["plot"]:
-                    data['sell_markers_x'].append(data['i_list'][-1])
+                    data['sell_markers_x'].append(data['i'])
                     data['sell_markers_y'].append(data['ask'])                  
                 
                 create_report(data)
@@ -81,7 +81,7 @@ def reverse_order(data):
                         data['close_type'].append('sema_close')
 
                         if data["plot"]:
-                            data['sell_markers_x'].append(data['i_list'][-1])
+                            data['sell_markers_x'].append(data['i'])
                             data['sell_markers_y'].append(data['bid'])      
                         
                         create_report(data)         
@@ -96,7 +96,7 @@ def reverse_order(data):
                         data['close_type'].append('sema_close')
 
                         if data["plot"]:
-                            data['sell_markers_x'].append(data['i_list'][-1])
+                            data['sell_markers_x'].append(data['i'])
                             data['sell_markers_y'].append(data['ask'])                  
                         
                         create_report(data)
@@ -117,7 +117,7 @@ def close_order_old_2(data):
                 data['close_type'].append('sema_close')
 
                 if data["plot"]:
-                    data['sell_markers_x'].append(data['i_list'][-1])
+                    data['sell_markers_x'].append(data['i'])
                     data['sell_markers_y'].append(data['bid'])      
                 
                 create_report(data)         
@@ -131,7 +131,7 @@ def close_order_old_2(data):
                 data['close_type'].append('sema_close')
 
                 if data["plot"]:
-                    data['sell_markers_x'].append(data['i_list'][-1])
+                    data['sell_markers_x'].append(data['i'])
                     data['sell_markers_y'].append(data['ask'])                  
                 
                 create_report(data)
@@ -155,7 +155,7 @@ def angle_close(data):
                     data['close_type'].append('angle_close')
                     
                     if data["plot"]:
-                        data['sell_markers_x'].append(data['i_list'][-1])
+                        data['sell_markers_x'].append(data['i'])
                         data['sell_markers_y'].append(data['ask'])  
 
                     create_report(data)
@@ -171,7 +171,7 @@ def angle_close(data):
                     data['close_type'].append('angle_close')
                     
                     if data["plot"]:
-                        data['sell_markers_x'].append(data['i_list'][-1])
+                        data['sell_markers_x'].append(data['i'])
                         data['sell_markers_y'].append(data['bid'])     
 
                     create_report(data)             
@@ -195,7 +195,7 @@ def tick_close(data):
                     data['close_type'].append('tick_close')
                     
                     if data["plot"]:
-                        data['sell_markers_x'].append(data['i_list'][-1])
+                        data['sell_markers_x'].append(data['i'])
                         data['sell_markers_y'].append(data['ask'])  
                     
                     create_report(data)
@@ -210,7 +210,7 @@ def tick_close(data):
                     data['close_type'].append('tick_close')
                     
                     if data["plot"]:
-                        data['sell_markers_x'].append(data['i_list'][-1])
+                        data['sell_markers_x'].append(data['i'])
                         data['sell_markers_y'].append(data['bid'])   
 
                     create_report(data)               
@@ -235,7 +235,7 @@ def stop_loss(data):
                 data['close_type'].append('stop_loss')
                 
                 if data["plot"]:
-                    data['sell_markers_x'].append(data['i_list'][-1])
+                    data['sell_markers_x'].append(data['i'])
                     data['sell_markers_y'].append(data['bid'])   
 
                 create_report(data)               
@@ -251,7 +251,7 @@ def stop_loss(data):
                     data['close_type'].append('stop_loss')
                     
                     if data["plot"]:
-                        data['sell_markers_x'].append(data['i_list'][-1])
+                        data['sell_markers_x'].append(data['i'])
                         data['sell_markers_y'].append(data['ask'])  
                     
                     create_report(data)
@@ -291,7 +291,7 @@ def pl_move_close(data):
                     data['close_type'].append('pl_move_close')
                     
                     if data["plot"]:
-                        data['sell_markers_x'].append(data['i_list'][-1])
+                        data['sell_markers_x'].append(data['i'])
                         data['sell_markers_y'].append(data['bid'])   
 
                     create_report(data)               
@@ -308,7 +308,7 @@ def pl_move_close(data):
                     data['close_type'].append('pl_move_close')
                     
                     if data["plot"]:
-                        data['sell_markers_x'].append(data['i_list'][-1])
+                        data['sell_markers_x'].append(data['i'])
                         data['sell_markers_y'].append(data['ask'])  
                     
                     create_report(data)
