@@ -72,7 +72,7 @@ data['angle_close_pip'] = 0.0002
 
 data['gap_cushion'] = data['pip_size'] * 2
 
-data['pl_move_trigger'] = 0.0003
+data['pl_move_trigger'] = 0.0002
 data['pl_move_min']     = 0.00006
 data['tick_close_angle'] = 5
 

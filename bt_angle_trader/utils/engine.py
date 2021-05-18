@@ -37,6 +37,17 @@ def run_engine(data):
         # ----------------------------------------------------------
 
 
+        # if data['sema_angle'] < 0:
+        #     data['dir_change'] = True
+        #     data['to_order'] = 'short'
+
+        # elif data['sema_angle'] > 0:
+        #     data['dir_change'] = True
+        #     data['to_order'] = 'long'            
+        # else:
+        #     data['dir_change'] = False
+        #     data['to_order'] = None 
+
 
         # Angle of Angle --------------------------------
         if len(data['angle_angle_list']) < data['angle_angle_len']:
@@ -59,7 +70,7 @@ def run_engine(data):
             data['to_order'] = None 
     
         data = angle_close(data)
-        # data = reverse_order(data)
+        data = reverse_order(data)
 
         if data['stop_loss_flag']:
             data = stop_loss(data)
