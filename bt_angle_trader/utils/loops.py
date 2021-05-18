@@ -49,7 +49,7 @@ def after_lema(data):
 #...............................................................................................
 def before_angle(data):   
     data['sema_angle_list'].append(data['tick'])
-    # data['lema_angle_list'].append(data['lema'])
+
     return(data)
 #...............................................................................................
 
@@ -58,20 +58,40 @@ def before_angle(data):
 #...............................................................................................
 def after_angle(data):     
     data['sema_angle_list'].popleft()
-    # data['lema_angle_list'].popleft()
 
     data['sema_angle_list'].append(data['tick'])
-    # data['lema_angle_list'].append(data['lema'])
 
     # Get Sema Angle --------------------------------
     data['y_axis'] = list(data["sema_angle_list"])        
     data = get_slope(data, 'sema')            
     # ----------------------------------------------------------  
-
-    # # Get Lema Angle --------------------------------
-    # data['y_axis'] = list(data["lema_angle_list"])        
-    # data = get_slope(data, 'lema')            
-    # # ----------------------------------------------------------  
         
     return(data)
 #............................................................................................... 
+
+
+#...............................................................................................
+def before_angle_angle(data):   
+    
+    data['angle_angle_list'].append(data['sema_angle'])
+
+    return(data)
+#...............................................................................................
+
+
+
+#...............................................................................................
+def after_angle_angle(data):     
+    data['angle_angle_list'].popleft()
+    data['angle_angle_list'].append(data['sema_angle'])
+
+    # Get Sema Angle --------------------------------
+    data['y_axis'] = list(data["angle_angle_list"])        
+    data = get_angle_slope(data)            
+    # ----------------------------------------------------------  
+        
+    return(data)
+#............................................................................................... 
+
+
+

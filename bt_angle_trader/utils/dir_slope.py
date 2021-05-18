@@ -98,3 +98,25 @@ def get_slope(data, ma_type):
             data['df_lema_angle_list'].append(data['lema_angle'])
     return(data)    
 #...............................................................................................    
+
+
+
+#...............................................................................................
+def get_angle_slope(data):
+    
+    # data['y_axis'] = list(np.round(data['y_axis'],data['pip_decimal_num']))
+    ma_len = len(data['y_axis'])
+    
+    x_axis = []
+    for i in range(ma_len):
+        x_axis.append(1 + i)
+    
+    slope_tick, intercept, _, _, _ = linregress(x_axis, data['y_axis'])
+    
+    data['angle_angle'] = math.degrees(math.atan(slope_tick))
+    data['angle_angle'] = np.round(data['angle_angle'],0)
+
+    # print(data['y_axis'], data['angle_angle'])
+
+    return(data)    
+#...............................................................................................    

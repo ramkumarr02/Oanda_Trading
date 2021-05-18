@@ -12,6 +12,8 @@ data['lema_list'] = collections.deque()
 data['pl_list'] =  collections.deque()
 data['sema_angle_list'] =  collections.deque()
 data['lema_angle_list'] =  collections.deque()
+data['angle_angle_list'] =  collections.deque()
+
 
 data['i'] = None
 data['i_list'] = []
@@ -61,8 +63,8 @@ data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 data['input_rows'] = None
 data["plot"] = True
 
-data['start_date'] = {'year':2021, 'month':5, 'date':1}
-data['end_date']   = {'year':2021, 'month':5, 'date':4}
+data['start_date'] = {'year':2021, 'month':4, 'date':4}
+data['end_date']   = {'year':2021, 'month':4, 'date':5}
 
 data['close_angle'] = 40
 data['lema_close_angle'] = 10
@@ -75,9 +77,8 @@ data['pl_move_min']     = 0.00006
 data['tick_close_angle'] = 5
 
 
-# data['sema_len']        = 1200
-# data['lema_len']        = 12000
-data['angle_len']       = 900
+data['angle_len']       = 1200
+data['angle_angle_len'] = 5
 
 data['min_order_angle'] = 20
 data['close_angle']     = 25
