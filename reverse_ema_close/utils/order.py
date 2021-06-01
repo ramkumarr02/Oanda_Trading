@@ -41,6 +41,7 @@ def close_order(data):
                 data['dt_list'].append(data['dt_val'])
                 data['open_order'] = False
                 data['close_type'].append('sema_close')
+                data['order_types'].append(data['open_order_type'])
 
                 if data["plot"]:
                     data['sell_markers_x'].append(data['i_list'][-1])
@@ -56,6 +57,7 @@ def close_order(data):
                 data['dt_list'].append(data['dt_val'])
                 data['open_order'] = False
                 data['close_type'].append('sema_close')
+                data['order_types'].append(data['open_order_type'])
 
                 if data["plot"]:
                     data['sell_markers_x'].append(data['i_list'][-1])

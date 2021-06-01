@@ -160,9 +160,9 @@ def plot_graph(data):
 
 #...............................................................................................
 def create_report(data):
-    data['report_df'] = pd.DataFrame({'date':data['dt_list'], 'pls': data['pl_list'], 'close_type': data['close_type']})
+    data['report_df'] = pd.DataFrame({'date':data['dt_list'], 'pls': data['pl_list'], 'close_type': data['close_type'], 'order_type':data['order_types']})
     split_date_col(data)
-    data['report_df'] = data['report_df'][['date', 'year_val', 'month_val', 'date_val', 'hour_val','minute_val', 'close_type', 'pls']]
+    data['report_df'] = data['report_df'][['date', 'year_val', 'month_val', 'date_val', 'hour_val','minute_val', 'close_type', 'pls', 'order_type']]
     data["report_df"] = data["report_df"].reset_index(drop = True)    
 
     data['file_name'] = f'data/{data["product"]}/{data["start_date"].year}-({data["start_date"].month}-{data["end_date"].month})-({data["start_date"].day}-{data["end_date"].day})-{data["start_ts"]}.csv'
@@ -185,5 +185,5 @@ def create_report(data):
 
     print(np.sum(data['report_df'][['pls']]))
     print('--------------------------------------')
-    print(data['report_df'][['date', 'close_type', 'pls']])
+    print(data['report_df'][['date', 'order_type', 'close_type', 'pls']])
 #...............................................................................................    

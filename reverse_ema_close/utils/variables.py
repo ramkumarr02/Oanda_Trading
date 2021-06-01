@@ -36,15 +36,17 @@ data['pl_positive'] = False
 data['tick_close_flag'] = False
 data['pl_move_flag'] = False
 
+data['ema_diff'] = 0
 
 data['position_without_cushion'] = None
 
 data['close_type'] = []
+data['order_types'] = []
 
 # data['running_in'] = 'linux'
 
-data['sema_make_order_angle'] = 1
-data['sema_close_order_angle'] = 1
+data['sema_make_order_angle'] = 5
+data['sema_close_order_angle'] = 5
 
 data['pip_size'] = 0.0001
 
@@ -62,7 +64,7 @@ data['input_rows'] = None
 data["plot"] = True
 
 data['start_date'] = {'year':2021, 'month':4, 'date':1}
-data['end_date']   = {'year':2021, 'month':4, 'date':6}
+data['end_date']   = {'year':2021, 'month':4, 'date':4}
 
 data['close_angle'] = 40
 data['lema_close_angle'] = 10
