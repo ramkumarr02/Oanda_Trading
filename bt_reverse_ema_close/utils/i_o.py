@@ -130,14 +130,14 @@ def plot_graph(data):
     ax1.scatter(data['buy_markers_x'], data['buy_markers_y'], s=300, c='darkblue', marker=10)
     ax1.scatter(data['sell_markers_x'], data['sell_markers_y'], s=300, c='red', marker=11)
 
-    # ax2.plot(data['df']["sema_angle"], c='pink', label = 'sema_angle', linestyle = linestyle)
-    # ax2.plot(data['df']["lema_angle"], c='violet', label = 'lema_angle', linestyle = linestyle)
+    ax2.plot(data['df']["sema_angle"], c='violet', label = 'sema_angle', linestyle = linestyle)
+    ax2.plot(data['df']["lema_angle"], c='pink', label = 'tick_angle', linestyle = linestyle)
 
-    angle_diff_list = list(np.array(data['df']["sema_angle"]) - np.array(data['df']["lema_angle"]))
-    ax2.plot(angle_diff_list, c='violet', label = 'angle_diff', linestyle = linestyle)
+    # angle_diff_list = list(np.array(data['df']["sema_angle"]) - np.array(data['df']["lema_angle"]))
+    # ax2.plot(angle_diff_list, c='pink', label = 'angle_diff', linestyle = linestyle)
 
     temp = data['df']["sema_angle"] - data['df']["sema_angle"]
-    ax2.plot(temp, c='black', label = 'sema_angle', linestyle = linestyle)
+    ax2.plot(temp, c='black', label = 'zero_line', linestyle = linestyle)
 
     legend = ax1.legend(loc='upper left', fontsize='xx-large')
     legend = ax2.legend(loc='upper right', fontsize='xx-large')
@@ -156,13 +156,13 @@ def plot_graph(data):
     fig.savefig(data['chart_name'])
 #...............................................................................................
 
-
+data['order_methods']
 
 #...............................................................................................
 def create_report(data):
-    data['report_df'] = pd.DataFrame({'date':data['dt_list'], 'pls': data['pl_list'], 'close_type': data['close_type'], 'order_type':data['order_types']})
+    data['report_df'] = pd.DataFrame({'date':data['dt_list'], 'pls': data['pl_list'], 'close_type': data['close_type'], 'order_type':data['order_types'], 'order_methods':data['order_methods']})
     split_date_col(data)
-    data['report_df'] = data['report_df'][['date', 'year_val', 'month_val', 'date_val', 'hour_val','minute_val', 'close_type', 'pls', 'order_type']]
+    data['report_df'] = data['report_df'][['date', 'year_val', 'month_val', 'date_val', 'hour_val','minute_val', 'close_type', 'pls', 'order_type', 'order_methods']]
     data["report_df"] = data["report_df"].reset_index(drop = True)    
 
     data['file_name'] = f'data/{data["product"]}/{data["start_date"].year}-({data["start_date"].month}-{data["end_date"].month})-({data["start_date"].day}-{data["end_date"].day})-{data["start_ts"]}.csv'
@@ -185,5 +185,5 @@ def create_report(data):
 
     print(np.sum(data['report_df'][['pls']]))
     print('--------------------------------------')
-    print(data['report_df'][['date', 'order_type', 'close_type', 'pls']])
+    print(data['report_df'][['date', 'order_type', 'order_methods','close_type', 'pls']])
 #...............................................................................................    

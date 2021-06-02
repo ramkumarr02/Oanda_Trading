@@ -33,8 +33,10 @@ data['open_order'] = False
 data['open_order_type'] = None
 data['df_subset_size'] = None
 data['pl_positive'] = False
+
 data['tick_close_flag'] = False
-data['pl_move_flag'] = False
+data['pl_move_flag']    = False
+data['stop_loss_flag']  = False
 
 data['ema_diff'] = 0
 
@@ -42,16 +44,16 @@ data['position_without_cushion'] = None
 
 data['close_type'] = []
 data['order_types'] = []
+data['order_methods'] = []
 
 # data['running_in'] = 'linux'
 
-data['sema_make_order_angle'] = 5
+data['sema_make_order_angle'] = 20
 data['sema_close_order_angle'] = 5
 
 data['pip_size'] = 0.0001
 
 data['tick_order_angle'] = 20
-data['stop_loss_pip'] = 0.0010
 
 # data["input_file_name"] = 'eurusd_2021'
 # data['min_order_angle'] = 20
@@ -72,16 +74,27 @@ data['angle_close_pip'] = 0.0002
 
 data['gap_cushion'] = data['pip_size'] * 2
 
-data['pl_move_trigger'] = 0.0003
-data['pl_move_min']     = 0.00006
+data['pl_move_trigger_store']   = 0.0003
+data['pl_move_min_store']       = 0.00006
+
+data['stop_loss_pip']           = data['pl_move_trigger_store'] * 1
+
+data['pl_move_trigger'] = data['pl_move_trigger_store']
+data['pl_move_min']     = data['pl_move_min_store']
+
+data['pl_move_trail_trigger']   = 0.0006
+data['pl_move_trail_ratio']     = 0.5
+
 data['tick_close_angle'] = 5
 data['pl_close_angle'] = 15
 
 data['sema_len']        = 3000
 data['lema_len']        = 30000
 data['angle_len']       = 75
-data['close_angle']     = 25
 
+data['tick_angle_len']  = 200
+data['close_angle']     = 25
+data['ema_order_gap']   = 0.00025
 
 data['pip_decimal_num'] = 6
 #...............................................................................................

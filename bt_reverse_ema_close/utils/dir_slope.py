@@ -11,18 +11,20 @@ def get_position(data):
         data['to_order'] = None
 
     elif data['sema'] > data['tick'] > data['lema']:
-        if abs(data['ema_diff']) <= 0.0005:
+        if abs(data['ema_diff']) <= data['ema_order_gap']:
             if data['sema_angle'] < -data['sema_make_order_angle']:
-                data['position'] = -1
-                data['dir_change'] = True
-                data['to_order'] = 'short'
+                if data['lema_angle'] < -data['sema_make_order_angle']:
+                    data['position'] = -1
+                    data['dir_change'] = True
+                    data['to_order'] = 'short'
 
     elif data['sema'] < data['tick'] < data['lema']:
-        if abs(data['ema_diff']) <= 0.0005:
+        if abs(data['ema_diff']) <= data['ema_order_gap']:
             if data['sema_angle'] > data['sema_make_order_angle']:
-                data['position'] = 1
-                data['dir_change'] = True    
-                data['to_order'] = 'long'
+                if data['lema_angle'] > data['sema_make_order_angle']:
+                    data['position'] = 1
+                    data['dir_change'] = True    
+                    data['to_order'] = 'long'
     
     return(data)
 #...............................................................................................
