@@ -13,8 +13,8 @@ def make_order(data):
                 data['open_order_type'] = 'long'
                 data['pl_positive'] = False
                 data['order_methods'].append('make')
-                data['pl_move_trigger'] = data['pl_move_trigger_store']
-                data['pl_move_min']     = data['pl_move_min_store']
+                # data['pl_move_trigger'] = data['pl_move_trigger_store']
+                # data['pl_move_min']     = data['pl_move_min_store']
                 
                 if data["plot"]:
                     data['buy_markers_x'].append(data['i_list'][-1])
@@ -26,8 +26,8 @@ def make_order(data):
                 data['open_order_type'] = 'short'
                 data['pl_positive'] = False
                 data['order_methods'].append('make')
-                data['pl_move_trigger'] = data['pl_move_trigger_store']
-                data['pl_move_min']     = data['pl_move_min_store']
+                # data['pl_move_trigger'] = data['pl_move_trigger_store']
+                # data['pl_move_min']     = data['pl_move_min_store']
 
                 if data["plot"]:
                     data['buy_markers_x'].append(data['i_list'][-1])
@@ -56,8 +56,8 @@ def reverse_order(data):
                     data['open_order'] = True
                     data['open_order_type'] = 'short'
                     data['pl_positive'] = False
-                    data['pl_move_trigger'] = data['pl_move_trigger_store']
-                    data['pl_move_min']     = data['pl_move_min_store']
+                    # data['pl_move_trigger'] = data['pl_move_trigger_store']
+                    # data['pl_move_min']     = data['pl_move_min_store']
 
                     if data["plot"]:
                         data['sell_markers_x'].append(data['i_list'][-1])
@@ -83,8 +83,8 @@ def reverse_order(data):
                     data['open_order'] = True
                     data['open_order_type'] = 'long'
                     data['pl_positive'] = False
-                    data['pl_move_trigger'] = data['pl_move_trigger_store']
-                    data['pl_move_min']     = data['pl_move_min_store']
+                    # data['pl_move_trigger'] = data['pl_move_trigger_store']
+                    # data['pl_move_min']     = data['pl_move_min_store']
 
 
                     if data["plot"]:
@@ -198,10 +198,15 @@ def pl_positive_check(data):
             data['close_bid_price'] = data['bid']
             data['pl'] = np.round(data['close_bid_price'] - data['order_ask_price'], 5)
 
-        if data['pl'] >= data['pl_move_trigger']:
+        # if data['pl'] >= data['pl_move_trigger']:
+        #     data['pl_positive'] = True
+        #     if data['pl'] > data['pl_move_trail_trigger']:
+        #         data['pl_move_min'] = data['pl'] * data['pl_move_trail_ratio']
+
+        if data['pl'] >= data['pl_move_trail_trigger']:
             data['pl_positive'] = True
-            if data['pl'] > data['pl_move_trail_trigger']:
-                data['pl_move_min'] = data['pl'] * data['pl_move_trail_ratio']
+            data['pl_move_min'] = data['pl'] * data['pl_move_trail_ratio']
+            data['pl_move_min'] = max(data['pl_move_min'], data['pl'] - data['pl_min'])
 
     return(data)
 
