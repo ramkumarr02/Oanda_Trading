@@ -46,22 +46,31 @@ def run_engine(data):
         # ----------------------------------------------------------
 
 
-
         # Angle of Sema  -------------------------------------------
-        if len(data['sema_angle_list']) < data['angle_len']:
-            data = before_angle(data)        
+        if len(data['sema_angle_list']) < data['sema_angle_len']:
+            data = before_sema_angle(data)       
+            continue 
 
-        if len(data['sema_angle_list']) == data['angle_len']:
-            data = after_angle(data)                  
+        if len(data['sema_angle_list']) == data['sema_angle_len']:
+            data = after_sema_angle(data)                  
+        # ----------------------------------------------------------
+
+
+        # Angle of Lema -------------------------------------------
+        if len(data['lema_angle_list']) < data['lema_angle_len']:
+            data = before_lema_angle(data)        
+
+        if len(data['lema_angle_list']) == data['lema_angle_len']:
+            data = after_lema_angle(data)                  
         # ----------------------------------------------------------
 
 
         # Angle of Tick -------------------------------------------
-        if len(data['lema_angle_list']) < data['tick_angle_len']:
+        if len(data['tick_angle_list']) < data['tick_angle_len']:
             data = before_tick_angle(data)        
             continue
 
-        if len(data['lema_angle_list']) == data['tick_angle_len']:
+        if len(data['tick_angle_list']) == data['tick_angle_len']:
             data = after_tick_angle(data)                  
         # ----------------------------------------------------------
 
@@ -83,27 +92,28 @@ def run_engine(data):
         if data['stop_loss_flag']:
             data = stop_loss(data)
         
-        data = reverse_order(data)
+        # data = reverse_order(data)
         data = make_order(data)    
         
 
     if data["plot"]:
         # Adjust df len to lema(shortest) len
-        data["data_len"] = len(data["df_lema_angle_list"])
+        data["data_len"] = len(data["df_tick_angle_list"])
         
         data["df"] = data['df'][-data["data_len"]:]   
         data["df"] = data["df"].reset_index(drop = True)    
         
         # Assign sema, lema and tick to df
+        data['df']["tick_angle"] = list(data["df_tick_angle_list"])
         data['df']["sema_angle"] = list(data["df_sema_angle_list"])[-data["data_len"]:]
-        data['df']["lema_angle"] = list(data["df_lema_angle_list"])
+        data['df']["lema_angle"] = list(data["df_lema_angle_list"])[-data["data_len"]:]
 
         data["df"]['lema'] = data["df_lema_list"][-data["data_len"]:]            
         data["df"]['sema'] = list(data["df_sema_list"])[-data["data_len"]:]    
         data['df']["tick"] = list(data["df_tick_list"])[-data["data_len"]:]
                 
         # Adjust buy sell markers to the shortened df
-        data['len_to_subtract'] = data['lema_len'] + data['angle_len']
+        data['len_to_subtract'] = data['lema_len'] + data['tick_angle_len']
         data['buy_markers_x'] = list(np.array(data['buy_markers_x']) - data['len_to_subtract'])
         data['sell_markers_x'] = list(np.array(data['sell_markers_x']) - data['len_to_subtract'])    
         data["df"] = data["df"].reset_index(drop = True)

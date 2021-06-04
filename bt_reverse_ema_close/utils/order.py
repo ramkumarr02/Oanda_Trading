@@ -13,6 +13,7 @@ def make_order(data):
                 data['open_order_type'] = 'long'
                 data['pl_positive'] = False
                 data['order_methods'].append('make')
+                data['lema_vals'].append(data['lema_angle'])
                 # data['pl_move_trigger'] = data['pl_move_trigger_store']
                 # data['pl_move_min']     = data['pl_move_min_store']
                 
@@ -26,6 +27,7 @@ def make_order(data):
                 data['open_order_type'] = 'short'
                 data['pl_positive'] = False
                 data['order_methods'].append('make')
+                data['lema_vals'].append(data['lema_angle'])
                 # data['pl_move_trigger'] = data['pl_move_trigger_store']
                 # data['pl_move_min']     = data['pl_move_min_store']
 
@@ -68,6 +70,7 @@ def reverse_order(data):
                     
                     create_report(data)         
                     data['order_methods'].append('reverse')
+                    data['lema_vals'].append(data['lema_angle'])
                 
             if data['open_order_type'] == 'short':
                 if data['to_order'] == 'long':
@@ -96,6 +99,7 @@ def reverse_order(data):
                     
                     create_report(data)
                     data['order_methods'].append('reverse')
+                    data['lema_vals'].append(data['lema_angle'])
 
     return(data)    
 #...............................................................................................

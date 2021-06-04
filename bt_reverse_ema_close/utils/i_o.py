@@ -131,7 +131,8 @@ def plot_graph(data):
     ax1.scatter(data['sell_markers_x'], data['sell_markers_y'], s=300, c='red', marker=11)
 
     ax2.plot(data['df']["sema_angle"], c='violet', label = 'sema_angle', linestyle = linestyle)
-    ax2.plot(data['df']["lema_angle"], c='pink', label = 'tick_angle', linestyle = linestyle)
+    ax2.plot(data['df']["lema_angle"], c='black', label = 'lema_angle', linestyle = linestyle)
+    ax2.plot(data['df']["tick_angle"], c='pink', label = 'tick_angle', linestyle = linestyle)
 
     # angle_diff_list = list(np.array(data['df']["sema_angle"]) - np.array(data['df']["lema_angle"]))
     # ax2.plot(angle_diff_list, c='pink', label = 'angle_diff', linestyle = linestyle)
@@ -160,9 +161,12 @@ data['order_methods']
 
 #...............................................................................................
 def create_report(data):
-    data['report_df'] = pd.DataFrame({'date':data['dt_list'], 'pls': data['pl_list'], 'close_type': data['close_type'], 'order_type':data['order_types'], 'order_methods':data['order_methods']})
+    data['report_df'] = pd.DataFrame({'date':data['dt_list'], 'pls': data['pl_list'], 'close_type': data['close_type'], 
+                                        'order_type':data['order_types'], 'order_methods':data['order_methods'],
+                                        'lema_vals':data['lema_vals']
+                                        })
     split_date_col(data)
-    data['report_df'] = data['report_df'][['date', 'year_val', 'month_val', 'date_val', 'hour_val','minute_val', 'close_type', 'pls', 'order_type', 'order_methods']]
+    data['report_df'] = data['report_df'][['date', 'year_val', 'month_val', 'date_val', 'hour_val','minute_val', 'close_type', 'pls', 'order_type', 'order_methods', 'lema_vals']]
     data["report_df"] = data["report_df"].reset_index(drop = True)    
 
     data['file_name'] = f'data/{data["product"]}/{data["start_date"].year}-({data["start_date"].month}-{data["end_date"].month})-({data["start_date"].day}-{data["end_date"].day})-{data["start_ts"]}.csv'
@@ -185,5 +189,6 @@ def create_report(data):
 
     print(np.sum(data['report_df'][['pls']]))
     print('--------------------------------------')
-    print(data['report_df'][['date', 'order_type', 'order_methods','close_type', 'pls']])
+    # print(data['report_df'][['date', 'order_type', 'lema_vals','order_methods','close_type', 'pls']])
+    print(data['report_df'][['date', 'order_type', 'lema_vals','close_type', 'pls']])
 #...............................................................................................    

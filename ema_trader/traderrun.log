@@ -14,3 +14,10 @@ ERROR:root:--- Timestamp-2021-05-10 20:16:29.726034, Error-'list' object has no 
 ERROR:root:--- Timestamp-2021-05-10 20:16:31.051339, Error-'list' object has no attribute 'popleft'
 ERROR:root:--- Timestamp-2021-05-10 20:16:32.379567, Error-KeyboardInterrupt
 ERROR:root:--- Timestamp-2021-05-10 20:18:48.359234, Error-KeyboardInterrupt
+ERROR:root:--- Timestamp-2021-06-04 20:36:21.442911, Error-Time difference is above limit : 15.442911
+ERROR:root:--- Timestamp-2021-06-04 20:36:43.166479, Error-Time difference is above limit : 15.166479
+ERROR:root:--- Timestamp-2021-06-04 20:37:03.012561, Error-Time difference is above limit : 15.012561
+ERROR:root:--- Timestamp-2021-06-04 20:37:27.278190, Error-Time difference is above limit : 17.27819
+ERROR:root:--- Timestamp-2021-06-04 20:37:55.008206, Error-Time difference is above limit : 16.008206
+ERROR:root:--- Timestamp-2021-06-04 20:38:21.876278, Error-Time difference is above limit : 15.876278
+ERROR:root:--- Timestamp-2021-06-04 20:38:45.681371, Error-KeyboardInterrupt
