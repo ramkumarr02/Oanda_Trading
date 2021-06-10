@@ -34,7 +34,8 @@ data['open_order_type'] = None
 data['df_subset_size'] = None
 data['pl_positive'] = False
 data['tick_close_flag'] = False
-data['pl_move_flag'] = False
+data['tick_close_flag'] = False
+data['stop_loss_flag'] = True
 
 
 data['position_without_cushion'] = None
@@ -59,10 +60,10 @@ data["input_year"] = 2021
 data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 
 data['input_rows'] = None
-data["plot"] = True
+data["plot"] = False
 
 data['start_date'] = {'year':2021, 'month':4, 'date':1}
-data['end_date']   = {'year':2021, 'month':4, 'date':6}
+data['end_date']   = {'year':2021, 'month':4, 'date':30}
 
 data['close_angle'] = 40
 data['lema_close_angle'] = 10
@@ -72,6 +73,11 @@ data['gap_cushion'] = data['pip_size'] * 2
 
 data['pl_move_trigger'] = 0.0003
 data['pl_move_min']     = 0.00006
+data['pl_move_trail_trigger']   = 0.0001
+data['pl_move_trail_ratio']     = 0.5
+data['pl_min']                  = 0.0010
+data['stop_loss_pip']           = 0.0006
+
 data['tick_close_angle'] = 5
 data['pl_close_angle'] = 15
 

@@ -37,9 +37,9 @@ def after_lema(data):
     data['lema_list'].popleft()
     data['lema_list'].append(data['tick'])
     data['lema'] = list(pd.DataFrame(list(data['lema_list'])).ewm(span=data['lema_len']).mean()[0])[-1]
-    
-    data['ema_diff'] = data['sema'] - data['lema']
 
+    data['ema_diff'] = data['sema'] - data['lema']
+    
     if data["plot"]:
         data["df_lema_list"].append(data['lema'])
     
@@ -94,6 +94,7 @@ def after_lema_angle(data):
 # ...............................................................................................
 def before_tick_angle(data):   
     data['tick_angle_list'].append(data['tick'])
+    data['lema_tick_diff'].append(abs(data['tick'] - data['lema']))
     return(data)
 #...............................................................................................
 
@@ -102,6 +103,10 @@ def before_tick_angle(data):
 def after_tick_angle(data):     
     data['tick_angle_list'].popleft()
     data['tick_angle_list'].append(data['tick'])
+
+    data['lema_tick_diff'].popleft()
+    data['lema_tick_diff'].append(abs(data['tick'] - data['lema']))
+    data['lema_tick_diff_avg_half'] = np.mean(data['lema_tick_diff']) / 1
 
     # Get Lema Angle --------------------------------
     data['y_axis'] = list(data["tick_angle_list"])        

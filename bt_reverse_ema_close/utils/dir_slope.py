@@ -2,34 +2,36 @@ from utils.packages import *
 
 
 
-#...............................................................................................
-def get_position(data):
+# #...............................................................................................
+# def get_position(data):
 
-    if data['sema'] == data['lema']:
-        data['position'] = 0
-        data['dir_change'] = False
-        data['to_order'] = None
+#     if data['sema'] == data['lema']:
+#         data['position'] = 0
+#         data['dir_change'] = False
+#         data['to_order'] = None
 
-    elif data['sema'] > data['tick'] > data['lema']:
-        if abs(data['ema_diff']) <= data['ema_order_gap']:
-            if data['lema_angle'] < -data['lema_make_order_angle']:
-                if data['sema_angle'] < -data['sema_make_order_angle']:
-                    if data['tick_angle'] < -data['tick_make_order_angle']:
-                        data['position'] = -1
-                        data['dir_change'] = True
-                        data['to_order'] = 'short'
+#     elif data['sema'] > data['lema'] and data['sema'] > data['tick']:
+#         if abs(data['ema_diff']) <= data['ema_order_gap']:
+#             if data['lema_angle'] < -data['lema_make_order_angle']:
+#                 if data['sema_angle'] < -data['sema_make_order_angle']:
+#                     if data['tick_angle'] < -data['tick_make_order_angle']:
+#                         if abs(data['tick'] - data['lema']) < data['lema_tick_diff_avg_half']:
+#                             data['position'] = -1
+#                             data['dir_change'] = True
+#                             data['to_order'] = 'short'
 
-    elif data['sema'] < data['tick'] < data['lema']:
-        if abs(data['ema_diff']) <= data['ema_order_gap']:
-            if data['lema_angle'] > data['lema_make_order_angle']:
-                if data['sema_angle'] > data['sema_make_order_angle']:
-                    if data['tick_angle'] > data['tick_make_order_angle']:
-                        data['position'] = 1
-                        data['dir_change'] = True    
-                        data['to_order'] = 'long'
+#     elif data['sema'] < data['lema'] and data['sema'] < data['tick']:
+#         if abs(data['ema_diff']) <= data['ema_order_gap']:
+#             if data['lema_angle'] > data['lema_make_order_angle']:
+#                 if data['sema_angle'] > data['sema_make_order_angle']:
+#                     if data['tick_angle'] > data['tick_make_order_angle']:
+#                         if abs(data['tick'] - data['lema']) < data['lema_tick_diff_avg_half']:
+#                             data['position'] = 1
+#                             data['dir_change'] = True    
+#                             data['to_order'] = 'long'
     
-    return(data)
-#...............................................................................................
+#     return(data)
+# #...............................................................................................
 
 
 
@@ -63,3 +65,48 @@ def get_slope(data, ma_type):
 
     return(data)    
 #...............................................................................................    
+
+
+#...............................................................................................
+def get_position(data):
+
+    if data['sema'] == data['lema']:
+        data['position'] = 0
+
+    elif data['sema'] > data['lema']:
+        data['position'] = 1
+
+    elif data['sema'] < data['lema']:
+        data['position'] = -1
+    
+    return(data)
+#...............................................................................................
+
+
+
+
+
+#...............................................................................................
+def get_cross_dir(data):   
+    
+    data['dir_list'].popleft()
+    data['dir_list'].append(data['position'])   
+    
+    pos_1 = data['dir_list'][0]
+    pos_2 = data['dir_list'][1]
+    
+    if pos_2 == 1 and pos_2 != pos_1:
+        data['dir_change'] = True    
+        data['to_order'] = 'long'
+
+    elif pos_2 == -1 and pos_2 != pos_1:
+        data['dir_change'] = True
+        data['to_order'] = 'short'
+
+    else:
+        data['dir_change'] = False
+        data['to_order'] = None
+
+
+    return(data)    
+#...............................................................................................

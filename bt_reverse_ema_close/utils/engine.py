@@ -79,6 +79,15 @@ def run_engine(data):
 
         if not data['position']:
             continue
+        
+        # Get Dirs --------------------------------
+        if len(data['dir_list']) < 2:
+            data['dir_list'].append(data['position'])   
+            continue
+
+        elif len(data['dir_list']) == 2:
+            data = get_cross_dir(data)
+        # ----------------------------------------------------------  
 
         data = angle_close(data)
 
@@ -92,7 +101,7 @@ def run_engine(data):
         if data['stop_loss_flag']:
             data = stop_loss(data)
         
-        # data = reverse_order(data)
+        data = reverse_order(data)
         data = make_order(data)    
         
 

@@ -10,9 +10,10 @@ data['dir_list'] = collections.deque()
 data['sema_list'] = collections.deque()
 data['lema_list'] = collections.deque()
 data['pl_list'] =  collections.deque()
-data['sema_angle_list'] =  collections.deque()
-data['lema_angle_list'] =  collections.deque()
-data['tick_angle_list'] =  collections.deque()
+data['sema_angle_list'] = collections.deque()
+data['lema_angle_list'] = collections.deque()
+data['tick_angle_list'] = collections.deque()
+data['lema_tick_diff']  = collections.deque()
 
 data['i_list'] = []
 data['tick_list'] = []
@@ -34,6 +35,7 @@ data['position'] = False
 data['open_order'] = False    
 data['open_order_type'] = None
 data['df_subset_size'] = None
+data['lema_tick_diff_avg_half'] = None
 data['pl_positive'] = False
 
 data['tick_close_flag'] = False
@@ -44,10 +46,10 @@ data['ema_diff'] = 0
 
 data['position_without_cushion'] = None
 
-data['close_type'] = []
-data['order_types'] = []
-data['order_methods'] = []
-data['lema_vals'] = []
+data['close_type']      = []
+data['order_types']     = []
+data['order_methods']   = []
+data['lema_vals']       = []
 
 # data['running_in'] = 'linux'
 
@@ -93,13 +95,15 @@ data['pl_close_angle'] = 15
 
 data['sema_len']        = 200
 data['lema_len']        = 4000
+data['sema_len']        = 1000
+data['lema_len']        = 10000
 
 data['lema_angle_len']      = 50
 data['sema_angle_len']      = 200
 data['tick_angle_len']      = 300
 
 data['close_angle']     = 25
-data['ema_order_gap']   = 0.00015
+data['ema_order_gap']   = 0.0002
 
 data['sema_make_order_angle'] = 10
 data['tick_make_order_angle'] = 10

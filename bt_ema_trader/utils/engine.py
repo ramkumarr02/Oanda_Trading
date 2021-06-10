@@ -79,6 +79,9 @@ def run_engine(data):
 
         if data['tick_close_flag']:
             data = tick_close(data)
+
+        if data['stop_loss_flag']:
+            data = stop_loss(data)
         
         data = make_order(data)    
         
