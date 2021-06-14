@@ -36,7 +36,10 @@ data['pl_positive'] = False
 data['tick_close_flag'] = False
 data['tick_close_flag'] = False
 data['stop_loss_flag'] = True
-
+data['open_min'] = False
+data['close_min'] = False
+data['open_val'] = False
+data['close_val'] = False
 
 data['position_without_cushion'] = None
 
@@ -60,10 +63,10 @@ data["input_year"] = 2021
 data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 
 data['input_rows'] = None
-data["plot"] = True
+data["plot"] = False
 
-data['start_date'] = {'year':2021, 'month':4, 'date':1}
-data['end_date']   = {'year':2021, 'month':4, 'date':2}
+data['start_date'] = {'year':2021, 'month':6, 'date':11}
+data['end_date']   = {'year':2021, 'month':6, 'date':11}
 
 data['close_angle'] = 40
 data['lema_close_angle'] = 10
@@ -82,10 +85,13 @@ data['tick_close_angle'] = 5
 data['pl_close_angle'] = 15
 
 data['sema_len']        = 30
-data['lema_len']        = 3000
+data['lema_len']        = 30000
 data['angle_len']       = 75
 data['close_angle']     = 25
 
 
 data['pip_decimal_num'] = 6
+
+data['min_val'] = 15
+data['candle_color'] = None
 #...............................................................................................

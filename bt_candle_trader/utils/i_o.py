@@ -134,10 +134,10 @@ def plot_graph(data):
     # ax2.plot(data['df']["lema_angle"], c='violet', label = 'lema_angle', linestyle = linestyle)
 
     angle_diff_list = list(np.array(data['df']["sema_angle"]) - np.array(data['df']["lema_angle"]))
-    # ax2.plot(angle_diff_list, c='violet', label = 'angle_diff', linestyle = linestyle)
+    ax2.plot(angle_diff_list, c='violet', label = 'angle_diff', linestyle = linestyle)
 
     temp = data['df']["sema_angle"] - data['df']["sema_angle"]
-    ax2.plot(temp, c='black', label = 'zero line', linestyle = linestyle)
+    ax2.plot(temp, c='black', label = 'sema_angle', linestyle = linestyle)
 
     legend = ax1.legend(loc='upper left', fontsize='xx-large')
     legend = ax2.legend(loc='upper right', fontsize='xx-large')
