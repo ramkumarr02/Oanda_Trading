@@ -38,7 +38,7 @@ def close_order(data):
                 data['pl_list'].append(data['pl'])
                 data['dt_list'].append(data['dt_val'])
                 data['open_order'] = False
-                data['close_type'].append('long')
+                data['close_type'].append(f'long-{data["avg_candle_size"]}')
 
                 if data["plot"]:
                     data['sell_markers_x'].append(data['i_list'][-1])
@@ -53,7 +53,7 @@ def close_order(data):
                 data['pl_list'].append(data['pl'])
                 data['dt_list'].append(data['dt_val'])
                 data['open_order'] = False
-                data['close_type'].append('short')
+                data['close_type'].append(f'short-{data["avg_candle_size"]}')
 
                 if data["plot"]:
                     data['sell_markers_x'].append(data['i_list'][-1])
@@ -228,11 +228,11 @@ def stop_loss(data):
             data['close_bid_price'] = data['bid']
             data['pl'] = np.round(data['close_bid_price'] - data['order_ask_price'], 5)
 
-            if data['pl'] <= -data['stop_loss_pip']:
+            if data['pl'] <= -data['avg_candle_size']:
                 data['pl_list'].append(data['pl'])
                 data['dt_list'].append(data['dt_val'])
                 data['open_order'] = False
-                data['close_type'].append('stop_loss')
+                data['close_type'].append(f'stop_loss-{data["avg_candle_size"]}')
                 
                 if data["plot"]:
                     data['sell_markers_x'].append(data['i_list'][-1])
@@ -244,11 +244,11 @@ def stop_loss(data):
                 data['close_ask_price'] = data['ask']
                 data['pl'] = np.round(data['order_bid_price'] - data['close_ask_price'], 5)
 
-                if data['pl'] <= -data['stop_loss_pip']:
+                if data['pl'] <= -data['avg_candle_size']:
                     data['pl_list'].append(data['pl'])
                     data['dt_list'].append(data['dt_val'])
                     data['open_order'] = False
-                    data['close_type'].append('stop_loss')
+                    data['close_type'].append(f'stop_loss-{data["avg_candle_size"]}')
                     
                     if data["plot"]:
                         data['sell_markers_x'].append(data['i_list'][-1])

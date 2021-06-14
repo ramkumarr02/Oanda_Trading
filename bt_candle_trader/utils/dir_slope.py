@@ -4,20 +4,28 @@ from utils.order import *
 #...............................................................................................
 def get_candle_color(data):
     if data['dt_val'].minute % data['min_val'] == 0:
-        if not data['open_val']:
+
+        if not data['open_val']:            
             if not data['close_val']:
+                data['high_val']    = max(data['high_val'], data['tick'])
+                data['low_val']     = min(data['low_val'], data['tick'])
+
                 data['open_min'] = data['dt_val'].minute
                 data['close_min'] = data['dt_val'].minute + data['min_val']
                 if data['close_min'] == 60:
                     data['close_min'] = 0
                 data['open_val'] = data['tick']
 
-                # print('-----------------------------------')
-                # print(f'Candle time : {data["dt_val"]}')    
+                print('-----------------------------------')
+                print(f'Candle time : {data["dt_val"]}')    
 
         if data['open_val'] is not False:
-            if not data['close_val']:                
+            data['high_val']    = max(data['high_val'], data['tick'])
+            data['low_val']     = min(data['low_val'], data['tick'])
+
+            if not data['close_val']:           
                 if data['dt_val'].minute == data['close_min']:
+                    data['close_min_started'] = True
                     data['close_val'] = data['tick']
                     data['candle_size'] = data['close_val'] - data['open_val']
                     if data['candle_size'] > 0:
@@ -25,18 +33,25 @@ def get_candle_color(data):
                     elif data['candle_size'] < 0:
                         data['candle_color'] = 'red'
                     
-                    # data = close_order(data) 
-                    
-                    # print(f'candle color : {data["candle_color"]}')
-                    # print(f'candle size : {data["candle_size"]}')
-                    # print('-----------------------------------')
-
-                    data['open_min'] = False
-                    data['close_min'] = False
-                    data['open_val'] = False
-                    data['close_val'] = False
+                    print('------------------------------------')
+                    print(f"close_time : {data['dt_val']}")
+                    print(f"high_val : {data['high_val']} ")                     
+                    print(f"open_val : {data['open_val']} ")                     
+                    print(f"close_val : {data['close_val']} ")                     
+                    print(f"low_val : {data['low_val']} ")                                         
+                    print(f'candle color : {data["candle_color"]}')
+                    print(f'candle size : {data["candle_size"]}')
+                    print('-----------------------------------')
+                    # data['open_min']    = False
+                    # data['close_min']   = False
+                    data['open_val']    = False
+                    data['close_val']   = False
+                    data['close_min_started']   = False
+                    data['high_val']   = 0
+                    data['low_val']   = 100
     return(data)
 #...............................................................................................
+
 
 
 #...............................................................................................

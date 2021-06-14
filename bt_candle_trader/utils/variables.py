@@ -12,6 +12,7 @@ data['lema_list'] = collections.deque()
 data['pl_list'] =  collections.deque()
 data['sema_angle_list'] =  collections.deque()
 data['lema_angle_list'] =  collections.deque()
+data['candle_size_list'] =  collections.deque()
 
 data['i_list'] = []
 data['tick_list'] = []
@@ -40,6 +41,11 @@ data['open_min'] = False
 data['close_min'] = False
 data['open_val'] = False
 data['close_val'] = False
+data['close_min_started'] = False
+data['high_val']   = 0
+data['low_val']   = 100
+
+data['avg_candle_size'] = None
 
 data['position_without_cushion'] = None
 
@@ -92,6 +98,10 @@ data['close_angle']     = 25
 
 data['pip_decimal_num'] = 6
 
-data['min_val'] = 15
+data['min_val'] = 30
+
 data['candle_color'] = None
+data['candle_count'] = 4
+data['candle_granularity'] = f'M{data["min_val"]}'
+data['min_candle_sl'] = 0.0002
 #...............................................................................................
