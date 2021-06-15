@@ -31,20 +31,23 @@ def run_engine(data):
         
         data = get_candle_color(data)
 
-        # if len(data['candle_size_list']) < 4:
-        #     data['candle_size_list'].append(abs(data['candle_size']))
-        #     continue
-        # else:
-        #     data['candle_size_list'].popleft()
-        #     data['candle_size_list'].append(abs(data['candle_size']))
-        #     data['avg_candle_size'] = np.mean(data['candle_size_list'])
-        #     data['avg_candle_size'] = max(data['avg_candle_size'], data['min_candle_sl'])   
-        
+        if data["candle_size"] is not None:            
+            if len(data['candle_size_list']) < 4:
+                data['candle_size_list'].append(abs(data['candle_size']))
+                continue
+            else:
+                data['candle_size_list'].popleft()
+                data['candle_size_list'].append(abs(data['candle_size']))
+                data['avg_candle_size'] = np.mean(data['candle_size_list'])
+                data['avg_candle_size'] = max(data['avg_candle_size'], data['min_candle_sl'])   
 
-        # if data["avg_candle_size"] != None:
-        #     data = close_order(data)    
-        #     data = stop_loss(data)
-        #     data = make_order(data)    
+                # print(f'avg_candle_size : {data["avg_candle_size"]}')
+                # print('-----------------------------------')
+
+        if data["avg_candle_size"] != None:
+            data = close_order(data)    
+            # data = stop_loss(data)
+            data = make_order(data)    
         
 
     if data["plot"]:

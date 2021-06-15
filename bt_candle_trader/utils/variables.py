@@ -46,6 +46,7 @@ data['high_val']   = 0
 data['low_val']   = 100
 
 data['avg_candle_size'] = None
+data["candle_size"] = None
 
 data['position_without_cushion'] = None
 
@@ -71,7 +72,7 @@ data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 data['input_rows'] = None
 data["plot"] = False
 
-data['start_date'] = {'year':2021, 'month':6, 'date':11}
+data['start_date'] = {'year':2021, 'month':6, 'date':10}
 data['end_date']   = {'year':2021, 'month':6, 'date':11}
 
 data['close_angle'] = 40

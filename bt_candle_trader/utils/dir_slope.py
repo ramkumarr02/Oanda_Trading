@@ -16,8 +16,8 @@ def get_candle_color(data):
                     data['close_min'] = 0
                 data['open_val'] = data['tick']
 
-                print('-----------------------------------')
-                print(f'Candle time : {data["dt_val"]}')    
+                # print('-----------------------------------')
+                # print(f'Candle time : {data["dt_val"]}')    
 
         if data['open_val'] is not False:
             data['high_val']    = max(data['high_val'], data['tick'])
@@ -33,15 +33,15 @@ def get_candle_color(data):
                     elif data['candle_size'] < 0:
                         data['candle_color'] = 'red'
                     
-                    print('------------------------------------')
-                    print(f"close_time : {data['dt_val']}")
-                    print(f"high_val : {data['high_val']} ")                     
-                    print(f"open_val : {data['open_val']} ")                     
-                    print(f"close_val : {data['close_val']} ")                     
-                    print(f"low_val : {data['low_val']} ")                                         
-                    print(f'candle color : {data["candle_color"]}')
-                    print(f'candle size : {data["candle_size"]}')
-                    print('-----------------------------------')
+                    # print('------------------------------------')
+                    # print(f"close_time : {data['dt_val']}")
+                    # print(f"high_val : {data['high_val']} ")                     
+                    # print(f"open_val : {data['open_val']} ")                     
+                    # print(f"close_val : {data['close_val']} ")                     
+                    # print(f"low_val : {data['low_val']} ")                                         
+                    # print(f'candle color : {data["candle_color"]}')
+                    # print(f'candle size : {data["candle_size"]}')
+                    # print('--------')
                     # data['open_min']    = False
                     # data['close_min']   = False
                     data['open_val']    = False
