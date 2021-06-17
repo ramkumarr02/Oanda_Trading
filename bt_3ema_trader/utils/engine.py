@@ -68,8 +68,10 @@ def run_engine(data):
         # ----------------------------------------------------------  
         
         data = close_order(data)        
+        data = slema_positive_check(data)
+        data = slema_move_close(data)        
         data = make_order(data)    
-        
+
 
     if data["plot"]:
         # Adjust df len to lema(shortest) len
