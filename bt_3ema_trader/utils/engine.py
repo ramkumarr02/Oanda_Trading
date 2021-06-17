@@ -67,9 +67,9 @@ def run_engine(data):
             data = get_cross_dir(data)
         # ----------------------------------------------------------  
         
-        data = close_order(data)        
         data = slema_positive_check(data)
-        data = slema_move_close(data)        
+        data = slema_move_close(data)   
+        data = stop_loss(data)     
         data = make_order(data)    
 
 

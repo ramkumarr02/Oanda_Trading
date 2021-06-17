@@ -66,8 +66,8 @@ data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 data['input_rows'] = None
 data["plot"] = True
 
-data['start_date'] = {'year':2021, 'month':4, 'date':1}
-data['end_date']   = {'year':2021, 'month':4, 'date':1}
+data['start_date'] = {'year':2021, 'month':5, 'date':2}
+data['end_date']   = {'year':2021, 'month':5, 'date':2}
 
 data['close_angle'] = 40
 data['lema_close_angle'] = 10
@@ -80,13 +80,13 @@ data['pl_move_min']     = 0.00006
 data['pl_move_trail_trigger']   = 0.0001
 data['pl_move_trail_ratio']     = 0.5
 data['pl_min']                  = 0.0010
-data['stop_loss_pip']           = 0.0006
+data['stop_loss_pip']           = 0.0010
 
 data['tick_close_angle'] = 5
 data['pl_close_angle'] = 15
 
-data['sema_len']        = 1000
-data['lema_len']        = 10000
+data['sema_len']        = 3000
+data['lema_len']        = 30000
 data['angle_len']       = 75
 data['close_angle']     = 25
 

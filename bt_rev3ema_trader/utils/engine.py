@@ -59,8 +59,8 @@ def run_engine(data):
             data = get_cross_dir(data)
         # ----------------------------------------------------------  
         
-        data = stop_loss(data)
         data = reverse_order(data)            
+        data = stop_loss(data)
         data = make_order(data)    
 
 

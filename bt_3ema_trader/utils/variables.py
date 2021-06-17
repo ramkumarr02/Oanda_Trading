@@ -45,6 +45,7 @@ data['stop_loss_flag'] = True
 data['position_without_cushion'] = None
 
 data['close_type'] = []
+data['ord_types'] = []
 
 # data['running_in'] = 'linux'
 
@@ -66,8 +67,8 @@ data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 data['input_rows'] = None
 data["plot"] = True
 
-data['start_date'] = {'year':2021, 'month':4, 'date':1}
-data['end_date']   = {'year':2021, 'month':4, 'date':1}
+data['start_date'] = {'year':2021, 'month':5, 'date':7}
+data['end_date']   = {'year':2021, 'month':5, 'date':16}
 
 data['close_angle'] = 40
 data['lema_close_angle'] = 10
@@ -80,7 +81,7 @@ data['pl_move_min']     = 0.00006
 data['pl_move_trail_trigger']   = 0.0001
 data['pl_move_trail_ratio']     = 0.5
 data['pl_min']                  = 0.0010
-data['stop_loss_pip']           = 0.0006
+data['stop_loss_pip']           = 0.0010
 
 data['tick_close_angle'] = 5
 data['pl_close_angle'] = 15
@@ -93,4 +94,5 @@ data['close_angle']     = 25
 
 data['position'] = None
 data['pip_decimal_num'] = 6
+data['test_val'] = []
 #...............................................................................................
