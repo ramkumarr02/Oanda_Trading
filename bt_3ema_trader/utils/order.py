@@ -125,35 +125,35 @@ def slema_move_close(data):
                 data['pl'] = np.round(data['close_bid_price'] - data['order_ask_price'], 5)
 
                 # check close with out profit
-                if data['pl'] > 0:
-                    if data['sema'] <= data['slema']:
-                        data['pl_list'].append(data['pl'])
-                        data['dt_list'].append(data['dt_val'])
-                        data['open_order'] = False
-                        data['close_type'].append('slema_move_close')
-                
-                        if data["plot"]:
-                            data['sell_markers_x'].append(data['i_list'][-1])
-                            data['sell_markers_y'].append(data['bid'])   
+                # if data['pl'] > 0:
+                if data['sema'] <= data['slema']:
+                    data['pl_list'].append(data['pl'])
+                    data['dt_list'].append(data['dt_val'])
+                    data['open_order'] = False
+                    data['close_type'].append('slema_move_close')
+            
+                    if data["plot"]:
+                        data['sell_markers_x'].append(data['i_list'][-1])
+                        data['sell_markers_y'].append(data['bid'])   
 
-                        create_report(data)               
+                    create_report(data)               
     
             if data['open_order_type'] == 'short':
                 data['close_ask_price'] = data['ask']
                 data['pl'] = np.round(data['order_bid_price'] - data['close_ask_price'], 5)
         
-                if data['pl'] > 0:
-                    if data['sema'] >= data['slema']:                
-                        data['pl_list'].append(data['pl'])
-                        data['dt_list'].append(data['dt_val'])
-                        data['open_order'] = False
-                        data['close_type'].append('slema_move_close')
-                
-                        if data["plot"]:
-                            data['sell_markers_x'].append(data['i_list'][-1])
-                            data['sell_markers_y'].append(data['ask'])  
-                
-                        create_report(data)
+                # if data['pl'] > 0:
+                if data['sema'] >= data['slema']:                
+                    data['pl_list'].append(data['pl'])
+                    data['dt_list'].append(data['dt_val'])
+                    data['open_order'] = False
+                    data['close_type'].append('slema_move_close')
+            
+                    if data["plot"]:
+                        data['sell_markers_x'].append(data['i_list'][-1])
+                        data['sell_markers_y'].append(data['ask'])  
+            
+                    create_report(data)
 
     return(data)    
 #...............................................................................................

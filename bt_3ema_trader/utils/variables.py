@@ -67,8 +67,8 @@ data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 data['input_rows'] = None
 data["plot"] = True
 
-data['start_date'] = {'year':2021, 'month':5, 'date':7}
-data['end_date']   = {'year':2021, 'month':5, 'date':16}
+data['start_date'] = {'year':2021, 'month':5, 'date':12}
+data['end_date']   = {'year':2021, 'month':5, 'date':13}
 
 data['close_angle'] = 40
 data['lema_close_angle'] = 10
