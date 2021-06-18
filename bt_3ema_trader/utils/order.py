@@ -124,6 +124,7 @@ def slema_move_close(data):
                 data['close_bid_price'] = data['bid']
                 data['pl'] = np.round(data['close_bid_price'] - data['order_ask_price'], 5)
 
+                # check close with out profit
                 if data['pl'] > 0:
                     if data['sema'] <= data['slema']:
                         data['pl_list'].append(data['pl'])
