@@ -309,6 +309,7 @@ def pl_move_close(data):
                         data['to_order'] = None
                         data['close_type'].append('pl_move_close')
                         data['pl_positive'] = False
+                        data['pl_move_min'] = None
                         # data['order_types'].append(data['open_order_type'])
                         
                         if data["plot"]:
@@ -330,6 +331,7 @@ def pl_move_close(data):
                         data['to_order'] = None
                         data['close_type'].append('pl_move_close')
                         data['pl_positive'] = False
+                        data['pl_move_min'] = None
                         # data['order_types'].append(data['open_order_type'])
                         
                         if data["plot"]:
