@@ -13,6 +13,8 @@ def make_order(data):
                 data['open_order_type'] = 'long'
                 data['ord_types'].append(data['open_order_type'])
                 data['reverse_order_flag'] =  'new'
+                data['pl_positive'] = False
+                data['pl_move_min'] = None
                 
                 if data["plot"]:
                     data['buy_markers_x'].append(data['i_list'][-1])
@@ -25,6 +27,8 @@ def make_order(data):
                 data['open_order_type'] = 'short'
                 data['ord_types'].append(data['open_order_type'])
                 data['reverse_order_flag'] =  'new'
+                data['pl_positive'] = False
+                data['pl_move_min'] = None
 
                 if data["plot"]:
                     data['buy_markers_x'].append(data['i_list'][-1])
