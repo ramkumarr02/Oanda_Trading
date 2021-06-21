@@ -35,13 +35,13 @@ data['open_order'] = False
 data['open_order_type'] = None
 data['df_subset_size'] = None
 data['pl_positive'] = False
+data['pl_positive_flag'] = False
 data['slema_positive'] = False
 data['slema_check_flag'] = False
 data['tick_close_flag'] = False
 data['tick_close_flag'] = False
 data['stop_loss_flag'] = True
 data['reverse_order_flag'] =  None
-
 
 data['position_without_cushion'] = None
 
@@ -66,10 +66,10 @@ data["input_year"] = 2021
 data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 
 data['input_rows'] = None
-data["plot"] = True
+data["plot"] = False
 
-data['start_date'] = {'year':2021, 'month':5, 'date':12}
-data['end_date']   = {'year':2021, 'month':5, 'date':13}
+data['start_date'] = {'year':2021, 'month':5, 'date':1}
+data['end_date']   = {'year':2021, 'month':5, 'date':16}
 
 data['close_angle'] = 40
 data['lema_close_angle'] = 10

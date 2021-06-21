@@ -66,8 +66,9 @@ def run_engine(data):
         elif len(data['dir_list']) == 2:
             data = get_cross_dir(data)
         # ----------------------------------------------------------  
-        # data = pl_positive_check(data)
-        # data = pl_move_close(data)
+        if data['pl_positive_flag']:
+            data = pl_positive_check(data)
+            data = pl_move_close(data)
         data = slema_positive_check(data)
         data = slema_move_close(data)   
         data = stop_loss(data)     
