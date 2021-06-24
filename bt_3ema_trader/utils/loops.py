@@ -84,14 +84,36 @@ def after_angle(data):
     data['lema_angle_list'].append(data['lema'])
 
     # Get Sema Angle --------------------------------
-    data['y_axis'] = list(data["sema_angle_list"])        
-    data = get_slope(data, 'sema')            
-    # ----------------------------------------------------------  
+    # data['y_axis'] = list(data["sema_angle_list"])        
+    # data = get_slope(data, 'sema')            
+    # # ----------------------------------------------------------  
 
-    # Get Lema Angle --------------------------------
-    data['y_axis'] = list(data["lema_angle_list"])        
-    data = get_slope(data, 'lema')            
+    # # Get Lema Angle --------------------------------
+    # data['y_axis'] = list(data["lema_angle_list"])        
+    # data = get_slope(data, 'lema')            
     # ----------------------------------------------------------  
         
     return(data)
+#............................................................................................... 
+
+def adjust_plot_list_lengths(data):
+    # Adjust df len to lema(shortest) len
+    data['df_len'] = len(data["df_lema_list"])
+
+    data["df"] = data['df'][-data['df_len']:]   
+    data["df"] = data["df"].reset_index(drop = True)    
+    
+    data["df"]['lema'] = data["df_lema_list"][-data['df_len']:]            
+    data["df"]['slema'] = data["df_slema_list"][-data['df_len']:]            
+    data["df"]['sema'] = list(data["df_sema_list"])[-data['df_len']:]    
+    data['df']["tick"] = list(data["df_tick_list"])[-data['df_len']:]
+            
+    # Adjust buy sell markers to the shortened df
+    # data['len_to_subtract'] = data['lema_len'] + data['angle_len']
+    data['len_to_subtract'] = data['lema_len']
+    data['buy_markers_x'] = list(np.array(data['buy_markers_x']) - data['len_to_subtract'])
+    data['sell_markers_x'] = list(np.array(data['sell_markers_x']) - data['len_to_subtract'])    
+    data["df"] = data["df"].reset_index(drop = True)
+    return(data)
+
 #............................................................................................... 

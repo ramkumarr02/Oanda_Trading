@@ -11,9 +11,25 @@ def get_position(data):
         data['position'] = -1
 
     elif data['sema'] < data['lema']:
-        data['position'] = 1        
+        data['position'] = +1        
     
     return(data)
+
+# def get_position(data):
+    
+#     if data['sema'] > data['lema'] and data['slema'] > data['lema']:
+#         if data['sema'] < data['slema']:
+#             data['position'] = -1
+
+#     elif data['sema'] < data['lema'] and data['slema'] < data['lema']:
+#         if data['sema'] > data['slema']:
+#             data['position'] = 1
+
+#     else:
+#         data['position'] = 0
+    
+    return(data)
+
 #...............................................................................................
 
 

@@ -66,33 +66,16 @@ def run_engine(data):
         elif len(data['dir_list']) == 2:
             data = get_cross_dir(data)
         # ----------------------------------------------------------  
+        
+        
         if data['pl_positive_flag']:
             data = pl_positive_check(data)
             data = pl_move_close(data)
+
         data = slema_positive_check(data)
         data = slema_move_close(data)   
         data = stop_loss(data)     
         data = make_order(data)    
-
-
-    if data["plot"]:
-        # Adjust df len to lema(shortest) len
-        data['df_len'] = len(data["df_lema_list"])
-
-        data["df"] = data['df'][-data['df_len']:]   
-        data["df"] = data["df"].reset_index(drop = True)    
-        
-        data["df"]['lema'] = data["df_lema_list"][-data['df_len']:]            
-        data["df"]['slema'] = data["df_slema_list"][-data['df_len']:]            
-        data["df"]['sema'] = list(data["df_sema_list"])[-data['df_len']:]    
-        data['df']["tick"] = list(data["df_tick_list"])[-data['df_len']:]
-                
-        # Adjust buy sell markers to the shortened df
-        # data['len_to_subtract'] = data['lema_len'] + data['angle_len']
-        data['len_to_subtract'] = data['lema_len']
-        data['buy_markers_x'] = list(np.array(data['buy_markers_x']) - data['len_to_subtract'])
-        data['sell_markers_x'] = list(np.array(data['sell_markers_x']) - data['len_to_subtract'])    
-        data["df"] = data["df"].reset_index(drop = True)
-    
+            
     return(data)
 #...............................................................................................    
