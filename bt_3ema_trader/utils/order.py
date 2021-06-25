@@ -13,6 +13,7 @@ def make_order(data):
                 data['open_order_type'] = 'long'
                 data['ord_types'].append(data['open_order_type'])
                 data['reverse_order_flag'] =  'new'
+                data['slema_move_close_flag'] =  'new'
                 data['pl_positive'] = False
                 data['pl_move_min'] = None
                 
@@ -27,6 +28,7 @@ def make_order(data):
                 data['open_order_type'] = 'short'
                 data['ord_types'].append(data['open_order_type'])
                 data['reverse_order_flag'] =  'new'
+                data['slema_move_close_flag'] =  'new'
                 data['pl_positive'] = False
                 data['pl_move_min'] = None
 
@@ -99,7 +101,8 @@ def stop_loss_reverse(data):
             data['pl'] = np.round(data['close_bid_price'] - data['order_ask_price'], 5)
 
             if data['pl'] <= -data['stop_loss_pip']:
-                data = reverse_order(data)
+                data = reverse_order(data, 'reverse_stop')
+                data['reverse_order_flag'] =  'reversed'
                 return(data)
                 
         if data['open_order_type'] == 'short':
@@ -107,7 +110,8 @@ def stop_loss_reverse(data):
                 data['pl'] = np.round(data['order_bid_price'] - data['close_ask_price'], 5)
 
                 if data['pl'] <= -data['stop_loss_pip']:
-                    data = reverse_order(data)
+                    data = reverse_order(data, 'reverse_stop')
+                    data['reverse_order_flag'] =  'reversed'
                     return(data)
 
     return(data)   
@@ -116,7 +120,7 @@ def stop_loss_reverse(data):
 
 
 #...............................................................................................
-def reverse_order(data):
+def reverse_order(data, stop_text):
     if data['open_order']:
             if data['open_order_type'] == 'long':
                 data['close_bid_price'] = data['bid']
@@ -124,14 +128,13 @@ def reverse_order(data):
                 data['pl_list'].append(data['pl'])
                 data['dt_list'].append(data['dt_val'])
                 data['open_order'] = 'False'
-                data['close_type'].append('reverse_stop')
+                data['close_type'].append(stop_text)
                 data['slema_check_flag'] = False
 
                 data['order_bid_price'] = data['bid']
                 data['open_order'] = True
                 data['slema_check_flag'] = True
                 data['open_order_type'] = 'short'
-                data['reverse_order_flag'] =  'reversed'
 
                 if data["plot"]:
                     data['sell_markers_x'].append(data['i_list'][-1])
@@ -151,13 +154,12 @@ def reverse_order(data):
                 data['dt_list'].append(data['dt_val'])
                 data['open_order'] = False
                 data['slema_check_flag'] = False
-                data['close_type'].append('reverse_stop')
+                data['close_type'].append(stop_text)
 
                 data['order_ask_price'] = data['ask']
                 data['open_order'] = True
                 data['slema_check_flag'] = True
                 data['open_order_type'] = 'long'
-                data['reverse_order_flag'] =  'reversed'
 
                 if data["plot"]:
                     data['sell_markers_x'].append(data['i_list'][-1])
@@ -198,6 +200,43 @@ def slema_positive_check(data):
 #...............................................................................................
 
 def slema_move_close(data):
+    if data['slema_move_close_flag'] == 'new':
+        data = slema_move_close_reverse(data)
+        
+    elif data['slema_move_close_flag'] == 'reversed':
+        data = simple_slema_move_close(data)
+    return(data)
+
+#...............................................................................................
+def slema_move_close_reverse(data):
+    if data['open_order']:
+        if data['slema_positive']: 
+
+            if data['open_order_type'] == 'long':
+                data['close_bid_price'] = data['bid']
+                data['pl'] = np.round(data['close_bid_price'] - data['order_ask_price'], 5)
+            
+                if data['pl'] > 0:
+                    if data['sema'] <= data['slema']:
+                        data = reverse_order(data, 'reverse_slema_move_close')
+                        data['slema_move_close_flag'] =  'reversed'
+                        return(data)
+                
+            if data['open_order_type'] == 'short':
+                data['close_ask_price'] = data['ask']
+                data['pl'] = np.round(data['order_bid_price'] - data['close_ask_price'], 5)
+
+                if data['pl'] > 0:
+                    if data['sema'] <= data['slema']:
+                        data = reverse_order(data, 'reverse_slema_move_close')
+                        data['slema_move_close_flag'] =  'reversed'
+                        return(data)
+
+    return(data)   
+
+#...............................................................................................  
+
+def simple_slema_move_close(data):
     if data['open_order']:
         if data['slema_positive']: 
 
@@ -211,7 +250,7 @@ def slema_move_close(data):
                         data['pl_list'].append(data['pl'])
                         data['dt_list'].append(data['dt_val'])
                         data['open_order'] = False
-                        data['close_type'].append('slema_move_close')
+                        data['close_type'].append('simple_slema_move_close')
                 
                         if data["plot"]:
                             data['sell_markers_x'].append(data['i_list'][-1])
@@ -228,7 +267,7 @@ def slema_move_close(data):
                         data['pl_list'].append(data['pl'])
                         data['dt_list'].append(data['dt_val'])
                         data['open_order'] = False
-                        data['close_type'].append('slema_move_close')
+                        data['close_type'].append('simple_slema_move_close')
                 
                         if data["plot"]:
                             data['sell_markers_x'].append(data['i_list'][-1])
