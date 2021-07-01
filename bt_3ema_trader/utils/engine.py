@@ -19,7 +19,7 @@ def run_engine(data):
     for i in tqdm(range(0, data['df_len'])):
         
         data['ask'] = data['ask_series'][i]
-        data['bid'] = data['bid_series'][i]
+        data['bid'] = data['bid_series'][i]        
         data['tick'] = (data['ask'] + data['bid'])/2                 
         data['dt_val'] = dt.datetime.strptime(data['dt_series'][i].split(".")[0],"%Y%m%d %H:%M:%S")
         
@@ -73,7 +73,8 @@ def run_engine(data):
             data = pl_move_close(data)
 
         data = slema_positive_check(data)
-        data = slema_move_close(data)   
+        data = slema_move_close(data)
+        # data = simple_slema_move_close(data)
         data = stop_loss(data)     
         data = make_order(data)    
             

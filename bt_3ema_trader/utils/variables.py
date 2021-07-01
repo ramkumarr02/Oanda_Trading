@@ -42,7 +42,8 @@ data['tick_close_flag'] = False
 data['tick_close_flag'] = False
 data['stop_loss_flag'] = True
 data['reverse_order_flag'] =  None
-data['slema_move_close_flag'] =  None
+data['slema_closed_flag'] = None
+# data['slema_move_close_flag'] =  None
 
 data['position_without_cushion'] = None
 
@@ -81,16 +82,23 @@ data['gap_cushion'] = data['pip_size'] * 2
 # data['pl_move_trigger'] = 0.0003
 # data['pl_min']            = 0.0010
 data['pl_move_min']             = None
-data['pl_move_trail_ratio']     = 0.5
+data['pl_move_trail_ratio']     = 0.66
 data['pl_move_trail_trigger']   = 0.0015
 data['stop_loss_pip']           = 0.0015
 
 data['tick_close_angle'] = 5
 data['pl_close_angle'] = 15
 
-data['sema_len']        = 3000
-data['slema_len']       = 7500
-data['lema_len']        = 30000
+# data['sema_len']        = 3000
+# data['slema_len']       = 7500
+# data['lema_len']        = 30000
+# data['sema_len']        = 6000
+# data['slema_len']       = 15000
+# data['lema_len']        = 60000
+data['sema_len']        = 300
+data['slema_len']       = 750
+data['lema_len']        = 3000
+
 data['angle_len']       = 75
 data['close_angle']     = 25
 
