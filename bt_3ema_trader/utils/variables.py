@@ -95,9 +95,9 @@ data['pl_close_angle'] = 15
 # data['sema_len']        = 6000
 # data['slema_len']       = 15000
 # data['lema_len']        = 60000
-data['sema_len']        = 300
-data['slema_len']       = 750
-data['lema_len']        = 3000
+data['sema_len']        = 3000
+data['slema_len']       = 7500
+data['lema_len']        = 30000
 
 data['angle_len']       = 75
 data['close_angle']     = 25
