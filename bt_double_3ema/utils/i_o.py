@@ -128,16 +128,16 @@ def plot_graph(data):
         plt.axvline(x=x_val, color='black')
         plt.text(x=x_val, y=0, s=data['date_list'][i], rotation=90, fontsize = 15)
 
-    ax1.scatter(data['buy_markers_x'], data['buy_markers_y'], s=300, c='darkblue', marker=10)
-    ax1.scatter(data['sell_markers_x'], data['sell_markers_y'], s=300, c='red', marker=11)
+    ax1.scatter(data['long_buy_markers_x'], data['long_buy_markers_y'], s=300, c='darkblue', marker=10)
+    ax1.scatter(data['short_buy_markers_x'], data['short_buy_markers_y'], s=300, c='darkblue', marker=11)
+    ax1.scatter(data['long_sell_markers_x'], data['long_sell_markers_y'], s=300, c='red', marker=10)
+    ax1.scatter(data['short_sell_markers_x'], data['short_sell_markers_y'], s=300, c='red', marker=11)
 
     legend = ax1.legend(loc='upper left', fontsize='xx-large')
-    # legend = ax2.legend(loc='upper right', fontsize='xx-large')
     
     ax1.tick_params(axis='x', colors='red', labelsize = 25)
     ax1.tick_params(axis='y', colors='red', labelsize = 25)
     ax2.tick_params(axis='y', colors='red', labelsize = 25)
-
 
     plt.xlabel('tick num')
     plt.ylabel('prices')
@@ -148,6 +148,32 @@ def plot_graph(data):
     fig.savefig(data['chart_name'])
 #...............................................................................................
 
+
+#............................................................................................... 
+def adjust_plot_list_lengths(data):
+    # Adjust df len to lema(shortest) len
+    data['df_len'] = len(data["df_lema_list"])
+
+    data["df"] = data['df'][-data['df_len']:]   
+    data["df"] = data["df"].reset_index(drop = True)    
+    
+    data["df"]['lema'] = data["df_lema_list"][-data['df_len']:]            
+    data["df"]['slema'] = data["df_slema_list"][-data['df_len']:]            
+    data["df"]['sema'] = list(data["df_sema_list"])[-data['df_len']:]    
+    data['df']["tick"] = list(data["df_tick_list"])[-data['df_len']:]
+            
+    # Adjust buy sell markers to the shortened df
+    # data['len_to_subtract'] = data['lema_len'] + data['angle_len']
+    data['len_to_subtract'] = data['lema_len']
+    
+    data['long_buy_markers_x'] = list(np.array(data['long_buy_markers_x']) - data['len_to_subtract'])
+    data['short_buy_markers_x'] = list(np.array(data['short_buy_markers_x']) - data['len_to_subtract'])       
+    data['long_sell_markers_x'] = list(np.array(data['long_sell_markers_x']) - data['len_to_subtract'])
+    data['short_sell_markers_x'] = list(np.array(data['short_sell_markers_x']) - data['len_to_subtract'])    
+    
+    data["df"] = data["df"].reset_index(drop = True)
+    return(data)
+#............................................................................................... 
 
 
 #...............................................................................................

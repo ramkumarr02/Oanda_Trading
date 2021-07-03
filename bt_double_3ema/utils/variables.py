@@ -24,11 +24,15 @@ data['df_tick_list'] = []
 data['df_sema_angle_list'] = []
 data['df_lema_angle_list'] = []
 
+data['long_buy_markers_x'] = []
+data['long_buy_markers_y'] = []
+data['short_buy_markers_x'] = []
+data['short_buy_markers_y'] = []
 
-data['buy_markers_x'] = []
-data['buy_markers_y'] = []
-data['sell_markers_x'] = []
-data['sell_markers_y'] = []
+data['long_sell_markers_x'] = []
+data['long_sell_markers_y'] = []
+data['short_sell_markers_x'] = []
+data['short_sell_markers_y'] = []
 
 data['position'] = False
 data['open_order'] = False    
