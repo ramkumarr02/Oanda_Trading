@@ -10,7 +10,7 @@ from utils.order import *
 
 data["plot"] = False
 
-data['pl_move_trail_trigger']   = 0.0015
+data['pl_move_trail_trigger']   = 0.0020
 data['stop_loss_pip']           = 0.0015
 
 data['start_date'] = {'year':2021, 'month':1, 'date':1}

@@ -35,13 +35,17 @@ data['short_sell_markers_x'] = []
 data['short_sell_markers_y'] = []
 
 data['position'] = False
-data['open_order'] = False    
+data['long_open_order'] = False    
+data['short_open_order'] = False    
 data['open_order_type'] = None
 data['df_subset_size'] = None
 data['pl_positive'] = False
 data['pl_positive_flag'] = True
 data['slema_positive'] = False
-data['slema_check_flag'] = False
+
+data['long_slema_check_flag'] = False
+data['short_slema_check_flag'] = False
+
 data['tick_close_flag'] = False
 data['tick_close_flag'] = False
 data['stop_loss_flag'] = True

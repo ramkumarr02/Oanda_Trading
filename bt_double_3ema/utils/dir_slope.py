@@ -11,7 +11,7 @@ def get_position(data):
         data['position'] = -1
 
     elif data['sema'] < data['lema']:
-        data['position'] = +1        
+        data['position'] = 1        
     
     return(data)
 #...............................................................................................
@@ -29,15 +29,15 @@ def get_cross_dir(data):
     
     if pos_2 == 1 and pos_2 != pos_1:
         data['dir_change'] = True    
-        data['to_order'] = 'long'
+        # data['to_order'] = 'long'
 
     elif pos_2 == -1 and pos_2 != pos_1:
         data['dir_change'] = True
-        data['to_order'] = 'short'
+        # data['to_order'] = 'short'
 
     else:
         data['dir_change'] = False
-        data['to_order'] = None
+        # data['to_order'] = None
 
     return(data)    
 #................................................................................................
