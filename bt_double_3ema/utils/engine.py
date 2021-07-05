@@ -66,12 +66,18 @@ def run_engine(data):
         elif len(data['dir_list']) == 2:
             data = get_cross_dir(data)
         # ----------------------------------------------------------  
-    
+
+        data = calculate_pl(data)
+
+        data = simple_take_profit(data)
+
         data = slema_positive_check(data)
         data = simple_slema_move_close(data)
-        data = close_order(data)        
+        
+        data = sema_close_order(data)        
         data = simple_stop_loss(data)
         data = make_double_order(data)
+        data = make_single_order(data)
             
     return(data)
 #...............................................................................................    
