@@ -119,7 +119,7 @@ def plot_graph(data):
 
     ax1.plot(x_axis, data["df"]['tick'], label='tick', color='gray', linestyle='dotted')
     ax1.plot(x_axis, data["df"]['sema'], label='sema', color='maroon')
-    ax1.plot(x_axis, data["df"]['slema'], label='slema', color='pink')
+    # ax1.plot(x_axis, data["df"]['slema'], label='slema', color='pink')
     ax1.plot(x_axis, data["df"]['lema'], label='lema', color='blue')
 
     data = get_date_lines(data)
@@ -158,7 +158,7 @@ def adjust_plot_list_lengths(data):
     data["df"] = data["df"].reset_index(drop = True)    
     
     data["df"]['lema'] = data["df_lema_list"][-data['df_len']:]            
-    data["df"]['slema'] = data["df_slema_list"][-data['df_len']:]            
+    # data["df"]['slema'] = data["df_slema_list"][-data['df_len']:]            
     data["df"]['sema'] = list(data["df_sema_list"])[-data['df_len']:]    
     data['df']["tick"] = list(data["df_tick_list"])[-data['df_len']:]
             

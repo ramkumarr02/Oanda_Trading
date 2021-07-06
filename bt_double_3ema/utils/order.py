@@ -1,17 +1,15 @@
 from utils.packages import *
 from utils.i_o import *
 
+
 #...............................................................................................
-def make_double_order(data):
+def make_orders(data):
     if not data['long_open_order'] and not data['short_open_order']:
         if data['dir_change']:
             data =  make_long_order(data)
             data =  make_short_order(data)
             data['reverse_order_flag'] = 'new'
                 
-    return(data)
-#...............................................................................................
-def make_single_order(data):
     if not data['long_open_order'] and data['short_open_order']:
         if data['dir_change']:
             data =  make_long_order(data)            
@@ -26,54 +24,18 @@ def make_single_order(data):
 #...............................................................................................
 def sema_close_order(data):
     if data['long_open_order']:
-        if data['position'] != -1 and data['order_long_position'] != data['position']:        
+        if data['position'] != 1 and data['order_long_position'] != data['position']:        
             data['temp_text'] = 'sema_close'    
             data = close_long_order(data)
             
     if data['short_open_order']:
-        if data['position'] != 1 and data['order_short_position'] != data['position']:
+        if data['position'] != -1 and data['order_short_position'] != data['position']:
             data['temp_text'] = 'sema_close'    
             data = close_short_order(data)
             
     return(data)    
 #...............................................................................................
 
-#...............................................................................................
-def slema_positive_check(data):
-    if data['long_slema_check_flag']:
-        if data['long_open_order']:
-            if data['sema'] > data['slema']:
-                data['long_slema_positive'] = True
-                data['long_slema_check_flag'] = False
-            else:
-                data['long_slema_positive'] = False
-
-    if data['short_slema_check_flag']:
-        if data['short_open_order']:
-            if data['sema'] < data['slema']:
-                data['short_slema_positive'] = True
-                data['short_slema_check_flag'] = False
-            else:
-                data['short_slema_positive'] = False
-
-    return(data)
-#...............................................................................................
-def simple_slema_move_close(data):
-
-    if data['long_open_order']:
-        if data['long_slema_positive']: 
-            if data['sema'] <= data['slema']:
-                data['temp_text'] = 'simple_slema_move_close'
-                data = close_long_order(data)            
-    
-    if data['short_open_order']:
-        if data['short_slema_positive']:
-            if data['sema'] >= data['slema']:                
-                data['temp_text'] = 'simple_slema_move_close'
-                data = close_short_order(data) 
-
-    return(data)    
-#...............................................................................................
 
 #...............................................................................................
 def simple_take_profit(data):
@@ -82,11 +44,13 @@ def simple_take_profit(data):
         if data['long_pl'] >= data['simple_tp']:
             data['temp_text'] = 'simple_take_profit'
             data = close_long_order(data)  
+            # data = make_orders(data)
 
     if data['short_open_order']:                        
         if data['short_pl'] >= data['simple_tp']:
             data['temp_text'] = 'simple_take_profit'
             data = close_short_order(data)  
+            # data = make_orders(data)
     
     return(data)    
 #...............................................................................................
@@ -96,12 +60,12 @@ def simple_stop_loss(data):
     if data['long_open_order']:
         if data['long_pl'] <= -data['stop_loss_pip']:
             data['temp_text'] = 'simple_stop_loss'
-            data = close_long_order(data)                
+            data = close_long_order(data)    
                 
     if data['short_open_order']:
         if data['short_pl'] <= -data['stop_loss_pip']:
             data['temp_text'] = 'simple_stop_loss'
-            data = close_short_order(data)                
+            data = close_short_order(data) 
 
     return(data)   
 # ...............................................................................................   
@@ -259,3 +223,40 @@ def calculate_pl(data):
         data['short_pl'] = np.round(data['short_order_bid_price'] - data['short_close_ask_price'], 5)
     
     return(data)    
+#...............................................................................................
+
+def slema_positive_check(data):
+    if data['long_slema_check_flag']:
+        if data['long_open_order']:
+            if data['sema'] > data['slema']:
+                data['long_slema_positive'] = True
+                data['long_slema_check_flag'] = False
+            else:
+                data['long_slema_positive'] = False
+
+    if data['short_slema_check_flag']:
+        if data['short_open_order']:
+            if data['sema'] < data['slema']:
+                data['short_slema_positive'] = True
+                data['short_slema_check_flag'] = False
+            else:
+                data['short_slema_positive'] = False
+
+    return(data)
+#...............................................................................................
+def simple_slema_move_close(data):
+
+    if data['long_open_order']:
+        if data['long_slema_positive']: 
+            if data['sema'] <= data['slema']:
+                data['temp_text'] = 'simple_slema_move_close'
+                data = close_long_order(data)            
+    
+    if data['short_open_order']:
+        if data['short_slema_positive']:
+            if data['sema'] >= data['slema']:                
+                data['temp_text'] = 'simple_slema_move_close'
+                data = close_short_order(data) 
+
+    return(data)    
+#...............................................................................................

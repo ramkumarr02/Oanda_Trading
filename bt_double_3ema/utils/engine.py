@@ -35,13 +35,13 @@ def run_engine(data):
             data = after_sema(data)                 
         # ----------------------------------------------------------
 
-        # slema before after loops --------------------------------
-        if len(data['slema_list']) < data['slema_len']:
-            data = before_slema(data)        
+        # # slema before after loops --------------------------------
+        # if len(data['slema_list']) < data['slema_len']:
+        #     data = before_slema(data)        
 
-        if len(data['slema_list']) == data['slema_len']:
-            data = after_slema(data)                  
-        # ----------------------------------------------------------
+        # if len(data['slema_list']) == data['slema_len']:
+        #     data = after_slema(data)                  
+        # # ----------------------------------------------------------
 
             
         # lema before after loops --------------------------------
@@ -71,13 +71,12 @@ def run_engine(data):
 
         data = simple_take_profit(data)
 
-        data = slema_positive_check(data)
-        data = simple_slema_move_close(data)
+        # data = slema_positive_check(data)
+        # data = simple_slema_move_close(data)
         
         data = sema_close_order(data)        
         data = simple_stop_loss(data)
-        data = make_double_order(data)
-        data = make_single_order(data)
+        data = make_orders(data)
             
     return(data)
 #...............................................................................................    

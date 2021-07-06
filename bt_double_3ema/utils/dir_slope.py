@@ -8,10 +8,10 @@ def get_position(data):
         data['position'] = 0
 
     elif data['sema'] > data['lema']:
-        data['position'] = -1
+        data['position'] = 1
 
     elif data['sema'] < data['lema']:
-        data['position'] = 1        
+        data['position'] = -1        
     
     return(data)
 #...............................................................................................
