@@ -10,15 +10,15 @@ def make_orders(data):
             data =  make_short_order(data)
             data['reverse_order_flag'] = 'new'
                 
-    if not data['long_open_order'] and data['short_open_order']:
-        if data['dir_change']:
-            data =  make_long_order(data)            
-            data['reverse_order_flag'] = 'new'
+    # if not data['long_open_order'] and data['short_open_order']:
+    #     if data['dir_change']:
+    #         data =  make_long_order(data)            
+    #         data['reverse_order_flag'] = 'new'
             
-    if data['long_open_order'] and not data['short_open_order']:
-        if data['dir_change']:            
-            data =  make_short_order(data)
-            data['reverse_order_flag'] = 'new'
+    # if data['long_open_order'] and not data['short_open_order']:
+    #     if data['dir_change']:            
+    #         data =  make_short_order(data)
+    #         data['reverse_order_flag'] = 'new'
                 
     return(data)
 #...............................................................................................
@@ -108,7 +108,7 @@ def pl_positive_check(data):
         
         if data['long_pl'] >= data['pl_move_trail_trigger']:
                     data['long_pl_positive'] = True
-                    data['long_pl_move_min'] = data['long_pl'] - data['pl_move_trail_size']
+                    data['long_pl_move_min'] = data['long_pl'] * data['pl_move_trail_size']
 
     if data['short_open_order']:
         data['short_close_ask_price'] = data['ask']
@@ -116,7 +116,7 @@ def pl_positive_check(data):
     
         if data['short_pl'] >= data['pl_move_trail_trigger']:
             data['short_pl_positive'] = True
-            data['short_pl_move_min'] = data['short_pl'] - data['pl_move_trail_size']
+            data['short_pl_move_min'] = data['short_pl'] * data['pl_move_trail_size']
 
     return(data)
 #...............................................................................................

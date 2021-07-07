@@ -40,6 +40,7 @@ data['short_open_order'] = False
 data['open_order_type'] = None
 data['df_subset_size'] = None
 data['temp_text'] = None
+data['tp_flag'] = None
 
 data['pl_positive_flag'] = True
 
@@ -96,10 +97,11 @@ data['gap_cushion'] = data['pip_size'] * 2
 # data['pl_min']            = 0.0010
 data['short_pl_move_min']            = None
 data['long_pl_move_min']             = None
-data['pl_move_trail_size']     = 0.0015
-data['pl_move_trail_trigger']   = 0.0030
+
 data['stop_loss_pip']           = 0.0015
 data['simple_tp']               = 0.0030
+data['pl_move_trail_size']     = 0.9
+data['pl_move_trail_trigger']   = 0.0030
 
 data['tick_close_angle'] = 5
 data['pl_close_angle'] = 15
@@ -113,6 +115,8 @@ data['pl_close_angle'] = 15
 data['sema_len']        = 5000
 data['slema_len']       = 20000
 data['lema_len']        = 50000
+
+data['tp_flag'] = 'trail'
 
 data['angle_len']       = 75
 data['close_angle']     = 25
