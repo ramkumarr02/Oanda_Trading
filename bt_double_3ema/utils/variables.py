@@ -42,10 +42,14 @@ data['df_subset_size'] = None
 data['temp_text'] = None
 data['tp_flag'] = None
 
+
 data['pl_positive_flag'] = True
 
 data['long_pl_positive'] = False
 data['short_pl_positive'] = False
+
+data['long_pl_negative'] = False
+data['short_pl_negative'] = False
 
 data['slema_positive'] = False
 
@@ -97,11 +101,16 @@ data['gap_cushion'] = data['pip_size'] * 2
 # data['pl_min']            = 0.0010
 data['short_pl_move_min']            = None
 data['long_pl_move_min']             = None
+data['long_pl_loss_min']             = None
+data['short_pl_loss_min']            = None
 
 data['stop_loss_pip']           = 0.0015
 data['simple_tp']               = 0.0030
-data['pl_move_trail_size']     = 0.9
+
 data['pl_move_trail_trigger']   = 0.0030
+data['pl_move_trail_size']      = 0.9
+data['pl_loss_trail_trigger']   = 0.0028
+data['pl_loss_trail_size']      = 0.9
 
 data['tick_close_angle'] = 5
 data['pl_close_angle'] = 15

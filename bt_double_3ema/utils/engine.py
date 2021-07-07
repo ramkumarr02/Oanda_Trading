@@ -75,6 +75,8 @@ def run_engine(data):
         if data['tp_flag'] == 'trail':
             data = pl_positive_check(data)
             data = pl_move_close(data)
+            data = pl_negative_check(data)
+            data = pl_loss_close(data)
 
         # data = slema_positive_check(data)
         # data = simple_slema_move_close(data)
