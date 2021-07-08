@@ -71,6 +71,7 @@ def run_engine(data):
 
         if data['tp_flag'] == 'simple':
             data = simple_take_profit(data)
+            data = simple_stop_loss(data)
 
         if data['tp_flag'] == 'trail':
             data = pl_positive_check(data)
@@ -82,7 +83,6 @@ def run_engine(data):
         # data = simple_slema_move_close(data)
         # data = sema_close_order(data)        
         
-        data = simple_stop_loss(data)
         data = make_orders(data)
             
     return(data)

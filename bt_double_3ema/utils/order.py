@@ -148,22 +148,33 @@ def pl_move_close(data):
 
 #...............................................................................................
 def pl_negative_check(data):
-                
-    if data['long_open_order']:
-        data['long_close_bid_price'] = data['bid']
-        data['long_pl'] = np.round(data['long_close_bid_price'] - data['long_order_ask_price'], 5)
+    if not data['negative_hit_limit']:
+        if data['long_open_order']:
+            if data['long_pl'] < data['pl_loss_trail_trigger']:
+                data['negative_hit_limit'] = True
+                data['long_pl_loss_min'] = data['long_pl'] * data['pl_loss_trail_size']
         
-        if data['long_pl'] <= data['pl_loss_trail_trigger']:
-            data['long_pl_negative'] = True
-            data['long_pl_loss_min'] = data['long_pl'] - data['pl_loss_trail_size']
+        if data['short_open_order']:
+            if data['short_pl'] < data['pl_loss_trail_trigger']:
+                data['negative_hit_limit'] = True
+                data['short_pl_loss_min'] = data['short_pl'] * data['pl_loss_trail_size']
 
-    if data['short_open_order']:
-        data['short_close_ask_price'] = data['ask']
-        data['short_pl'] = np.round(data['short_order_bid_price'] - data['short_close_ask_price'], 5)
-    
-        if data['short_pl'] <= data['pl_loss_trail_trigger']:
-            data['short_pl_negative'] = True
-            data['short_pl_loss_min'] = data['short_pl'] - data['pl_loss_trail_size']
+    if data['negative_hit_limit']:                
+        if data['long_open_order']:
+            data['long_close_bid_price'] = data['bid']
+            data['long_pl'] = np.round(data['long_close_bid_price'] - data['long_order_ask_price'], 5)
+            
+            if data['long_pl'] > data['pl_loss_trail_trigger']:
+                data['long_pl_negative'] = True
+                data['long_pl_loss_min'] = data['long_pl'] * data['pl_loss_trail_size']
+
+        if data['short_open_order']:
+            data['short_close_ask_price'] = data['ask']
+            data['short_pl'] = np.round(data['short_order_bid_price'] - data['short_close_ask_price'], 5)
+        
+            if data['short_pl'] > data['pl_loss_trail_trigger']:
+                data['short_pl_negative'] = True
+                data['short_pl_loss_min'] = data['short_pl'] * data['pl_loss_trail_size']
 
     return(data)
 #...............................................................................................
@@ -173,16 +184,16 @@ def pl_loss_close(data):
     
     if data['long_open_order']:
         if data['long_pl_negative']:
-            if data['long_pl'] >= data['long_pl_loss_min']: 
+            if data['long_pl'] > data['long_pl_loss_min']: 
                 data['long_pl_negative'] = False
-                data['short_pl_loss_min'] = None
+                data['long_pl_loss_min'] = None
                 data['temp_text'] = 'pl_loss_close'
                 data = close_long_order(data)                
               
                 
     if data['short_open_order']:
         if data['short_pl_negative']:
-            if data['short_pl'] >= data['short_pl_loss_min']:
+            if data['short_pl'] > data['short_pl_loss_min']:
                 data['short_pl_negative'] = False
                 data['short_pl_loss_min'] = None
                 data['temp_text'] = 'pl_loss_close'
@@ -199,6 +210,7 @@ def make_long_order(data):
     data['order_long_position']     = data['position']
     data['long_pl_move_min']        = None
     data['long_pl_positive']        = False
+    data['negative_hit_limit']      = False
 
     data['long_close_bid_price'] = data['bid']
     data['long_pl'] = np.round(data['long_close_bid_price'] - data['long_order_ask_price'], 5)
@@ -215,6 +227,7 @@ def make_short_order(data):
     data['order_short_position']    = data['position']
     data['short_pl_move_min']       = None
     data['short_pl_positive']       = False
+    data['negative_hit_limit']      = False
 
     data['short_close_ask_price'] = data['ask']
     data['short_pl'] = np.round(data['short_order_bid_price'] - data['short_close_ask_price'], 5)

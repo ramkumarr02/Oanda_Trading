@@ -44,6 +44,7 @@ data['tp_flag'] = None
 
 
 data['pl_positive_flag'] = True
+data['negative_hit_limit'] = False
 
 data['long_pl_positive'] = False
 data['short_pl_positive'] = False
