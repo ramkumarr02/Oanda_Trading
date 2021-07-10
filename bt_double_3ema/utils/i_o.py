@@ -118,9 +118,9 @@ def plot_graph(data):
     x_axis = np.arange(0,len(data["df"]['tick']))
 
     ax1.plot(x_axis, data["df"]['tick'], label='tick', color='gray', linestyle='dotted')
-    ax1.plot(x_axis, data["df"]['sema'], label='sema', color='maroon')
+    # ax1.plot(x_axis, data["df"]['sema'], label='sema', color='maroon')
     # ax1.plot(x_axis, data["df"]['slema'], label='slema', color='pink')
-    ax1.plot(x_axis, data["df"]['lema'], label='lema', color='blue')
+    # ax1.plot(x_axis, data["df"]['lema'], label='lema', color='blue')
 
     data = get_date_lines(data)
 
@@ -175,6 +175,32 @@ def adjust_plot_list_lengths(data):
     return(data)
 #............................................................................................... 
 
+
+#............................................................................................... 
+def adjust_plot_list_lengths(data):
+    # Adjust df len to lema(shortest) len
+    # data['df_len'] = len(data["df_lema_list"])
+
+    # data["df"] = data['df'][-data['df_len']:]   
+    # data["df"] = data["df"].reset_index(drop = True)    
+    
+    # data["df"]['lema'] = data["df_lema_list"][-data['df_len']:]            
+    # # data["df"]['slema'] = data["df_slema_list"][-data['df_len']:]            
+    # data["df"]['sema'] = list(data["df_sema_list"])[-data['df_len']:]    
+    data['df']["tick"] = list(data["df_tick_list"])
+            
+    # Adjust buy sell markers to the shortened df
+    # data['len_to_subtract'] = data['lema_len'] + data['angle_len']
+    data['len_to_subtract'] = 0
+    
+    data['long_buy_markers_x'] = list(np.array(data['long_buy_markers_x']) - data['len_to_subtract'])
+    data['short_buy_markers_x'] = list(np.array(data['short_buy_markers_x']) - data['len_to_subtract'])       
+    data['long_sell_markers_x'] = list(np.array(data['long_sell_markers_x']) - data['len_to_subtract'])
+    data['short_sell_markers_x'] = list(np.array(data['short_sell_markers_x']) - data['len_to_subtract'])    
+    
+    data["df"] = data["df"].reset_index(drop = True)
+    return(data)
+#............................................................................................... 
 
 #...............................................................................................
 def create_report(data):

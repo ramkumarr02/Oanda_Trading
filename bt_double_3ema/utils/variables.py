@@ -60,6 +60,7 @@ data['short_slema_check_flag'] = False
 data['tick_close_flag'] = False
 data['tick_close_flag'] = False
 data['stop_loss_flag'] = True
+data['one_stop_flag'] = False
 data['reverse_order_flag'] =  None
 data['slema_closed_flag'] = None
 # data['slema_move_close_flag'] =  None
@@ -112,6 +113,8 @@ data['pl_move_trail_trigger']   = 0.0030
 data['pl_move_trail_size']      = 0.9
 data['pl_loss_trail_trigger']   = 0.0028
 data['pl_loss_trail_size']      = 0.9
+
+data['max_one_stop_fraction'] = 0.5
 
 data['tick_close_angle'] = 5
 data['pl_close_angle'] = 15

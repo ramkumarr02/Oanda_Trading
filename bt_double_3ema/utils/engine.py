@@ -27,13 +27,13 @@ def run_engine(data):
             data['i_list'].append(i)
             data["df_tick_list"].append(data['tick'])
 
-        # sema before after loops --------------------------------
-        if len(data['sema_list']) < data['sema_len']:
-            data =  before_sema(data)
+        # # sema before after loops --------------------------------
+        # if len(data['sema_list']) < data['sema_len']:
+        #     data =  before_sema(data)
 
-        if len(data['sema_list']) == data['sema_len']:
-            data = after_sema(data)                 
-        # ----------------------------------------------------------
+        # if len(data['sema_list']) == data['sema_len']:
+        #     data = after_sema(data)                 
+        # # ----------------------------------------------------------
 
         # # slema before after loops --------------------------------
         # if len(data['slema_list']) < data['slema_len']:
@@ -44,28 +44,28 @@ def run_engine(data):
         # # ----------------------------------------------------------
 
             
-        # lema before after loops --------------------------------
-        if len(data['lema_list']) < data['lema_len']:
-            data = before_lema(data)        
-            continue
+        # # lema before after loops --------------------------------
+        # if len(data['lema_list']) < data['lema_len']:
+        #     data = before_lema(data)        
+        #     continue
 
-        if len(data['lema_list']) == data['lema_len']:
-            data = after_lema(data)                  
-        # ----------------------------------------------------------
+        # if len(data['lema_list']) == data['lema_len']:
+        #     data = after_lema(data)                  
+        # # ----------------------------------------------------------
 
-        data = get_position(data)
+        # data = get_position(data)
 
-        if data['position'] == None:
-            continue
+        # if data['position'] == None:
+        #     continue
         
-        # Get Dirs --------------------------------
-        if len(data['dir_list']) < 2:
-            data['dir_list'].append(data['position'])   
-            continue
+        # # Get Dirs --------------------------------
+        # if len(data['dir_list']) < 2:
+        #     data['dir_list'].append(data['position'])   
+        #     continue
 
-        elif len(data['dir_list']) == 2:
-            data = get_cross_dir(data)
-        # ----------------------------------------------------------  
+        # elif len(data['dir_list']) == 2:
+        #     data = get_cross_dir(data)
+        # # ----------------------------------------------------------  
 
         data = calculate_pl(data)
 
@@ -79,11 +79,8 @@ def run_engine(data):
             data = pl_negative_check(data)
             data = pl_loss_close(data)
 
-        # data = slema_positive_check(data)
-        # data = simple_slema_move_close(data)
-        # data = sema_close_order(data)        
-        
+        data = one_stop_save(data)        
         data = make_orders(data)
-            
+           
     return(data)
 #...............................................................................................    

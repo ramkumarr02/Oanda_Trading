@@ -5,10 +5,10 @@ from utils.i_o import *
 #...............................................................................................
 def make_orders(data):
     if not data['long_open_order'] and not data['short_open_order']:
-        if data['dir_change']:
-            data =  make_long_order(data)
-            data =  make_short_order(data)
-            data['reverse_order_flag'] = 'new'
+        # if data['dir_change']:
+        data =  make_long_order(data)
+        data =  make_short_order(data)
+        data['reverse_order_flag'] = 'new'
                 
     # if not data['long_open_order'] and data['short_open_order']:
     #     if data['dir_change']:
@@ -44,13 +44,11 @@ def simple_take_profit(data):
         if data['long_pl'] >= data['simple_tp']:
             data['temp_text'] = 'simple_take_profit'
             data = close_long_order(data)  
-            # data = make_orders(data)
 
     if data['short_open_order']:                        
         if data['short_pl'] >= data['simple_tp']:
             data['temp_text'] = 'simple_take_profit'
             data = close_short_order(data)  
-            # data = make_orders(data)
     
     return(data)    
 #...............................................................................................
@@ -58,12 +56,12 @@ def simple_take_profit(data):
 # ...............................................................................................
 def simple_stop_loss(data):
     if data['long_open_order']:
-        if data['long_pl'] <= -data['stop_loss_pip']:
+        if data['long_pl'] <= data['stop_loss_pip']:
             data['temp_text'] = 'simple_stop_loss'
             data = close_long_order(data)    
                 
     if data['short_open_order']:
-        if data['short_pl'] <= -data['stop_loss_pip']:
+        if data['short_pl'] <= data['stop_loss_pip']:
             data['temp_text'] = 'simple_stop_loss'
             data = close_short_order(data) 
 
@@ -108,7 +106,7 @@ def pl_positive_check(data):
         
         if data['long_pl'] >= data['pl_move_trail_trigger']:
             data['long_pl_positive'] = True
-            data['long_pl_move_min'] = data['long_pl'] * data['pl_move_trail_size']
+            data['long_pl_move_min'] = max((data['long_pl'] * data['pl_move_trail_size']), data['long_pl_move_min'])
 
     if data['short_open_order']:
         data['short_close_ask_price'] = data['ask']
@@ -116,7 +114,7 @@ def pl_positive_check(data):
     
         if data['short_pl'] >= data['pl_move_trail_trigger']:
             data['short_pl_positive'] = True
-            data['short_pl_move_min'] = data['short_pl'] * data['pl_move_trail_size']
+            data['short_pl_move_min'] = max((data['short_pl'] * data['pl_move_trail_size']),data['short_pl_move_min'])
 
     return(data)
 #...............................................................................................
@@ -126,22 +124,20 @@ def pl_move_close(data):
     
     if data['long_open_order']:
         if data['long_pl_positive']:
-            if data['long_pl'] > 0:
-                if data['long_pl'] <= data['long_pl_move_min']: 
-                    data['long_pl_positive'] = False
-                    data['long_pl_move_min'] = None
-                    data['temp_text'] = 'pl_move_close'
-                    data = close_long_order(data)                
+            if 0 < data['long_pl'] <= data['long_pl_move_min']: 
+                data['long_pl_positive'] = False
+                data['long_pl_move_min'] = None
+                data['temp_text'] = 'pl_move_close'
+                data = close_long_order(data)                
               
                 
     if data['short_open_order']:
         if data['short_pl_positive']:
-            if data['short_pl'] > 0:
-                if data['short_pl'] <= data['short_pl_move_min']:
-                    data['short_pl_positive'] = False
-                    data['short_pl_move_min'] = None
-                    data['temp_text'] = 'pl_move_close'
-                    data = close_short_order(data)    
+            if 0 < data['short_pl'] <= data['short_pl_move_min']:
+                data['short_pl_positive'] = False
+                data['short_pl_move_min'] = None
+                data['temp_text'] = 'pl_move_close'
+                data = close_short_order(data)    
 
     return(data)    
 #...............................................................................................    
@@ -149,32 +145,27 @@ def pl_move_close(data):
 #...............................................................................................
 def pl_negative_check(data):
     if not data['negative_hit_limit']:
+
         if data['long_open_order']:
-            if data['long_pl'] < data['pl_loss_trail_trigger']:
-                data['negative_hit_limit'] = True
-                data['long_pl_loss_min'] = data['long_pl'] * data['pl_loss_trail_size']
+            if data['long_pl'] <= data['pl_loss_trail_trigger']:
+                data['negative_hit_limit'] = True                
+                data['long_pl_loss_min'] = max((data['long_pl'] * data['pl_loss_trail_size']), data['long_pl_loss_min'])
         
         if data['short_open_order']:
-            if data['short_pl'] < data['pl_loss_trail_trigger']:
+            if data['short_pl'] <= data['pl_loss_trail_trigger']:
                 data['negative_hit_limit'] = True
-                data['short_pl_loss_min'] = data['short_pl'] * data['pl_loss_trail_size']
+                data['short_pl_loss_min'] = max((data['short_pl'] * data['pl_loss_trail_size']), data['short_pl_loss_min'])
 
     if data['negative_hit_limit']:                
-        if data['long_open_order']:
-            data['long_close_bid_price'] = data['bid']
-            data['long_pl'] = np.round(data['long_close_bid_price'] - data['long_order_ask_price'], 5)
-            
+        if data['long_open_order']:           
             if data['long_pl'] > data['pl_loss_trail_trigger']:
                 data['long_pl_negative'] = True
-                data['long_pl_loss_min'] = data['long_pl'] * data['pl_loss_trail_size']
+                data['long_pl_loss_min'] = max((data['long_pl'] * data['pl_loss_trail_size']), data['long_pl_loss_min'])
 
-        if data['short_open_order']:
-            data['short_close_ask_price'] = data['ask']
-            data['short_pl'] = np.round(data['short_order_bid_price'] - data['short_close_ask_price'], 5)
-        
+        if data['short_open_order']:        
             if data['short_pl'] > data['pl_loss_trail_trigger']:
                 data['short_pl_negative'] = True
-                data['short_pl_loss_min'] = data['short_pl'] * data['pl_loss_trail_size']
+                data['short_pl_loss_min'] = max((data['short_pl'] * data['pl_loss_trail_size']), data['short_pl_loss_min'])
 
     return(data)
 #...............................................................................................
@@ -184,23 +175,44 @@ def pl_loss_close(data):
     
     if data['long_open_order']:
         if data['long_pl_negative']:
-            if data['long_pl'] > data['long_pl_loss_min']: 
-                data['long_pl_negative'] = False
-                data['long_pl_loss_min'] = None
-                data['temp_text'] = 'pl_loss_close'
+            if data['long_pl'] < data['long_pl_loss_min'] < 0: 
+                data['negative_hit_limit']  = False
+                data['long_pl_negative']    = False
+                data['long_pl_loss_min']    = None
+                data['temp_text']           = 'pl_loss_close'
+                data['one_stop_flag']       = 'long'
+                data['stopped_pl']          = data['short_pl']
                 data = close_long_order(data)                
               
                 
     if data['short_open_order']:
         if data['short_pl_negative']:
-            if data['short_pl'] > data['short_pl_loss_min']:
-                data['short_pl_negative'] = False
-                data['short_pl_loss_min'] = None
-                data['temp_text'] = 'pl_loss_close'
+            if data['short_pl'] < data['short_pl_loss_min'] < 0:
+                data['negative_hit_limit']  = False
+                data['short_pl_negative']   = False
+                data['short_pl_loss_min']   = None
+                data['temp_text']           = 'pl_loss_close'
+                data['one_stop_flag']       = 'short'
+                data['stopped_pl']          = data['long_pl']
                 data = close_short_order(data)    
 
     return(data)    
 #...............................................................................................    
+
+def one_stop_save(data):
+    if data['one_stop_flag'] == 'short':
+        if data['long_open_order'] and not data['short_open_order']:
+            if data['long_pl'] <= (data['stopped_pl'] * data['max_one_stop_fraction']):
+                data['temp_text'] = 'one_stop_save'
+                data = close_long_order(data)  
+
+    if data['one_stop_flag'] == 'long':
+        if data['short_open_order'] and not data['long_open_order']:
+            if data['short_pl'] <= (data['stopped_pl'] * data['max_one_stop_fraction']):
+                data['temp_text'] = 'one_stop_save'
+                data = close_short_order(data)  
+
+    return(data)
 
 #...............................................................................................
 def make_long_order(data):
@@ -209,8 +221,11 @@ def make_long_order(data):
     data['long_slema_check_flag']   = True
     data['order_long_position']     = data['position']
     data['long_pl_move_min']        = None
+    data['long_pl_loss_min']        = -100
+    data['long_pl_move_min']        = 0
     data['long_pl_positive']        = False
     data['negative_hit_limit']      = False
+    data['one_stop_flag']           = None
 
     data['long_close_bid_price'] = data['bid']
     data['long_pl'] = np.round(data['long_close_bid_price'] - data['long_order_ask_price'], 5)
@@ -226,8 +241,11 @@ def make_short_order(data):
     data['short_slema_check_flag']  = True
     data['order_short_position']    = data['position']
     data['short_pl_move_min']       = None
+    data['short_pl_loss_min']       = -100
+    data['short_pl_move_min']       = 0
     data['short_pl_positive']       = False
     data['negative_hit_limit']      = False
+    data['one_stop_flag']           = None
 
     data['short_close_ask_price'] = data['ask']
     data['short_pl'] = np.round(data['short_order_bid_price'] - data['short_close_ask_price'], 5)
@@ -318,3 +336,26 @@ def simple_slema_move_close(data):
 
     return(data)    
 #...............................................................................................
+
+def run_time_freeze():
+    if data['negative_hit_limit']:
+        display.clear_output(wait = True)            
+        print(f'pl_loss_trail_size  : {data["pl_loss_trail_size"]}')
+        print(f'long_pl_loss_min    : {data["long_pl_loss_min"]}')
+        print(f'long_pl             : {data["long_pl"]}')
+        print(f'long_pl_negative    : {data["long_pl_negative"]}')            
+        time.sleep(1)
+
+    if data['long_pl_positive']:
+        display.clear_output(wait = True)
+        print(f'pl_move_trail_size  : {data["pl_move_trail_size"]}')
+        print(f'long_pl_move_min    : {data["long_pl_move_min"]}')
+        print(f'long_pl             : {data["long_pl"]}')            
+        time.sleep(1)
+
+    if data['short_pl_positive']:
+        display.clear_output(wait = True)            
+        print(f'pl_move_trail_size  : {data["pl_move_trail_size"]}')
+        print(f'short_pl_move_min   : {data["short_pl_move_min"]}')
+        print(f'short_pl            : {data["short_pl"]}')            
+        time.sleep(1)
