@@ -5,10 +5,10 @@ from utils.i_o import *
 #...............................................................................................
 def make_orders(data):
     if not data['long_open_order'] and not data['short_open_order']:
-        # if data['dir_change']:
-        data =  make_long_order(data)
-        data =  make_short_order(data)
-        data['reverse_order_flag'] = 'new'
+        if data['dir_change']:
+            data =  make_long_order(data)
+            data =  make_short_order(data)
+            data['reverse_order_flag'] = 'new'
                 
     # if not data['long_open_order'] and data['short_open_order']:
     #     if data['dir_change']:
@@ -200,15 +200,16 @@ def pl_loss_close(data):
 #...............................................................................................    
 
 def one_stop_save(data):
+        
     if data['one_stop_flag'] == 'short':
         if data['long_open_order'] and not data['short_open_order']:
-            if data['long_pl'] <= (data['stopped_pl'] * data['max_one_stop_fraction']):
+            if data['long_pl'] <= (data['stopped_pl'] - data['max_one_stop_pip']):
                 data['temp_text'] = 'one_stop_save'
                 data = close_long_order(data)  
 
     if data['one_stop_flag'] == 'long':
         if data['short_open_order'] and not data['long_open_order']:
-            if data['short_pl'] <= (data['stopped_pl'] * data['max_one_stop_fraction']):
+            if data['short_pl'] <= (data['stopped_pl'] - data['max_one_stop_pip']):
                 data['temp_text'] = 'one_stop_save'
                 data = close_short_order(data)  
 
