@@ -59,11 +59,15 @@ def simple_stop_loss(data):
         if data['long_pl'] <= data['stop_loss_pip']:
             data['temp_text'] = 'simple_stop_loss'
             data = close_long_order(data)    
+            data['one_stop_flag'] = 'long'
+            data['stopped_pl'] = data['short_pl']
                 
     if data['short_open_order']:
         if data['short_pl'] <= data['stop_loss_pip']:
             data['temp_text'] = 'simple_stop_loss'
             data = close_short_order(data) 
+            data['one_stop_flag'] = 'short'
+            data['stopped_pl'] = data['long_pl']
 
     return(data)   
 # ...............................................................................................   
@@ -203,13 +207,13 @@ def one_stop_save(data):
         
     if data['one_stop_flag'] == 'short':
         if data['long_open_order'] and not data['short_open_order']:
-            if data['long_pl'] <= (data['stopped_pl'] - data['max_one_stop_pip']):
+            if data['long_pl'] <= (data['stopped_pl'] * data['max_one_stop_fraction']):
                 data['temp_text'] = 'one_stop_save'
                 data = close_long_order(data)  
 
     if data['one_stop_flag'] == 'long':
         if data['short_open_order'] and not data['long_open_order']:
-            if data['short_pl'] <= (data['stopped_pl'] - data['max_one_stop_pip']):
+            if data['short_pl'] <= (data['stopped_pl'] * data['max_one_stop_fraction']):
                 data['temp_text'] = 'one_stop_save'
                 data = close_short_order(data)  
 

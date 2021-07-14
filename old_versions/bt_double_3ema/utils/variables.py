@@ -114,7 +114,7 @@ data['pl_move_trail_size']      = 0.9
 data['pl_loss_trail_trigger']   = -0.0028
 data['pl_loss_trail_size']      = 0.9
 
-data['max_one_stop_fraction'] = 0.5
+data['max_one_stop_fraction'] = 0.99
 data['max_one_stop_pip'] = (sum([data['pl_move_trail_trigger'], data['pl_loss_trail_trigger']]) + 0.0001) * 2
 
 data['tick_close_angle'] = 5
