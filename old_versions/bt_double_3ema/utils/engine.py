@@ -79,7 +79,9 @@ def run_engine(data):
             data = pl_negative_check(data)
             data = pl_loss_close(data)
 
-        data = one_stop_save(data)        
+        if data['one_stop_save_flag']:
+            data = one_stop_save(data)        
+            
         data = make_orders(data)
            
     return(data)
