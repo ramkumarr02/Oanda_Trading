@@ -67,6 +67,7 @@ def run_engine(data):
             data = get_cross_dir(data)
         # ----------------------------------------------------------  
         
+        data = calculate_pl(data)
         
         if data['pl_positive_flag']:
             data = pl_positive_check(data)
