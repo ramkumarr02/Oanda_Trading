@@ -67,6 +67,7 @@ def run_engine(data):
             data = get_cross_dir(data)
         # ----------------------------------------------------------  
         
+        data = calculate_pl(data)
         
         if data['pl_positive_flag']:
             data = pl_positive_check(data)
@@ -74,7 +75,7 @@ def run_engine(data):
 
         data = slema_positive_check(data)
         data = slema_move_close(data)
-        # data = simple_slema_move_close(data)
+        data = reverse_order_position(data)
         data = stop_loss(data)     
         data = make_order(data)    
             

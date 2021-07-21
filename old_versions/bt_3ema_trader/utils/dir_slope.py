@@ -1,35 +1,35 @@
 from utils.packages import *
 
 
+# #...............................................................................................
+# def get_position(data):
+
+#     if data['sema'] == data['lema']:
+#         data['position'] = 0
+
+#     elif data['sema'] > data['lema']:
+#         data['position'] = 1 * data['direction_flag']
+
+#     elif data['sema'] < data['lema']:
+#         data['position'] = -1 * data['direction_flag']
+    
+#     return(data)
+# #...............................................................................................
+
+
 #...............................................................................................
 def get_position(data):
 
-    if data['sema'] == data['lema']:
+    if abs(data['sema'] - data['lema']) < data['sema_gap_pip']:
         data['position'] = 0
 
-    elif data['sema'] > data['lema']:
-        data['position'] = -1
+    elif data['sema'] - data['lema'] >= data['sema_gap_pip']:
+        data['position'] = 1 * data['direction_flag']
 
-    elif data['sema'] < data['lema']:
-        data['position'] = +1        
+    elif data['sema'] - data['lema'] <= -data['sema_gap_pip']:
+        data['position'] = -1 * data['direction_flag']
     
     return(data)
-
-# def get_position(data):
-    
-#     if data['sema'] > data['lema'] and data['slema'] > data['lema']:
-#         if data['sema'] < data['slema']:
-#             data['position'] = -1
-
-#     elif data['sema'] < data['lema'] and data['slema'] < data['lema']:
-#         if data['sema'] > data['slema']:
-#             data['position'] = 1
-
-#     else:
-#         data['position'] = 0
-    
-    return(data)
-
 #...............................................................................................
 
 

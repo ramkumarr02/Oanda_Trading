@@ -54,8 +54,10 @@ data['ord_types'] = []
 
 data['sema_make_order_angle'] = 1
 data['sema_close_order_angle'] = 1
+data['direction_flag'] = -1
 
 data['pip_size'] = 0.0001
+
 
 data['tick_order_angle'] = 20
 data['stop_loss_pip'] = 0.0010
@@ -85,6 +87,7 @@ data['pl_move_min']             = 0
 data['pl_move_trail_ratio']     = 0.66
 data['pl_move_trail_trigger']   = 0.0015
 data['stop_loss_pip']           = 0.0015
+data['sema_gap_pip'] = 0.0015
 
 data['tick_close_angle'] = 5
 data['pl_close_angle'] = 15
