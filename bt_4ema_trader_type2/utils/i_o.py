@@ -110,16 +110,16 @@ def print_report(data):
 #............................................................................................... 
 def adjust_plot_list_lengths(data):
     # Adjust df len to lema(shortest) len
-    data['df_len'] = len(data["df_llema_angle_list"])
+    data['df_len'] = len(data["df_llema_list"])
 
     data["df"] = data['df'][-data['df_len']:]   
     data["df"] = data["df"].reset_index(drop = True)    
     
-    data["df"]['ll_angle'] = data["df_llema_angle_list"][-data['df_len']:]            
+    # data["df"]['ll_angle'] = data["df_llema_angle_list"][-data['df_len']:]            
     data["df"]['llema'] = data["df_llema_list"][-data['df_len']:]            
-    data["df"]['lema'] = data["df_lema_list"][-data['df_len']:]            
-    data["df"]['slema'] = data["df_slema_list"][-data['df_len']:]            
-    data["df"]['sema'] = list(data["df_sema_list"])[-data['df_len']:]    
+    # data["df"]['lema'] = data["df_lema_list"][-data['df_len']:]            
+    # data["df"]['slema'] = data["df_slema_list"][-data['df_len']:]            
+    # data["df"]['sema'] = list(data["df_sema_list"])[-data['df_len']:]    
     data['df']["tick"] = list(data["df_tick_list"])[-data['df_len']:]
             
     # Adjust buy sell markers to the shortened df
@@ -144,9 +144,9 @@ def plot_graph(data):
     x_axis = np.arange(0,len(data["df"]['tick']))
 
     ax1.plot(x_axis, data["df"]['tick'], label='tick', color='gray', linestyle='dotted')
-    ax1.plot(x_axis, data["df"]['sema'], label='sema', color='red')
-    ax1.plot(x_axis, data["df"]['slema'], label='slema', color='green')
-    ax1.plot(x_axis, data["df"]['lema'], label='lema', color='blue')
+    # ax1.plot(x_axis, data["df"]['sema'], label='sema', color='red')
+    # ax1.plot(x_axis, data["df"]['slema'], label='slema', color='green')
+    # ax1.plot(x_axis, data["df"]['lema'], label='lema', color='blue')
     ax1.plot(x_axis, data["df"]['llema'], label='llema', color='black')
     # ax2.plot(x_axis, data["df"]['ll_angle'], label='ll_angle', color='cyan', linestyle='dotted')
 
