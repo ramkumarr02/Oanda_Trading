@@ -7,11 +7,12 @@ from utils.order import *
 #...............................................................................................
 def run_engine(data):
 
-    data["start_ts"] = dt.datetime.strftime(dt.datetime.now(), '%Y-%m-%d-%H-%M')
-
-    data['ask_series'] = list(data["df"]['Ask'])
-    data['bid_series'] = list(data["df"]['Bid'])
-    data['dt_series']  = list(data["df"]['DateTime'])
+    data["start_ts"]        = dt.datetime.strftime(dt.datetime.now(), '%Y-%m-%d-%H-%M')
+    data['ask_series']      = list(data["df"]['Ask'])
+    data['bid_series']      = list(data["df"]['Bid'])
+    data['dt_series']       = list(data["df"]['DateTime'])
+    data['tick_series']     = list((data["df"]['Ask'] + data["df"]['Bid'])/2)
+    data['dt_val_series']   = [dt.datetime.strptime(x.split(".")[0],"%Y%m%d %H:%M:%S") for x in data['dt_series']]
   
     data['df_len'] = len(data["df"])
     
@@ -20,8 +21,8 @@ def run_engine(data):
         
         data['ask'] = data['ask_series'][i]
         data['bid'] = data['bid_series'][i]        
-        data['tick'] = (data['ask'] + data['bid'])/2                 
-        data['dt_val'] = dt.datetime.strptime(data['dt_series'][i].split(".")[0],"%Y%m%d %H:%M:%S")
+        data['tick'] = data['tick_series'][i]        
+        data['dt_val'] = data['dt_val_series'][i]        
         
         if data["plot"]:     
             data['i_list'].append(i)
