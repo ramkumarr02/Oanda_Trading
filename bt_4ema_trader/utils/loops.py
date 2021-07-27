@@ -105,3 +105,53 @@ def after_angle(data):
         
     return(data)
 #............................................................................................... 
+
+
+def roll_ema(ema_list):
+    len_val = len(ema_list)
+    ema_val = list(pd.DataFrame(ema_list).ewm(span=len_val).mean()[0])[len_val - 1]    
+    return(ema_val)
+
+#...............................................................................................
+def roll_slope(slope_list):
+    
+    slope_list = list(np.round(slope_list, 6))
+    ma_len = len(slope_list)
+
+    x_axis = []
+    for i in range(ma_len):
+        x_axis.append(1 + ((i+1) * 10**(-6)))
+    
+    slope_tick, intercept, _, _, _ = linregress(x_axis, slope_list)
+    
+    slope = math.degrees(math.atan(slope_tick))        
+
+    return(slope)    
+#...............................................................................................  
+
+
+#...............................................................................................  
+def get_rolling_emas(data):
+    data['df']['tick']      = (data["df"]['Ask'] + data["df"]['Bid'])/2
+    data['dt_val_series']   = [dt.datetime.strptime(x.split(".")[0],"%Y%m%d %H:%M:%S") for x in data["df"]['DateTime']]
+
+    print('Building Sema...')
+    data['df']['sema'] = data['df']['tick'].rolling(window=data['sema_len']).progress_apply(roll_ema)
+    
+    print('Building SLema...')
+    data['df']['slema'] = data['df']['tick'].rolling(window=data['slema_len']).progress_apply(roll_ema)
+    
+    print('Building Lema...')
+    data['df']['lema'] = data['df']['tick'].rolling(window=data['lema_len']).progress_apply(roll_ema)
+    
+    print('Building LLema...')
+    data['df']['llema'] = data['df']['tick'].rolling(window=data['llema_len']).progress_apply(roll_ema)    
+    data['df'] = data['df'].dropna()
+    
+    print('Building Angle...')
+    data['df']['llema_angle'] = data['df']['llema'].rolling(window=data['angle_len']).progress_apply(roll_slope)
+    data['df'] = data['df'].dropna()
+    data['df'] = data['df'].reset_index(drop=True)        
+    data['df_len'] = len(data["df"])
+    return(data)
+#...............................................................................................  

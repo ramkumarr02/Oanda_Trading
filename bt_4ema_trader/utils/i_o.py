@@ -110,12 +110,12 @@ def print_report(data):
 #............................................................................................... 
 def adjust_plot_list_lengths(data):
     # Adjust df len to lema(shortest) len
-    data['df_len'] = len(data["df_llema_angle_list"])
+    data['df_len'] = len(data["df_llema_list"])
 
     data["df"] = data['df'][-data['df_len']:]   
     data["df"] = data["df"].reset_index(drop = True)    
     
-    data["df"]['ll_angle'] = data["df_llema_angle_list"][-data['df_len']:]            
+    # data["df"]['ll_angle'] = data["df_llema_angle_list"][-data['df_len']:]            
     data["df"]['llema'] = data["df_llema_list"][-data['df_len']:]            
     data["df"]['lema'] = data["df_lema_list"][-data['df_len']:]            
     data["df"]['slema'] = data["df_slema_list"][-data['df_len']:]            
@@ -125,8 +125,9 @@ def adjust_plot_list_lengths(data):
     # Adjust buy sell markers to the shortened df
     # data['len_to_subtract'] = data['df_len']
     # data['len_to_subtract'] = data['df_len'] + data['angle_len']
+    # data['len_to_subtract'] = data['llema_len'] + data['angle_len']
+    data['len_to_subtract'] = 0
 
-    data['len_to_subtract'] = data['llema_len'] + data['angle_len']
     data['buy_markers_x'] = list(np.array(data['buy_markers_x']) - data['len_to_subtract'])
     data['sell_markers_x'] = list(np.array(data['sell_markers_x']) - data['len_to_subtract'])    
     data["df"] = data["df"].reset_index(drop = True)
@@ -183,9 +184,19 @@ def plot_graph(data):
 
 #...............................................................................................
 def create_report(data):
-    data['report_df'] = pd.DataFrame({'date':data['dt_list'], 'pls': data['pl_list'], 'close_type': data['close_type'], 'ord_types': data['ord_types'], 'llema_angle':data['ll_angle']})
+    data['report_df'] = pd.DataFrame({
+        'date':data['dt_list'], 'pls': data['pl_list'], 'close_type': data['close_type'], 
+        'ord_types': data['ord_types'], 'llema_angle':data['ll_angle'],
+        'sema_len': data['sema_len'], 'slema_len': data['slema_len'], 
+        'lema_len': data['lema_len'], 'llema_len': data['llema_len'], 
+        'pl_move_trail_trigger': data['pl_move_trail_trigger'], 'stop_loss_pip': data['stop_loss_pip']
+        })
     split_date_col(data)
-    data['report_df'] = data['report_df'][['date', 'year_val', 'month_val', 'date_val', 'hour_val','minute_val', 'close_type', 'pls', 'ord_types', 'llema_angle']]
+    data['report_df'] = data['report_df'][[
+        'date', 'year_val', 'month_val', 'date_val', 'hour_val','minute_val', 
+        'close_type', 'pls', 'ord_types', 'llema_angle', 'sema_len', 'slema_len', 
+        'lema_len', 'llema_len','pl_move_trail_trigger' ,'stop_loss_pip']]
+
     data["report_df"] = data["report_df"].reset_index(drop = True)    
 
     data['file_name'] = f'data/{data["start_date"].year}-({data["start_date"].month}-{data["end_date"].month})-({data["start_date"].day}-{data["end_date"].day})-{data["start_ts"]}.csv'

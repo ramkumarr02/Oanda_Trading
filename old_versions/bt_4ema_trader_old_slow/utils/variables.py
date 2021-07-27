@@ -109,8 +109,6 @@ data['slema_len']       = 7500
 data['lema_len']        = 30000
 data['llema_len']       = 50000
 
-data['max_len'] = data['llema_len']
-
 data['angle_len']       = 10
 data['min_llema_angle'] = 0
 
