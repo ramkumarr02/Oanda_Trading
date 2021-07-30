@@ -77,6 +77,7 @@ data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 data['input_rows'] = None
 data["plot"] = True
 
+data['date_index'] = 0
 data['start_date'] = {'year':2021, 'month':5, 'date':20}
 data['end_date']   = {'year':2021, 'month':5, 'date':21}
 
@@ -109,7 +110,7 @@ data['slema_len']       = 7500
 data['lema_len']        = 30000
 data['llema_len']       = 50000
 
-data['angle_len']       = 10
+data['angle_len']       = 100
 data['min_llema_angle'] = 0
 
 data['position'] = None

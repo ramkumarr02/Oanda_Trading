@@ -52,21 +52,6 @@ def get_date_list(data):
 
 
 #...............................................................................................
-def get_date_lines(data):
-    data['line_list'] = []
-    
-    for dt_val in data['date_list']:    
-        try:
-            data['line_list'].append(data["df"][data["df"]['DateTime'].str.contains(dt_val)].index[0])
-        except:
-            pass
-    
-    return(data)
-#...............................................................................................
-
-
-
-#...............................................................................................
 def split_date_col(data):
     data['report_df']['year_val'] = [x.year for x in data['report_df']['date']]
     data['report_df']['month_val'] = [x.month for x in data['report_df']['date']]
@@ -183,6 +168,22 @@ def plot_graph(data):
 
 
 #...............................................................................................
+def get_date_lines(data):
+    data['line_list'] = []
+    
+    for dt_val in data['date_list']:    
+        try:
+            data['date_index'] = data["df"][data["df"]['DateTime'].str.contains(dt_val)].index[0]
+            data['line_list'].append(data['date_index'])
+        except:
+            data['line_list'].append(data['date_index'])
+    
+    return(data)
+#...............................................................................................
+
+
+
+#...............................................................................................
 def create_report(data):
     data['report_df'] = pd.DataFrame({
         'date':data['dt_list'], 'pls': data['pl_list'], 'close_type': data['close_type'], 
@@ -201,6 +202,7 @@ def create_report(data):
 
     data['file_name'] = f'data/{data["start_date"].year}-({data["start_date"].month}-{data["end_date"].month})-({data["start_date"].day}-{data["end_date"].day})-{data["start_ts"]}.csv'
     data['report_df'].to_csv(data['file_name'], index = False) 
+    data['df'].to_csv('full_df.csv', index = False) 
     
     try:
         os.system('clear')

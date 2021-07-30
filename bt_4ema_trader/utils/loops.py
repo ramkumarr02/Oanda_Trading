@@ -106,28 +106,23 @@ def after_angle(data):
     return(data)
 #............................................................................................... 
 
-
 def roll_ema(ema_list):
-    len_val = len(ema_list)
-    ema_val = list(pd.DataFrame(ema_list).ewm(span=len_val).mean()[0])[len_val - 1]    
-    return(ema_val)
+    return(pd.DataFrame(ema_list).ewm(span=len(ema_list)).mean()[0].iloc[-1])
 
 #...............................................................................................
-def roll_slope(slope_list):
-    
-    slope_list = list(np.round(slope_list, 6))
-    ma_len = len(slope_list)
+def roll_slope(slope_list):    
+    slope_list = np.round(slope_list, 6)
 
     x_axis = []
-    for i in range(ma_len):
+    for i in range(len(slope_list)):
         x_axis.append(1 + ((i+1) * 10**(-6)))
-    
+
     slope_tick, intercept, _, _, _ = linregress(x_axis, slope_list)
-    
     slope = math.degrees(math.atan(slope_tick))        
 
     return(slope)    
 #...............................................................................................  
+
 
 
 #...............................................................................................  
@@ -146,7 +141,8 @@ def get_rolling_emas(data):
     
     print('Building LLema...')
     data['df']['llema'] = data['df']['tick'].rolling(window=data['llema_len']).progress_apply(roll_ema)    
-    data['df'] = data['df'].dropna()
+    # data['df'] = data['df'].dropna()
+    data['df'].dropna(inplace=True)
     
     print('Building Angle...')
     data['df']['llema_angle'] = data['df']['llema'].rolling(window=data['angle_len']).progress_apply(roll_slope)
