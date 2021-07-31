@@ -44,15 +44,16 @@ def run_engine(data):
         # ----------------------------------------------------------  
         
         data = calculate_pl(data)
-        
-        if data['pl_positive_flag']:
-            data = pl_positive_check(data)
-            data = pl_move_close(data)
 
+        data = take_profit(data)
+        
         data = slema_positive_check(data)
         data = simple_slema_move_close(data)
+        
         data = reverse_order_position(data)
+        
         data = stop_loss(data)     
+        
         data = make_order(data)    
             
     return(data)

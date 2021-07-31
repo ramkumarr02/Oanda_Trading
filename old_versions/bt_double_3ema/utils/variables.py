@@ -130,12 +130,13 @@ data['sema_len']        = 5000
 data['slema_len']       = 20000
 data['lema_len']        = 50000
 
-data['tp_flag'] = 'trail'
 
-data['angle_len']       = 75
+data['angle_len']       = 10
 data['close_angle']     = 25
 
 data['position'] = None
 data['pip_decimal_num'] = 6
 data['test_val'] = []
+
+data['take_profit_method'] == 'trailing'
 #...............................................................................................

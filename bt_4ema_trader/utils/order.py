@@ -15,17 +15,15 @@ def make_order(data):
     return(data)
 #...............................................................................................
 
-
-#...............................................................................................
 def stop_loss(data):
-    if data['reverse_order_flag'] == 'new':
-        data = stop_loss_reverse(data)
-        
-    elif data['reverse_order_flag'] == 'reversed':
+    if data['stop_loss_method'] == 'simple':
         data = simple_stop_loss(data)
-    return(data)
-# ...............................................................................................
 
+    elif data['stop_loss_method'] == 'trail':
+        data = pl_negative_check(data)
+        data = pl_loss_close(data)
+        
+    return(data)  
 
 # ...............................................................................................
 def simple_stop_loss(data):
@@ -43,50 +41,66 @@ def simple_stop_loss(data):
 
 
 #...............................................................................................
-def stop_loss_reverse(data):
+def pl_negative_check(data):
     if data['open_order']:
-    
-        if data['open_order_type'] == 'long':
-            data['close_bid_price'] = data['bid']
-            data['pl'] = np.round(data['close_bid_price'] - data['order_ask_price'], 5)
+        if not data['negative_hit_limit']:    
+            if data['pl'] <= data['pl_loss_trail_trigger']:
+                data['negative_hit_limit'] = True                
+                data['pl_loss_min'] = max((data['pl'] * data['pl_loss_trail_size']), data['pl_loss_min'])
+        
+        if data['negative_hit_limit']:                
+            if data['pl'] > data['pl_loss_trail_trigger']:
+                data['pl_negative'] = True
+                data['pl_loss_min'] = max((data['pl'] * data['pl_loss_trail_size']), data['pl_loss_min'])
 
-            if data['pl'] <= -data['stop_loss_pip']:
-                data['stop_text'] = 'reverse_stop'
-                data = reverse_order(data)
-                data['reverse_order_flag'] =  'reversed'
-                return(data)
-                
-        if data['open_order_type'] == 'short':
-                data['close_ask_price'] = data['ask']
-                data['pl'] = np.round(data['order_bid_price'] - data['close_ask_price'], 5)
-
-                if data['pl'] <= -data['stop_loss_pip']:
-                    data['stop_text'] = 'reverse_stop'
-                    data = reverse_order(data)
-                    data['reverse_order_flag'] =  'reversed'
-                    return(data)
-
-    return(data)   
-
-#...............................................................................................   
+    return(data)
+#...............................................................................................
 
 #...............................................................................................
-def reverse_order(data):
+def pl_loss_close(data):
     if data['open_order']:
-        if data['open_order_type'] == 'long':            
-            data = close_long_order(data)
-            data = make_short_order(data)            
-            create_report(data)  
-            return(data)
-            
-        if data['open_order_type'] == 'short':
-            data = close_short_order(data)
-            data = make_long_order(data) 
-            return(data)
+        if data['pl_negative']:
+            if data['pl'] < data['pl_loss_min']: 
+                data['negative_hit_limit']  = False
+                data['pl_negative']         = False
+                data['pl_loss_min']         = -100
+                data['to_order']            = None
+                data['stop_text']           = 'pl_loss_close'
+
+                if data['open_order_type'] == 'long':
+                    data = close_long_order(data)             
+                    
+                if data['open_order_type'] == 'short':
+                    data = close_short_order(data) 
 
     return(data)    
-#...............................................................................................
+#...............................................................................................    
 
+
+def take_profit(data):
+    if data['take_profit_method'] == 'simple':
+        data = simple_take_profit(data)
+
+    elif data['take_profit_method'] == 'trail':
+        data = pl_positive_check(data)
+        data = pl_move_close(data)
+        
+    return(data)    
+
+#...............................................................................................
+def simple_take_profit(data):       
+    if data['open_order']:                        
+        if data['pl'] >= data['pl_move_trail_trigger']:
+            if data['open_order_type'] == 'long':
+                data['stop_text'] = 'simple_take_profit'
+                data = close_long_order(data)  
+
+            if data['open_order_type'] == 'short':                
+                data['stop_text'] = 'simple_take_profit'
+                data = close_short_order(data)  
+    
+    return(data)    
+#...............................................................................................
 
 #...............................................................................................
 def pl_positive_check(data):
@@ -103,18 +117,15 @@ def pl_move_close(data):
     if data['open_order']:
         if data['pl_positive']:    
             if 0 < data['pl'] <= data['pl_move_min']: 
+                data['stop_text'] = 'pl_move_close'
+                data['to_order'] = None
+                data['pl_positive'] = False
+                data['pl_move_min'] = 0
+
                 if data['open_order_type'] == 'long':
-                    data['stop_text'] = 'pl_move_close'
-                    data['to_order'] = None
-                    data['pl_positive'] = False
-                    data['pl_move_min'] = 0
                     data = close_long_order(data)             
                     
                 if data['open_order_type'] == 'short':
-                    data['stop_text'] = 'pl_move_close'
-                    data['to_order'] = None
-                    data['pl_positive'] = False
-                    data['pl_move_min'] = 0
                     data = close_short_order(data)
 
     return(data)    
@@ -142,14 +153,6 @@ def slema_positive_check(data):
     return(data)
 #...............................................................................................
 
-def slema_move_close(data):
-    if data['reverse_order_flag'] == 'new':
-        data = slema_move_close_reverse(data)
-        
-    elif data['reverse_order_flag'] == 'reversed':
-        data = simple_slema_move_close(data)
-    return(data)
-#...............................................................................................
 
 def simple_slema_move_close(data):
     if data['open_order']:
@@ -168,29 +171,6 @@ def simple_slema_move_close(data):
 
     return(data)    
 #...............................................................................................
-
-def slema_move_close_reverse(data):
-    if data['open_order']:
-        if data['slema_positive']: 
-            if data['pl'] > 0:
-
-                if data['open_order_type'] == 'long':            
-                    if data['sema'] <= data['slema']:
-                        data['stop_text'] = 'reverse_slema_move_close'
-                        data = reverse_order(data)
-                        data['reverse_order_flag'] =  'reversed'
-                        return(data)
-                    
-                if data['open_order_type'] == 'short':
-                    if data['sema'] >= data['slema']:
-                        data['stop_text'] = 'reverse_slema_move_close'
-                        data = reverse_order(data)
-                        data['reverse_order_flag'] =  'reversed'
-                        return(data)
-
-    return(data)   
-
-#...............................................................................................  
 
 
 #...............................................................................................  
@@ -373,6 +353,93 @@ def calculate_pl(data):
 #                     # data['lema_vals'].append(data['lema_angle'])
 
 #     return(data)    
+#...............................................................................................
+
+#...............................................................................................
+def slema_move_close(data):
+    if data['reverse_order_flag'] == 'new':
+        data = slema_move_close_reverse(data)
+        
+    elif data['reverse_order_flag'] == 'reversed':
+        data = simple_slema_move_close(data)
+    return(data)
+#...............................................................................................
+
+def slema_move_close_reverse(data):
+    if data['open_order']:
+        if data['slema_positive']: 
+            if data['pl'] > 0:
+
+                if data['open_order_type'] == 'long':            
+                    if data['sema'] <= data['slema']:
+                        data['stop_text'] = 'reverse_slema_move_close'
+                        data = reverse_order(data)
+                        data['reverse_order_flag'] =  'reversed'
+                        return(data)
+                    
+                if data['open_order_type'] == 'short':
+                    if data['sema'] >= data['slema']:
+                        data['stop_text'] = 'reverse_slema_move_close'
+                        data = reverse_order(data)
+                        data['reverse_order_flag'] =  'reversed'
+                        return(data)
+
+    return(data)   
+
+#...............................................................................................  
+#...............................................................................................
+def stop_loss_dynamic(data):
+    if data['reverse_order_flag'] == 'new':
+        data = stop_loss_reverse(data)
+        
+    elif data['reverse_order_flag'] == 'reversed':
+        data = simple_stop_loss(data)
+    return(data)
+# ...............................................................................................
+
+#...............................................................................................
+def stop_loss_reverse(data):
+    if data['open_order']:
+    
+        if data['open_order_type'] == 'long':
+            data['close_bid_price'] = data['bid']
+            data['pl'] = np.round(data['close_bid_price'] - data['order_ask_price'], 5)
+
+            if data['pl'] <= -data['stop_loss_pip']:
+                data['stop_text'] = 'reverse_stop'
+                data = reverse_order(data)
+                data['reverse_order_flag'] =  'reversed'
+                return(data)
+                
+        if data['open_order_type'] == 'short':
+                data['close_ask_price'] = data['ask']
+                data['pl'] = np.round(data['order_bid_price'] - data['close_ask_price'], 5)
+
+                if data['pl'] <= -data['stop_loss_pip']:
+                    data['stop_text'] = 'reverse_stop'
+                    data = reverse_order(data)
+                    data['reverse_order_flag'] =  'reversed'
+                    return(data)
+
+    return(data)   
+
+#...............................................................................................   
+
+#...............................................................................................
+def reverse_order(data):
+    if data['open_order']:
+        if data['open_order_type'] == 'long':            
+            data = close_long_order(data)
+            data = make_short_order(data)            
+            create_report(data)  
+            return(data)
+            
+        if data['open_order_type'] == 'short':
+            data = close_short_order(data)
+            data = make_long_order(data) 
+            return(data)
+
+    return(data)    
 #...............................................................................................
 
 #...............................................................................................

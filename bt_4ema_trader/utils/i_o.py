@@ -5,7 +5,6 @@ from utils.variables import *
 
 #...............................................................................................
 def read_data(data):   
-    # source_file_path = f'data/{data["product"]}/{data["input_file_name"]}'
     # source_file_path = f'data/{data["input_file_name"]}'
     source_file_path = f'../data/products/{data["product"]}/{data["input_file_name"]}'
 
@@ -202,7 +201,7 @@ def create_report(data):
 
     data['file_name'] = f'data/{data["start_date"].year}-({data["start_date"].month}-{data["end_date"].month})-({data["start_date"].day}-{data["end_date"].day})-{data["start_ts"]}.csv'
     data['report_df'].to_csv(data['file_name'], index = False) 
-    data['df'].to_csv('full_df.csv', index = False) 
+    data['df'].to_csv('data/full_df.csv', index = False) 
     
     try:
         os.system('clear')

@@ -110,19 +110,21 @@ def roll_ema(ema_list):
     return(pd.DataFrame(ema_list).ewm(span=len(ema_list)).mean()[0].iloc[-1])
 
 #...............................................................................................
-def roll_slope(slope_list):    
-    slope_list = np.round(slope_list, 6)
+def roll_slope(slope_list):
+    
+    slope_list = list(np.round(slope_list, 6))
+    ma_len = len(slope_list)
 
     x_axis = []
-    for i in range(len(slope_list)):
+    for i in range(ma_len):
         x_axis.append(1 + ((i+1) * 10**(-6)))
-
+    
     slope_tick, intercept, _, _, _ = linregress(x_axis, slope_list)
+    
     slope = math.degrees(math.atan(slope_tick))        
 
     return(slope)    
 #...............................................................................................  
-
 
 
 #...............................................................................................  
@@ -141,9 +143,20 @@ def get_rolling_emas(data):
     
     print('Building LLema...')
     data['df']['llema'] = data['df']['tick'].rolling(window=data['llema_len']).progress_apply(roll_ema)    
-    # data['df'] = data['df'].dropna()
-    data['df'].dropna(inplace=True)
+    data['df'] = data['df'].dropna()
     
+    print('Building Angle...')
+    data['df']['llema_angle'] = data['df']['llema'].rolling(window=data['angle_len']).progress_apply(roll_slope)
+    data['df'] = data['df'].dropna()
+    data['df'] = data['df'].reset_index(drop=True)        
+    data['df_len'] = len(data["df"])
+    return(data)
+#...............................................................................................  
+
+#...............................................................................................  
+def get_rolling_emas(data):
+    data['dt_val_series']   = [dt.datetime.strptime(x.split(".")[0],"%Y%m%d %H:%M:%S") for x in data["df"]['DateTime']]
+    data['df'] = pd.read_csv(f'data/may/full_df.csv')
     print('Building Angle...')
     data['df']['llema_angle'] = data['df']['llema'].rolling(window=data['angle_len']).progress_apply(roll_slope)
     data['df'] = data['df'].dropna()

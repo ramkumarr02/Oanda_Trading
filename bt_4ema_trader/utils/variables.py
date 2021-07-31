@@ -90,10 +90,16 @@ data['gap_cushion'] = data['pip_size'] * 2
 # data['pl_move_trigger'] = 0.0003
 # data['pl_min']            = 0.0010
 data['pl_move_min']             = 0
-data['pl_move_trail_ratio']     = 0.66
+data['pl_move_trail_ratio']     = 0.83
 data['pl_move_trail_trigger']   = 0.0015
 data['stop_loss_pip']           = 0.0015
 data['sema_gap_pip'] = 0.0015
+
+data['negative_hit_limit']      = False
+data['pl_negative']             = False
+data['pl_loss_trail_trigger']   = -0.0015
+data['pl_loss_min']             = -100
+data['pl_loss_trail_size']      = 0.66
 
 data['close_angle']     = 25
 data['tick_close_angle'] = 5
@@ -110,10 +116,14 @@ data['slema_len']       = 7500
 data['lema_len']        = 30000
 data['llema_len']       = 50000
 
-data['angle_len']       = 100
+data['angle_len']       = 10
 data['min_llema_angle'] = 0
 
 data['position'] = None
 data['pip_decimal_num'] = 6
 data['test_val'] = []
+
+data['take_profit_method']  = 'trail'
+data['stop_loss_method']    = 'trail'
+
 #...............................................................................................
