@@ -69,6 +69,10 @@ data['stop_loss_pip'] = 0.0010
 
 # data["input_file_name"] = 'eurusd_2021'
 # data['min_order_angle'] = 20
+data['min_llema_angle'] = 0
+data['position'] = None
+data['pip_decimal_num'] = 6
+data['test_val'] = []
 
 data["product"] = 'eurusd'
 data["input_year"] = 2021
@@ -86,20 +90,16 @@ data['lema_close_angle'] = 10
 data['angle_close_pip'] = 0.0002
 
 data['gap_cushion'] = data['pip_size'] * 2
+data['sema_gap_pip'] = 0.0015
 
 # data['pl_move_trigger'] = 0.0003
 # data['pl_min']            = 0.0010
-data['pl_move_min']             = 0
-data['pl_move_trail_ratio']     = 0.83
-data['pl_move_trail_trigger']   = 0.0015
-data['stop_loss_pip']           = 0.0015
-data['sema_gap_pip'] = 0.0015
+
 
 data['negative_hit_limit']      = False
 data['pl_negative']             = False
-data['pl_loss_trail_trigger']   = -0.0015
 data['pl_loss_min']             = -100
-data['pl_loss_trail_size']      = 0.66
+data['pl_move_min']             = 0
 
 data['close_angle']     = 25
 data['tick_close_angle'] = 5
@@ -112,18 +112,21 @@ data['pl_close_angle'] = 15
 # data['slema_len']       = 15000
 # data['lema_len']        = 60000
 data['sema_len']        = 3000
-data['slema_len']       = 7500
+data['slema_len']       = 10000
 data['lema_len']        = 30000
-data['llema_len']       = 50000
-
+data['llema_len']       = 100000
 data['angle_len']       = 10
-data['min_llema_angle'] = 0
 
-data['position'] = None
-data['pip_decimal_num'] = 6
-data['test_val'] = []
+data['pl_move_trail_trigger']   = 0.0030
+data['pl_move_trail_ratio']     = 0.83
+
+data['stop_loss_pip']           = 0.0020
+data['pl_loss_trail_size']      = 0.83
+
+data['pl_loss_trail_trigger']   = -1 * data['pl_loss_trail_size'] * data['stop_loss_pip'] 
 
 data['take_profit_method']  = 'trail'
 data['stop_loss_method']    = 'trail'
-
+# data['take_profit_method']  = 'simple'
+# data['stop_loss_method']    = 'simple'
 #...............................................................................................

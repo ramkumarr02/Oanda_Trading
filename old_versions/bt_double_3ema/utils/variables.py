@@ -101,13 +101,18 @@ data['gap_cushion'] = data['pip_size'] * 2
 
 # data['pl_move_trigger'] = 0.0003
 # data['pl_min']            = 0.0010
+# data['close_angle']     = 25
+
+data['position'] = None
+data['pip_decimal_num'] = 6
+data['test_val'] = []
+
 data['short_pl_move_min']            = None
 data['long_pl_move_min']             = None
 data['long_pl_loss_min']             = None
 data['short_pl_loss_min']            = None
 
 data['stop_loss_pip']           = 0.0015
-data['simple_tp']               = 0.0030
 
 data['pl_move_trail_trigger']   = 0.0030
 data['pl_move_trail_size']      = 0.9
@@ -120,23 +125,21 @@ data['max_one_stop_pip'] = (sum([data['pl_move_trail_trigger'], data['pl_loss_tr
 data['tick_close_angle'] = 5
 data['pl_close_angle'] = 15
 
-# data['sema_len']        = 3000
-# data['slema_len']       = 7500
-# data['lema_len']        = 30000
-# data['sema_len']        = 6000
-# data['slema_len']       = 15000
-# data['lema_len']        = 60000
-data['sema_len']        = 5000
-data['slema_len']       = 20000
-data['lema_len']        = 50000
 
-
+data['sema_len']        = 3000
+data['slema_len']       = 12000
+data['lema_len']        = 30000
+data['llema_len']       = 100000
 data['angle_len']       = 10
-data['close_angle']     = 25
 
-data['position'] = None
-data['pip_decimal_num'] = 6
-data['test_val'] = []
+data['pl_move_trail_trigger']   = 0.0030
+data['stop_loss_pip']           = 0.0020
+
+data['start_date'] = {'year':2021, 'month':1, 'date':1}
+data['end_date']   = {'year':2021, 'month':1, 'date':31}
+
+
+
 
 data['take_profit_method'] == 'trailing'
 #...............................................................................................
