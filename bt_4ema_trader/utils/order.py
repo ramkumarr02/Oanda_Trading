@@ -46,12 +46,12 @@ def pl_negative_check(data):
         if not data['negative_hit_limit']:    
             if data['pl'] <= data['pl_loss_trail_trigger']:
                 data['negative_hit_limit'] = True                
-                data['pl_loss_min'] = max((data['pl'] * data['pl_loss_trail_size']), data['pl_loss_min'])
+                data['pl_loss_min'] = max((data['pl'] * (1/data['pl_loss_trail_size'])), data['pl_loss_min'])
         
         if data['negative_hit_limit']:                
             if data['pl'] > data['pl_loss_trail_trigger']:
                 data['pl_negative'] = True
-                data['pl_loss_min'] = max((data['pl'] * data['pl_loss_trail_size']), data['pl_loss_min'])
+                data['pl_loss_min'] = max((data['pl'] * (1/data['pl_loss_trail_size'])), data['pl_loss_min'])
 
     return(data)
 #...............................................................................................

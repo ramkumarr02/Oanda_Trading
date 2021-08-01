@@ -220,5 +220,6 @@ def create_report(data):
 
     print(np.sum(data['report_df'][['pls']]))
     print('--------------------------------------')
-    print(data['report_df'][['date', 'ord_types', 'llema_angle','close_type', 'pls']].tail(15))
+    # print(data['report_df'][['date', 'ord_types', 'llema_angle','close_type', 'pls']].tail(15))
+    print(data['report_df'][['date', 'ord_types', 'llema_angle','close_type', 'pls']])
 #...............................................................................................    

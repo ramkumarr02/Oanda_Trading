@@ -155,8 +155,8 @@ def get_rolling_emas(data):
 
 #...............................................................................................  
 def get_rolling_emas(data):
-    data['dt_val_series']   = [dt.datetime.strptime(x.split(".")[0],"%Y%m%d %H:%M:%S") for x in data["df"]['DateTime']]
     data['df'] = pd.read_csv(f'data/may/full_df.csv')
+    data['dt_val_series']   = [dt.datetime.strptime(x.split(".")[0],"%Y%m%d %H:%M:%S") for x in data["df"]['DateTime']]
     print('Building Angle...')
     data['df']['llema_angle'] = data['df']['llema'].rolling(window=data['angle_len']).progress_apply(roll_slope)
     data['df'] = data['df'].dropna()
