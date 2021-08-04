@@ -60,7 +60,7 @@ def pl_negative_check(data):
 def pl_loss_close(data):
     if data['open_order']:
         if data['pl_negative']:
-            if data['pl'] < data['pl_loss_min']: 
+            if 0 > data['pl'] <= data['pl_loss_min']: 
                 data['negative_hit_limit']  = False
                 data['pl_negative']         = False
                 data['pl_loss_min']         = -100

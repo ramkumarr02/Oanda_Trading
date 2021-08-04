@@ -153,14 +153,14 @@ def get_rolling_emas(data):
     return(data)
 #...............................................................................................  
 
-# #...............................................................................................  
-# def get_rolling_emas(data):
-#     data['df'] = pd.read_csv(f'data/may/full_df.csv')
-#     data['dt_val_series']   = [dt.datetime.strptime(x.split(".")[0],"%Y%m%d %H:%M:%S") for x in data["df"]['DateTime']]
-#     print('Building Angle...')
-#     data['df']['llema_angle'] = data['df']['llema'].rolling(window=data['angle_len']).progress_apply(roll_slope)
-#     data['df'] = data['df'].dropna()
-#     data['df'] = data['df'].reset_index(drop=True)        
-#     data['df_len'] = len(data["df"])
-#     return(data)
-# #...............................................................................................  
+#...............................................................................................  
+def get_rolling_emas(data):
+    data['df'] = pd.read_csv(f'data/full_df.csv')
+    data['dt_val_series']   = [dt.datetime.strptime(x.split(".")[0],"%Y%m%d %H:%M:%S") for x in data["df"]['DateTime']]
+    # print('Building Angle...')
+    # data['df']['llema_angle'] = data['df']['llema'].rolling(window=data['angle_len']).progress_apply(roll_slope)
+    data['df'] = data['df'].dropna()
+    data['df'] = data['df'].reset_index(drop=True)        
+    data['df_len'] = len(data["df"])
+    return(data)
+#...............................................................................................  

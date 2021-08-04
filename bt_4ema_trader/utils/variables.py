@@ -69,7 +69,6 @@ data['stop_loss_pip'] = 0.0010
 
 # data["input_file_name"] = 'eurusd_2021'
 # data['min_order_angle'] = 20
-data['min_llema_angle'] = 0
 data['position'] = None
 data['pip_decimal_num'] = 6
 data['test_val'] = []
@@ -82,8 +81,7 @@ data['input_rows'] = None
 data["plot"] = True
 
 data['date_index'] = 0
-data['start_date'] = {'year':2021, 'month':5, 'date':20}
-data['end_date']   = {'year':2021, 'month':5, 'date':21}
+
 
 data['close_angle'] = 40
 data['lema_close_angle'] = 10
@@ -111,22 +109,30 @@ data['pl_close_angle'] = 15
 # data['sema_len']        = 6000
 # data['slema_len']       = 15000
 # data['lema_len']        = 60000
+
+data['min_llema_angle'] = 0
+
 data['sema_len']        = 3000
 data['slema_len']       = 10000
 data['lema_len']        = 30000
 data['llema_len']       = 100000
 data['angle_len']       = 10
 
-data['pl_move_trail_trigger']   = 0.0030
-data['pl_move_trail_ratio']     = 0.83
+data['pl_move_trail_trigger']   = 0.0040
+data['pl_move_trail_ratio']     = 0.75
 
-data['stop_loss_pip']           = 0.0020
-data['pl_loss_trail_size']      = 0.83
+data['stop_loss_pip']           = 0.0030
+data['pl_loss_trail_size']      = 0.75
 
-data['pl_loss_trail_trigger']   = -1 * data['pl_loss_trail_size'] * data['stop_loss_pip'] 
+data['pl_loss_trail_trigger']           = 0.0030
+# data['pl_loss_trail_trigger']   = -1 * data['pl_loss_trail_size'] * data['stop_loss_pip'] 
 
-data['take_profit_method']  = 'trail'
-data['stop_loss_method']    = 'trail'
-# data['take_profit_method']  = 'simple'
-# data['stop_loss_method']    = 'simple'
+data['take_profit_method']  = 'simple'
+data['stop_loss_method']    = 'simple'
+
+data['start_date'] = {'year':2021, 'month':5, 'date':1}
+data['end_date']   = {'year':2021, 'month':5, 'date':1}
+
+data["plot"] = True
+
 #...............................................................................................
