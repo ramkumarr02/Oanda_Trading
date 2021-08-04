@@ -22,7 +22,7 @@ def stop_loss(data):
     elif data['stop_loss_method'] == 'trail':
         data = pl_negative_check(data)
         data = pl_loss_close(data)
-        data = simple_stop_loss(data)
+        # data = simple_stop_loss(data)
         
     return(data)  
 
@@ -47,12 +47,12 @@ def pl_negative_check(data):
         if not data['negative_hit_limit']:    
             if data['pl'] <= data['pl_loss_trail_trigger']:
                 data['negative_hit_limit'] = True                
-                data['pl_loss_min'] = max((data['pl'] * (1/data['pl_loss_trail_size'])), data['pl_loss_min'])
+                data['pl_loss_min'] = max((data['pl'] * data['pl_loss_trail_size']), data['pl_loss_min'])
         
         if data['negative_hit_limit']:                
             if data['pl'] > data['pl_loss_trail_trigger']:
                 data['pl_negative'] = True
-                data['pl_loss_min'] = max((data['pl'] * (1/data['pl_loss_trail_size'])), data['pl_loss_min'])
+                data['pl_loss_min'] = max((data['pl'] * data['pl_loss_trail_size']), data['pl_loss_min'])
 
     return(data)
 #...............................................................................................
@@ -61,7 +61,7 @@ def pl_negative_check(data):
 def pl_loss_close(data):
     if data['open_order']:
         if data['pl_negative']:
-            if 0 > data['pl'] <= data['pl_loss_min']: 
+            if 0 > data['pl'] > data['pl_loss_min']: 
                 data['negative_hit_limit']  = False
                 data['pl_negative']         = False
                 data['pl_loss_min']         = -100
