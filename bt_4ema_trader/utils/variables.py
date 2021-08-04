@@ -118,13 +118,13 @@ data['lema_len']        = 30000
 data['llema_len']       = 100000
 data['angle_len']       = 10
 
-data['pl_move_trail_trigger']   = 0.0040
-data['pl_move_trail_ratio']     = 0.75
+data['pl_move_trail_trigger']       = 0.0040
+data['pl_move_trail_ratio']         = 0.75
 
-data['stop_loss_pip']           = 0.0030
-data['pl_loss_trail_size']      = 0.75
+data['pl_loss_trail_trigger']       = -0.0040
+data['stop_loss_pip']               = -0.0050
+data['pl_loss_trail_size']          = 0.75
 
-data['pl_loss_trail_trigger']           = 0.0030
 # data['pl_loss_trail_trigger']   = -1 * data['pl_loss_trail_size'] * data['stop_loss_pip'] 
 
 data['take_profit_method']  = 'simple'

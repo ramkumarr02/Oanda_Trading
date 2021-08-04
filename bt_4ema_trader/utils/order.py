@@ -22,13 +22,14 @@ def stop_loss(data):
     elif data['stop_loss_method'] == 'trail':
         data = pl_negative_check(data)
         data = pl_loss_close(data)
+        data = simple_stop_loss(data)
         
     return(data)  
 
 # ...............................................................................................
 def simple_stop_loss(data):
     if data['open_order']:
-        if data['pl'] <= -data['stop_loss_pip']:
+        if data['pl'] <= data['stop_loss_pip']:
             if data['open_order_type'] == 'long':
                 data['stop_text'] = 'simple_stop'
                 data = close_long_order(data)
