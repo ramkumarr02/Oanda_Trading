@@ -98,7 +98,7 @@ def adjust_plot_list_lengths(data):
     data["df"] = data['df'][-data['df_len']:]   
     data["df"] = data["df"].reset_index(drop = True)    
     
-    # data["df"]['ll_angle'] = data["df_llema_angle_list"][-data['df_len']:]            
+    data["df"]['ll_angle'] = data["df_llema_angle_list"][-data['df_len']:]            
     data["df"]['llema'] = data["df_llema_list"][-data['df_len']:]            
     data["df"]['lema'] = data["df_lema_list"][-data['df_len']:]            
     data["df"]['slema'] = data["df_slema_list"][-data['df_len']:]            
@@ -122,7 +122,7 @@ def adjust_plot_list_lengths(data):
 def plot_graph(data):
     linestyle = (0, (1, 1))
     
-    fig, ax1 = plt.subplots(figsize=(50,10))
+    fig, ax1 = plt.subplots(figsize=(150,30))
     ax2 = ax1.twinx()
 
     x_axis = np.arange(0,len(data["df"]['tick']))
@@ -132,7 +132,7 @@ def plot_graph(data):
     ax1.plot(x_axis, data["df"]['slema'], label='slema', color='green')
     ax1.plot(x_axis, data["df"]['lema'], label='lema', color='blue')
     ax1.plot(x_axis, data["df"]['llema'], label='llema', color='black')
-    # ax2.plot(x_axis, data["df"]['ll_angle'], label='ll_angle', color='cyan', linestyle='dotted')
+    ax2.plot(x_axis, data["df"]['llema_angle'], label='llema_angle', color='cyan', linestyle='dotted')
 
     data = get_date_lines(data)
 
@@ -200,7 +200,7 @@ def create_report(data):
 
     data['file_name'] = f'data/{data["start_date"].year}-({data["start_date"].month}-{data["end_date"].month})-({data["start_date"].day}-{data["end_date"].day})-{data["start_ts"]}.csv'
     data['report_df'].to_csv(data['file_name'], index = False) 
-    # data['df'].to_csv('data/full_df.csv', index = False) 
+    data['df'].to_csv('full_df.csv', index = False) 
     
     try:
         os.system('clear')
