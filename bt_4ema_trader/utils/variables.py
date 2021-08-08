@@ -110,19 +110,22 @@ data['pl_close_angle'] = 15
 # data['slema_len']       = 15000
 # data['lema_len']        = 60000
 
-data['min_llema_angle'] = 0
+data['min_llema_angle'] = 1
+
+data['dir_change'] = False
+data['to_order'] = None
 
 data['sema_len']        = 3000
 data['slema_len']       = 10000
 data['lema_len']        = 30000
 data['llema_len']       = 100000
-data['angle_len']       = 100
+data['angle_len']       = 10
 
 data['pl_move_trail_trigger']       = 0.0040
 data['pl_move_trail_ratio']         = 0.75
 
 data['pl_loss_trail_trigger']       = -0.0040
-data['stop_loss_pip']               = -0.0050
+data['stop_loss_pip']               = -0.0040
 data['pl_loss_trail_size']          = 0.75
 
 # data['pl_loss_trail_trigger']   = -1 * data['pl_loss_trail_size'] * data['stop_loss_pip'] 
@@ -134,5 +137,4 @@ data['start_date'] = {'year':2021, 'month':3, 'date':1}
 data['end_date']   = {'year':2021, 'month':3, 'date':31}
 
 data["plot"] = True
-
 #...............................................................................................

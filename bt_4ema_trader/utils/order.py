@@ -173,6 +173,20 @@ def simple_slema_move_close(data):
     return(data)    
 #...............................................................................................
 
+def sema_close(data):
+    if data['open_order']:
+        if data['dir_change']:
+            if data['open_order_type'] == 'long':
+                if data['to_order'] == 'short':
+                    data['stop_text'] = 'sema_close'
+                    data = close_long_order(data)
+                
+            if data['open_order_type'] == 'short':
+                if data['to_order'] == 'long':
+                    data['stop_text'] = 'sema_close'
+                    data = close_short_order(data)
+
+    return(data) 
 
 #...............................................................................................  
 

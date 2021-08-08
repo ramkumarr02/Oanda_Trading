@@ -120,7 +120,7 @@ def adjust_plot_list_lengths(data):
 
 #...............................................................................................
 def plot_graph(data):
-    linestyle = (0, (1, 1))
+    linestyle = (0, (1, 80))
     
     fig, ax1 = plt.subplots(figsize=(150,30))
     ax2 = ax1.twinx()
@@ -132,7 +132,7 @@ def plot_graph(data):
     ax1.plot(x_axis, data["df"]['slema'], label='slema', color='green')
     ax1.plot(x_axis, data["df"]['lema'], label='lema', color='blue')
     ax1.plot(x_axis, data["df"]['llema'], label='llema', color='black')
-    ax2.plot(x_axis, data["df"]['llema_angle'], label='llema_angle', color='cyan', linestyle='dotted')
+    ax2.plot(x_axis, data["df"]['llema_angle'], label='llema_angle', color='lightgrey', linestyle=linestyle)
 
     data = get_date_lines(data)
 

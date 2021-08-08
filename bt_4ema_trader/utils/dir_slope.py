@@ -42,7 +42,8 @@ def get_cross_dir(data):
     pos_1 = data['dir_list'][0]
     pos_2 = data['dir_list'][1]
     
-    if pos_2 == 1 and pos_2 != pos_1:
+    # if pos_2 == 1 and pos_2 != pos_1:
+    if pos_2 == 1:
         if data['llema_angle'] > data['min_llema_angle']:
             data['dir_change'] = True    
             data['to_order'] = 'long'
@@ -51,13 +52,15 @@ def get_cross_dir(data):
         #     data['to_order'] = 'short'
         
 
-    elif pos_2 == -1 and pos_2 != pos_1:
+    # elif pos_2 == -1 and pos_2 != pos_1:
+    elif pos_2 == -1:
         if data['llema_angle'] < data['min_llema_angle']:
             data['dir_change'] = True    
             data['to_order'] = 'short'
         # elif data['llema_angle'] > data['min_llema_angle']:
         #     data['dir_change'] = True    
         #     data['to_order'] = 'long'
+        
     else:
         data['dir_change'] = False
         data['to_order'] = None

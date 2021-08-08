@@ -50,7 +50,8 @@ def run_engine(data):
         data = slema_positive_check(data)
         data = simple_slema_move_close(data)
         
-        data = reverse_order_position(data)
+        # data = reverse_order_position(data)
+        data = sema_close(data)
         
         data = stop_loss(data)     
         
