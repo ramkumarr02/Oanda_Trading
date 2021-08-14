@@ -78,6 +78,8 @@ def print_report(data):
     avg_positive = round(np.mean(positive_pls),5)
     avg_negative = round(np.mean(negative_pls),5)
 
+    # data['df'].to_csv(f"data/full_df_{data['file_name'].split('/')[1]}", index = False) 
+    data['df'].to_csv(f"data/full_df_.csv", index = False) 
     
     print('==============================')
     print(f'date_val          : {data["date_list"]}')    
@@ -198,10 +200,9 @@ def create_report(data):
 
     data["report_df"] = data["report_df"].reset_index(drop = True)    
 
-    data['file_name'] = f'data/{data["file_text"]}_{data["start_date"].year}-({data["start_date"].month}-{data["end_date"].month})-({data["start_date"].day}-{data["end_date"].day})-{data["start_ts"]}.csv'
+    data['file_name'] = f'data/{data["start_date"].year}-({data["start_date"].month}-{data["end_date"].month})-({data["start_date"].day}-{data["end_date"].day})-{data["start_ts"]}.csv'
     data['report_df'].to_csv(data['file_name'], index = False) 
-    # data['df'].to_csv(f"data/full_df_{data['file_name'].split('/')[1]}", index = False) 
-    
+        
     try:
         os.system('clear')
     except:

@@ -164,8 +164,11 @@ def get_rolling_emas(data):
 def get_rolling_emas(data):
     data['df'] = pd.read_csv(f'data/full_df_10.csv')
     data["df"] = data["df"][data["df"]['DateTime'].str.contains('|'.join(data['date_list']))]
-    # data['dt_val_series']   = [dt.datetime.strptime(x.split(".")[0],"%Y%m%d %H:%M:%S") for x in data["df"]['DateTime']]
     
+    data["df"]['DateTime_1']    = [dt.datetime.strptime(x.split(".")[0],"%Y%m%d %H:%M:%S") for x in data["df"]['DateTime']]
+    data["df"]['DateTime']      = data["df"]['DateTime_1']
+    del data["df"]['DateTime_1']
+
     # print('Building llema Angle...')
     # data['df']['llema_angle'] = data['df']['llema'].rolling(window=data['angle_len']).progress_apply(roll_slope)
     
@@ -180,14 +183,12 @@ def get_rolling_emas(data):
     
     # print('Building tick Angle...')
     # data['df']['tick_angle'] = data['df']['tick'].rolling(window=data['angle_len']).progress_apply(roll_slope)
-    
+
     data['df'] = data['df'].dropna()
     data['df'] = data['df'].reset_index(drop=True)        
     data['df_len'] = len(data["df"])
 
     data['df'] = data['df'][['DateTime', 'Bid', 'Ask', 'tick', 'sema', 'lema', 'slema', 'llema', 'llema_angle']]
-    # data['df'] = data['df'][['DateTime', 'Bid', 'Ask', 'tick', 'sema', 'lema', 'slema', 'llema', 'llema_angle']].round(6)
-    data['df'].to_csv('data/full_df.csv', index = False)
 
     return(data)
 #...............................................................................................  
