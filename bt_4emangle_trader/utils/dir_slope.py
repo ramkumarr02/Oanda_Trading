@@ -17,35 +17,19 @@ from utils.packages import *
 # #...............................................................................................
 
 
-# #...............................................................................................
-# def get_position(data):
-
-#     if abs(data['sema'] - data['lema']) < data['sema_gap_pip']:
-#         data['position'] = 0
-
-#     elif data['sema'] - data['lema'] >= data['sema_gap_pip']:
-#         data['position'] = 1 * data['direction_flag']
-
-#     elif data['sema'] - data['lema'] <= -data['sema_gap_pip']:
-#         data['position'] = -1 * data['direction_flag']
-    
-#     return(data)
-# #...............................................................................................
-
-
 #...............................................................................................
 def get_position(data):
     
     if data['sema'] > data['lema']:
-        # if data['llema_angle'] > data['min_llema_angle'] and data['lema_angle'] > data['min_llema_angle'] and data['slema_angle'] > data['min_llema_angle'] and data['sema_angle'] > data['min_llema_angle'] and data['tick_angle'] > data['min_llema_angle']:
-        if data['llema_angle'] > data['min_llema_angle']:
+        if data['llema_angle'] > data['min_llema_angle'] and data['lema_angle'] > data['min_llema_angle'] and data['slema_angle'] > data['min_llema_angle'] and data['sema_angle'] > data['min_llema_angle'] and data['tick_angle'] > data['min_llema_angle']:
+        # if data['llema_angle'] > data['min_llema_angle']:
             data['position'] = 1
             data['dir_change'] = True    
             data['to_order'] = 'long'        
 
     elif data['sema'] < data['lema']:
-        # if data['llema_angle'] < data['min_llema_angle'] and data['lema_angle'] < data['min_llema_angle'] and data['slema_angle'] < data['min_llema_angle'] and data['sema_angle'] < data['min_llema_angle'] and data['tick_angle'] < data['min_llema_angle']:
-        if data['llema_angle'] < data['min_llema_angle']:
+        if data['llema_angle'] < data['min_llema_angle'] and data['lema_angle'] < data['min_llema_angle'] and data['slema_angle'] < data['min_llema_angle'] and data['sema_angle'] < data['min_llema_angle'] and data['tick_angle'] < data['min_llema_angle']:
+        # if data['llema_angle'] < data['min_llema_angle']:
             data['position'] = -1
             data['dir_change'] = True    
             data['to_order'] = 'short'

@@ -21,10 +21,10 @@ def run_engine(data):
         data['lema'] = data['df']['lema'][i]      
         data['llema'] = data['df']['llema'][i]      
         data['llema_angle'] = data['df']['llema_angle'][i]      
-        # data['lema_angle'] = data['lema_angle'][i]      
-        # data['slema_angle'] = data['slema_angle'][i]      
-        # data['sema_angle'] = data['sema_angle'][i]      
-        # data['tick_angle'] = data['tick_angle'][i]  
+        data['lema_angle'] = data['df']['lema_angle'][i]      
+        data['slema_angle'] = data['df']['slema_angle'][i]      
+        data['sema_angle'] = data['df']['sema_angle'][i]      
+        data['tick_angle'] = data['df']['tick_angle'][i]  
         
         if data["plot"]:     
             data['i_list'].append(i)
@@ -36,6 +36,7 @@ def run_engine(data):
             data['df_llema_angle_list'].append(data['llema_angle'])
 
         data = get_position(data)
+        
         # if data['position'] == None:
         #     continue
         
@@ -55,9 +56,6 @@ def run_engine(data):
         data = sema_close(data)
         data = stop_loss(data)             
         data = make_order(data)    
-
-
-    # data['df'] = pd.read_csv('data/full_df.csv')        
 
     return(data)
 #...............................................................................................    

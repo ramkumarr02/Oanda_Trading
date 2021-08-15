@@ -169,26 +169,26 @@ def get_rolling_emas(data):
     data["df"]['DateTime']      = data["df"]['DateTime_1']
     del data["df"]['DateTime_1']
 
-    # print('Building llema Angle...')
-    # data['df']['llema_angle'] = data['df']['llema'].rolling(window=data['angle_len']).progress_apply(roll_slope)
+    print('Building llema Angle...')
+    data['df']['llema_angle'] = data['df']['llema'].rolling(window=data['angle_len']).progress_apply(roll_slope)
     
-    # print('Building lema Angle...')
-    # data['df']['lema_angle'] = data['df']['lema'].rolling(window=data['angle_len']).progress_apply(roll_slope)
+    print('Building lema Angle...')
+    data['df']['lema_angle'] = data['df']['lema'].rolling(window=data['angle_len']).progress_apply(roll_slope)
     
-    # print('Building slema Angle...')
-    # data['df']['slema_angle'] = data['df']['slema'].rolling(window=data['angle_len']).progress_apply(roll_slope)
+    print('Building slema Angle...')
+    data['df']['slema_angle'] = data['df']['slema'].rolling(window=data['angle_len']).progress_apply(roll_slope)
     
-    # print('Building sema Angle...')
-    # data['df']['sema_angle'] = data['df']['sema'].rolling(window=data['angle_len']).progress_apply(roll_slope)
+    print('Building sema Angle...')
+    data['df']['sema_angle'] = data['df']['sema'].rolling(window=data['angle_len']).progress_apply(roll_slope)
     
-    # print('Building tick Angle...')
-    # data['df']['tick_angle'] = data['df']['tick'].rolling(window=data['angle_len']).progress_apply(roll_slope)
+    print('Building tick Angle...')
+    data['df']['tick_angle'] = data['df']['tick'].rolling(window=data['angle_len']).progress_apply(roll_slope)
 
     data['df'] = data['df'].dropna()
     data['df'] = data['df'].reset_index(drop=True)        
     data['df_len'] = len(data["df"])
 
-    data['df'] = data['df'][['DateTime', 'Bid', 'Ask', 'tick', 'sema', 'lema', 'slema', 'llema', 'llema_angle']]
+    data['df'] = data['df'][['DateTime', 'Bid', 'Ask', 'tick', 'sema', 'lema', 'slema', 'llema', 'llema_angle', 'lema_angle', 'sema_angle', 'slema_angle', 'tick_angle' ]]
 
     return(data)
 #...............................................................................................  
