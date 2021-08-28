@@ -123,15 +123,15 @@ data['angle_len']       = 10
 data['pl_move_trail_trigger']       = 0.0040
 data['stop_loss_pip']               = -0.0040
 
-data['min_llema_angle'] = 1
+data['min_llema_angle'] = 0
 
 data['take_profit_method']  = 'simple'
 data['stop_loss_method']    = 'simple'
 
 data['start_date'] = {'year':2021, 'month':1, 'date':1}
-data['end_date']   = {'year':2021, 'month':1, 'date':5}
+data['end_date']   = {'year':2021, 'month':1, 'date':31}
 
-data["plot"] = False
+data["plot"] = True
 
 data['input_rows'] = None
 #...............................................................................................
