@@ -80,7 +80,7 @@ def print_report(data):
 
     data['file_name'] = f'data/{data["start_date"].year}-({data["start_date"].month}-{data["end_date"].month})-({data["start_date"].day}-{data["end_date"].day})-{data["start_ts"]}.csv'
     # data['df'].to_csv(f"data/full_df_{data['file_name'].split('/')[1]}", index = False) 
-    data['df'].to_csv(f"data/full_df.csv", index = False) 
+    # data['df'].to_csv(f"data/full_df_{data['angle_len']}.csv", index = False) 
     data['report_df'].to_csv(data['file_name'], index = False) 
     
     print('==============================')

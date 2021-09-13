@@ -80,18 +80,25 @@ def get_cross_dir(data):
     pos_2 = data['dir_list'][1]
     
     if pos_2 == 1 and pos_2 != pos_1:
-        if data['llema_angle'] >= data['min_llema_angle']:
+        if data['llema_angle'] > data['min_llema_angle']:
             data['dir_change'] = True    
-            data['to_order'] = 'long'        
+            data['to_order'] = 'long'    
+            # data['to_order'] = 'short'    
+        else:
+            data['sema_close_flag'] = True
 
     if pos_2 == -1 and pos_2 != pos_1:
-        if data['llema_angle'] <= -data['min_llema_angle']:
+        if data['llema_angle'] < -data['min_llema_angle']:
             data['dir_change'] = True    
             data['to_order'] = 'short'
+            # data['to_order'] = 'long'
+        else:
+            data['sema_close_flag'] = True
         
     else:
         data['dir_change'] = False
         data['to_order'] = None
+        data['sema_close_flag'] = False
 
     return(data)    
 #................................................................................................

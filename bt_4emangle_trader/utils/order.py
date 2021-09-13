@@ -186,6 +186,15 @@ def sema_close(data):
                     data['stop_text'] = 'sema_close'
                     data = close_short_order(data)
 
+        # elif data['sema_close_flag']:
+        #     if data['open_order_type'] == 'long':            
+        #         data['stop_text'] = 'sema_close'
+        #         data = close_long_order(data)
+                
+        #     if data['open_order_type'] == 'short':
+        #         data['stop_text'] = 'sema_close'
+        #         data = close_short_order(data)
+
     return(data) 
 
 #...............................................................................................  
