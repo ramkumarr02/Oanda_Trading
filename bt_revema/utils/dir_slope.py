@@ -4,17 +4,65 @@ from utils.packages import *
 #...............................................................................................
 def get_position(data):
 
-    if data['sema'] == data['lema']:
+    data['short'] = data['sema']
+    data['long'] = data['lema']
+
+    if data['short'] == data['long']:
         data['position'] = 0
 
-    elif data['sema'] > data['lema']:
+    elif data['short'] > data['long']:
         data['position'] = 1
 
-    elif data['sema'] < data['lema']:
+    elif data['short'] < data['long']:
         data['position'] = -1
     
     return(data)
 #...............................................................................................
+
+#...............................................................................................
+def get_cross_dir(data):   
+    
+    data['dir_list'].popleft()
+    data['dir_list'].append(data['position'])   
+    
+    pos_1 = data['dir_list'][0]
+    pos_2 = data['dir_list'][1]
+    
+    if pos_2 == 1 and pos_2 != pos_1:
+        data['dir_change'] = True    
+        data['to_order'] = 'long'    
+        # data['to_order'] = 'short'    
+
+    if pos_2 == -1 and pos_2 != pos_1:
+        data['dir_change'] = True    
+        data['to_order'] = 'short'
+        # data['to_order'] = 'long'
+        
+    else:
+        data['dir_change'] = False
+        data['to_order'] = None
+        data['sema_close_flag'] = False
+
+    return(data)    
+#................................................................................................
+
+
+#...............................................................................................
+def get_slope(data):
+    
+    data['y_axis'] = list(np.round(data['y_axis'],data['pip_decimal_num']))
+    ma_len = len(data['y_axis'])
+    
+    x_axis = []
+    for i in range(ma_len):
+        x_axis.append(1 + ((i+1) * 10**(-data['pip_decimal_num'])))
+    
+    slope_tick, intercept, _, _, _ = linregress(x_axis, data['y_axis'])
+    
+    data['llema_angle'] = math.degrees(math.atan(slope_tick))        
+
+    return(data)    
+#...............................................................................................    
 
 
 # #...............................................................................................
@@ -70,53 +118,35 @@ def get_position(data):
 #     return(data)    
 # #................................................................................................
 
-#...............................................................................................
-def get_cross_dir(data):   
+# #...............................................................................................
+# def get_cross_dir(data):   
     
-    data['dir_list'].popleft()
-    data['dir_list'].append(data['position'])   
+#     data['dir_list'].popleft()
+#     data['dir_list'].append(data['position'])   
     
-    pos_1 = data['dir_list'][0]
-    pos_2 = data['dir_list'][1]
+#     pos_1 = data['dir_list'][0]
+#     pos_2 = data['dir_list'][1]
     
-    if pos_2 == 1 and pos_2 != pos_1:
-        if data['llema_angle'] > data['min_llema_angle']:
-            data['dir_change'] = True    
-            data['to_order'] = 'long'    
-            # data['to_order'] = 'short'    
-        else:
-            data['sema_close_flag'] = True
+#     if pos_2 == 1 and pos_2 != pos_1:
+#         if data['llema_angle'] > data['min_llema_angle']:
+#             data['dir_change'] = True    
+#             data['to_order'] = 'long'    
+#             # data['to_order'] = 'short'    
+#         else:
+#             data['sema_close_flag'] = True
 
-    if pos_2 == -1 and pos_2 != pos_1:
-        if data['llema_angle'] < -data['min_llema_angle']:
-            data['dir_change'] = True    
-            data['to_order'] = 'short'
-            # data['to_order'] = 'long'
-        else:
-            data['sema_close_flag'] = True
+#     if pos_2 == -1 and pos_2 != pos_1:
+#         if data['llema_angle'] < -data['min_llema_angle']:
+#             data['dir_change'] = True    
+#             data['to_order'] = 'short'
+#             # data['to_order'] = 'long'
+#         else:
+#             data['sema_close_flag'] = True
         
-    else:
-        data['dir_change'] = False
-        data['to_order'] = None
-        data['sema_close_flag'] = False
+#     else:
+#         data['dir_change'] = False
+#         data['to_order'] = None
+#         data['sema_close_flag'] = False
 
-    return(data)    
-#................................................................................................
-
-
-#...............................................................................................
-def get_slope(data):
-    
-    data['y_axis'] = list(np.round(data['y_axis'],data['pip_decimal_num']))
-    ma_len = len(data['y_axis'])
-    
-    x_axis = []
-    for i in range(ma_len):
-        x_axis.append(1 + ((i+1) * 10**(-data['pip_decimal_num'])))
-    
-    slope_tick, intercept, _, _, _ = linregress(x_axis, data['y_axis'])
-    
-    data['llema_angle'] = math.degrees(math.atan(slope_tick))        
-
-    return(data)    
-#...............................................................................................    
+#     return(data)    
+# #................................................................................................
