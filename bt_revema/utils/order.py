@@ -6,7 +6,7 @@ from utils.i_o import *
 def make_order(data):
     if not data['open_order']:
         if data['dir_change']:
-            if data['to_order'] == 'long':
+            if data['to_order'] == 'long':                
                 data = make_long_order(data)
 
             elif data['to_order'] == 'short':
@@ -185,15 +185,6 @@ def sema_close(data):
                 if data['to_order'] == 'long':
                     data['stop_text'] = 'sema_close'
                     data = close_short_order(data)
-
-        # elif data['sema_close_flag']:
-        #     if data['open_order_type'] == 'long':            
-        #         data['stop_text'] = 'sema_close'
-        #         data = close_long_order(data)
-                
-        #     if data['open_order_type'] == 'short':
-        #         data['stop_text'] = 'sema_close'
-        #         data = close_short_order(data)
 
     return(data) 
 

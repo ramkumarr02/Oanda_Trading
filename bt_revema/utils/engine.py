@@ -16,22 +16,10 @@ def run_engine(data):
         data['ask'] = data["df"]['Ask'][i]
         data['tick'] = data['df']['tick'][i]        
         data['dt_val'] = data['df']['DateTime'][i]   
-        data['dt_val'] = data['dt_val_series'][i]   
-
-        # data['sema'] = data['df']['sema'][i]      
-        # data['slema'] = data['df']['slema'][i]      
-        # data['lema'] = data['df']['lema'][i]      
-        # data['llema'] = data['df']['llema'][i]    
-        
-        data['sema'] = data['df']['slema'][i]      
-        data['slema'] = data['df']['lema'][i]      
-        data['lema'] = data['df']['llema'][i]    
-
-        # data['llema_angle'] = data['df']['llema_angle'][i]      
-        # data['lema_angle'] = data['df']['lema_angle'][i]      
-        # data['slema_angle'] = data['df']['slema_angle'][i]      
-        # data['sema_angle'] = data['df']['sema_angle'][i]      
-        # data['tick_angle'] = data['df']['tick_angle'][i]  
+        data['dt_val'] = data['dt_val_series'][i]     
+        data['sema'] = data['df']['sema'][i]      
+        data['slema'] = data['df']['slema'][i]      
+        data['lema'] = data['df']['lema'][i]    
         
         if data["plot"]:     
             data['i_list'].append(i)
@@ -39,8 +27,6 @@ def run_engine(data):
             data["df_sema_list"].append(data['sema'])
             data["df_slema_list"].append(data['slema'])
             data["df_lema_list"].append(data['lema'])
-            # data["df_llema_list"].append(data['llema'])
-            # data['df_llema_angle_list'].append(data['llema_angle'])
 
         data = get_position(data)
         

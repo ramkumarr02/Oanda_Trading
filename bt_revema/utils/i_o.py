@@ -133,9 +133,9 @@ def plot_graph(data):
 
     ax1.plot(x_axis, data["df"]['tick'], label='tick', color='gray', linestyle='dotted')
     ax1.plot(x_axis, data["df"]['sema'], label='sema', color='red')
-    ax1.plot(x_axis, data["df"]['slema'], label='slema', color='green')
-    ax1.plot(x_axis, data["df"]['lema'], label='lema', color='blue')
-    ax1.plot(x_axis, data["df"]['llema'], label='llema', color='black')
+    ax1.plot(x_axis, data["df"]['slema'], label='slema', color='darkblue')
+    ax1.plot(x_axis, data["df"]['lema'], label='lema', color='black')
+    # ax1.plot(x_axis, data["df"]['llema'], label='llema', color='black')
     # ax2.plot(x_axis, data["df"]['llema_angle'], label='llema_angle', color='lightgrey', linestyle=linestyle)
 
     data = get_date_lines(data)
@@ -144,7 +144,7 @@ def plot_graph(data):
         plt.axvline(x=x_val, color='black')
         plt.text(x=x_val, y=0, s=data['date_list'][i], rotation=90, fontsize = 15)
 
-    ax1.scatter(data['buy_markers_x'], data['buy_markers_y'], s=300, c='darkblue', marker=10)
+    ax1.scatter(data['buy_markers_x'], data['buy_markers_y'], s=300, c='blue', marker=10)
     ax1.scatter(data['sell_markers_x'], data['sell_markers_y'], s=300, c='red', marker=11)
 
     legend = ax1.legend(loc='upper left', fontsize='xx-large')
@@ -196,7 +196,7 @@ def create_report(data):
         'sema_len': data['sema_len'],
         'slema_len': data['slema_len'], 
         'lema_len': data['lema_len'],
-        'llema_len': data['llema_len'], 
+        # 'llema_len': data['llema_len'], 
         'pl_move_trail_trigger': data['pl_move_trail_trigger'],
         'stop_loss_pip': data['stop_loss_pip']
         })
@@ -206,9 +206,9 @@ def create_report(data):
     data['report_df'] = data['report_df'][[
         'date', 'year_val', 'month_val', 'date_val', 'hour_val','minute_val', 
         'close_type', 'pls', 'ord_types', 
-        # 'llema_angle', 
-        'sema_len', 'slema_len', 
-        'lema_len', 'llema_len','pl_move_trail_trigger' ,'stop_loss_pip']]
+        # 'llema_angle', 'llema_len',
+        'sema_len', 'slema_len', 'lema_len', 
+        'pl_move_trail_trigger' ,'stop_loss_pip']]
 
     data["report_df"] = data["report_df"].reset_index(drop = True)    
         
