@@ -420,7 +420,7 @@ def stop_loss_reverse(data):
             data['close_bid_price'] = data['bid']
             data['pl'] = np.round(data['close_bid_price'] - data['order_ask_price'], 5)
 
-            if data['pl'] <= -data['stop_loss_pip']:
+            if data['pl'] <= data['stop_loss_pip']:
                 data['stop_text'] = 'reverse_stop'
                 data = reverse_order(data)
                 data['reverse_order_flag'] =  'reversed'
@@ -430,7 +430,7 @@ def stop_loss_reverse(data):
                 data['close_ask_price'] = data['ask']
                 data['pl'] = np.round(data['order_bid_price'] - data['close_ask_price'], 5)
 
-                if data['pl'] <= -data['stop_loss_pip']:
+                if data['pl'] <= data['stop_loss_pip']:
                     data['stop_text'] = 'reverse_stop'
                     data = reverse_order(data)
                     data['reverse_order_flag'] =  'reversed'

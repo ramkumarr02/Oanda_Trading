@@ -43,11 +43,12 @@ def run_engine(data):
         # ----------------------------------------------------------  
         
         data = calculate_pl(data)
-        data = take_profit(data)        
+        # data = take_profit(data)        
         data = slema_positive_check(data)
         data = simple_slema_move_close(data)
         data = sema_close(data)
-        data = stop_loss(data)             
+        # data = stop_loss(data)             
+        data = stop_loss_dynamic(data)                     
         data = make_order(data)    
 
     return(data)

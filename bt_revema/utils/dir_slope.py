@@ -30,11 +30,13 @@ def get_cross_dir(data):
     
     if pos_1 != pos_2 and pos_2 == 1:
         data['dir_change'] = True    
-        data['to_order'] = 'long'   
+        # data['to_order'] = 'long'   
+        data['to_order'] = 'short'
 
     elif pos_1 != pos_2 and pos_2 == -1:
         data['dir_change'] = True    
-        data['to_order'] = 'short'
+        # data['to_order'] = 'short'
+        data['to_order'] = 'long'   
         
     else:
         data['dir_change'] = False
