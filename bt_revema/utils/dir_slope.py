@@ -27,21 +27,51 @@ def get_cross_dir(data):
     
     pos_1 = data['dir_list'][0]
     pos_2 = data['dir_list'][1]
-    
-    if pos_1 != pos_2 and pos_2 == 1:
-        data['dir_change'] = True    
-        # data['to_order'] = 'long'   
-        data['to_order'] = 'short'
 
-    elif pos_1 != pos_2 and pos_2 == -1:
-        data['dir_change'] = True    
-        # data['to_order'] = 'short'
-        data['to_order'] = 'long'   
+    if not data['open_order']:
+        if pos_1 != pos_2 and pos_2 == 1:
+            data['dir_change'] = True    
+            data['to_order'] = 'short'
+
+        elif pos_1 != pos_2 and pos_2 == -1:
+            data['dir_change'] = True    
+            data['to_order'] = 'long'   
+            
+        else:
+            data['dir_change'] = False
+            data['to_order'] = None
+            data['sema_close_flag'] = False
+
+    # --- Profit Dir switch stopper ------------------------------------
+    if data['open_order']:
+        if data['open_order_type'] == 'long':
+            if pos_1 != pos_2 and pos_2 == 1:
+                data['dir_change'] = True    
+                data['to_order'] = 'long'
+
+            elif pos_1 != pos_2 and pos_2 == -1:
+                data['dir_change'] = True    
+                data['to_order'] = 'short'   
+                
+            else:
+                data['dir_change'] = False
+                data['to_order'] = None
+                data['sema_close_flag'] = False
         
-    else:
-        data['dir_change'] = False
-        data['to_order'] = None
-        data['sema_close_flag'] = False
+        if data['open_order_type'] == 'short':    
+            if pos_1 != pos_2 and pos_2 == 1:
+                data['dir_change'] = True    
+                data['to_order'] = 'long'
+
+            elif pos_1 != pos_2 and pos_2 == -1:
+                data['dir_change'] = True    
+                data['to_order'] = 'short'   
+                
+            else:
+                data['dir_change'] = False
+                data['to_order'] = None
+                data['sema_close_flag'] = False
+    # --- Profit Dir switch stopper ------------------------------------
 
     return(data)    
 #................................................................................................
