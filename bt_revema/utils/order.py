@@ -212,7 +212,8 @@ def make_long_order(data):
     data['open_order'] = True
     data['slema_check_flag'] = True
     data['open_order_type'] = 'long'
-    data['reverse_order_flag'] =  'new'
+    data['reverse_order_flag'] =  'new'    
+    data['take_profit_flag'] = False
     data['pl_positive'] = False
     data['pl_move_min'] = 0
     # data['ordered_llema_angle'] = round(data['llema_angle'])
@@ -229,6 +230,7 @@ def make_short_order(data):
     data['slema_check_flag'] = True
     data['open_order_type'] = 'short'
     data['reverse_order_flag'] =  'new'
+    data['take_profit_flag'] = False
     data['pl_positive'] = False
     data['pl_move_min'] = 0
     # data['ordered_llema_angle'] = round(data['llema_angle'])
@@ -246,6 +248,7 @@ def close_long_order(data):
     data['close_type'].append(data['stop_text'])
     data['ord_types'].append('long')
     # data['ll_angle'].append(data['ordered_llema_angle'])
+    data['take_profit_flag'] = False
     
     if data["plot"]:
         data['sell_markers_x'].append(data['i_list'][-1])
@@ -262,6 +265,7 @@ def close_short_order(data):
     data['close_type'].append(data['stop_text'])
     data['ord_types'].append('short')
     # data['ll_angle'].append(data['ordered_llema_angle'])
+    data['take_profit_flag'] = False
     
     if data["plot"]:
         data['sell_markers_x'].append(data['i_list'][-1])
@@ -338,6 +342,7 @@ def stop_loss_reverse(data):
                 data['stop_text'] = 'reverse_stop'
                 data = reverse_order(data)
                 data['reverse_order_flag'] =  'reversed'
+                data['take_profit_flag'] = True
                 return(data)
                 
         if data['open_order_type'] == 'short':
@@ -348,6 +353,7 @@ def stop_loss_reverse(data):
                     data['stop_text'] = 'reverse_stop'
                     data = reverse_order(data)
                     data['reverse_order_flag'] =  'reversed'
+                    data['take_profit_flag'] = True
                     return(data)
 
     return(data)   

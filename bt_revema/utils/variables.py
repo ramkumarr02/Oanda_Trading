@@ -114,7 +114,7 @@ data['pl_loss_trail_trigger']       = -0.0040
 data['pl_loss_trail_size']          = 0.75
 
 data['sema_len']    = 30000
-data['slema_len']   = 65000
+data['slema_len']   = 45000
 data['lema_len']    = 100000
 
 data['angle_len']       = 100
@@ -127,10 +127,12 @@ data['min_llema_angle'] = 0
 data['take_profit_method']  = 'simple'
 data['stop_loss_method']    = 'simple'
 
-data['start_date'] = {'year':2021, 'month':5, 'date':1}
-data['end_date']   = {'year':2021, 'month':5, 'date':15}
+data['start_date'] = {'year':2021, 'month':1, 'date':1}
+data['end_date']   = {'year':2021, 'month':5, 'date':31}
 
-data["plot"] = True
+data["plot"] = False
+
+data['take_profit_flag'] = False
 
 data['input_rows'] = None
 data['sema_close_flag'] = False

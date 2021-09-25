@@ -10,10 +10,10 @@ def get_position(data):
     if data['short'] == data['long']:
         data['position'] = 0
 
-    elif data['short'] > data['long']:
+    elif data['short'] - data['long'] >= 0.00001:
         data['position'] = 1
 
-    elif data['short'] < data['long']:
+    elif data['long'] - data['short'] >= 0.00001:
         data['position'] = -1
     
     return(data)
@@ -25,31 +25,37 @@ def get_cross_dir(data):
     data['dir_list'].popleft()
     data['dir_list'].append(data['position'])   
     
-    pos_1 = data['dir_list'][0]
-    pos_2 = data['dir_list'][1]
+    data['pos_1'] = data['dir_list'][0]
+    data['pos_2'] = data['dir_list'][1]
 
+    data = dir_switch_check(data)
+
+    return(data)    
+#................................................................................................
+
+def dir_switch_check(data):
     if not data['open_order']:
-        if pos_1 != pos_2 and pos_2 == 1:
+        if data['pos_1'] != data['pos_2'] and data['pos_2'] == 1:
             data['dir_change'] = True    
             data['to_order'] = 'short'
 
-        elif pos_1 != pos_2 and pos_2 == -1:
+        elif data['pos_1'] != data['pos_2'] and data['pos_2'] == -1:
             data['dir_change'] = True    
             data['to_order'] = 'long'   
-            
+        
         else:
             data['dir_change'] = False
             data['to_order'] = None
-            data['sema_close_flag'] = False
+            data['sema_close_flag'] = False        
 
-    # --- Profit Dir switch stopper ------------------------------------
+
     if data['open_order']:
         if data['open_order_type'] == 'long':
-            if pos_1 != pos_2 and pos_2 == 1:
+            if data['pos_1'] != data['pos_2'] and data['pos_2'] == 1:
                 data['dir_change'] = True    
                 data['to_order'] = 'long'
 
-            elif pos_1 != pos_2 and pos_2 == -1:
+            elif data['pos_1'] != data['pos_2'] and data['pos_2'] == -1:
                 data['dir_change'] = True    
                 data['to_order'] = 'short'   
                 
@@ -59,11 +65,11 @@ def get_cross_dir(data):
                 data['sema_close_flag'] = False
         
         if data['open_order_type'] == 'short':    
-            if pos_1 != pos_2 and pos_2 == 1:
+            if data['pos_1'] != data['pos_2'] and data['pos_2'] == 1:
                 data['dir_change'] = True    
                 data['to_order'] = 'long'
 
-            elif pos_1 != pos_2 and pos_2 == -1:
+            elif data['pos_1'] != data['pos_2'] and data['pos_2'] == -1:
                 data['dir_change'] = True    
                 data['to_order'] = 'short'   
                 
@@ -71,11 +77,7 @@ def get_cross_dir(data):
                 data['dir_change'] = False
                 data['to_order'] = None
                 data['sema_close_flag'] = False
-    # --- Profit Dir switch stopper ------------------------------------
-
     return(data)    
-#................................................................................................
-
 
 #...............................................................................................
 def get_slope(data):

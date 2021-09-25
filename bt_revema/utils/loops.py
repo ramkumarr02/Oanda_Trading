@@ -153,18 +153,18 @@ def get_rolling_emas(data):
     return(data)
 #...............................................................................................  
 
-#...............................................................................................  
-def get_rolling_emas(data):
-    data['df'] = pd.read_csv(f'data/full_df.csv')    
-    data["df"] = data["df"][data["df"]['DateTime'].str.contains('|'.join(data['date_list']))]
+# #...............................................................................................  
+# def get_rolling_emas(data):
+#     data['df'] = pd.read_csv(f'data/full_df.csv')    
+#     data["df"] = data["df"][data["df"]['DateTime'].str.contains('|'.join(data['date_list']))]
     
-    data['dt_val_series']   = [dt.datetime.strptime(x.split(".")[0],"%Y%m%d %H:%M:%S") for x in data["df"]['DateTime']]
+#     data['dt_val_series']   = [dt.datetime.strptime(x.split(".")[0],"%Y%m%d %H:%M:%S") for x in data["df"]['DateTime']]
 
-    data['df'] = data['df'].reset_index(drop=True)        
-    data['df_len'] = len(data["df"])
+#     data['df'] = data['df'].reset_index(drop=True)        
+#     data['df_len'] = len(data["df"])
 
-    data['df'] = data['df'][['DateTime', 'Bid', 'Ask', 'tick', 'sema', 'lema', 'slema']].round(6)
-    # data['df'].to_csv('data/full_df.csv', index = False)
+#     data['df'] = data['df'][['DateTime', 'Bid', 'Ask', 'tick', 'sema', 'lema', 'slema']].round(6)
+#     # data['df'].to_csv('data/full_df.csv', index = False)
     
-    return(data)
-#...............................................................................................  
+#     return(data)
+# #...............................................................................................  
