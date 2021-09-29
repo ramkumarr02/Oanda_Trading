@@ -34,12 +34,13 @@ def get_cross_dir(data):
 #................................................................................................
 
 def dir_switch_check(data):
+
     if not data['open_order']:
-        if data['pos_1'] != data['pos_2'] and data['pos_2'] == 1:
+        if data['pos_1'] != data['pos_2'] and data['pos_2'] == -1 * data['dir_decider']:
             data['dir_change'] = True    
             data['to_order'] = 'short'
 
-        elif data['pos_1'] != data['pos_2'] and data['pos_2'] == -1:
+        elif data['pos_1'] != data['pos_2'] and data['pos_2'] == 1 * data['dir_decider']:
             data['dir_change'] = True    
             data['to_order'] = 'long'   
         
@@ -51,11 +52,11 @@ def dir_switch_check(data):
 
     if data['open_order']:
         if data['open_order_type'] == 'long':
-            if data['pos_1'] != data['pos_2'] and data['pos_2'] == 1:
+            if data['pos_1'] != data['pos_2'] and data['pos_2'] == -1 * data['dir_decider']:
                 data['dir_change'] = True    
                 data['to_order'] = 'long'
 
-            elif data['pos_1'] != data['pos_2'] and data['pos_2'] == -1:
+            elif data['pos_1'] != data['pos_2'] and data['pos_2'] == 1 * data['dir_decider']:
                 data['dir_change'] = True    
                 data['to_order'] = 'short'   
                 
@@ -65,11 +66,11 @@ def dir_switch_check(data):
                 data['sema_close_flag'] = False
         
         if data['open_order_type'] == 'short':    
-            if data['pos_1'] != data['pos_2'] and data['pos_2'] == 1:
+            if data['pos_1'] != data['pos_2'] and data['pos_2'] == -1 * data['dir_decider']:
                 data['dir_change'] = True    
                 data['to_order'] = 'long'
 
-            elif data['pos_1'] != data['pos_2'] and data['pos_2'] == -1:
+            elif data['pos_1'] != data['pos_2'] and data['pos_2'] == 1 * data['dir_decider']:
                 data['dir_change'] = True    
                 data['to_order'] = 'short'   
                 

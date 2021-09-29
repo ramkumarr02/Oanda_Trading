@@ -158,8 +158,7 @@ def slema_positive_check(data):
 def simple_slema_move_close(data):
     if data['open_order']:
         if data['slema_positive']: 
-            if data['pl'] > 0:            
-
+            # if data['pl'] > 0:            
                 if data['open_order_type'] == 'long':
                     if data['sema'] < data['slema']:
                         data['stop_text'] = 'simple_slema_move_close'
