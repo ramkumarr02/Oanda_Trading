@@ -35,12 +35,12 @@ def get_cross_dir(data):
 
 def dir_switch_check(data):
 
-    if not data['open_order']:
-        if data['pos_1'] != data['pos_2'] and data['pos_2'] == -1 * data['dir_decider']:
+    if data['direction'] == 'straight':
+        if data['pos_1'] != data['pos_2'] and data['pos_2'] == -1:
             data['dir_change'] = True    
             data['to_order'] = 'short'
 
-        elif data['pos_1'] != data['pos_2'] and data['pos_2'] == 1 * data['dir_decider']:
+        elif data['pos_1'] != data['pos_2'] and data['pos_2'] == 1:
             data['dir_change'] = True    
             data['to_order'] = 'long'   
         
@@ -49,38 +49,59 @@ def dir_switch_check(data):
             data['to_order'] = None
             data['sema_close_flag'] = False        
 
+    #-------------------------
 
-    if data['open_order']:
-        if data['open_order_type'] == 'long':
-            if data['pos_1'] != data['pos_2'] and data['pos_2'] == -1 * data['dir_decider']:
+    if data['direction'] == 'reverse':
+        if not data['open_order']:
+            if data['pos_1'] != data['pos_2'] and data['pos_2'] == 1:
                 data['dir_change'] = True    
-                data['to_order'] = 'long'
+                data['to_order'] = 'short'
 
-            elif data['pos_1'] != data['pos_2'] and data['pos_2'] == 1 * data['dir_decider']:
+            elif data['pos_1'] != data['pos_2'] and data['pos_2'] == -1:
                 data['dir_change'] = True    
-                data['to_order'] = 'short'   
-                
+                data['to_order'] = 'long'   
+            
             else:
                 data['dir_change'] = False
                 data['to_order'] = None
-                data['sema_close_flag'] = False
-        
-        if data['open_order_type'] == 'short':    
-            if data['pos_1'] != data['pos_2'] and data['pos_2'] == -1 * data['dir_decider']:
-                data['dir_change'] = True    
-                data['to_order'] = 'long'
+                data['sema_close_flag'] = False        
 
-            elif data['pos_1'] != data['pos_2'] and data['pos_2'] == 1 * data['dir_decider']:
-                data['dir_change'] = True    
-                data['to_order'] = 'short'   
-                
-            else:
-                data['dir_change'] = False
-                data['to_order'] = None
-                data['sema_close_flag'] = False
+
+        if data['open_order']:
+            if data['open_order_type'] == 'long':
+                if data['pos_1'] != data['pos_2'] and data['pos_2'] == 1:
+                    data['dir_change'] = True    
+                    data['to_order'] = 'long'
+
+                elif data['pos_1'] != data['pos_2'] and data['pos_2'] == -1:
+                    data['dir_change'] = True    
+                    data['to_order'] = 'short'   
+                    
+                else:
+                    data['dir_change'] = False
+                    data['to_order'] = None
+                    data['sema_close_flag'] = False
+            
+            if data['open_order_type'] == 'short':    
+                if data['pos_1'] != data['pos_2'] and data['pos_2'] == 1:
+                    data['dir_change'] = True    
+                    data['to_order'] = 'long'
+
+                elif data['pos_1'] != data['pos_2'] and data['pos_2'] == -1:
+                    data['dir_change'] = True    
+                    data['to_order'] = 'short'   
+                    
+                else:
+                    data['dir_change'] = False
+                    data['to_order'] = None
+                    data['sema_close_flag'] = False
+
     return(data)    
 
 #...............................................................................................
+
+#...............................................................................................
+
 def get_slope(data):
     
     data['y_axis'] = list(np.round(data['y_axis'],data['pip_decimal_num']))

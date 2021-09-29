@@ -130,7 +130,9 @@ data['stop_loss_method']    = 'simple'
 data['start_date'] = {'year':2021, 'month':1, 'date':1}
 data['end_date']   = {'year':2021, 'month':5, 'date':31}
 
-data['dir_decider'] = 1
+# data['direction'] = 'reverse'
+data['direction'] = 'straight'
+
 data["plot"] = False
 
 data['take_profit_flag'] = False

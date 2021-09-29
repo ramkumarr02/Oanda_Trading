@@ -77,6 +77,24 @@ def pl_loss_close(data):
     return(data)    
 #...............................................................................................    
 
+def tick_close(data):
+    if data['open_order']:
+        if data['open_order_type'] == 'long':
+            if data['pl'] > 0:
+                if data['tick'] < data['sema'] and data['tick'] < data['slema'] and data['tick'] < data['lema']:
+                    data['stop_text'] = 'tick_close'
+                    data = close_long_order(data)  
+
+        if data['open_order_type'] == 'short':
+            if data['pl'] > 0:
+                if data['tick'] > data['sema'] and data['tick'] > data['slema'] and data['tick'] > data['lema']:
+                    data['stop_text'] = 'tick_close'
+                    data = close_short_order(data)  
+
+    return(data)
+
+#...............................................................................................    
+
 
 def take_profit(data):
     if data['take_profit_method'] == 'simple':
