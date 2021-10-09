@@ -41,7 +41,9 @@ data['df_subset_size'] = None
 data['pl_positive'] = False
 data['pl_positive_flag'] = True
 data['slema_positive'] = False
+data['tick_positive'] = False
 data['slema_check_flag'] = False
+data['tick_check_flag'] = False
 data['tick_close_flag'] = False
 data['tick_close_flag'] = False
 data['stop_loss_flag'] = True
@@ -127,13 +129,13 @@ data['min_llema_angle'] = 0
 data['take_profit_method']  = 'simple'
 data['stop_loss_method']    = 'simple'
 
-data['start_date'] = {'year':2021, 'month':1, 'date':1}
-data['end_date']   = {'year':2021, 'month':5, 'date':31}
+data['start_date'] = {'year':2021, 'month':4, 'date':1}
+data['end_date']   = {'year':2021, 'month':4, 'date':30}
 
 # data['direction'] = 'reverse'
 data['direction'] = 'straight'
 
-data["plot"] = False
+data["plot"] = True
 
 data['take_profit_flag'] = False
 

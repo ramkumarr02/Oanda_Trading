@@ -43,6 +43,7 @@ def run_engine(data):
         # ----------------------------------------------------------  
         
         data = calculate_pl(data)
+        data = tick_close_check(data)
         data = tick_close(data)
         data = slema_positive_check(data)
         data = simple_slema_move_close(data)
