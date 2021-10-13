@@ -129,8 +129,8 @@ data['min_llema_angle'] = 0
 data['take_profit_method']  = 'simple'
 data['stop_loss_method']    = 'simple'
 
-data['start_date'] = {'year':2021, 'month':4, 'date':1}
-data['end_date']   = {'year':2021, 'month':4, 'date':30}
+data['start_date'] = {'year':2020, 'month':2, 'date':1}
+data['end_date']   = {'year':2020, 'month':2, 'date':29}
 
 # data['direction'] = 'reverse'
 data['direction'] = 'straight'

@@ -142,7 +142,7 @@ def tick_close_check(data):
                 else:
                     data['tick_positive'] = False
 
-    if data['open_order_type'] == 'short':
+            if data['open_order_type'] == 'short':
                 if data['tick'] < data['sema'] and data['tick'] < data['slema'] and data['tick'] < data['lema']:
                     data['tick_positive'] = True
                     data['tick_check_flag'] = False
@@ -155,15 +155,14 @@ def tick_close_check(data):
 
 def tick_close(data):
     if data['tick_positive']:
-        if data['open_order']:
-            if data['open_order_type'] == 'long':
-                if data['pl'] > 0:
+        if data['pl'] > 0:
+            if data['open_order']:
+                if data['open_order_type'] == 'long':
                     if data['tick'] < data['sema'] and data['tick'] < data['slema'] and data['tick'] < data['lema']:
                         data['stop_text'] = 'tick_close'
                         data = close_long_order(data)  
 
-            if data['open_order_type'] == 'short':
-                if data['pl'] > 0:
+                if data['open_order_type'] == 'short':
                     if data['tick'] > data['sema'] and data['tick'] > data['slema'] and data['tick'] > data['lema']:
                         data['stop_text'] = 'tick_close'
                         data = close_short_order(data)  
@@ -197,7 +196,7 @@ def slema_positive_check(data):
 def simple_slema_move_close(data):
     if data['open_order']:
         if data['slema_positive']: 
-            # if data['pl'] > 0:            
+            if data['pl'] > 0:            
                 if data['open_order_type'] == 'long':
                     if data['sema'] < data['slema']:
                         data['stop_text'] = 'simple_slema_move_close'
@@ -382,7 +381,7 @@ def stop_loss_reverse(data):
                 data['stop_text'] = 'reverse_stop'
                 data = reverse_order(data)
                 data['reverse_order_flag'] =  'reversed'
-                data['take_profit_flag'] = True
+                # data['take_profit_flag'] = True
                 return(data)
                 
         if data['open_order_type'] == 'short':
@@ -393,7 +392,7 @@ def stop_loss_reverse(data):
                     data['stop_text'] = 'reverse_stop'
                     data = reverse_order(data)
                     data['reverse_order_flag'] =  'reversed'
-                    data['take_profit_flag'] = True
+                    # data['take_profit_flag'] = True
                     return(data)
 
     return(data)   
