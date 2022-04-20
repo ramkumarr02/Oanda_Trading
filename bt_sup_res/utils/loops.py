@@ -154,9 +154,18 @@ def get_rolling_emas(data):
 #...............................................................................................  
 
 #...............................................................................................  
-def get_rolling_emas(data):
-    data['df'] = pd.read_csv(f'data/full_df_2020.csv')    
+def get_emas_from_file(data):
+    # data['df'] = pd.read_csv(f'data/full_df_2020.csv')   
+
+    if data['input_rows'] is None:
+        data['df'] = pd.read_csv(f'data/full_df_2020.csv')
+        print(len(data['df']))
+    else:
+        data['df'] = pd.read_csv(f'data/full_df_2020.csv', nrows=data['input_rows'])
+        print(len(data['df']))
+    
     data["df"] = data["df"][data["df"]['DateTime'].str.contains('|'.join(data['date_list']))]
+    print(len(data['df']))
     
     data['dt_val_series']   = [dt.datetime.strptime(x.split(".")[0],"%Y%m%d %H:%M:%S") for x in data["df"]['DateTime']]
 

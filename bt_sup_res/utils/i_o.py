@@ -126,8 +126,8 @@ def adjust_plot_list_lengths(data):
 def plot_graph(data):
     linestyle = (0, (1, 2))
     
-    # fig, ax1 = plt.subplots(figsize=(150,30))
-    fig, ax1 = plt.subplots(figsize=(20,10))
+    fig, ax1 = plt.subplots(figsize=(150,30))
+    # fig, ax1 = plt.subplots(figsize=(20,10))
     ax2 = ax1.twinx()
 
     x_axis = np.arange(0,len(data["df"]['tick']))

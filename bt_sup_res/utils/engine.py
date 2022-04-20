@@ -8,7 +8,8 @@ from utils.order import *
 def run_engine(data):
 
     data["start_ts"] = dt.datetime.strftime(dt.datetime.now(), '%Y-%m-%d-%H-%M')
-    data = get_rolling_emas(data)
+    # data = get_rolling_emas(data)
+    data = get_emas_from_file(data)
 
     for i in tqdm(range(0, data['df_len'])):
 
