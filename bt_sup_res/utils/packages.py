@@ -14,6 +14,7 @@ import collections
 
 from tqdm import tqdm
 from IPython import display
+import plotly.express as px
 import matplotlib.pyplot as plt
 from matplotlib.pyplot import figure
 
