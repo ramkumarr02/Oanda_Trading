@@ -130,25 +130,22 @@ def roll_slope(slope_list):
 
 #...............................................................................................  
 def get_rolling_emas(data):
-    data['df']['tick']      = (data["df"]['Ask'] + data["df"]['Bid'])/2
-    data['dt_val_series']   = [dt.datetime.strptime(x.split(".")[0],"%Y%m%d %H:%M:%S") for x in data["df"]['DateTime']]
 
     print('Building Lema...')
     data['df']['lema'] = data['df']['tick'].rolling(window=data['lema_len']).progress_apply(roll_ema)
-    data['df'] = data['df'].dropna()
-    
+    data['df'] = data['df'][data['lema_len']:]
+
     print('Building SLema...')
     data['df']['slema'] = data['df']['tick'].rolling(window=data['slema_len']).progress_apply(roll_ema)
-    data['df'] = data['df'].dropna()
-    
+    data['df'] = data['df'][data['slema_len']:]
+
     print('Building Sema...')
     data['df']['sema'] = data['df']['tick'].rolling(window=data['sema_len']).progress_apply(roll_ema)
-    data['df'] = data['df'].dropna()   
+    data['df'] = data['df'][data['sema_len']:]
 
-    data['df'] = data['df'][['DateTime', 'Bid', 'Ask', 'tick', 'sema', 'lema', 'slema']].round(6)
+    data['df'] = data['df'][['sno', 'i', 'DateTime_frmt', 'Ask', 'Bid', 'tick', 'sema', 'lema', 'slema', 'support', 'resistance', 'o', 'h', 'l', 'c']].round(6)
     data['df'] = data['df'].reset_index(drop=True) 
     data['df_len'] = len(data["df"])
-    data['df'].to_csv('data/full_df.csv', index = False)
 
     return(data)
 #...............................................................................................  

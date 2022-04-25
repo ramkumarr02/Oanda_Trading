@@ -7,13 +7,13 @@ def get_position(data):
     data['short'] = data['sema']
     data['long'] = data['lema']
 
-    if data['short'] == data['long']:
+    if data['sema'] == data['lema']:
         data['position'] = 0
 
-    elif data['short'] - data['long'] >= 0.00001:
+    elif data['sema'] - data['lema'] >= 0.00001:
         data['position'] = 1
 
-    elif data['long'] - data['short'] >= 0.00001:
+    elif data['lema'] - data['sema'] >= 0.00001:
         data['position'] = -1
     
     return(data)

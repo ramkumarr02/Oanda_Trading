@@ -19,6 +19,9 @@ import plotly.express as px
 import matplotlib.pyplot as plt
 from matplotlib.pyplot import figure
 
+from tqdm import tqdm
+tqdm.pandas()
+
 import warnings
 warnings.filterwarnings('ignore')
 #...............................................................................................
