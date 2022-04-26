@@ -13,11 +13,17 @@ def read_data(data):
         data["df"] = pd.read_csv(source_file_path, nrows=data['input_rows'])
         
     data["df"] = data["df"][data["df"]['DateTime'].str.contains('|'.join(data['date_list']))]
-    
+
     data['df']['i'] = np.int()
     data["df"]['tick'] = np.float()
     data["df"]['sema'] = np.float()
+    data["df"]['slema'] = np.float()
     data["df"]['lema'] = np.float()
+    data['df']['long_open'] = ''
+    data['df']['long_close'] = ''
+    data['df']['short_open'] = ''
+    data['df']['short_close'] = ''
+
 
     if data['df_subset_size'] is not None:
         data["df"] = data["df"][0:data['df_subset_size']]
@@ -124,48 +130,83 @@ def adjust_plot_list_lengths(data):
 
 #...............................................................................................
 def plot_graph(data):
-    linestyle = (0, (1, 2))
-    
-    fig, ax1 = plt.subplots(figsize=(150,30))
-    # fig, ax1 = plt.subplots(figsize=(20,10))
-    ax2 = ax1.twinx()
+    fig = px.line(data['df'], 
+                x="DateTime_frmt", 
+                # y=['tick', 'sema','slema', 'lema'], 
+                y=['tick', 'sema', 'lema'], 
+                color_discrete_sequence = ['grey', 'red', 'blue', 'black'],
+                title='tick chart') 
 
-    x_axis = np.arange(0,len(data["df"]['tick']))
+    data['marker_size'] = 15
 
-    ax1.plot(x_axis, data["df"]['tick'], label='tick', color='gray', linestyle='dotted')
-    # ax1.plot(x_axis, data["df"]['sema'], label='sema', color='red')
-    # ax1.plot(x_axis, data["df"]['slema'], label='slema', color='darkblue')
-    # ax1.plot(x_axis, data["df"]['lema'], label='lema', color='black')
-    # ax1.plot(x_axis, data["df"]['llema'], label='llema', color='black')
-    # ax2.plot(x_axis, data["df"]['llema_angle'], label='llema_angle', color='lightgrey', linestyle=linestyle)
-
-    data = get_date_lines(data)
-
-    for i, x_val in enumerate(data['line_list']):
-        plt.axvline(x=x_val, color='black')
-        plt.text(x=x_val, y=0, s=data['date_list'][i], rotation=90, fontsize = 15)
-
-    # ax1.scatter(data['buy_markers_x'], data['buy_markers_y'], s=300, c='blue', marker=10)
-    # ax1.scatter(data['sell_markers_x'], data['sell_markers_y'], s=300, c='red', marker=11)
-
-    legend = ax1.legend(loc='upper left', fontsize='xx-large')
-    # legend = ax2.legend(loc='upper right', fontsize='xx-large')
-    
-    ax1.tick_params(axis='x', colors='red', labelsize = 25)
-    ax1.tick_params(axis='y', colors='red', labelsize = 25)
-    ax2.tick_params(axis='y', colors='red', labelsize = 25)
+    fig.add_scatter(x = data['df']['DateTime_frmt'] , 
+                y = data['df']['long_open'], 
+                mode = 'markers', 
+                name = 'long_open',
+                marker_symbol = 'triangle-up',
+                marker=dict(color='lightgreen',
+                            size=data['marker_size'],
+                            line=dict(
+                                color='green',
+                                width=2
+                            )),
+                opacity=1)
 
 
-    plt.xlabel('tick num')
-    plt.ylabel('prices')
-    plt.title('trade chart')
-    plt.grid()
-    plt.show()    
-    try:
-        data['chart_name'] = f'{data["file_name"].split(".")[0]}.png'
-        fig.savefig(data['chart_name'])
-    except:        
-        fig.savefig('temp.png')
+    fig.add_scatter(x = data['df']['DateTime_frmt'] , 
+                y = data['df']['long_close'], 
+                mode = 'markers', 
+                name = 'long_close',
+                marker_symbol = 'triangle-up',
+                marker=dict(color='red',
+                            size=data['marker_size'],
+                            line=dict(
+                                color='darkred',
+                                width=2
+                            )),
+                opacity=1)
+
+
+    fig.add_scatter(x = data['df']['DateTime_frmt'] , 
+                y = data['df']['short_open'], 
+                mode = 'markers', 
+                name = 'short_open',
+                marker_symbol = 'triangle-down',
+                marker=dict(color='lightgreen',
+                            size=data['marker_size'],
+                            line=dict(
+                                color='green',
+                                width=2
+                            )),
+                opacity=1)
+
+
+    fig.add_scatter(x = data['df']['DateTime_frmt'] , 
+                y = data['df']['short_close'], 
+                mode = 'markers', 
+                name = 'short_close',
+                marker_symbol = 'triangle-down',
+                marker=dict(color='red',
+                            size=data['marker_size'],
+                            line=dict(
+                                color='darkred',
+                                width=2
+                            )),
+                opacity=1)
+
+
+    for val in data['dup_removed_sup_res']:
+        fig.add_hline(y = val, line_width=1, line_dash="dot", line_color="darkred")  
+
+    # fig.update_layout(paper_bgcolor="white", plot_bgcolor="white")
+
+    fig.show()
+
+    # try:
+    #     data['chart_name'] = f'{data["file_name"].split(".")[0]}.png'
+    #     fig.savefig(data['chart_name'])
+    # except:        
+    #     fig.savefig('temp.png')
 #...............................................................................................
 
 

@@ -115,13 +115,13 @@ data['pl_move_trail_ratio']         = 0.75
 data['pl_loss_trail_trigger']       = -0.0040
 data['pl_loss_trail_size']          = 0.75
 
-data['sema_len']    = 80
-data['slema_len']   = 400
-data['lema_len']    = 1600
+data['sema_len']    = 60
+data['slema_len']   = 300
+data['lema_len']    = 1200
 
 data['angle_len']       = 100
 
-data['pl_move_trail_trigger']       = 0.0002
+data['pl_move_trail_trigger']       = 0.0005
 data['stop_loss_pip']               = -0.0002
 
 data['min_llema_angle'] = 0
@@ -139,6 +139,16 @@ data["plot"] = False
 
 data['take_profit_flag'] = False
 
-data['input_rows'] = 10_000
+data['input_rows'] = 6_000
 data['sema_close_flag'] = False
+
+
+data['df_bars'] = pd.DataFrame()
+data['df_bars']['support'] = ''
+data['df_bars']['resistance'] = ''
+
+data['candle_size'] = '1T'
+data['fractal_one_side_bar_count'] = 1
+data['sup_res_touches'] = 2
+data['sup_res_last_ticks_window'] = 10_000
 #...............................................................................................
