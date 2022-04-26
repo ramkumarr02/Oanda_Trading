@@ -121,8 +121,8 @@ data['lema_len']    = 1600
 
 data['angle_len']       = 100
 
-data['pl_move_trail_trigger']       = 0.0040
-data['stop_loss_pip']               = -0.0040
+data['pl_move_trail_trigger']       = 0.0002
+data['stop_loss_pip']               = -0.0002
 
 data['min_llema_angle'] = 0
 
@@ -135,7 +135,7 @@ data['end_date']   = {'year':2021, 'month':1, 'date':31}
 # data['direction'] = 'reverse'
 data['direction'] = 'straight'
 
-data["plot"] = True
+data["plot"] = False
 
 data['take_profit_flag'] = False
 

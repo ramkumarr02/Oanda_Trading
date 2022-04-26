@@ -255,7 +255,9 @@ def make_long_order(data):
     data['pl_positive'] = False
     data['pl_move_min'] = 0
     # data['ordered_llema_angle'] = round(data['llema_angle'])
-    
+    data['ind'] = data['df']['long_open'][data['df']['DateTime_frmt'] == data['df']['DateTime_frmt'][data['i']]].index[0]
+    data['df']['long_open'].iloc[data['ind']] = data['ask']
+
     if data["plot"]:
         data['buy_markers_x'].append(data['i_list'][-1])
         data['buy_markers_y'].append(data['ask'])
@@ -273,6 +275,8 @@ def make_short_order(data):
     data['pl_positive'] = False
     data['pl_move_min'] = 0
     # data['ordered_llema_angle'] = round(data['llema_angle'])
+    data['ind'] = data['df']['short_open'][data['df']['DateTime_frmt'] == data['df']['DateTime_frmt'][data['i']]].index[0]
+    data['df']['short_open'].iloc[data['ind']] = data['bid']
 
     if data["plot"]:
         data['buy_markers_x'].append(data['i_list'][-1])
@@ -288,6 +292,8 @@ def close_long_order(data):
     data['ord_types'].append('long')
     # data['ll_angle'].append(data['ordered_llema_angle'])
     data['take_profit_flag'] = False
+    data['ind'] = data['df']['long_close'][data['df']['DateTime_frmt'] == data['df']['DateTime_frmt'][data['i']]].index[0]
+    data['df']['long_close'].iloc[data['ind']] = data['bid']
     
     if data["plot"]:
         data['sell_markers_x'].append(data['i_list'][-1])
@@ -305,6 +311,8 @@ def close_short_order(data):
     data['ord_types'].append('short')
     # data['ll_angle'].append(data['ordered_llema_angle'])
     data['take_profit_flag'] = False
+    data['ind'] = data['df']['short_close'][data['df']['DateTime_frmt'] == data['df']['DateTime_frmt'][data['i']]].index[0]
+    data['df']['short_close'].iloc[data['ind']] = data['ask']
     
     if data["plot"]:
         data['sell_markers_x'].append(data['i_list'][-1])
