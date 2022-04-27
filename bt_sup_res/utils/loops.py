@@ -143,10 +143,6 @@ def get_rolling_emas(data):
     data['df']['sema'] = data['df']['tick'].rolling(window=data['sema_len']).progress_apply(roll_ema)
     data['df'] = data['df'][data['sema_len']:]
 
-    data['df'] = data['df'][['sno', 'i', 'DateTime_frmt', 'Ask', 'Bid', 'tick', 'sema', 'lema', 'slema', 'support', 'resistance', 'o', 'h', 'l', 'c', 'long_open', 'long_close', 'short_open', 'short_close']].round(6)
-    data['df'] = data['df'].reset_index(drop=True) 
-    data['df_len'] = len(data["df"])
-
     return(data)
 #...............................................................................................  
 

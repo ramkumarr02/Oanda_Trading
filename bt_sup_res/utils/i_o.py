@@ -131,76 +131,83 @@ def adjust_plot_list_lengths(data):
 #...............................................................................................
 def plot_graph(data):
     fig = px.line(data['df'], 
-                x="DateTime_frmt", 
-                # y=['tick', 'sema','slema', 'lema'], 
-                y=['tick', 'sema', 'lema'], 
-                color_discrete_sequence = ['grey', 'red', 'blue', 'black'],
-                title='tick chart') 
+                    x="DateTime_frmt", 
+                    y=['tick', 'sema','slema', 'lema'], 
+                    # y=['tick', 'sema', 'lema'], 
+                    color_discrete_sequence = ['grey', 'red', 'blue', 'black'],
+                    title='tick chart') 
 
     data['marker_size'] = 15
 
-    fig.add_scatter(x = data['df']['DateTime_frmt'] , 
-                y = data['df']['long_open'], 
-                mode = 'markers', 
-                name = 'long_open',
-                marker_symbol = 'triangle-up',
-                marker=dict(color='lightgreen',
-                            size=data['marker_size'],
-                            line=dict(
-                                color='green',
-                                width=2
-                            )),
-                opacity=1)
+    if data['plot_transactions']:
+
+        fig.add_scatter(x = data['df']['DateTime_frmt'] , 
+                    y = data['df']['long_open'], 
+                    mode = 'markers', 
+                    name = 'long_open',
+                    marker_symbol = 'triangle-up',
+                    marker=dict(color='lightgreen',
+                                size=data['marker_size'],
+                                line=dict(
+                                    color='green',
+                                    width=2
+                                )),
+                    opacity=1)
 
 
-    fig.add_scatter(x = data['df']['DateTime_frmt'] , 
-                y = data['df']['long_close'], 
-                mode = 'markers', 
-                name = 'long_close',
-                marker_symbol = 'triangle-up',
-                marker=dict(color='red',
-                            size=data['marker_size'],
-                            line=dict(
-                                color='darkred',
-                                width=2
-                            )),
-                opacity=1)
+        fig.add_scatter(x = data['df']['DateTime_frmt'] , 
+                    y = data['df']['long_close'], 
+                    mode = 'markers', 
+                    name = 'long_close',
+                    marker_symbol = 'triangle-up',
+                    marker=dict(color='red',
+                                size=data['marker_size'],
+                                line=dict(
+                                    color='darkred',
+                                    width=2
+                                )),
+                    opacity=1)
 
 
-    fig.add_scatter(x = data['df']['DateTime_frmt'] , 
-                y = data['df']['short_open'], 
-                mode = 'markers', 
-                name = 'short_open',
-                marker_symbol = 'triangle-down',
-                marker=dict(color='lightgreen',
-                            size=data['marker_size'],
-                            line=dict(
-                                color='green',
-                                width=2
-                            )),
-                opacity=1)
+        fig.add_scatter(x = data['df']['DateTime_frmt'] , 
+                    y = data['df']['short_open'], 
+                    mode = 'markers', 
+                    name = 'short_open',
+                    marker_symbol = 'triangle-down',
+                    marker=dict(color='lightgreen',
+                                size=data['marker_size'],
+                                line=dict(
+                                    color='green',
+                                    width=2
+                                )),
+                    opacity=1)
 
 
-    fig.add_scatter(x = data['df']['DateTime_frmt'] , 
-                y = data['df']['short_close'], 
-                mode = 'markers', 
-                name = 'short_close',
-                marker_symbol = 'triangle-down',
-                marker=dict(color='red',
-                            size=data['marker_size'],
-                            line=dict(
-                                color='darkred',
-                                width=2
-                            )),
-                opacity=1)
+        fig.add_scatter(x = data['df']['DateTime_frmt'] , 
+                    y = data['df']['short_close'], 
+                    mode = 'markers', 
+                    name = 'short_close',
+                    marker_symbol = 'triangle-down',
+                    marker=dict(color='red',
+                                size=data['marker_size'],
+                                line=dict(
+                                    color='darkred',
+                                    width=2
+                                )),
+                    opacity=1)
 
 
-    for val in data['dup_removed_sup_res']:
-        fig.add_hline(y = val, line_width=1, line_dash="dot", line_color="darkred")  
+    # for i in np.arange(len(data['dup_removed_sup_res'])):
+    #     fig.add_hline(y = data['dup_removed_sup_res'][i], line_width=1, line_dash="dot", line_color="darkred")  
+
+    for i in np.arange(len(data['dup_removed_sup_res'])):
+        fig.add_shape(type = 'line', x0 = data['df']['DateTime_frmt'][0], x1 = data['sup_res_datetime'][i], y0 = data['dup_removed_sup_res'][i], y1 = data['dup_removed_sup_res'][i], line_width=1, line_dash="dot", line_color="darkred")  
+
 
     # fig.update_layout(paper_bgcolor="white", plot_bgcolor="white")
 
     fig.show()
+
 
     # try:
     #     data['chart_name'] = f'{data["file_name"].split(".")[0]}.png'
