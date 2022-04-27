@@ -4,13 +4,13 @@ from utils.variables import *
 
 #...............................................................................................
 def read_data(data):   
-    source_file_path = f'data/{data["input_file_name"]}'
+    data['source_file_path'] = f'data/{data["input_file_name"]}'
     # source_file_path = f'../data/products/{data["product"]}/{data["input_file_name"]}'
 
     if data['input_rows'] is None:
-        data["df"] = pd.read_csv(source_file_path)
+        data["df"] = pd.read_csv(data['source_file_path'])
     else:
-        data["df"] = pd.read_csv(source_file_path, nrows=data['input_rows'])
+        data["df"] = pd.read_csv(data['source_file_path'], nrows=data['input_rows'])
         
     data["df"] = data["df"][data["df"]['DateTime'].str.contains('|'.join(data['date_list']))]
 
@@ -129,7 +129,7 @@ def adjust_plot_list_lengths(data):
 #............................................................................................... 
 
 #...............................................................................................
-def plot_graph(data):
+def plot_graph_old(data):
     fig = px.line(data['df'], 
                     x="DateTime_frmt", 
                     y=['tick', 'sema','slema', 'lema'], 
@@ -216,6 +216,48 @@ def plot_graph(data):
     #     fig.savefig('temp.png')
 #...............................................................................................
 
+
+#...............................................................................................
+def plot_graph(data):
+    fig = px.line(data['df'], 
+                    x="DateTime_frmt", 
+                    # y=['tick', 'sema','slema', 'lema'], 
+                    # y=['tick', 'sema', 'lema'], 
+                    y=['tick', 'Ask', 'Bid'], 
+                    color_discrete_sequence = ['grey', 'red', 'blue', 'black'],
+                    title='tick chart') 
+
+    data['marker_size'] = 10
+
+    fig.add_scatter(x = data['df']['DateTime_frmt'] , 
+                    y = data['df']['h'], 
+                    mode = 'markers', 
+                    name = 'high',
+                    marker_symbol = 'circle',
+                    marker=dict(color='red',
+                                size=data['marker_size'],
+                                line=dict(
+                                    color='black',
+                                    width=2
+                                )),
+                    opacity=1)
+
+    fig.add_scatter(x = data['df']['DateTime_frmt'] , 
+                    y = data['df']['l'], 
+                    mode = 'markers', 
+                    name = 'low',
+                    marker_symbol = 'circle',
+                    marker=dict(color='blue',
+                                size=data['marker_size'],
+                                line=dict(
+                                    color='black',
+                                    width=2
+                                )),
+                    opacity=1)
+
+    fig.show()
+
+#...............................................................................................
 
 
 #...............................................................................................
