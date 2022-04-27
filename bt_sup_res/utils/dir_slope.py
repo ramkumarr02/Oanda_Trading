@@ -117,3 +117,11 @@ def get_slope(data):
 
     return(data)    
 #...............................................................................................    
+
+def get_tick_time(data):
+    data['df']['sno'] = data['df'].index
+    data['df']['tick']      = (data["df"]['Ask'] + data["df"]['Bid'])/2
+    data['df']['DateTime_frmt']   = [dt.datetime.strptime(x.split(".")[0],"%Y%m%d %H:%M:%S") for x in data["df"]['DateTime']]
+    return(data)
+
+    
