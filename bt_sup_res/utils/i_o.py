@@ -220,16 +220,16 @@ def plot_graph_old(data):
 #...............................................................................................
 def plot_graph(data):
     fig = px.line(data['df'], 
-                    x="DateTime_frmt", 
+                    x = data['df'].index, 
                     # y=['tick', 'sema','slema', 'lema'], 
                     # y=['tick', 'sema', 'lema'], 
-                    y=['tick', 'Ask', 'Bid'], 
+                    y = ['tick'], 
                     color_discrete_sequence = ['grey', 'red', 'blue', 'black'],
                     title='tick chart') 
 
     data['marker_size'] = 10
 
-    fig.add_scatter(x = data['df']['DateTime_frmt'] , 
+    fig.add_scatter(x = data['df'].index, 
                     y = data['df']['h'], 
                     mode = 'markers', 
                     name = 'high',
@@ -242,7 +242,7 @@ def plot_graph(data):
                                 )),
                     opacity=1)
 
-    fig.add_scatter(x = data['df']['DateTime_frmt'] , 
+    fig.add_scatter(x = data['df'].index, 
                     y = data['df']['l'], 
                     mode = 'markers', 
                     name = 'low',

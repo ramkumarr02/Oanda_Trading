@@ -121,7 +121,44 @@ def get_slope(data):
 def get_tick_time(data):
     data['df']['sno'] = data['df'].index
     data['df']['tick']      = (data["df"]['Ask'] + data["df"]['Bid'])/2
+    # data['df']['DateTime_frmt']   = [dt.datetime.strptime(x,"%Y%m%d %H:%M:%S.%f") for x in data["df"]['DateTime']]
     data['df']['DateTime_frmt']   = [dt.datetime.strptime(x.split(".")[0],"%Y%m%d %H:%M:%S") for x in data["df"]['DateTime']]
+    data['df'] = data['df'].set_index('DateTime_frmt')
     return(data)
 
+#...............................................................................................    
+
+def get_ohlc(data):
+    data['df']['o'] = ''
+    data['df']['h'] = ''
+    data['df']['l'] = ''
+    data['df']['c'] = ''    
     
+    data['rolled_index'] = data['df'].resample(data['candle_size']).tick.first().index
+
+    for i in np.arange(1,len(data['rolled_index'])):
+        
+        timestamp_val = data['df'].loc[data['rolled_index'][i-1]:data['rolled_index'][i]]['tick'].index[0]
+        tick_val      = data['df'].loc[data['rolled_index'][i-1]:data['rolled_index'][i]]['tick'].values[0]
+        data['df']['o'].loc[timestamp_val] = tick_val
+        
+        row_num       = np.argmax(data['df'].loc[data['rolled_index'][i-1]:data['rolled_index'][i]]['tick'])
+        timestamp_val = data['df'].loc[data['rolled_index'][i-1]:data['rolled_index'][i]]['tick'].index[row_num]
+        tick_val      = data['df'].loc[data['rolled_index'][i-1]:data['rolled_index'][i]]['tick'].values[row_num]
+        data['df']['h'].loc[timestamp_val] = tick_val
+        
+        row_num       = np.argmin(data['df'].loc[data['rolled_index'][i-1]:data['rolled_index'][i]]['tick'])
+        timestamp_val = data['df'].loc[data['rolled_index'][i-1]:data['rolled_index'][i]]['tick'].index[row_num]
+        tick_val      = data['df'].loc[data['rolled_index'][i-1]:data['rolled_index'][i]]['tick'].values[row_num]
+        data['df']['l'].loc[timestamp_val] = tick_val
+
+        timestamp_val = data['df'].loc[data['rolled_index'][i-1]:data['rolled_index'][i]]['tick'].index[-1]
+        tick_val      = data['df'].loc[data['rolled_index'][i-1]:data['rolled_index'][i]]['tick'].values[-1]
+        data['df']['c'].loc[timestamp_val] = tick_val        
+    
+    data['df'] = data['df'][['sno', 'i', 'DateTime','Ask', 'Bid', 'tick', 'sema', 'lema', 'slema', 'o', 'h', 'l', 'c', ]].round(6)
+    data['df_len'] = len(data["df"])
+
+    return(data)
+
+#...............................................................................................    
