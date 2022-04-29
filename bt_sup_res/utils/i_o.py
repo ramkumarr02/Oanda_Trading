@@ -319,18 +319,85 @@ def plot_graph(data):
                             )),
                 opacity=1)
 
+
     fig.add_trace(go.Scatter(x=data['df'].index,
-                            y=data['df']['h_line'],
+                            y=data['df']['h_line_1'],
                             mode='lines',
-                            name='h-line',
+                            name='h-line-1',
+                            line=dict(color='red', width=2),                        
+                            )
+                )
+
+
+    fig.add_trace(go.Scatter(x=data['df'].index,
+                            y=data['df']['h_line_2'],
+                            mode='lines',
+                            name='h-line-2',
                             line=dict(color='red', width=2),                        
                             )
                 )
 
     fig.add_trace(go.Scatter(x=data['df'].index,
-                            y=data['df']['l_line'],
+                            y=data['df']['h_line_3'],
                             mode='lines',
-                            name='l-line',
+                            name='h-line-3',
+                            line=dict(color='red', width=2),                        
+                            )
+                )
+
+    fig.add_trace(go.Scatter(x=data['df'].index,
+                            y=data['df']['h_line_4'],
+                            mode='lines',
+                            name='h-line-4',
+                            line=dict(color='red', width=2),                        
+                            )
+                )
+
+    fig.add_trace(go.Scatter(x=data['df'].index,
+                            y=data['df']['h_line_5'],
+                            mode='lines',
+                            name='h-line-5',
+                            line=dict(color='red', width=2),                        
+                            )
+                )
+
+
+    fig.add_trace(go.Scatter(x=data['df'].index,
+                            y=data['df']['l_line_1'],
+                            mode='lines',
+                            name='l-line-1',
+                            line=dict(color='blue', width=2),                        
+                            )
+                )
+
+    fig.add_trace(go.Scatter(x=data['df'].index,
+                            y=data['df']['l_line_2'],
+                            mode='lines',
+                            name='l-line-2',
+                            line=dict(color='blue', width=2),                        
+                            )
+                )
+
+    fig.add_trace(go.Scatter(x=data['df'].index,
+                            y=data['df']['l_line_3'],
+                            mode='lines',
+                            name='l-line-3',
+                            line=dict(color='blue', width=2),                        
+                            )
+                )
+
+    fig.add_trace(go.Scatter(x=data['df'].index,
+                            y=data['df']['l_line_4'],
+                            mode='lines',
+                            name='l-line-4',
+                            line=dict(color='blue', width=2),                        
+                            )
+                )
+
+    fig.add_trace(go.Scatter(x=data['df'].index,
+                            y=data['df']['l_line_5'],
+                            mode='lines',
+                            name='l-line-5',
                             line=dict(color='blue', width=2),                        
                             )
                 )
