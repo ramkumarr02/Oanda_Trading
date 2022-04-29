@@ -136,10 +136,11 @@ data['end_date']   = {'year':2021, 'month':1, 'date':5}
 data['direction'] = 'straight'
 
 data["plot"] = False
+data['marker_size'] = 10
 
 data['take_profit_flag'] = False
 
-data['input_rows'] = 120_000
+data['input_rows'] = 130_000
 data['sema_close_flag'] = False
 
 
@@ -150,7 +151,7 @@ data['df_bars']['resistance'] = ''
 data['candle_size'] = '5T'
 data['fractal_one_side_bar_count'] = 2
 data['sup_res_touches'] = 2
-data['sup_res_last_ticks_window'] = 120_000
+data['sup_res_last_ticks_window'] = 130_000
 
 data['plot_transactions'] =  False
 #...............................................................................................

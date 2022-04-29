@@ -222,8 +222,8 @@ def plot_graph(data):
     fig = px.line(data['df'], 
                     x = data['df'].index, 
                     # y=['tick', 'sema','slema', 'lema'], 
-                    # y=['tick', 'sema', 'lema'], 
-                    y = ['tick'], 
+                    y=['tick', 'sema', 'lema'], 
+                    # y = ['tick'], 
                     color_discrete_sequence = ['grey', 'red', 'blue', 'black'],
                     title='tick chart') 
 
@@ -254,6 +254,86 @@ def plot_graph(data):
                                     width=2
                                 )),
                     opacity=1)
+
+    fig.show()
+
+#...............................................................................................
+#...............................................................................................
+def plot_graph(data):
+    layout = go.Layout(title="Trade Chart",
+                    xaxis=XAxis(title="DateTime"),
+                    xaxis2 = XAxis(overlaying= 'x', 
+                                    title = {'text': "sno"},
+                                    side= 'top'))
+
+    fig = go.Figure(layout=layout)
+
+    fig.add_trace(go.Scatter(x=data['df'].index,
+                            y=data['df']['tick'],
+                            mode='lines',
+                            name='tick',
+                            line=dict(color='lightgrey', width=2),
+                        )
+                )
+
+
+    fig.add_trace(go.Scatter(x=data['df'].index,
+                            y=data['df']['sema'],
+                            mode='lines',
+                            name='sema',
+                            line=dict(color='firebrick', width=2),
+                        )
+                )
+
+    fig.add_trace(go.Scatter(x=data['df'].index,
+                            y=data['df']['lema'],
+                            mode='lines',
+                            name='lema',
+                            line=dict(color='royalblue', width=2),
+                        )
+                )
+
+    fig.add_scatter(x = data['df'].index, 
+                y = data['df']['h'], 
+                mode = 'markers', 
+                name = 'high',
+                marker_symbol = 'circle',
+                marker=dict(color='red',
+                            size=data['marker_size'],
+                            line=dict(
+                                color='black',
+                                width=2
+                            )),
+                opacity=1)
+
+    fig.add_scatter(x = data['df'].index, 
+                y = data['df']['l'], 
+                mode = 'markers', 
+                name = 'low',
+                marker_symbol = 'circle',
+                marker=dict(color='blue',
+                            size=data['marker_size'],
+                            line=dict(
+                                color='black',
+                                width=2
+                            )),
+                opacity=1)
+
+    fig.add_trace(go.Scatter(x=data['df'].index,
+                            y=data['df']['h_line'],
+                            mode='lines',
+                            name='h-line',
+                            line=dict(color='red', width=1),                        
+                            )
+                )
+
+    fig.add_trace(go.Scatter(x=data['df'].index,
+                            y=data['df']['l_line'],
+                            mode='lines',
+                            name='l-line',
+                            line=dict(color='blue', width=1),                        
+                            )
+                )
 
     fig.show()
 

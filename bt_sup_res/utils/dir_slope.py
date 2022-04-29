@@ -121,18 +121,18 @@ def get_slope(data):
 def get_tick_time(data):
     data['df']['sno'] = data['df'].index
     data['df']['tick']      = (data["df"]['Ask'] + data["df"]['Bid'])/2
-    # data['df']['DateTime_frmt']   = [dt.datetime.strptime(x,"%Y%m%d %H:%M:%S.%f") for x in data["df"]['DateTime']]
-    data['df']['DateTime_frmt']   = [dt.datetime.strptime(x.split(".")[0],"%Y%m%d %H:%M:%S") for x in data["df"]['DateTime']]
+    data['df']['DateTime_frmt']   = [dt.datetime.strptime(x,"%Y%m%d %H:%M:%S.%f") for x in data["df"]['DateTime']]
+    # data['df']['DateTime_frmt']   = [dt.datetime.strptime(x.split(".")[0],"%Y%m%d %H:%M:%S") for x in data["df"]['DateTime']]
     data['df'] = data['df'].set_index('DateTime_frmt')
     return(data)
 
 #...............................................................................................    
 
 def get_ohlc(data):
-    data['df']['o'] = ''
-    data['df']['h'] = ''
-    data['df']['l'] = ''
-    data['df']['c'] = ''    
+    data['df']['o'] = np.nan
+    data['df']['h'] = np.nan
+    data['df']['l'] = np.nan
+    data['df']['c'] = np.nan    
     
     data['rolled_index'] = data['df'].resample(data['candle_size']).tick.first().index
 
