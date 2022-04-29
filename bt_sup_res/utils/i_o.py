@@ -323,7 +323,7 @@ def plot_graph(data):
                             y=data['df']['h_line'],
                             mode='lines',
                             name='h-line',
-                            line=dict(color='red', width=1),                        
+                            line=dict(color='red', width=2),                        
                             )
                 )
 
@@ -331,7 +331,7 @@ def plot_graph(data):
                             y=data['df']['l_line'],
                             mode='lines',
                             name='l-line',
-                            line=dict(color='blue', width=1),                        
+                            line=dict(color='blue', width=2),                        
                             )
                 )
 
