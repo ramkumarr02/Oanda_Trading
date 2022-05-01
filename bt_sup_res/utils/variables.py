@@ -117,7 +117,7 @@ data['pl_loss_trail_size']          = 0.75
 
 data['sema_len']    = 60
 data['slema_len']   = 400
-data['lema_len']    = 1800
+data['lema_len']    = 6000
 
 data['angle_len']       = 100
 
@@ -136,7 +136,7 @@ data['end_date']   = {'year':2021, 'month':1, 'date':5}
 data['direction'] = 'straight'
 
 data["plot"] = False
-data['marker_size'] = 10
+data['marker_size'] = 5
 
 data['take_profit_flag'] = False
 
@@ -148,10 +148,16 @@ data['df_bars'] = pd.DataFrame()
 data['df_bars']['support'] = ''
 data['df_bars']['resistance'] = ''
 
-data['candle_size'] = '5T'
+data['candle_size'] = '1T'
 data['fractal_one_side_bar_count'] = 2
 data['sup_res_touches'] = 2
 data['sup_res_last_ticks_window'] = 130_000
 
-data['plot_transactions'] =  False
+data['num_lines'] = 3
+
+data['plot_transactions']   = False
+data['plot_tip_points']     = True
+data['plot_trend_lines']    = True
+
+data['min_points_for_line'] = 100
 #...............................................................................................

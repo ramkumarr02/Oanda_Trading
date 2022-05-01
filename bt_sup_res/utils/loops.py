@@ -170,3 +170,99 @@ def get_emas_from_file(data):
     
     return(data)
 #...............................................................................................  
+def find_switch_points(data):
+    data['df']['switch_point'] = 0
+    data['switch_counter'] = 0
+
+    data['temp_df'] = data['df'].reset_index()
+
+    for i in np.arange(1, len(data['df'])):
+
+        if data['temp_df']['sema'][i] > data['temp_df']['lema'][i]:
+            if data['temp_df']['sema'][i-1] <= data['temp_df']['lema'][i-1]:
+                data['switch_counter'] = data['switch_counter'] + 1        
+
+        if data['temp_df']['sema'][i] < data['temp_df']['lema'][i]:
+            if data['temp_df']['sema'][i-1] >= data['temp_df']['lema'][i-1]:
+                data['switch_counter'] = data['switch_counter'] + 1
+
+        data['df']['switch_point'][i] = data['switch_counter']
+
+    del data['temp_df']
+    
+    return(data)
+#...............................................................................................  
+def get_trend_lines(data):
+    data['df']['sno'] = np.arange(len(data['df']))
+    
+    for i in np.arange(1,data['num_lines']+1):
+        high_line = f'h_line_{i}'
+        low_line = f'l_line_{i}'
+        data['df'][high_line] = np.nan
+        data['df'][low_line] = np.nan
+
+    data['df']['m'] = np.nan
+    data['df']['b'] = np.nan
+    line_count = 1
+
+    data['temp_df'] = pd.DataFrame()
+    data['temp_df']['m'] = np.nan
+    data['temp_df']['b'] = np.nan
+
+    for switch_point in list(set(data['df']['switch_point']))[-data['num_lines']:]:
+        m = np.nan
+        b = np.nan
+
+        data['temp_df'] = data['df'][data['df']['switch_point'] == switch_point]
+
+        x = data['temp_df']['sno'][data['temp_df']['h'].notnull()].values
+        y = data['temp_df']['h'][data['temp_df']['h'].notnull()].values
+
+        if len(x) == 0:
+            continue
+        else:
+            m, b = np.polyfit(x = x, y = y, deg = 1)
+
+        data['df']['m'][data['df']['switch_point'] == switch_point] = m
+        data['df']['b'][data['df']['switch_point'] == switch_point] = b
+
+        for ind in data['df'][data['df']['switch_point'] >= switch_point].index:
+            data['df'][f'h_line_{line_count}'].loc[ind] = m * (data['df']['sno'].loc[ind]) + b
+
+        line_count = line_count + 1
+
+
+    #----------------------------------------------------------    
+
+    data['df']['m'] = np.nan
+    data['df']['b'] = np.nan
+
+    data['temp_df'] = pd.DataFrame()
+    data['temp_df']['m'] = np.nan
+    data['temp_df']['b'] = np.nan
+    line_count = 1
+
+    for switch_point in list(set(data['df']['switch_point']))[-data['num_lines']:]:
+        m = np.nan
+        b = np.nan
+
+        data['temp_df'] = data['df'][data['df']['switch_point'] == switch_point]
+
+        x = data['temp_df']['sno'][data['temp_df']['l'].notnull()].values
+        y = data['temp_df']['l'][data['temp_df']['l'].notnull()].values
+
+        if len(x) == 0:
+            continue
+        else:
+            m, b = np.polyfit(x = x, y = y, deg = 1)
+
+        data['df']['m'][data['df']['switch_point'] == switch_point] = m
+        data['df']['b'][data['df']['switch_point'] == switch_point] = b
+
+        for ind in data['df'][data['df']['switch_point'] >= switch_point].index:
+            data['df'][f'l_line_{line_count}'].loc[ind] = m * (data['df']['sno'].loc[ind]) + b
+
+        line_count = line_count + 1
+        
+    return(data)
+#...............................................................................................  

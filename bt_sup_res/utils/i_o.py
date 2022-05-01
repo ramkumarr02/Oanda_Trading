@@ -293,114 +293,55 @@ def plot_graph(data):
                         )
                 )
 
-    fig.add_scatter(x = data['df'].index, 
-                y = data['df']['h'], 
-                mode = 'markers', 
-                name = 'high',
-                marker_symbol = 'circle',
-                marker=dict(color='red',
-                            size=data['marker_size'],
-                            line=dict(
-                                color='black',
-                                width=2
-                            )),
-                opacity=1)
 
-    fig.add_scatter(x = data['df'].index, 
-                y = data['df']['l'], 
-                mode = 'markers', 
-                name = 'low',
-                marker_symbol = 'circle',
-                marker=dict(color='blue',
-                            size=data['marker_size'],
-                            line=dict(
-                                color='black',
-                                width=2
-                            )),
-                opacity=1)
+    if data['plot_tip_points']:
+        fig.add_scatter(x = data['df'].index, 
+                    y = data['df']['h'], 
+                    mode = 'markers', 
+                    name = 'high',
+                    marker_symbol = 'circle',
+                    marker=dict(color='red',
+                                size=data['marker_size'],
+                                line=dict(
+                                    color='black',
+                                    width=2
+                                )),
+                    opacity=1)
 
-
-    fig.add_trace(go.Scatter(x=data['df'].index,
-                            y=data['df']['h_line_1'],
-                            mode='lines',
-                            name='h-line-1',
-                            line=dict(color='red', width=2),                        
-                            )
-                )
+        fig.add_scatter(x = data['df'].index, 
+                    y = data['df']['l'], 
+                    mode = 'markers', 
+                    name = 'low',
+                    marker_symbol = 'circle',
+                    marker=dict(color='blue',
+                                size=data['marker_size'],
+                                line=dict(
+                                    color='black',
+                                    width=2
+                                )),
+                    opacity=1)
 
 
-    fig.add_trace(go.Scatter(x=data['df'].index,
-                            y=data['df']['h_line_2'],
-                            mode='lines',
-                            name='h-line-2',
-                            line=dict(color='red', width=2),                        
-                            )
-                )
+    if data['plot_trend_lines']:
+        for i in np.arange(1,data['num_lines']+1):
+            high_line = f'h_line_{i}'
+            low_line = f'l_line_{i}'
 
-    fig.add_trace(go.Scatter(x=data['df'].index,
-                            y=data['df']['h_line_3'],
-                            mode='lines',
-                            name='h-line-3',
-                            line=dict(color='red', width=2),                        
-                            )
-                )
+            fig.add_trace(go.Scatter(x=data['df'].index,
+                                    y=data['df'][high_line],
+                                    mode='lines',
+                                    name=high_line,
+                                    line=dict(color='red', width=2),                        
+                                    )
+                        )
 
-    fig.add_trace(go.Scatter(x=data['df'].index,
-                            y=data['df']['h_line_4'],
-                            mode='lines',
-                            name='h-line-4',
-                            line=dict(color='red', width=2),                        
-                            )
-                )
-
-    fig.add_trace(go.Scatter(x=data['df'].index,
-                            y=data['df']['h_line_5'],
-                            mode='lines',
-                            name='h-line-5',
-                            line=dict(color='red', width=2),                        
-                            )
-                )
-
-
-    fig.add_trace(go.Scatter(x=data['df'].index,
-                            y=data['df']['l_line_1'],
-                            mode='lines',
-                            name='l-line-1',
-                            line=dict(color='blue', width=2),                        
-                            )
-                )
-
-    fig.add_trace(go.Scatter(x=data['df'].index,
-                            y=data['df']['l_line_2'],
-                            mode='lines',
-                            name='l-line-2',
-                            line=dict(color='blue', width=2),                        
-                            )
-                )
-
-    fig.add_trace(go.Scatter(x=data['df'].index,
-                            y=data['df']['l_line_3'],
-                            mode='lines',
-                            name='l-line-3',
-                            line=dict(color='blue', width=2),                        
-                            )
-                )
-
-    fig.add_trace(go.Scatter(x=data['df'].index,
-                            y=data['df']['l_line_4'],
-                            mode='lines',
-                            name='l-line-4',
-                            line=dict(color='blue', width=2),                        
-                            )
-                )
-
-    fig.add_trace(go.Scatter(x=data['df'].index,
-                            y=data['df']['l_line_5'],
-                            mode='lines',
-                            name='l-line-5',
-                            line=dict(color='blue', width=2),                        
-                            )
-                )
+            fig.add_trace(go.Scatter(x=data['df'].index,
+                                    y=data['df'][low_line],
+                                    mode='lines',
+                                    name=low_line,
+                                    line=dict(color='blue', width=2),                        
+                                    )
+                        )
 
     fig.show()
 

@@ -120,6 +120,7 @@ def get_slope(data):
 
 def get_tick_time(data):
     data['df']['sno'] = data['df'].index
+
     data['df']['tick']      = (data["df"]['Ask'] + data["df"]['Bid'])/2
     data['df']['DateTime_frmt']   = [dt.datetime.strptime(x,"%Y%m%d %H:%M:%S.%f") for x in data["df"]['DateTime']]
     # data['df']['DateTime_frmt']   = [dt.datetime.strptime(x.split(".")[0],"%Y%m%d %H:%M:%S") for x in data["df"]['DateTime']]
@@ -161,4 +162,20 @@ def get_ohlc(data):
 
     return(data)
 
+#...............................................................................................    
+
+#...............................................................................................    
+def consolidate_points_to_bigger_switch_points(data):
+    for switch_point in list(set(data['df']['switch_point'])):
+        high_points_num = len(set(data['df'][data['df']['switch_point'] == switch_point]['h']))
+        low_points_num = len(set(data['df'][data['df']['switch_point'] == switch_point]['l']))
+        tot_points_num = high_points_num + low_points_num
+
+        if tot_points_num < data['min_points_for_line']:
+            data['df']['switch_point'][data['df']['switch_point'] == switch_point] = switch_point + 1
+
+        # print(switch_point, len(set(data['df'][data['df']['switch_point'] == switch_point]['h'])))
+        # print(switch_point, len(set(data['df'][data['df']['switch_point'] == switch_point]['l'])))
+    
+    return(data)
 #...............................................................................................    
