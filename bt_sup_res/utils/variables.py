@@ -148,7 +148,7 @@ data['df_bars'] = pd.DataFrame()
 data['df_bars']['support'] = ''
 data['df_bars']['resistance'] = ''
 
-data['candle_size'] = '1T'
+data['candle_size'] = '5T'
 data['fractal_one_side_bar_count'] = 2
 data['sup_res_touches'] = 2
 data['sup_res_last_ticks_window'] = 130_000
