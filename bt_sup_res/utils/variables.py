@@ -159,5 +159,5 @@ data['plot_transactions']   = False
 data['plot_tip_points']     = True
 data['plot_trend_lines']    = True
 
-data['min_points_for_line'] = 100
+data['min_points_for_line'] = 8
 #...............................................................................................

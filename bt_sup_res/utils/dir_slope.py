@@ -167,15 +167,54 @@ def get_ohlc(data):
 #...............................................................................................    
 def consolidate_points_to_bigger_switch_points(data):
     for switch_point in list(set(data['df']['switch_point'])):
-        high_points_num = len(set(data['df'][data['df']['switch_point'] == switch_point]['h']))
-        low_points_num = len(set(data['df'][data['df']['switch_point'] == switch_point]['l']))
+
+        temp = data['df'][data['df']['switch_point'] == switch_point]
+        high_points_num = len(set(temp['h'][temp['h'].notnull()]))
+        low_points_num = len(set(temp['l'][temp['l'].notnull()]))
         tot_points_num = high_points_num + low_points_num
+
+        print(f'switch_point    : {switch_point}')
+        print(f'high_points_num : {high_points_num}')
+        print(f'low_points_num  : {low_points_num}')
+        print(f'tot_points_num  : {tot_points_num}')
+        print('-----------------------------------------')
+        
 
         if tot_points_num < data['min_points_for_line']:
             data['df']['switch_point'][data['df']['switch_point'] == switch_point] = switch_point + 1
 
-        # print(switch_point, len(set(data['df'][data['df']['switch_point'] == switch_point]['h'])))
-        # print(switch_point, len(set(data['df'][data['df']['switch_point'] == switch_point]['l'])))
     
     return(data)
 #...............................................................................................    
+
+#...............................................................................................    
+def consolidate_points_to_bigger_switch_points(data):
+    switch_point_list = list(set(data['df']['switch_point']))
+    switch_points_no = len(switch_point_list)
+    print(f'switch_point_list : {switch_point_list}')
+    print(f'switch_points_no : {switch_points_no}')
+
+    for i in np.arange(switch_points_no):
+        print(switch_point_list[i])
+
+        temp = data['df'][data['df']['switch_point'] == switch_point_list[i]]
+        high_points_num = len(set(temp['h'][temp['h'].notnull()]))
+        low_points_num = len(set(temp['l'][temp['l'].notnull()]))
+        tot_points_num = high_points_num + low_points_num
+
+        print(f'switch_point    : {switch_point_list[i]}')
+        print(f'high_points_num : {high_points_num}')
+        print(f'low_points_num  : {low_points_num}')
+        print(f'tot_points_num  : {tot_points_num}')
+        print('-----------------------------------------')
+        
+
+        if tot_points_num < data['min_points_for_line'] and i != switch_points_no - 1:
+            data['df']['switch_point'][data['df']['switch_point'] == switch_point_list[i]] = switch_point_list[i+1]
+
+        if tot_points_num < data['min_points_for_line'] and i == switch_points_no - 1:
+            data['df']['switch_point'][data['df']['switch_point'] == switch_point_list[i]] = switch_point_list[i-1]
+
+        
+    return(data)
+#...............................................................................................  

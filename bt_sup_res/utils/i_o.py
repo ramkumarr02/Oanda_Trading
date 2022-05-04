@@ -260,6 +260,8 @@ def plot_graph(data):
 #...............................................................................................
 #...............................................................................................
 def plot_graph(data):
+
+    # Plot Layout --------------------------------
     layout = go.Layout(title="Trade Chart",
                     xaxis=XAxis(title="DateTime"),
                     xaxis2 = XAxis(overlaying= 'x', 
@@ -267,7 +269,10 @@ def plot_graph(data):
                                     side= 'top'))
 
     fig = go.Figure(layout=layout)
+    # --------------------------------
 
+    
+    # Tick Sema Lema --------------------------------
     fig.add_trace(go.Scatter(x=data['df'].index,
                             y=data['df']['tick'],
                             mode='lines',
@@ -281,7 +286,7 @@ def plot_graph(data):
                             y=data['df']['sema'],
                             mode='lines',
                             name='sema',
-                            line=dict(color='firebrick', width=2),
+                            line=dict(color='burlywood', width=2),
                         )
                 )
 
@@ -289,11 +294,13 @@ def plot_graph(data):
                             y=data['df']['lema'],
                             mode='lines',
                             name='lema',
-                            line=dict(color='royalblue', width=2),
+                            line=dict(color='cyan', width=2),
                         )
                 )
+    # --------------------------------
 
-
+    
+    # Tip points --------------------------------
     if data['plot_tip_points']:
         fig.add_scatter(x = data['df'].index, 
                     y = data['df']['h'], 
@@ -320,8 +327,9 @@ def plot_graph(data):
                                     width=2
                                 )),
                     opacity=1)
+    #  --------------------------------
 
-
+    # Trend lines --------------------------------
     if data['plot_trend_lines']:
         for i in np.arange(1,data['num_lines']+1):
             high_line = f'h_line_{i}'
@@ -331,7 +339,7 @@ def plot_graph(data):
                                     y=data['df'][high_line],
                                     mode='lines',
                                     name=high_line,
-                                    line=dict(color='red', width=2),                        
+                                    line=dict(color='red', width=2, dash = 'dot'),                        
                                     )
                         )
 
@@ -339,10 +347,11 @@ def plot_graph(data):
                                     y=data['df'][low_line],
                                     mode='lines',
                                     name=low_line,
-                                    line=dict(color='blue', width=2),                        
+                                    line=dict(color='blue', width=2, dash = 'dot'),                        
                                     )
                         )
-
+    #  --------------------------------
+    
     fig.show()
 
 #...............................................................................................
