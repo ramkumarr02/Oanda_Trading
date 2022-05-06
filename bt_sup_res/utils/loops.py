@@ -14,10 +14,10 @@ def before_sema(data):
 def after_sema(data):     
     data['sema_list'].popleft()
     data['sema_list'].append(data['tick'])
-    data['sema'] = list(pd.DataFrame(list(data['sema_list'])).ewm(span=data['sema_len']).mean()[0])[-1]    
-    
+    data['sema'] = list(pd.DataFrame(list(data['sema_list'])).ewm(span=data['sema_len']).mean()[0])[-1]   
+
     if data["plot"]:
-        data["df_sema_list"].append(data['sema'])
+        data["df"]['sema'][data['i']] = data['sema']
         
     return(data)
 #...............................................................................................
@@ -38,7 +38,7 @@ def after_slema(data):
     data['slema'] = list(pd.DataFrame(list(data['slema_list'])).ewm(span=data['slema_len']).mean()[0])[-1]
     
     if data["plot"]:
-        data["df_slema_list"].append(data['slema'])
+        data["df"]['slema'][data['i']] = data['slema']
     
     return(data)
 #............................................................................................... 
@@ -59,7 +59,7 @@ def after_lema(data):
     data['lema'] = list(pd.DataFrame(list(data['lema_list'])).ewm(span=data['lema_len']).mean()[0])[-1]
     
     if data["plot"]:
-        data["df_lema_list"].append(data['lema'])
+        data["df"]['lema'][data['i']] = data['lema']
     
     return(data)
 #...............................................................................................    

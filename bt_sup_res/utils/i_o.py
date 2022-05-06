@@ -14,22 +14,26 @@ def read_data(data):
         
     data["df"] = data["df"][data["df"]['DateTime'].str.contains('|'.join(data['date_list']))]
 
-    data['df']['i'] = np.int()
     data["df"]['tick'] = np.float()
-    data["df"]['sema'] = np.float()
-    data["df"]['slema'] = np.float()
-    data["df"]['lema'] = np.float()
-    data['df']['long_open'] = ''
-    data['df']['long_close'] = ''
-    data['df']['short_open'] = ''
-    data['df']['short_close'] = ''
+    data['df']['DateTime_frmt'] = np.nan
+    del data['df']['Volume']
+    data["df"]['sema'] = np.nan
+    data["df"]['slema'] = np.nan
+    data["df"]['lema'] = np.nan
 
+    # data['df']['i'] = np.int()
+    # data['df']['long_open'] = ''
+    # data['df']['long_close'] = ''
+    # data['df']['short_open'] = ''
+    # data['df']['short_close'] = ''
 
     if data['df_subset_size'] is not None:
         data["df"] = data["df"][0:data['df_subset_size']]
 
     data["df"] = data["df"].reset_index(drop = True)
     print(f'Record num : {len(data["df"])}')        
+
+    data['df_len'] = len(data["df"])
 
     return(data)
 #...............................................................................................
@@ -128,136 +132,7 @@ def adjust_plot_list_lengths(data):
 
 #............................................................................................... 
 
-#...............................................................................................
-def plot_graph_old(data):
-    fig = px.line(data['df'], 
-                    x="DateTime_frmt", 
-                    y=['tick', 'sema','slema', 'lema'], 
-                    # y=['tick', 'sema', 'lema'], 
-                    color_discrete_sequence = ['grey', 'red', 'blue', 'black'],
-                    title='tick chart') 
 
-    data['marker_size'] = 15
-
-    if data['plot_transactions']:
-
-        fig.add_scatter(x = data['df']['DateTime_frmt'] , 
-                    y = data['df']['long_open'], 
-                    mode = 'markers', 
-                    name = 'long_open',
-                    marker_symbol = 'triangle-up',
-                    marker=dict(color='lightgreen',
-                                size=data['marker_size'],
-                                line=dict(
-                                    color='green',
-                                    width=2
-                                )),
-                    opacity=1)
-
-
-        fig.add_scatter(x = data['df']['DateTime_frmt'] , 
-                    y = data['df']['long_close'], 
-                    mode = 'markers', 
-                    name = 'long_close',
-                    marker_symbol = 'triangle-up',
-                    marker=dict(color='red',
-                                size=data['marker_size'],
-                                line=dict(
-                                    color='darkred',
-                                    width=2
-                                )),
-                    opacity=1)
-
-
-        fig.add_scatter(x = data['df']['DateTime_frmt'] , 
-                    y = data['df']['short_open'], 
-                    mode = 'markers', 
-                    name = 'short_open',
-                    marker_symbol = 'triangle-down',
-                    marker=dict(color='lightgreen',
-                                size=data['marker_size'],
-                                line=dict(
-                                    color='green',
-                                    width=2
-                                )),
-                    opacity=1)
-
-
-        fig.add_scatter(x = data['df']['DateTime_frmt'] , 
-                    y = data['df']['short_close'], 
-                    mode = 'markers', 
-                    name = 'short_close',
-                    marker_symbol = 'triangle-down',
-                    marker=dict(color='red',
-                                size=data['marker_size'],
-                                line=dict(
-                                    color='darkred',
-                                    width=2
-                                )),
-                    opacity=1)
-
-
-    # for i in np.arange(len(data['dup_removed_sup_res'])):
-    #     fig.add_hline(y = data['dup_removed_sup_res'][i], line_width=1, line_dash="dot", line_color="darkred")  
-
-    for i in np.arange(len(data['dup_removed_sup_res'])):
-        fig.add_shape(type = 'line', x0 = data['df']['DateTime_frmt'][0], x1 = data['sup_res_datetime'][i], y0 = data['dup_removed_sup_res'][i], y1 = data['dup_removed_sup_res'][i], line_width=1, line_dash="dot", line_color="darkred")  
-
-
-    # fig.update_layout(paper_bgcolor="white", plot_bgcolor="white")
-
-    fig.show()
-
-
-    # try:
-    #     data['chart_name'] = f'{data["file_name"].split(".")[0]}.png'
-    #     fig.savefig(data['chart_name'])
-    # except:        
-    #     fig.savefig('temp.png')
-#...............................................................................................
-
-
-#...............................................................................................
-def plot_graph(data):
-    fig = px.line(data['df'], 
-                    x = data['df'].index, 
-                    # y=['tick', 'sema','slema', 'lema'], 
-                    y=['tick', 'sema', 'lema'], 
-                    # y = ['tick'], 
-                    color_discrete_sequence = ['grey', 'red', 'blue', 'black'],
-                    title='tick chart') 
-
-    data['marker_size'] = 10
-
-    fig.add_scatter(x = data['df'].index, 
-                    y = data['df']['h'], 
-                    mode = 'markers', 
-                    name = 'high',
-                    marker_symbol = 'circle',
-                    marker=dict(color='red',
-                                size=data['marker_size'],
-                                line=dict(
-                                    color='black',
-                                    width=2
-                                )),
-                    opacity=1)
-
-    fig.add_scatter(x = data['df'].index, 
-                    y = data['df']['l'], 
-                    mode = 'markers', 
-                    name = 'low',
-                    marker_symbol = 'circle',
-                    marker=dict(color='blue',
-                                size=data['marker_size'],
-                                line=dict(
-                                    color='black',
-                                    width=2
-                                )),
-                    opacity=1)
-
-    fig.show()
-
-#...............................................................................................
 #...............................................................................................
 def plot_graph(data):
 
@@ -356,6 +231,46 @@ def plot_graph(data):
 
 #...............................................................................................
 
+#...............................................................................................
+def plot_graph(data):
+    # Plot Layout --------------------------------
+    layout = go.Layout(title="Trade Chart",
+                    xaxis=XAxis(title="DateTime"),
+                    xaxis2 = XAxis(overlaying= 'x', 
+                                    title = {'text': "sno"},
+                                    side= 'top'))
+
+    fig = go.Figure(layout=layout)
+    # --------------------------------
+
+
+    # Tick  --------------------------------
+    fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
+                            y=data['df']['tick'],
+                            mode='lines',
+                            name='tick',
+                            line=dict(color='lightgrey', width=2),
+                        )
+                )
+
+    fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
+                            y=data['df']['sema'],
+                            mode='lines',
+                            name='sema',
+                            line=dict(color='burlywood', width=2),
+                        )
+                )    
+
+    fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
+                        y=data['df']['lema'],
+                        mode='lines',
+                        name='lema',
+                        line=dict(color='burlywood', width=2),
+                    )
+            )                                                
+    # --------------------------------
+    fig.show()
+#...............................................................................................
 
 #...............................................................................................
 def get_date_lines(data):

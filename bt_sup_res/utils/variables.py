@@ -135,7 +135,7 @@ data['end_date']   = {'year':2021, 'month':1, 'date':5}
 # data['direction'] = 'reverse'
 data['direction'] = 'straight'
 
-data["plot"] = False
+data["plot"] = True
 data['marker_size'] = 5
 
 data['take_profit_flag'] = False

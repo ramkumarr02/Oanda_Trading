@@ -124,7 +124,7 @@ def get_tick_time(data):
     data['df']['tick']      = (data["df"]['Ask'] + data["df"]['Bid'])/2
     data['df']['DateTime_frmt']   = [dt.datetime.strptime(x,"%Y%m%d %H:%M:%S.%f") for x in data["df"]['DateTime']]
     # data['df']['DateTime_frmt']   = [dt.datetime.strptime(x.split(".")[0],"%Y%m%d %H:%M:%S") for x in data["df"]['DateTime']]
-    data['df'] = data['df'].set_index('DateTime_frmt')
+    # data['df'] = data['df'].set_index('DateTime_frmt')
     return(data)
 
 #...............................................................................................    
