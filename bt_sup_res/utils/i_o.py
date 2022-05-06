@@ -18,10 +18,10 @@ def read_data(data):
     data['df']['DateTime_frmt'] = np.nan
     del data['df']['Volume']
     data["df"]['sema'] = np.nan
-    data["df"]['slema'] = np.nan
     data["df"]['lema'] = np.nan
 
     # data['df']['i'] = np.int()
+    # data["df"]['slema'] = np.nan
     # data['df']['long_open'] = ''
     # data['df']['long_close'] = ''
     # data['df']['short_open'] = ''
@@ -265,7 +265,7 @@ def plot_graph(data):
                         y=data['df']['lema'],
                         mode='lines',
                         name='lema',
-                        line=dict(color='burlywood', width=2),
+                        line=dict(color='cyan', width=2),
                     )
             )                                                
     # --------------------------------

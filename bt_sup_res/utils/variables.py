@@ -117,7 +117,7 @@ data['pl_loss_trail_size']          = 0.75
 
 data['sema_len']    = 60
 data['slema_len']   = 400
-data['lema_len']    = 6000
+data['lema_len']    = 1200
 
 data['angle_len']       = 100
 
