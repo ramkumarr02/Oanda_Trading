@@ -4,8 +4,8 @@ from utils.packages import *
 #...............................................................................................
 def get_position(data):
 
-    data['short'] = data['sema']
-    data['long'] = data['lema']
+    # data['short'] = data['sema']
+    # data['long'] = data['lema']
 
     if data['sema'] == data['lema']:
         data['position'] = 0
@@ -15,6 +15,9 @@ def get_position(data):
 
     elif data['lema'] - data['sema'] >= 0.00001:
         data['position'] = -1
+
+    if data["plot"]:
+        data["df"]['lema'][data['i']] = data['lema']
     
     return(data)
 #...............................................................................................
