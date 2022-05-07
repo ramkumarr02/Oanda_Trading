@@ -4,9 +4,6 @@ from utils.packages import *
 #...............................................................................................
 def get_position(data):
 
-    # data['short'] = data['sema']
-    # data['long'] = data['lema']
-
     if data['sema'] == data['lema']:
         data['position'] = 0
 
@@ -17,7 +14,7 @@ def get_position(data):
         data['position'] = -1
 
     if data["plot"]:
-        data["df"]['lema'][data['i']] = data['lema']
+        data["df"]['position'][data['i']] = data['position']
     
     return(data)
 #...............................................................................................
@@ -31,77 +28,23 @@ def get_cross_dir(data):
     data['pos_1'] = data['dir_list'][0]
     data['pos_2'] = data['dir_list'][1]
 
-    data = dir_switch_check(data)
+    if data['pos_1'] != data['pos_2'] and data['pos_2'] == -1:
+        data['dir_change'] = True    
+        data['to_order'] = 'short'
+
+    elif data['pos_1'] != data['pos_2'] and data['pos_2'] == 1:
+        data['dir_change'] = True    
+        data['to_order'] = 'long'   
+        
+    else:
+        data['dir_change'] = False
+        data['to_order'] = ''
+
+    data["df"]['to_order'][data['i']] = data['to_order']
 
     return(data)    
 #................................................................................................
 
-def dir_switch_check(data):
-
-    if data['direction'] == 'straight':
-        if data['pos_1'] != data['pos_2'] and data['pos_2'] == -1:
-            data['dir_change'] = True    
-            data['to_order'] = 'short'
-
-        elif data['pos_1'] != data['pos_2'] and data['pos_2'] == 1:
-            data['dir_change'] = True    
-            data['to_order'] = 'long'   
-        
-        else:
-            data['dir_change'] = False
-            data['to_order'] = None
-            data['sema_close_flag'] = False        
-
-    #-------------------------
-
-    if data['direction'] == 'reverse':
-        if not data['open_order']:
-            if data['pos_1'] != data['pos_2'] and data['pos_2'] == 1:
-                data['dir_change'] = True    
-                data['to_order'] = 'short'
-
-            elif data['pos_1'] != data['pos_2'] and data['pos_2'] == -1:
-                data['dir_change'] = True    
-                data['to_order'] = 'long'   
-            
-            else:
-                data['dir_change'] = False
-                data['to_order'] = None
-                data['sema_close_flag'] = False        
-
-
-        if data['open_order']:
-            if data['open_order_type'] == 'long':
-                if data['pos_1'] != data['pos_2'] and data['pos_2'] == 1:
-                    data['dir_change'] = True    
-                    data['to_order'] = 'long'
-
-                elif data['pos_1'] != data['pos_2'] and data['pos_2'] == -1:
-                    data['dir_change'] = True    
-                    data['to_order'] = 'short'   
-                    
-                else:
-                    data['dir_change'] = False
-                    data['to_order'] = None
-                    data['sema_close_flag'] = False
-            
-            if data['open_order_type'] == 'short':    
-                if data['pos_1'] != data['pos_2'] and data['pos_2'] == 1:
-                    data['dir_change'] = True    
-                    data['to_order'] = 'long'
-
-                elif data['pos_1'] != data['pos_2'] and data['pos_2'] == -1:
-                    data['dir_change'] = True    
-                    data['to_order'] = 'short'   
-                    
-                else:
-                    data['dir_change'] = False
-                    data['to_order'] = None
-                    data['sema_close_flag'] = False
-
-    return(data)    
-
-#...............................................................................................
 
 #...............................................................................................
 
@@ -137,6 +80,9 @@ def get_ohlc(data):
     data['df']['h'] = np.nan
     data['df']['l'] = np.nan
     data['df']['c'] = np.nan    
+
+    data['df']['old_index'] = data['df'].index
+    data['df'] = data['df'].set_index('DateTime_frmt', drop = False)
     
     data['rolled_index'] = data['df'].resample(data['candle_size']).tick.first().index
 

@@ -19,8 +19,12 @@ def read_data(data):
     del data['df']['Volume']
     data["df"]['sema'] = np.nan
     data["df"]['lema'] = np.nan
+    data["df"]['position'] = np.nan
+    data["df"]['to_order'] = ''
 
-    # data['df']['i'] = np.int()
+    data['df']['h'] = np.nan
+    data['df']['l'] = np.nan
+
     # data["df"]['slema'] = np.nan
     # data['df']['long_open'] = ''
     # data['df']['long_close'] = ''
@@ -269,6 +273,36 @@ def plot_graph(data):
                     )
             )                                                
     # --------------------------------
+
+    # Tip points --------------------------------
+    if data['plot_tip_points']:
+        fig.add_scatter(x = data['df']['DateTime_frmt'], 
+                    y = data['df']['h'], 
+                    mode = 'markers', 
+                    name = 'high',
+                    marker_symbol = 'circle',
+                    marker=dict(color='red',
+                                size=data['marker_size'],
+                                line=dict(
+                                    color='black',
+                                    width=2
+                                )),
+                    opacity=1)
+
+        fig.add_scatter(x = data['df']['DateTime_frmt'], 
+                    y = data['df']['l'], 
+                    mode = 'markers', 
+                    name = 'low',
+                    marker_symbol = 'circle',
+                    marker=dict(color='blue',
+                                size=data['marker_size'],
+                                line=dict(
+                                    color='black',
+                                    width=2
+                                )),
+                    opacity=1)
+    #  --------------------------------
+
     fig.show()
 #...............................................................................................
 
