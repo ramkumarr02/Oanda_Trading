@@ -113,6 +113,22 @@ def get_ohlc(data):
 
 #...............................................................................................    
 
+
+def get_ohlc(data):
+
+    if data['i'] % data['candle_size'] == 0 and data['i'] > 0:        
+        data['tick_list'] = data['df']['tick'].loc[data['i'] - data['candle_size'] : data['i']]
+        max_index = data['tick_list'].idxmax()
+        min_index = data['tick_list'].idxmin()
+        data['df']['h'].loc[max_index] = max(data['tick_list'])
+        data['df']['l'].loc[min_index] = min(data['tick_list'])
+
+    return(data)
+
+#...............................................................................................    
+
+
+
 #...............................................................................................    
 def consolidate_points_to_bigger_switch_points(data):
     for switch_point in list(set(data['df']['switch_point'])):

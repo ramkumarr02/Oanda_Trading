@@ -24,6 +24,8 @@ def read_data(data):
 
     data['df']['h'] = np.nan
     data['df']['l'] = np.nan
+    data['df']['h_line'] = np.nan
+    data['df']['l_line'] = np.nan
 
     # data["df"]['slema'] = np.nan
     # data['df']['long_open'] = ''
@@ -239,7 +241,7 @@ def plot_graph(data):
 def plot_graph(data):
     # Plot Layout --------------------------------
     layout = go.Layout(title="Trade Chart",
-                    xaxis=XAxis(title="DateTime"),
+                    xaxis = XAxis(title="DateTime"),
                     xaxis2 = XAxis(overlaying= 'x', 
                                     title = {'text': "sno"},
                                     side= 'top'))
@@ -284,8 +286,8 @@ def plot_graph(data):
                     marker=dict(color='red',
                                 size=data['marker_size'],
                                 line=dict(
-                                    color='black',
-                                    width=2
+                                    color='crimson',
+                                    width=5
                                 )),
                     opacity=1)
 
@@ -297,12 +299,31 @@ def plot_graph(data):
                     marker=dict(color='blue',
                                 size=data['marker_size'],
                                 line=dict(
-                                    color='black',
-                                    width=2
+                                    color='darkblue',
+                                    width=5
                                 )),
                     opacity=1)
     #  --------------------------------
 
+    # Trend lines --------------------------------
+    if data['plot_trend_lines']:
+
+        fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
+                                y=data['df']['h_line'],
+                                mode='lines',
+                                name='high_line',
+                                line=dict(color='red', width=2, dash = 'dot'),                        
+                                )
+                    )
+
+        fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
+                                y=data['df']['l_line'],
+                                mode='lines',
+                                name='low_line',
+                                line=dict(color='blue', width=2, dash = 'dot'),                        
+                                )
+                    )
+    #  --------------------------------
     fig.show()
 #...............................................................................................
 
