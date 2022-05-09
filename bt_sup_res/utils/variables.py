@@ -140,7 +140,7 @@ data['marker_size'] = 5
 
 data['take_profit_flag'] = False
 
-data['input_rows'] = 130_000
+data['input_rows'] = 127_500
 data['sema_close_flag'] = False
 
 
@@ -148,8 +148,8 @@ data['df_bars'] = pd.DataFrame()
 data['df_bars']['support'] = ''
 data['df_bars']['resistance'] = ''
 
-data['candle_size'] = 120
-data['line_length'] = 1000
+data['candle_size'] = 300
+data['line_length'] = 2500
 data['min_line_points'] = 5
 data['fractal_one_side_bar_count'] = 2
 data['sup_res_touches'] = 2

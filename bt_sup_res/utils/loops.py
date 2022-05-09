@@ -271,7 +271,7 @@ def get_trend_lines(data):
 def get_trend_lines(data):
     line_types = ['h', 'l']
     for line_type in line_types:
-        line_index = data['df'][-data['line_length']:].index
+        line_index = data['df'][data['i']-data['line_length'] : data['i']].index
         temp_df = data['df'].loc[line_index]
         x = temp_df[line_type][temp_df[line_type].notnull()].index
         y = temp_df[line_type][temp_df[line_type].notnull()].values
