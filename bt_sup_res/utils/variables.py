@@ -140,7 +140,7 @@ data['marker_size'] = 5
 
 data['take_profit_flag'] = False
 
-data['input_rows'] = 127_500
+data['input_rows'] = 122000
 data['sema_close_flag'] = False
 
 
