@@ -136,11 +136,11 @@ data['end_date']   = {'year':2021, 'month':1, 'date':5}
 data['direction'] = 'straight'
 
 data["plot"] = True
-data['marker_size'] = 5
+data['marker_size'] = 1
 
 data['take_profit_flag'] = False
 
-data['input_rows'] = 122000
+data['input_rows'] = 122000 - 1000
 data['sema_close_flag'] = False
 
 
@@ -148,18 +148,12 @@ data['df_bars'] = pd.DataFrame()
 data['df_bars']['support'] = ''
 data['df_bars']['resistance'] = ''
 
-data['candle_size'] = 300
+data['candle_size'] = 400
 data['line_length'] = 2500
-data['min_line_points'] = 5
-data['fractal_one_side_bar_count'] = 2
-data['sup_res_touches'] = 2
-data['sup_res_last_ticks_window'] = 130_000
-
-data['num_lines'] = 3
+data['min_line_points'] = 3
 
 data['plot_transactions']   = False
 data['plot_tip_points']     = True
 data['plot_trend_lines']    = True
 
-data['min_points_for_line'] = 8
 #...............................................................................................

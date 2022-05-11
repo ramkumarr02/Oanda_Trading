@@ -75,44 +75,6 @@ def get_tick_time(data):
 
 #...............................................................................................    
 
-def get_ohlc(data):
-    data['df']['o'] = np.nan
-    data['df']['h'] = np.nan
-    data['df']['l'] = np.nan
-    data['df']['c'] = np.nan    
-
-    data['df']['old_index'] = data['df'].index
-    data['df'] = data['df'].set_index('DateTime_frmt', drop = False)
-    
-    data['rolled_index'] = data['df'].resample(data['candle_size']).tick.first().index
-
-    for i in np.arange(1,len(data['rolled_index'])):
-        
-        timestamp_val = data['df'].loc[data['rolled_index'][i-1]:data['rolled_index'][i]]['tick'].index[0]
-        tick_val      = data['df'].loc[data['rolled_index'][i-1]:data['rolled_index'][i]]['tick'].values[0]
-        data['df']['o'].loc[timestamp_val] = tick_val
-        
-        row_num       = np.argmax(data['df'].loc[data['rolled_index'][i-1]:data['rolled_index'][i]]['tick'])
-        timestamp_val = data['df'].loc[data['rolled_index'][i-1]:data['rolled_index'][i]]['tick'].index[row_num]
-        tick_val      = data['df'].loc[data['rolled_index'][i-1]:data['rolled_index'][i]]['tick'].values[row_num]
-        data['df']['h'].loc[timestamp_val] = tick_val
-        
-        row_num       = np.argmin(data['df'].loc[data['rolled_index'][i-1]:data['rolled_index'][i]]['tick'])
-        timestamp_val = data['df'].loc[data['rolled_index'][i-1]:data['rolled_index'][i]]['tick'].index[row_num]
-        tick_val      = data['df'].loc[data['rolled_index'][i-1]:data['rolled_index'][i]]['tick'].values[row_num]
-        data['df']['l'].loc[timestamp_val] = tick_val
-
-        timestamp_val = data['df'].loc[data['rolled_index'][i-1]:data['rolled_index'][i]]['tick'].index[-1]
-        tick_val      = data['df'].loc[data['rolled_index'][i-1]:data['rolled_index'][i]]['tick'].values[-1]
-        data['df']['c'].loc[timestamp_val] = tick_val        
-    
-    data['df'] = data['df'][['sno', 'i', 'DateTime','Ask', 'Bid', 'tick', 'sema', 'lema', 'slema', 'o', 'h', 'l', 'c', ]].round(6)
-    data['df_len'] = len(data["df"])
-
-    return(data)
-
-#...............................................................................................    
-
 
 def get_ohlc(data):
 
@@ -127,7 +89,20 @@ def get_ohlc(data):
 
 #...............................................................................................    
 
+#...............................................................................................    
+def get_trend_lines(data):
+    line_types = ['h', 'l']
+    for line_type in line_types:
+        line_index = data['df'][data['i']-data['line_length'] : data['i']].index
+        temp_df = data['df'].loc[line_index]
+        x = temp_df[line_type][temp_df[line_type].notnull()].index
+        y = temp_df[line_type][temp_df[line_type].notnull()].values
+        if len(x) > data['min_line_points']:
+            slope_tick, intercept, _, _, _ = linregress(x, y)
+            data['df'][f'{line_type}_line'].loc[line_index] = (slope_tick * line_index) + intercept
+    return(data)
 
+#...............................................................................................     
 
 #...............................................................................................    
 def consolidate_points_to_bigger_switch_points(data):
