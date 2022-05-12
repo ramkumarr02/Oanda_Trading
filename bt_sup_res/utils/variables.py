@@ -72,7 +72,6 @@ data['stop_loss_pip'] = 0.0010
 # data["input_file_name"] = 'eurusd_2021'
 # data['min_order_angle'] = 20
 data['position'] = None
-data['pip_decimal_num'] = 6
 data['test_val'] = []
 
 data["product"] = 'eurusd'
@@ -115,8 +114,9 @@ data['pl_move_trail_ratio']         = 0.75
 data['pl_loss_trail_trigger']       = -0.0040
 data['pl_loss_trail_size']          = 0.75
 
+# data['slema_len']   = 600
+
 data['sema_len']    = 60
-data['slema_len']   = 400
 data['lema_len']    = 1200
 
 data['angle_len']       = 100
@@ -140,7 +140,9 @@ data['marker_size'] = 1
 
 data['take_profit_flag'] = False
 
-data['input_rows'] = 122000 - 1000
+# data['input_rows'] = 122000
+data['input_rows'] = 1_000_000
+
 data['sema_close_flag'] = False
 
 
@@ -148,12 +150,13 @@ data['df_bars'] = pd.DataFrame()
 data['df_bars']['support'] = ''
 data['df_bars']['resistance'] = ''
 
-data['candle_size'] = 400
-data['line_length'] = 2500
+data['candle_size'] = 300
+data['line_length'] = 2400
 data['min_line_points'] = 3
+data['pip_decimal_num'] = 4
 
 data['plot_transactions']   = False
 data['plot_tip_points']     = True
 data['plot_trend_lines']    = True
-
+data['plot_angle_line']     = True
 #...............................................................................................

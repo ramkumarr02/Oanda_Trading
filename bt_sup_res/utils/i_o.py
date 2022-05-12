@@ -20,7 +20,10 @@ def read_data(data):
     data["df"]['sema'] = np.nan
     data["df"]['lema'] = np.nan
     data["df"]['position'] = np.nan
-    data["df"]['to_order'] = ''
+    data["df"]['to_order'] = np.nan
+    data["df"]['h_line_angle'] = np.nan
+    data["df"]['l_line_angle'] = np.nan
+    
 
     data['df']['h'] = np.nan
     data['df']['l'] = np.nan
@@ -115,12 +118,15 @@ def print_report(data):
 def plot_graph(data):
     # Plot Layout --------------------------------
     layout = go.Layout(title="Trade Chart",
-                    xaxis = XAxis(title="DateTime"),
-                    xaxis2 = XAxis(overlaying= 'x', 
-                                    title = {'text': "sno"},
-                                    side= 'top'))
+                       xaxis = dict(title="DateTime"),
+                       xaxis2 = dict(title= 'x', side= 'top'),
+                       
+                       yaxis = dict(title="PIP"),
+                       yaxis2 = dict(title= 'Trend Angle', overlaying="y", side="right",)
+                      )
+    
 
-    fig = go.Figure(layout=layout)
+    fig = go.Figure(layout = layout)
     # --------------------------------
 
 
@@ -198,6 +204,30 @@ def plot_graph(data):
                                 )
                     )
     #  --------------------------------
+
+    # Angle line --------------------------------
+    if data['plot_angle_line']:
+        fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
+                                y=data['df']['h_line_angle'],
+                                mode='lines',
+                                name='high_line_angle',
+                                line=dict(color='grey', width=1, dash = 'dot'),yaxis='y2'),
+                    )
+
+        fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
+                            y=data['df']['l_line_angle'],
+                            mode='lines',
+                            name='low_line_angle',
+                            line=dict(color='cadetblue', width=1, dash = 'dot'),yaxis='y2'),
+                )
+
+    fig.update_layout(legend=dict(orientation="h",
+                                  yanchor="bottom",
+                                  y=1.02,
+                                  xanchor="right",
+                                  x=1
+                                 ))
+    
     fig.show()
 #...............................................................................................
 
