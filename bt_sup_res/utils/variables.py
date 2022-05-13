@@ -154,8 +154,8 @@ data['input_rows'] = 125000 - 4000 - 500
 
 data['sema_len']    = 300
 data['lema_len']    = 1200
-data['candle_size'] = 300
-data['line_length'] = 1200
+data['candle_size'] = 150
+data['line_length'] = 900
 data['min_line_points'] = 3
 data['pip_decimal_num'] = 3
 data['trend_angle']     = 10
