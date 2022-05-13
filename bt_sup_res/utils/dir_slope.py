@@ -117,22 +117,31 @@ def get_trend_lines(data):
     for line_type in line_types:
         line_index = data['df'][data['i']-data['line_length']+1 : data['i']+1].index
         temp_df = data['df'].loc[line_index]
-        x = temp_df[line_type][temp_df[line_type].notnull()].index
+
         y = temp_df[line_type][temp_df[line_type].notnull()].values 
+        x = temp_df[line_type][temp_df[line_type].notnull()].index
+
+        # x = []
+        # y_len = len(y)
+        # for i in range(y_len):
+        #     x.append(1 + ((i+1) * 10**(-data['pip_decimal_num'])))
+
         if len(x) > data['min_line_points']:
+            # print("----------------------------------------------")
+            # print(x)
+            x = (x - (x[0] - 1)) * 10**(-data['pip_decimal_num'])
+            # print(x)
             slope_tick, intercept, _, _, _ = linregress(x, y)
             data['slope_tick_available'] = True
         
         if data['slope_tick_available']:
-            data['df'][f'{line_type}_line'][data['i']] = (slope_tick * data['i']) + intercept
-
-            # x_axis = []
-            # y_len = len(y)
-            # for i in range(y_len):
-            #     x_axis.append(1 + ((i+1) * 10**(-data['pip_decimal_num'])))
+            new_x = (data['i']- (x[0] - 1)) * 10**(-data['pip_decimal_num'])
+            # print(new_x)
+            data['df'][f'{line_type}_line'][data['i']] = (slope_tick * new_x) + intercept    
             
+            # print(x,y, data['i'])
             # slope_tick, intercept, _, _, _ = linregress(x_axis, y)
-            # data['df'][f'{line_type}_line_angle'].loc[line_index] = math.degrees(math.atan(slope_tick)) 
+            data['df'][f'{line_type}_line_angle'][data['i']] = math.degrees(math.atan(slope_tick)) 
             
     return(data)
 

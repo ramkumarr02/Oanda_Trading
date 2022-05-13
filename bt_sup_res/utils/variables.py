@@ -156,7 +156,7 @@ data['lema_len']    = 1200
 data['candle_size'] = 300
 data['line_length'] = 2400
 data['min_line_points'] = 3
-data['pip_decimal_num'] = 4
+data['pip_decimal_num'] = 3
 data['trend_angle']     = 10
 
 data['slope_tick_available'] =  False
