@@ -140,8 +140,8 @@ data['marker_size'] = 1
 
 data['take_profit_flag'] = False
 
-# data['input_rows'] = 122000
-data['input_rows'] = 1_000_000
+data['input_rows'] = 122000
+# data['input_rows'] = 1_000_000
 
 data['sema_close_flag'] = False
 
@@ -159,4 +159,8 @@ data['plot_transactions']   = False
 data['plot_tip_points']     = True
 data['plot_trend_lines']    = True
 data['plot_angle_line']     = True
+
+data['plot_type'] = 'file'
+data['chrome_path'] = "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s"
+data['chart_file_path'] = (f'{os.getcwd()}\\data\\chart.html')
 #...............................................................................................

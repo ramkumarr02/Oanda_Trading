@@ -228,7 +228,11 @@ def plot_graph(data):
                                   x=1
                                  ))
     
-    fig.show()
+    if data['plot_type'] == 'file':
+        fig.write_html(data['chart_file_path'])
+        webbrowser.get(data['chrome_path']).open(data['chart_file_path'])
+    elif data['plot_type'] == 'show':
+        fig.show()
 #...............................................................................................
 
 #...............................................................................................

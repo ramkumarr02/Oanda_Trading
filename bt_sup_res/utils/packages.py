@@ -25,6 +25,8 @@ from matplotlib.pyplot import figure
 from tqdm import tqdm
 tqdm.pandas()
 
+import webbrowser
+
 import warnings
 warnings.filterwarnings('ignore')
 #...............................................................................................
