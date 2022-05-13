@@ -20,9 +20,11 @@ def read_data(data):
     data["df"]['sema'] = np.nan
     data["df"]['lema'] = np.nan
     data["df"]['position'] = np.nan
+    data["df"]['direction'] = np.nan
     data["df"]['to_order'] = np.nan
     data["df"]['h_line_angle'] = np.nan
     data["df"]['l_line_angle'] = np.nan
+    data["df"]['trend_angle'] = np.nan
     
 
     data['df']['h'] = np.nan

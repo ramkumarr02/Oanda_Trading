@@ -109,6 +109,7 @@ data['pl_close_angle'] = 15
 
 data['dir_change'] = False
 data['to_order'] = None
+data['direction'] = None
 
 data['pl_move_trail_ratio']         = 0.75
 data['pl_loss_trail_trigger']       = -0.0040
@@ -116,8 +117,6 @@ data['pl_loss_trail_size']          = 0.75
 
 # data['slema_len']   = 600
 
-data['sema_len']    = 60
-data['lema_len']    = 1200
 
 data['angle_len']       = 100
 
@@ -129,8 +128,6 @@ data['min_llema_angle'] = 0
 data['take_profit_method']  = 'simple'
 data['stop_loss_method']    = 'simple'
 
-data['start_date'] = {'year':2021, 'month':1, 'date':5}
-data['end_date']   = {'year':2021, 'month':1, 'date':5}
 
 # data['direction'] = 'reverse'
 data['direction'] = 'straight'
@@ -140,8 +137,6 @@ data['marker_size'] = 1
 
 data['take_profit_flag'] = False
 
-data['input_rows'] = 122000
-# data['input_rows'] = 1_000_000
 
 data['sema_close_flag'] = False
 
@@ -150,10 +145,21 @@ data['df_bars'] = pd.DataFrame()
 data['df_bars']['support'] = ''
 data['df_bars']['resistance'] = ''
 
+data['start_date'] = {'year':2021, 'month':1, 'date':5}
+data['end_date']   = {'year':2021, 'month':1, 'date':5}
+
+data['input_rows'] = 125000 - 4000
+# data['input_rows'] = 1_000_000
+
+data['sema_len']    = 300
+data['lema_len']    = 1200
 data['candle_size'] = 300
 data['line_length'] = 2400
 data['min_line_points'] = 3
 data['pip_decimal_num'] = 4
+data['trend_angle']     = 10
+
+data['slope_tick_available'] =  False
 
 data['plot_transactions']   = False
 data['plot_tip_points']     = True

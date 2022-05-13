@@ -5,13 +5,13 @@ from utils.packages import *
 def get_position(data):
 
     if data['sema'] == data['lema']:
-        data['position'] = 0
+        data['position'] = 'same'
 
     elif data['sema'] - data['lema'] >= 0.00001:
-        data['position'] = 1
+        data['position'] = 'up'
 
     elif data['lema'] - data['sema'] >= 0.00001:
-        data['position'] = -1
+        data['position'] = 'down'
 
     if data["plot"]:
         data["df"]['position'][data['i']] = data['position']
@@ -28,25 +28,22 @@ def get_cross_dir(data):
     data['pos_1'] = data['dir_list'][0]
     data['pos_2'] = data['dir_list'][1]
 
-    if data['pos_1'] != data['pos_2'] and data['pos_2'] == -1:
+    if data['pos_1'] != data['pos_2'] and data['pos_2'] == 'down':
         data['dir_change'] = True    
-        data['to_order'] = 'short'
+        data['direction'] = 'crossing_down'
 
-    elif data['pos_1'] != data['pos_2'] and data['pos_2'] == 1:
+    elif data['pos_1'] != data['pos_2'] and data['pos_2'] == 'up':
         data['dir_change'] = True    
-        data['to_order'] = 'long'   
+        data['direction'] = 'crossing_up'   
         
     else:
         data['dir_change'] = False
-        data['to_order'] = ''
+        data['direction'] = ''
 
-    data["df"]['to_order'][data['i']] = data['to_order']
+    data["df"]['direction'][data['i']] = data['direction']
 
     return(data)    
 #................................................................................................
-
-
-#...............................................................................................
 
 def get_slope(data):
     
@@ -93,7 +90,7 @@ def get_ohlc(data):
 def get_trend_lines(data):
     line_types = ['h', 'l']
     for line_type in line_types:
-        line_index = data['df'][data['i']-data['line_length'] : data['i']].index
+        line_index = data['df'][data['i']-data['line_length']+1 : data['i']+1].index
         temp_df = data['df'].loc[line_index]
         x = temp_df[line_type][temp_df[line_type].notnull()].index
         y = temp_df[line_type][temp_df[line_type].notnull()].values 
@@ -115,56 +112,41 @@ def get_trend_lines(data):
 #...............................................................................................     
 
 #...............................................................................................    
-def consolidate_points_to_bigger_switch_points(data):
-    for switch_point in list(set(data['df']['switch_point'])):
-
-        temp = data['df'][data['df']['switch_point'] == switch_point]
-        high_points_num = len(set(temp['h'][temp['h'].notnull()]))
-        low_points_num = len(set(temp['l'][temp['l'].notnull()]))
-        tot_points_num = high_points_num + low_points_num
-
-        print(f'switch_point    : {switch_point}')
-        print(f'high_points_num : {high_points_num}')
-        print(f'low_points_num  : {low_points_num}')
-        print(f'tot_points_num  : {tot_points_num}')
-        print('-----------------------------------------')
+def get_trend_lines(data):
+    line_types = ['h', 'l']
+    for line_type in line_types:
+        line_index = data['df'][data['i']-data['line_length']+1 : data['i']+1].index
+        temp_df = data['df'].loc[line_index]
+        x = temp_df[line_type][temp_df[line_type].notnull()].index
+        y = temp_df[line_type][temp_df[line_type].notnull()].values 
+        if len(x) > data['min_line_points']:
+            slope_tick, intercept, _, _, _ = linregress(x, y)
+            data['slope_tick_available'] = True
         
+        if data['slope_tick_available']:
+            data['df'][f'{line_type}_line'][data['i']] = (slope_tick * data['i']) + intercept
 
-        if tot_points_num < data['min_points_for_line']:
-            data['df']['switch_point'][data['df']['switch_point'] == switch_point] = switch_point + 1
+            # x_axis = []
+            # y_len = len(y)
+            # for i in range(y_len):
+            #     x_axis.append(1 + ((i+1) * 10**(-data['pip_decimal_num'])))
+            
+            # slope_tick, intercept, _, _, _ = linregress(x_axis, y)
+            # data['df'][f'{line_type}_line_angle'].loc[line_index] = math.degrees(math.atan(slope_tick)) 
+            
+    return(data)
 
+#............................................................................................... 
+
+#...............................................................................................     
+def trend_angle_check(data):
+
+    if data["df"]['h_line_angle'][data['i']] >= data['trend_angle'] and data["df"]['l_line_angle'][data['i']] >= data['trend_angle']:
+        data["df"]['trend_angle'][data['i']] = 'up'
+
+    elif data["df"]['h_line_angle'][data['i']] <= -data['trend_angle'] and data["df"]['l_line_angle'][data['i']] <= -data['trend_angle']:
+        data["df"]['trend_angle'][data['i']] = 'down'
     
     return(data)
-#...............................................................................................    
 
-#...............................................................................................    
-def consolidate_points_to_bigger_switch_points(data):
-    switch_point_list = list(set(data['df']['switch_point']))
-    switch_points_no = len(switch_point_list)
-    print(f'switch_point_list : {switch_point_list}')
-    print(f'switch_points_no : {switch_points_no}')
-
-    for i in np.arange(switch_points_no):
-        print(switch_point_list[i])
-
-        temp = data['df'][data['df']['switch_point'] == switch_point_list[i]]
-        high_points_num = len(set(temp['h'][temp['h'].notnull()]))
-        low_points_num = len(set(temp['l'][temp['l'].notnull()]))
-        tot_points_num = high_points_num + low_points_num
-
-        print(f'switch_point    : {switch_point_list[i]}')
-        print(f'high_points_num : {high_points_num}')
-        print(f'low_points_num  : {low_points_num}')
-        print(f'tot_points_num  : {tot_points_num}')
-        print('-----------------------------------------')
-        
-
-        if tot_points_num < data['min_points_for_line'] and i != switch_points_no - 1:
-            data['df']['switch_point'][data['df']['switch_point'] == switch_point_list[i]] = switch_point_list[i+1]
-
-        if tot_points_num < data['min_points_for_line'] and i == switch_points_no - 1:
-            data['df']['switch_point'][data['df']['switch_point'] == switch_point_list[i]] = switch_point_list[i-1]
-
-        
-    return(data)
-#...............................................................................................  
+#...............................................................................................
