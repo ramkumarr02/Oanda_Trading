@@ -87,38 +87,36 @@ def get_ohlc(data):
 #...............................................................................................    
 
 #...............................................................................................    
-def get_trend_lines(data):
-    line_types = ['h', 'l']
-    for line_type in line_types:
-        line_index = data['df'][data['i']-data['line_length']+1 : data['i']+1].index
-        temp_df = data['df'].loc[line_index]
-        x = temp_df[line_type][temp_df[line_type].notnull()].index
-        y = temp_df[line_type][temp_df[line_type].notnull()].values 
-        if len(x) > data['min_line_points']:
-            # print(x,y)
-            slope_tick, intercept, _, _, _ = linregress(x, y)
-            data['df'][f'{line_type}_line'].loc[line_index] = (slope_tick * line_index) + intercept
+def get_trend_lines_back_line(data):
+    line_types      = ['h', 'l']
     
-            x_axis = []
-            y_len = len(y)
-            for i in range(y_len):
-                x_axis.append(1 + ((i+1) * 10**(-data['pip_decimal_num'])))
-            
-            slope_tick, intercept, _, _, _ = linregress(x_axis, y)
-            data['df'][f'{line_type}_line_angle'].loc[line_index] = math.degrees(math.atan(slope_tick)) 
+    for line_type in line_types:
+        line_var        = f'{line_type}_line'
+        angle_var       = f'{line_type}_line_angle'
+        line_index  = data['df'][data['i']-data['line_length']+1 : data['i']+1].index
+        temp_df     = data['df'].loc[line_index]
+        x           = temp_df[line_type][temp_df[line_type].notnull()].index
+        y           = temp_df[line_type][temp_df[line_type].notnull()].values 
+
+        if len(x) > data['min_line_points']:
+            slope_tick, intercept, _, _, _                  = linregress(x, y)
+            data['df'][line_var].loc[line_index]            = (slope_tick * line_index) + intercept
+            data['df'][angle_var].loc[line_index]           = math.degrees(math.atan(slope_tick)) * 10**6
+            # data["df"]['trend_calc_spot'].loc[data['i']]    = data['df'][line_var].loc[data['i']]
             
     return(data)
 
 #...............................................................................................     
 
 #...............................................................................................    
-def get_trend_lines(data):
+def get_trend_lines_moving(data):
     line_types = ['h', 'l']
     for line_type in line_types:
         slope_var       = f'{line_type}_slope_tick'
         intercept_var   = f'{line_type}_intercept'
         line_var        = f'{line_type}_line'
         angle_var       = f'{line_type}_line_angle'
+        avail_var       = f'{line_type}_slope_available'
 
         line_index      = data['df'][data['i']-data['line_length']+1 : data['i']+1].index
         temp_df         = data['df'].loc[line_index]
@@ -129,9 +127,9 @@ def get_trend_lines(data):
 
         if len(x) > data['min_line_points']:
             data[slope_var], data[intercept_var], _, _, _ = linregress(x, y)
-            data['slope_tick_available'] = True
+            data[avail_var] = True
         
-        if data['slope_tick_available']:
+        if data[avail_var]:
             data['df'][line_var][data['i']] = (data[slope_var] * data['i']) + data[intercept_var]    
             data['df'][angle_var][data['i']] = math.degrees(math.atan(data[slope_var])) * 10**6
             

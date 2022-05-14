@@ -25,7 +25,8 @@ def read_data(data):
     data["df"]['h_line_angle'] = np.nan
     data["df"]['l_line_angle'] = np.nan
     data["df"]['trend_angle'] = np.nan
-    
+    data["df"]['trend_calc_spot'] = np.nan
+
 
     data['df']['h'] = np.nan
     data['df']['l'] = np.nan
@@ -119,7 +120,8 @@ def print_report(data):
 #...............................................................................................
 def plot_graph(data):
     # Plot Layout --------------------------------
-    layout = go.Layout(title="Trade Chart",
+    chart_name = f"Trade Chart   --   sema-lema:{data['sema_len']}-{data['lema_len']},   candle_size:{data['candle_size']},   line_line:{data['line_length']},   min_pts:{data['min_line_points']}"
+    layout = go.Layout(title = chart_name,
                        xaxis = dict(title="DateTime"),
                        xaxis2 = dict(title= 'x', side= 'top'),
                        
@@ -186,6 +188,21 @@ def plot_graph(data):
                                 )),
                     opacity=1)
     #  --------------------------------
+    # #  --------------------------------
+    #     fig.add_scatter(x = data['df']['DateTime_frmt'], 
+    #                 y = data['df']['trend_calc_spot'], 
+    #                 mode = 'markers', 
+    #                 name = 'start points',
+    #                 marker_symbol = 'circle',
+    #                 marker=dict(color='blue',
+    #                             size=data['marker_size'],
+    #                             line=dict(
+    #                                 color='black',
+    #                                 width=2
+    #                             )),
+    #                 opacity=1)
+    # #  --------------------------------
+
 
     # Trend lines --------------------------------
     if data['plot_trend_lines']:
