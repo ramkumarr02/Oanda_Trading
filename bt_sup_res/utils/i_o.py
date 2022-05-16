@@ -31,9 +31,9 @@ def read_data(data):
 
     data['df']['h'] = np.nan
     data['df']['l'] = np.nan
-    data['df']['h_line'] = np.nan
-    data['df']['l_line'] = np.nan
-
+    
+    # data['df']['h_line'] = np.nan
+    # data['df']['l_line'] = np.nan
     # data["df"]['slema'] = np.nan
     # data['df']['long_open'] = ''
     # data['df']['long_close'] = ''
@@ -217,9 +217,9 @@ def plot_graph(data):
         fig.add_scatter(x = data['df']['DateTime_frmt'], 
                     y = data['df']['h_trend_calc_spot'], 
                     mode = 'markers', 
-                    name = 'start points',
+                    name = 'Resistance',
                     marker_symbol = 'circle',
-                    marker=dict(color='blue',
+                    marker=dict(color='red',
                                 size=data['marker_size'],
                                 line=dict(
                                     color='red',
@@ -230,7 +230,7 @@ def plot_graph(data):
         fig.add_scatter(x = data['df']['DateTime_frmt'], 
                     y = data['df']['l_trend_calc_spot'], 
                     mode = 'markers', 
-                    name = 'start points',
+                    name = 'Support',
                     marker_symbol = 'circle',
                     marker=dict(color='blue',
                                 size=data['marker_size'],
@@ -248,15 +248,15 @@ def plot_graph(data):
         fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
                                 y=data['df']['h_line_angle'],
                                 mode='lines',
-                                name='high_line_angle',
-                                line=dict(color='grey', width=1, dash = 'dot'),yaxis='y2'),
+                                name='Resistance_angle',
+                                line=dict(color='red', width=1, dash = 'dot'),yaxis='y2'),
                     )
 
         fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
                             y=data['df']['l_line_angle'],
                             mode='lines',
-                            name='low_line_angle',
-                            line=dict(color='cadetblue', width=1, dash = 'dot'),yaxis='y2'),
+                            name='Support_angle',
+                            line=dict(color='blue', width=1, dash = 'dot'),yaxis='y2'),
                 )
 
     fig.update_layout(legend=dict(orientation="h",
@@ -272,6 +272,7 @@ def plot_graph(data):
     elif data['plot_type'] == 'show':
         fig.show()
 #...............................................................................................
+
 
 
 #...............................................................................................

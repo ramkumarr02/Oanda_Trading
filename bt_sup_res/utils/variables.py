@@ -152,10 +152,10 @@ data['end_date']   = {'year':2021, 'month':1, 'date':6}
 # data['input_rows'] = 130000
 # data['input_rows'] = 130000 - 3000
 # data['input_rows'] = 125000 - 4000 - 500
-data['input_rows'] = 250000
+data['input_rows'] = 300000
 
 data['sema_len']    = 60                    * 6
-data['lema_len']    = data['sema_len']      * 5
+data['lema_len']    = data['sema_len']      * 4
 
 data['candle_size'] = data['sema_len']      * 5
 data['line_length'] = data['candle_size']   * 6
@@ -171,8 +171,8 @@ data['l_slope_available']       = False
 
 data['plot_tip_points']         = False
 data['plot_trend_lines']        = False
+data['plot_angle_line']         = False
 data['plot_trend_calc_lines']   = True
-data['plot_angle_line']         = True
 data['plot_transactions']       = False
 
 data['plot_type'] = 'file'
