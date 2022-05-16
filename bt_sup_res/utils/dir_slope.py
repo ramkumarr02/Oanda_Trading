@@ -93,6 +93,7 @@ def get_trend_lines_back_line(data):
     for line_type in line_types:
         line_var        = f'{line_type}_line'
         angle_var       = f'{line_type}_line_angle'
+        trend_calc_spot = f'{line_type}_trend_calc_spot'
         line_index  = data['df'][data['i']-data['line_length']+1 : data['i']+1].index
         temp_df     = data['df'].loc[line_index]
         x           = temp_df[line_type][temp_df[line_type].notnull()].index
@@ -102,7 +103,7 @@ def get_trend_lines_back_line(data):
             slope_tick, intercept, _, _, _                  = linregress(x, y)
             data['df'][line_var].loc[line_index]            = (slope_tick * line_index) + intercept
             data['df'][angle_var].loc[line_index]           = math.degrees(math.atan(slope_tick)) * 10**6
-            # data["df"]['trend_calc_spot'].loc[data['i']]    = data['df'][line_var].loc[data['i']]
+            data["df"][trend_calc_spot].loc[data['i']]      = data['df'][line_var].loc[data['i']]
             
     return(data)
 
