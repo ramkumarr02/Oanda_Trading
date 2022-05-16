@@ -121,7 +121,7 @@ def print_report(data):
 #...............................................................................................
 def plot_graph(data):
     # Plot Layout --------------------------------
-    chart_name = f"Trade Chart   --   sema-lema:{data['sema_len']}-{data['lema_len']},   candle_size:{data['candle_size']},   line_line:{data['line_length']},   min_pts:{data['min_line_points']}"
+    chart_name = f"Trade Chart   --   sema-lema:{data['sema_len']}-{data['lema_len']},   candle_size:{data['candle_size']},   line_len:{data['line_length']},   min_pts:{data['min_line_points']}"
     layout = go.Layout(title = chart_name,
                        xaxis = dict(title="DateTime"),
                        xaxis2 = dict(title= 'x', side= 'top'),
@@ -140,7 +140,7 @@ def plot_graph(data):
                             y=data['df']['tick'],
                             mode='lines',
                             name='tick',
-                            line=dict(color='lightgrey', width=2),
+                            line=dict(color='lightgrey', width=1),
                         )
                 )
 
@@ -148,7 +148,7 @@ def plot_graph(data):
                             y=data['df']['sema'],
                             mode='lines',
                             name='sema',
-                            line=dict(color='burlywood', width=2),
+                            line=dict(color='burlywood', width=1),
                         )
                 )    
 
@@ -156,7 +156,7 @@ def plot_graph(data):
                         y=data['df']['lema'],
                         mode='lines',
                         name='lema',
-                        line=dict(color='cyan', width=2),
+                        line=dict(color='blue', width=1),
                     )
             )                                                
     # --------------------------------
@@ -189,37 +189,6 @@ def plot_graph(data):
                                 )),
                     opacity=1)
     #  --------------------------------
-    
-    
-    #  --------------------------------
-    if data['plot_trend_calc_lines']:
-        fig.add_scatter(x = data['df']['DateTime_frmt'], 
-                    y = data['df']['h_trend_calc_spot'], 
-                    mode = 'markers', 
-                    name = 'start points',
-                    marker_symbol = 'circle',
-                    marker=dict(color='blue',
-                                size=data['marker_size'],
-                                line=dict(
-                                    color='green',
-                                    width=2
-                                )),
-                    opacity=1)
-
-        fig.add_scatter(x = data['df']['DateTime_frmt'], 
-                    y = data['df']['l_trend_calc_spot'], 
-                    mode = 'markers', 
-                    name = 'start points',
-                    marker_symbol = 'circle',
-                    marker=dict(color='blue',
-                                size=data['marker_size'],
-                                line=dict(
-                                    color='black',
-                                    width=2
-                                )),
-                    opacity=1)
-        
-    #  --------------------------------
 
 
     # Trend lines --------------------------------
@@ -242,6 +211,38 @@ def plot_graph(data):
                     )
     #  --------------------------------
 
+    
+    #  --------------------------------
+    if data['plot_trend_calc_lines']:
+        fig.add_scatter(x = data['df']['DateTime_frmt'], 
+                    y = data['df']['h_trend_calc_spot'], 
+                    mode = 'markers', 
+                    name = 'start points',
+                    marker_symbol = 'circle',
+                    marker=dict(color='blue',
+                                size=data['marker_size'],
+                                line=dict(
+                                    color='red',
+                                    width=1.5
+                                )),
+                    opacity=1)
+
+        fig.add_scatter(x = data['df']['DateTime_frmt'], 
+                    y = data['df']['l_trend_calc_spot'], 
+                    mode = 'markers', 
+                    name = 'start points',
+                    marker_symbol = 'circle',
+                    marker=dict(color='blue',
+                                size=data['marker_size'],
+                                line=dict(
+                                    color='blue',
+                                    width=1.5
+                                )),
+                    opacity=1)
+        
+    #  --------------------------------    
+    
+    
     # Angle line --------------------------------
     if data['plot_angle_line']:
         fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
@@ -271,6 +272,7 @@ def plot_graph(data):
     elif data['plot_type'] == 'show':
         fig.show()
 #...............................................................................................
+
 
 #...............................................................................................
 def get_date_lines(data):
