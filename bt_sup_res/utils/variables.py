@@ -145,18 +145,21 @@ data['df_bars'] = pd.DataFrame()
 data['df_bars']['support'] = ''
 data['df_bars']['resistance'] = ''
 
-data['start_date'] = {'year':2021, 'month':1, 'date':5}
-data['end_date']   = {'year':2021, 'month':1, 'date':5}
+data['start_date'] = {'year':2021, 'month':1, 'date':6}
+data['end_date']   = {'year':2021, 'month':1, 'date':6}
 
 # data['input_rows'] = 1_000_000
-data['input_rows'] = 130000
+# data['input_rows'] = 130000
 # data['input_rows'] = 130000 - 3000
 # data['input_rows'] = 125000 - 4000 - 500
+data['input_rows'] = 250000
 
-data['sema_len']    = 10
-data['lema_len']    = 20
-data['candle_size'] = 300
-data['line_length'] = 2400
+data['sema_len']    = 60                    * 5
+data['lema_len']    = data['sema_len']      * 5
+
+data['candle_size'] = data['sema_len']      * 5
+data['line_length'] = data['candle_size']   * 6
+
 data['min_line_points'] = 3
 data['pip_decimal_num'] = 3
 data['trend_angle']     = 10
