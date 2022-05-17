@@ -152,10 +152,10 @@ data['end_date']   = {'year':2021, 'month':1, 'date':6}
 # data['input_rows'] = 130000
 # data['input_rows'] = 130000 - 3000
 # data['input_rows'] = 125000 - 4000 - 500
-data['input_rows'] = 300000
+data['input_rows'] = 300_000
 
 data['sema_len']    = 60                    * 6
-data['lema_len']    = data['sema_len']      * 4
+data['lema_len']    = data['sema_len']      * 2
 
 data['candle_size'] = data['sema_len']      * 5
 data['line_length'] = data['candle_size']   * 6

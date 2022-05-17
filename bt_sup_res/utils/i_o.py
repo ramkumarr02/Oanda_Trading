@@ -28,7 +28,6 @@ def read_data(data):
     data["df"]['h_trend_calc_spot'] = np.nan
     data["df"]['l_trend_calc_spot'] = np.nan
 
-
     data['df']['h'] = np.nan
     data['df']['l'] = np.nan
     
