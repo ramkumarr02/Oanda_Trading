@@ -151,13 +151,13 @@ def plot_graph(data):
                         )
                 )    
 
-    fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
-                        y=data['df']['lema'],
-                        mode='lines',
-                        name='lema',
-                        line=dict(color='blue', width=1),
-                    )
-            )                                                
+    # fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
+    #                     y=data['df']['lema'],
+    #                     mode='lines',
+    #                     name='lema',
+    #                     line=dict(color='blue', width=1),
+    #                 )
+    #         )                                                
     # --------------------------------
 
     # Tip points --------------------------------
@@ -342,7 +342,7 @@ def create_report(data):
 
 
 #...............................................................................................    
-def send_message(message_text):        
+def send_telegram_message(message_text):        
     send_message_url = f'{data["telegram_url"]}{keys.tester_bot_token}/sendMessage?chat_id={keys.chat_id}/&text={message_text}'
     requests.get(send_message_url)
 #...............................................................................................    
