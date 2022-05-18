@@ -152,13 +152,17 @@ data['end_date']   = {'year':2021, 'month':1, 'date':6}
 # data['input_rows'] = 130000
 # data['input_rows'] = 130000 - 3000
 # data['input_rows'] = 125000 - 4000 - 500
-data['input_rows'] = 300_000
+data['input_rows'] = 350_000
 
-data['sema_len']    = 60                    * 6
-data['lema_len']    = data['sema_len']      * 2
+# data['sema_len']    = 60                    * 6
+# data['lema_len']    = data['sema_len']      * 2
+# data['candle_size'] = data['sema_len']      * 5
+# data['line_length'] = data['candle_size']   * 6
 
-data['candle_size'] = data['sema_len']      * 5
-data['line_length'] = data['candle_size']   * 6
+data['sema_len']    = 300
+data['lema_len']    = 600
+data['candle_size'] = 1800
+data['line_length'] = 10800
 
 data['min_line_points'] = 3
 data['pip_decimal_num'] = 3
@@ -178,4 +182,7 @@ data['plot_transactions']       = False
 data['plot_type'] = 'file'
 data['chrome_path'] = "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s"
 data['chart_file_path'] = (f'{os.getcwd()}\\data\\chart.html')
+
+data['telegram_url'] = "https://api.telegram.org/bot"
+data['url_for_Chat_id'] = f'{data["telegram_url"]}{keys.tester_bot_token}/getUpdates'
 #...............................................................................................

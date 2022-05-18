@@ -26,6 +26,8 @@ from tqdm import tqdm
 tqdm.pandas()
 
 import webbrowser
+import requests
+from config import keys
 
 import warnings
 warnings.filterwarnings('ignore')

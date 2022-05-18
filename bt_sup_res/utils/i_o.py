@@ -339,4 +339,10 @@ def create_report(data):
     
     # print(data['report_df'][['date', 'ord_types', 'llema_angle','close_type', 'pls']].tail(15))
     # print(data['report_df'][['date', 'ord_types', 'llema_angle','close_type', 'pls']])
+
+
+#...............................................................................................    
+def send_message(message_text):        
+    send_message_url = f'{data["telegram_url"]}{keys.tester_bot_token}/sendMessage?chat_id={keys.chat_id}/&text={message_text}'
+    requests.get(send_message_url)
 #...............................................................................................    
