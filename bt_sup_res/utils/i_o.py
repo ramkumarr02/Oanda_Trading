@@ -200,10 +200,10 @@ def plot_graph(data):
                 name = 'long_open',
                 marker_symbol = 'triangle-up',
                 marker=dict(color='blue',
-                            size=data['marker_size'],
+                            size=10,
                             line=dict(
                                 color='blue',
-                                width=5
+                                width=1
                             )),
                 opacity=1)
 
@@ -213,10 +213,10 @@ def plot_graph(data):
                 name = 'long_close',
                 marker_symbol = 'triangle-up',
                 marker=dict(color='red',
-                            size=data['marker_size'],
+                            size=10,
                             line=dict(
                                 color='red',
-                                width=5
+                                width=1
                             )),
                 opacity=1)
 
@@ -227,10 +227,10 @@ def plot_graph(data):
                 name = 'short_open',
                 marker_symbol = 'triangle-down',
                 marker=dict(color='blue',
-                            size=data['marker_size'],
+                            size=10,
                             line=dict(
                                 color='blue',
-                                width=5
+                                width=1
                             )),
                 opacity=1)
 
@@ -240,10 +240,10 @@ def plot_graph(data):
                 name = 'short_close',
                 marker_symbol = 'triangle-down',
                 marker=dict(color='red',
-                            size=data['marker_size'],
+                            size=10,
                             line=dict(
                                 color='red',
-                                width=5
+                                width=1
                             )),
                 opacity=1)
 
