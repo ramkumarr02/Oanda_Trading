@@ -111,7 +111,7 @@ data['to_order'] = None
 data['direction'] = None
 
 data['pl_move_trail_ratio']         = 0.75
-data['pl_loss_trail_trigger']       = -0.0040
+data['pl_loss_trail_trigger']       = -0.0040 
 data['pl_loss_trail_size']          = 0.75
 
 # data['slema_len']   = 600
@@ -119,8 +119,6 @@ data['pl_loss_trail_size']          = 0.75
 
 data['angle_len']       = 100
 
-data['pl_move_trail_trigger']       = 0.0002
-data['stop_loss_pip']               = -0.0002
 
 data['min_llema_angle'] = 0
 
@@ -153,7 +151,7 @@ data['end_date']   = {'year':2021, 'month':2, 'date':3}
 # data['input_rows'] = 125000 - 4000 - 500
 # data['input_rows'] = 350_000 - 100_000
 data['input_rows'] = None
-data['df_subset_size'] = 25_000
+data['df_subset_size'] = 50_000
 
 # data['sema_len']    = 60                    * 6
 # data['lema_len']    = data['sema_len']      * 2
@@ -168,6 +166,9 @@ data['line_length'] = 10800
 data['min_line_points'] = 3
 data['pip_decimal_num'] = 3
 data['trend_angle']     = 10
+
+data['pl_move_trail_trigger']       = 0.0010
+data['stop_loss_pip']               = -0.0010
 
 data['slope_tick_available'] =  False
 

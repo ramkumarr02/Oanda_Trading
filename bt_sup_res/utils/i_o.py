@@ -37,10 +37,11 @@ def read_data(data):
     # data['df']['h_line'] = np.nan
     # data['df']['l_line'] = np.nan
     # data["df"]['slema'] = np.nan
-    # data['df']['long_open'] = ''
-    # data['df']['long_close'] = ''
-    # data['df']['short_open'] = ''
-    # data['df']['short_close'] = ''
+    data['df']['long_open'] = np.nan
+    data['df']['long_close'] = np.nan
+    data['df']['short_open'] = np.nan
+    data['df']['short_close'] = np.nan
+    data['df']['pl'] = np.nan
 
     if data['df_subset_size'] is not None:
         data["df"] = data["df"][0:data['df_subset_size']]
@@ -194,14 +195,54 @@ def plot_graph(data):
     #  --------------------------------
 
     fig.add_scatter(x = data['df']['DateTime_frmt'], 
-                y = data['df']['direction'], 
+                y = data['df']['long_open'], 
                 mode = 'markers', 
-                name = 'direction',
-                marker_symbol = 'circle',
+                name = 'long_open',
+                marker_symbol = 'triangle-up',
                 marker=dict(color='blue',
                             size=data['marker_size'],
                             line=dict(
-                                color='darkblue',
+                                color='blue',
+                                width=5
+                            )),
+                opacity=1)
+
+    fig.add_scatter(x = data['df']['DateTime_frmt'], 
+                y = data['df']['long_close'], 
+                mode = 'markers', 
+                name = 'long_close',
+                marker_symbol = 'triangle-up',
+                marker=dict(color='red',
+                            size=data['marker_size'],
+                            line=dict(
+                                color='red',
+                                width=5
+                            )),
+                opacity=1)
+
+
+    fig.add_scatter(x = data['df']['DateTime_frmt'], 
+                y = data['df']['short_open'], 
+                mode = 'markers', 
+                name = 'short_open',
+                marker_symbol = 'triangle-down',
+                marker=dict(color='blue',
+                            size=data['marker_size'],
+                            line=dict(
+                                color='blue',
+                                width=5
+                            )),
+                opacity=1)
+
+    fig.add_scatter(x = data['df']['DateTime_frmt'], 
+                y = data['df']['short_close'], 
+                mode = 'markers', 
+                name = 'short_close',
+                marker_symbol = 'triangle-down',
+                marker=dict(color='red',
+                            size=data['marker_size'],
+                            line=dict(
+                                color='red',
                                 width=5
                             )),
                 opacity=1)
