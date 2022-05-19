@@ -153,7 +153,7 @@ data['end_date']   = {'year':2021, 'month':2, 'date':3}
 # data['input_rows'] = 125000 - 4000 - 500
 # data['input_rows'] = 350_000 - 100_000
 data['input_rows'] = None
-data['df_subset_size'] = 100_000
+data['df_subset_size'] = 25_000
 
 # data['sema_len']    = 60                    * 6
 # data['lema_len']    = data['sema_len']      * 2

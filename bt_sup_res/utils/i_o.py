@@ -193,6 +193,18 @@ def plot_graph(data):
                     opacity=1)
     #  --------------------------------
 
+    fig.add_scatter(x = data['df']['DateTime_frmt'], 
+                y = data['df']['direction'], 
+                mode = 'markers', 
+                name = 'direction',
+                marker_symbol = 'circle',
+                marker=dict(color='blue',
+                            size=data['marker_size'],
+                            line=dict(
+                                color='darkblue',
+                                width=5
+                            )),
+                opacity=1)
 
     # Trend lines --------------------------------
     if data['plot_trend_lines']:

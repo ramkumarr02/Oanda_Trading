@@ -1,20 +1,63 @@
 from utils.packages import *
 
 
+# #...............................................................................................
+# def get_position(data):
+
+#     if data['sema'] == data['lema']:
+#         data['position'] = 'same'
+
+#     elif data['sema'] - data['lema'] >= 0.00001:
+#         data['position'] = 'up'
+
+#     elif data['lema'] - data['sema'] >= 0.00001:
+#         data['position'] = 'down'
+
+#     if data["plot"]:
+#         data["df"]['position'][data['i']] = data['position']
+    
+#     return(data)
+# #...............................................................................................
+
+# #...............................................................................................
+# def get_cross_dir(data):   
+    
+#     data['dir_list'].popleft()
+#     data['dir_list'].append(data['position'])   
+    
+#     data['pos_1'] = data['dir_list'][0]
+#     data['pos_2'] = data['dir_list'][1]
+
+#     if data['pos_1'] != data['pos_2'] and data['pos_2'] == 'down':
+#         data['dir_change'] = True    
+#         data['direction'] = 'crossing_down'
+
+#     elif data['pos_1'] != data['pos_2'] and data['pos_2'] == 'up':
+#         data['dir_change'] = True    
+#         data['direction'] = 'crossing_up'   
+        
+#     else:
+#         data['dir_change'] = False
+#         data['direction'] = ''
+
+#     data["df"]['direction'][data['i']] = data['direction']
+
+#     return(data)    
+# #................................................................................................
+
 #...............................................................................................
 def get_position(data):
 
-    if data['sema'] == data['lema']:
-        data['position'] = 'same'
-
-    elif data['sema'] - data['lema'] >= 0.00001:
+    if data['sema'] >= data['df']['h_trend_calc_spot'].loc[data['i']]:
         data['position'] = 'up'
 
-    elif data['lema'] - data['sema'] >= 0.00001:
+    elif data['sema'] <= data['df']['l_trend_calc_spot'].loc[data['i']]:
         data['position'] = 'down'
 
-    if data["plot"]:
-        data["df"]['position'][data['i']] = data['position']
+    else:
+        data['position'] = 'middle'
+
+    data["df"]['position'][data['i']] = data['position']
     
     return(data)
 #...............................................................................................
@@ -28,22 +71,24 @@ def get_cross_dir(data):
     data['pos_1'] = data['dir_list'][0]
     data['pos_2'] = data['dir_list'][1]
 
-    if data['pos_1'] != data['pos_2'] and data['pos_2'] == 'down':
+    if data['pos_1'] == 'up' and data['pos_2'] == 'middle':
         data['dir_change'] = True    
-        data['direction'] = 'crossing_down'
+        # data['direction'] = 'crossing_down'
+        data["df"]['direction'][data['i']] = data['tick']
 
-    elif data['pos_1'] != data['pos_2'] and data['pos_2'] == 'up':
+    elif data['pos_1'] == 'down' and data['pos_2'] == 'middle':
         data['dir_change'] = True    
-        data['direction'] = 'crossing_up'   
+        # data['direction'] = 'crossing_up'   
+        data["df"]['direction'][data['i']] = data['tick']
         
     else:
         data['dir_change'] = False
         data['direction'] = ''
 
-    data["df"]['direction'][data['i']] = data['direction']
 
     return(data)    
 #................................................................................................
+
 
 def get_slope(data):
     
@@ -124,6 +169,9 @@ def get_trend_fwd_skip(data):
 
 #...............................................................................................    
 def get_trend_fwd(data):
+
+    # if data['i'] >= data['line_length']:
+    # if data['i'] % data['candle_size'] != 0:
     line_types      = ['h', 'l']
     
     for line_type in line_types:
@@ -138,6 +186,21 @@ def get_trend_fwd(data):
         if len(x) >= data['min_line_points']:
             slope_tick, intercept, _, _, _                  = linregress(x, y)
             data['df'][trend_calc_spot].loc[data['i']]      = (slope_tick * data['i']) + intercept
+
+            # print(data['i'])
+            # print(temp_df.head())
+            # print(temp_df.tail())
+            # print(line_index)
+            # print(len(temp_df))
+            # print(temp_df.index)
+            # print(x)
+            # print(y)
+            # print(slope_tick, intercept)
+            # print(data['df'][trend_calc_spot].loc[data['i']])
+            # data['df'].to_csv('data/temp.csv')
+            # sys.exit()
+            # print('----------------------------------------')
+            
             data['df'][angle_var].loc[data['i']]           = math.degrees(math.atan(slope_tick)) * 10**6
             
     return(data)
@@ -145,31 +208,48 @@ def get_trend_fwd(data):
 #...............................................................................................   
 
 
-# #...............................................................................................    
-# def get_trend_fwd(data):
-        
-#     line_index  = data['df'][data['i']-data['line_length']+1 : data['i']+1].index
-#     temp_df     = data['df'].loc[line_index]
+#...............................................................................................    
+def get_trend_fwd(data):
 
-#     x           = temp_df['h'][temp_df['h'].notnull()].index
-#     y           = temp_df['h'][temp_df['h'].notnull()].values 
+    if (data['i']+1) % data['candle_size'] != 0:
 
-#     if len(x) >= data['min_line_points']:
-#         slope_tick, intercept, _, _, _                  = linregress(x, y)
-#         data['df']['h_trend_calc_spot'].loc[data['i']]      = (slope_tick * data['i']) + intercept
-#         data['df']['h_line_angle'].loc[data['i']]           = math.degrees(math.atan(slope_tick)) * 10**6
+        line_index  = data['df'][data['i']-data['line_length']+1 : data['i']+1].index
+        temp_df     = data['df'].loc[line_index]
 
-#     x           = temp_df['l'][temp_df['l'].notnull()].index
-#     y           = temp_df['l'][temp_df['l'].notnull()].values 
+        x           = temp_df['h'][temp_df['h'].notnull()].index
+        y           = temp_df['h'][temp_df['h'].notnull()].values 
 
-#     if len(x) >= data['min_line_points']:
-#         slope_tick, intercept, _, _, _                  = linregress(x, y)
-#         data['df']['l_trend_calc_spot'].loc[data['i']]      = (slope_tick * data['i']) + intercept
-#         data['df']['l_line_angle'].loc[data['i']]           = math.degrees(math.atan(slope_tick)) * 10**6
+        if len(x) >= data['min_line_points']:
+            slope_tick, intercept, _, _, _                  = linregress(x, y)
+            data['df']['h_trend_calc_spot'].loc[data['i']]      = (slope_tick * data['i']) + intercept
+            data['df']['h_line_angle'].loc[data['i']]           = math.degrees(math.atan(slope_tick)) * 10**6
 
-#     return(data)
+            # if 12590 < data['i'] < 12606:
+            #     print(data['i'])
+            #     print(line_index)
+            #     print(len(temp_df))
+            #     print(temp_df.index)
+            #     print(x)
+            #     print(y)
+            #     print(slope_tick, intercept)
+            #     print(data['df']['h_trend_calc_spot'].loc[data['i']])
 
-# #...............................................................................................   
+            # if data['i'] > 12606:
+            #     sys.exit()
+
+    # ----------------------------------------------------------------------------------
+
+        x           = temp_df['l'][temp_df['l'].notnull()].index
+        y           = temp_df['l'][temp_df['l'].notnull()].values 
+
+        if len(x) >= data['min_line_points']:
+            slope_tick, intercept, _, _, _                  = linregress(x, y)
+            data['df']['l_trend_calc_spot'].loc[data['i']]      = (slope_tick * data['i']) + intercept
+            data['df']['l_line_angle'].loc[data['i']]           = math.degrees(math.atan(slope_tick)) * 10**6
+
+    return(data)
+
+#...............................................................................................   
 
 #...............................................................................................     
 def trend_angle_check(data):
