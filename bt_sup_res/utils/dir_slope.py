@@ -145,6 +145,32 @@ def get_trend_fwd(data):
 #...............................................................................................   
 
 
+# #...............................................................................................    
+# def get_trend_fwd(data):
+        
+#     line_index  = data['df'][data['i']-data['line_length']+1 : data['i']+1].index
+#     temp_df     = data['df'].loc[line_index]
+
+#     x           = temp_df['h'][temp_df['h'].notnull()].index
+#     y           = temp_df['h'][temp_df['h'].notnull()].values 
+
+#     if len(x) >= data['min_line_points']:
+#         slope_tick, intercept, _, _, _                  = linregress(x, y)
+#         data['df']['h_trend_calc_spot'].loc[data['i']]      = (slope_tick * data['i']) + intercept
+#         data['df']['h_line_angle'].loc[data['i']]           = math.degrees(math.atan(slope_tick)) * 10**6
+
+#     x           = temp_df['l'][temp_df['l'].notnull()].index
+#     y           = temp_df['l'][temp_df['l'].notnull()].values 
+
+#     if len(x) >= data['min_line_points']:
+#         slope_tick, intercept, _, _, _                  = linregress(x, y)
+#         data['df']['l_trend_calc_spot'].loc[data['i']]      = (slope_tick * data['i']) + intercept
+#         data['df']['l_line_angle'].loc[data['i']]           = math.degrees(math.atan(slope_tick)) * 10**6
+
+#     return(data)
+
+# #...............................................................................................   
+
 #...............................................................................................     
 def trend_angle_check(data):
 

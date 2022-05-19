@@ -9,10 +9,13 @@ def read_data(data):
 
     if data['input_rows'] is None:
         data["df"] = pd.read_csv(data['source_file_path'])
+        print(f'Read dataframe with {len(data["df"])} records.')
     else:
         data["df"] = pd.read_csv(data['source_file_path'], nrows=data['input_rows'])
+        print(f'Read dataframe with {len(data["df"])} records.')
         
     data["df"] = data["df"][data["df"]['DateTime'].str.contains('|'.join(data['date_list']))]
+    print(f'Dataframe has {len(data["df"])} records between {data["start_date"], data["end_date"]}.')
 
     data["df"]['tick'] = np.float()
     data['df']['DateTime_frmt'] = np.nan
@@ -41,6 +44,7 @@ def read_data(data):
 
     if data['df_subset_size'] is not None:
         data["df"] = data["df"][0:data['df_subset_size']]
+        print(f'Subsetted dataframe with {len(data["df"])} records.')
 
     data["df"] = data["df"].reset_index(drop = True)
     print(f'Record num : {len(data["df"])}')        
