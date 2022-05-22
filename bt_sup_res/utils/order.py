@@ -21,7 +21,6 @@ def make_long_order(data):
     data['open_order'] = True
     data['open_order_type'] = 'long'
     data['df']['long_open'].iloc[data['i']] = data['ask']
-    # print(data['make long'])
     return(data)
 
 
@@ -30,7 +29,6 @@ def make_short_order(data):
     data['open_order'] = True
     data['open_order_type'] = 'short'
     data['df']['short_open'].iloc[data['i']] = data['bid']
-    # print(data['make short'])
     return(data)
 
 
@@ -38,7 +36,6 @@ def close_long_order(data):
     data['open_order'] = False
     data['df']['long_close'].iloc[data['i']] = data['bid']
     data['df']['pl'].iloc[data['i']] = data['pl']
-    # print(data['close long'])
     return(data)
 
 
@@ -46,7 +43,6 @@ def close_short_order(data):
     data['open_order'] = False
     data['df']['short_close'].iloc[data['i']] = data['ask']
     data['df']['pl'].iloc[data['i']] = data['pl']
-    # print(data['close short'])
     return(data)
 
 #...............................................................................................
@@ -69,11 +65,11 @@ def simple_stop_loss(data):
     if data['open_order']:
         if data['pl'] <= data['stop_loss_pip']:
             if data['open_order_type'] == 'long':
-                data['stop_text'] = 'simple_stop'
+                data['df']['stop_text'].iloc[data['i']] = 'simple_stop'
                 data = close_long_order(data)
                     
             if data['open_order_type'] == 'short':                
-                data['stop_text'] = 'simple_stop'
+                data['df']['stop_text'].iloc[data['i']] = 'simple_stop'
                 data = close_short_order(data)            
     return(data)   
 
@@ -82,21 +78,26 @@ def simple_take_profit(data):
     if data['open_order']:                        
         if data['pl'] >= data['pl_move_trail_trigger']:
             if data['open_order_type'] == 'long':
-                data['stop_text'] = 'simple_take_profit'
+                data['df']['stop_text'].iloc[data['i']] = 'simple_take_profit'
                 data = close_long_order(data)  
 
             if data['open_order_type'] == 'short':                
-                data['stop_text'] = 'simple_take_profit'
+                data['df']['stop_text'].iloc[data['i']] = 'simple_take_profit'
                 data = close_short_order(data)  
     
     return(data)    
 #...............................................................................................
+def dynamic_take_profit(data):
+    data = pl_positive_check(data)
+    data = pl_move_close(data)        
+    return(data)  
+# ...............................................................................................   
 def pl_positive_check(data):
     if data['open_order']:
         if data['pl'] >= data['pl_move_trail_trigger']:
             data['pl_positive'] = True
             data['pl_move_min'] = max((data['pl'] * data['pl_move_trail_ratio']), data['pl_move_min'])
-
+            data['df']['pl_move_min'].loc[data['i']] = data['pl_move_min']
     return(data)
 
 #...............................................................................................
@@ -105,7 +106,7 @@ def pl_move_close(data):
     if data['open_order']:
         if data['pl_positive']:    
             if 0 < data['pl'] <= data['pl_move_min']: 
-                data['stop_text'] = 'pl_move_close'
+                data['df']['stop_text'].iloc[data['i']] = 'pl_move_close'
                 data['to_order'] = None
                 data['pl_positive'] = False
                 data['pl_move_min'] = 0
@@ -118,6 +119,7 @@ def pl_move_close(data):
 
     return(data)    
 # ...............................................................................................   
+
 
 def stop_loss(data):
     if data['stop_loss_method'] == 'simple':

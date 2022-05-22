@@ -166,9 +166,12 @@ data['min_line_points'] = 3
 data['pip_decimal_num'] = 3
 data['trend_angle']     = 10
 
+data['min_sup_res_gap']             = 0.0005
+# data['max_sup_res_gap']             = 0.0010
+
 data['stop_loss_pip']               = -0.0010
 data['pl_move_trail_trigger']       = 0.0010
-data['pl_move_trail_ratio']         = 0.5
+data['pl_move_trail_ratio']         = 0.75
 
 data['slope_tick_available'] =  False
 

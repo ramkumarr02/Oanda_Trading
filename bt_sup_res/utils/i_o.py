@@ -29,6 +29,10 @@ def read_data(data):
     data["df"]['l_trend_calc_spot'] = np.nan
     data["df"]['sup_res_gap'] = np.nan
     data["df"]['stop_text'] = np.nan
+    
+    data['df']['stop_loss_pip'] = np.nan
+    data['df']['pl_move_trail_trigger'] = np.nan
+    data['df']['pl_move_min'] = np.nan
     # data["df"]['lema'] = np.nan
     # data["df"]['direction'] = np.nan
     # data["df"]['trend_angle'] = np.nan
