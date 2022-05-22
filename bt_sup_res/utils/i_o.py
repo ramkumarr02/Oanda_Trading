@@ -17,19 +17,21 @@ def read_data(data):
     data["df"] = data["df"][data["df"]['DateTime'].str.contains('|'.join(data['date_list']))]
     print(f'Dataframe has {len(data["df"])} records between {data["start_date"], data["end_date"]}.')
 
-    data["df"]['tick'] = np.float()
+    data["df"]['tick']  = np.float()
     data['df']['DateTime_frmt'] = np.nan
     del data['df']['Volume']
     data["df"]['sema'] = np.nan
-    data["df"]['lema'] = np.nan
     data["df"]['position'] = np.nan
-    data["df"]['direction'] = np.nan
     data["df"]['to_order'] = np.nan
     data["df"]['h_line_angle'] = np.nan
     data["df"]['l_line_angle'] = np.nan
-    data["df"]['trend_angle'] = np.nan
     data["df"]['h_trend_calc_spot'] = np.nan
     data["df"]['l_trend_calc_spot'] = np.nan
+    data["df"]['sup_res_gap'] = np.nan
+    data["df"]['stop_text'] = np.nan
+    # data["df"]['lema'] = np.nan
+    # data["df"]['direction'] = np.nan
+    # data["df"]['trend_angle'] = np.nan
 
     data['df']['h'] = np.nan
     data['df']['l'] = np.nan

@@ -147,6 +147,8 @@ def get_trend_fwd(data):
             data['df']['l_trend_calc_spot'].loc[data['i']]      = (slope_tick * data['i']) + intercept
             data['df']['l_line_angle'].loc[data['i']]           = math.degrees(math.atan(slope_tick)) * 10**6
 
+        data["df"]['sup_res_gap'].loc[data['i']] = data['df']['h_trend_calc_spot'].loc[data['i']] - data['df']['l_trend_calc_spot'].loc[data['i']]
+
     return(data)
 
 #...............................................................................................   

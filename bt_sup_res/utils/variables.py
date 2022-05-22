@@ -110,7 +110,6 @@ data['dir_change'] = False
 data['to_order'] = None
 data['direction'] = None
 
-data['pl_move_trail_ratio']         = 0.75
 data['pl_loss_trail_trigger']       = -0.0040 
 data['pl_loss_trail_size']          = 0.75
 
@@ -167,8 +166,9 @@ data['min_line_points'] = 3
 data['pip_decimal_num'] = 3
 data['trend_angle']     = 10
 
-data['pl_move_trail_trigger']       = 0.0010
 data['stop_loss_pip']               = -0.0010
+data['pl_move_trail_trigger']       = 0.0010
+data['pl_move_trail_ratio']         = 0.5
 
 data['slope_tick_available'] =  False
 

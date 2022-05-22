@@ -14,6 +14,111 @@ def make_order(data):
     return(data)
 #...............................................................................................
 
+#...............................................................................................
+
+def make_long_order(data):
+    data['order_ask_price'] = data['ask']
+    data['open_order'] = True
+    data['open_order_type'] = 'long'
+    data['df']['long_open'].iloc[data['i']] = data['ask']
+    # print(data['make long'])
+    return(data)
+
+
+def make_short_order(data):
+    data['order_bid_price'] = data['bid']
+    data['open_order'] = True
+    data['open_order_type'] = 'short'
+    data['df']['short_open'].iloc[data['i']] = data['bid']
+    # print(data['make short'])
+    return(data)
+
+
+def close_long_order(data):
+    data['open_order'] = False
+    data['df']['long_close'].iloc[data['i']] = data['bid']
+    data['df']['pl'].iloc[data['i']] = data['pl']
+    # print(data['close long'])
+    return(data)
+
+
+def close_short_order(data):
+    data['open_order'] = False
+    data['df']['short_close'].iloc[data['i']] = data['ask']
+    data['df']['pl'].iloc[data['i']] = data['pl']
+    # print(data['close short'])
+    return(data)
+
+#...............................................................................................
+
+def calculate_pl(data):
+    if data['open_order_type'] == 'long':
+        data['close_bid_price'] = data['bid']
+        data['pl'] = np.round(data['close_bid_price'] - data['order_ask_price'], 5)
+
+    if data['open_order_type'] == 'short':
+        data['close_ask_price'] = data['ask']
+        data['pl'] = np.round(data['order_bid_price'] - data['close_ask_price'], 5)
+    
+    return(data) 
+#...............................................................................................
+
+#...............................................................................................
+
+def simple_stop_loss(data):
+    if data['open_order']:
+        if data['pl'] <= data['stop_loss_pip']:
+            if data['open_order_type'] == 'long':
+                data['stop_text'] = 'simple_stop'
+                data = close_long_order(data)
+                    
+            if data['open_order_type'] == 'short':                
+                data['stop_text'] = 'simple_stop'
+                data = close_short_order(data)            
+    return(data)   
+
+#...............................................................................................
+def simple_take_profit(data):       
+    if data['open_order']:                        
+        if data['pl'] >= data['pl_move_trail_trigger']:
+            if data['open_order_type'] == 'long':
+                data['stop_text'] = 'simple_take_profit'
+                data = close_long_order(data)  
+
+            if data['open_order_type'] == 'short':                
+                data['stop_text'] = 'simple_take_profit'
+                data = close_short_order(data)  
+    
+    return(data)    
+#...............................................................................................
+def pl_positive_check(data):
+    if data['open_order']:
+        if data['pl'] >= data['pl_move_trail_trigger']:
+            data['pl_positive'] = True
+            data['pl_move_min'] = max((data['pl'] * data['pl_move_trail_ratio']), data['pl_move_min'])
+
+    return(data)
+
+#...............................................................................................
+
+def pl_move_close(data):
+    if data['open_order']:
+        if data['pl_positive']:    
+            if 0 < data['pl'] <= data['pl_move_min']: 
+                data['stop_text'] = 'pl_move_close'
+                data['to_order'] = None
+                data['pl_positive'] = False
+                data['pl_move_min'] = 0
+
+                if data['open_order_type'] == 'long':
+                    data = close_long_order(data)             
+                    
+                if data['open_order_type'] == 'short':
+                    data = close_short_order(data)
+
+    return(data)    
+# ...............................................................................................   
+
 def stop_loss(data):
     if data['stop_loss_method'] == 'simple':
         data = simple_stop_loss(data)
@@ -26,18 +131,6 @@ def stop_loss(data):
     return(data)  
 
 # ...............................................................................................
-def simple_stop_loss(data):
-    if data['open_order']:
-        if data['pl'] <= data['stop_loss_pip']:
-            if data['open_order_type'] == 'long':
-                data['stop_text'] = 'simple_stop'
-                data = close_long_order(data)
-                    
-            if data['open_order_type'] == 'short':                
-                data['stop_text'] = 'simple_stop'
-                data = close_short_order(data)            
-    return(data)   
-# ...............................................................................................   
 
 
 #...............................................................................................
@@ -88,48 +181,7 @@ def take_profit(data):
     return(data)    
 
 #...............................................................................................
-def simple_take_profit(data):       
-    if data['open_order']:                        
-        if data['pl'] >= data['pl_move_trail_trigger']:
-            if data['open_order_type'] == 'long':
-                data['stop_text'] = 'simple_take_profit'
-                data = close_long_order(data)  
 
-            if data['open_order_type'] == 'short':                
-                data['stop_text'] = 'simple_take_profit'
-                data = close_short_order(data)  
-    
-    return(data)    
-#...............................................................................................
-
-#...............................................................................................
-def pl_positive_check(data):
-    if data['open_order']:
-        if data['pl'] >= data['pl_move_trail_trigger']:
-            data['pl_positive'] = True
-            data['pl_move_min'] = max((data['pl'] * data['pl_move_trail_ratio']), data['pl_move_min'])
-
-    return(data)
-
-#...............................................................................................
-
-def pl_move_close(data):
-    if data['open_order']:
-        if data['pl_positive']:    
-            if 0 < data['pl'] <= data['pl_move_min']: 
-                data['stop_text'] = 'pl_move_close'
-                data['to_order'] = None
-                data['pl_positive'] = False
-                data['pl_move_min'] = 0
-
-                if data['open_order_type'] == 'long':
-                    data = close_long_order(data)             
-                    
-                if data['open_order_type'] == 'short':
-                    data = close_short_order(data)
-
-    return(data)    
-#...............................................................................................
 
 def tick_close_check(data):
     if data['tick_check_flag']:
@@ -241,53 +293,6 @@ def reverse_order_position(data):
 
     return(data)  
 
-#...............................................................................................
-
-def make_long_order(data):
-    data['order_ask_price'] = data['ask']
-    data['open_order'] = True
-    data['open_order_type'] = 'long'
-    data['df']['long_open'].iloc[data['i']] = data['ask']
-    # print(data['make long'])
-    return(data)
-
-
-def make_short_order(data):
-    data['order_bid_price'] = data['bid']
-    data['open_order'] = True
-    data['open_order_type'] = 'short'
-    data['df']['short_open'].iloc[data['i']] = data['bid']
-    # print(data['make short'])
-    return(data)
-
-
-def close_long_order(data):
-    data['open_order'] = False
-    data['df']['long_close'].iloc[data['i']] = data['bid']
-    data['df']['pl'].iloc[data['i']] = data['pl']
-    # print(data['close long'])
-    return(data)
-
-
-def close_short_order(data):
-    data['open_order'] = False
-    data['df']['short_close'].iloc[data['i']] = data['ask']
-    data['df']['pl'].iloc[data['i']] = data['pl']
-    # print(data['close short'])
-    return(data)
-
-
-def calculate_pl(data):
-    if data['open_order_type'] == 'long':
-        data['close_bid_price'] = data['bid']
-        data['pl'] = np.round(data['close_bid_price'] - data['order_ask_price'], 5)
-
-    if data['open_order_type'] == 'short':
-        data['close_ask_price'] = data['ask']
-        data['pl'] = np.round(data['order_bid_price'] - data['close_ask_price'], 5)
-    
-    return(data) 
-#...............................................................................................
 
 
 #...............................................................................................
