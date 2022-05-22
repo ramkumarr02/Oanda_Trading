@@ -90,27 +90,29 @@ def get_cross_dir(data):
     data['pos_2'] = data['dir_list'][1]
 
     if data["df"]['sup_res_gap'].loc[data['i']] >= data['min_sup_res_gap']:
-        if data['pos_1'] == 'up' and data['pos_2'] == 'middle':    
-            if data["df"]['h_line_angle'][data['i']] < 0 and data["df"]['l_line_angle'][data['i']] < 0:
+        if data["df"]['h_line_angle'][data['i']] < 0 and data["df"]['l_line_angle'][data['i']] < 0:
+            if data['pos_1'] == 'up' and data['pos_2'] == 'middle':    
                 data["df"]['to_order'][data['i']] = 'short'
-                #-------------------------------------------
-                data['stop_loss_pip']                                   = -data['sup_res_gap']
-                data['pl_move_trail_trigger']                           = data['sup_res_gap']
-                data['df']['stop_loss_pip'].loc[data['i']]              = data['stop_loss_pip'] 
-                data['df']['pl_move_trail_trigger'].loc[data['i']]      = data['pl_move_trail_trigger'] 
-                #-------------------------------------------
+            # if data['df']['l_trend_calc_spot'].loc[data['i']] - data['tick'] >= data["df"]['sup_res_gap'].loc[data['i']] / 2:
+            #     data["df"]['to_order'][data['i']] = 'short' 
 
-        elif data['pos_1'] == 'down' and data['pos_2'] == 'middle':
-            if data["df"]['h_line_angle'][data['i']] > 0 and data["df"]['l_line_angle'][data['i']] > 0:
-                data["df"]['to_order'][data['i']] = 'long'                
-                #-------------------------------------------
-                data['stop_loss_pip']                                   = -data['sup_res_gap']
-                data['pl_move_trail_trigger']                           = data['sup_res_gap']
-                data['df']['stop_loss_pip'].loc[data['i']]              = data['stop_loss_pip'] 
-                data['df']['pl_move_trail_trigger'].loc[data['i']]      = data['pl_move_trail_trigger'] 
-                #-------------------------------------------
+        elif data["df"]['h_line_angle'][data['i']] > 0 and data["df"]['l_line_angle'][data['i']] > 0:
+            if data['pos_1'] == 'down' and data['pos_2'] == 'middle':
+                data["df"]['to_order'][data['i']] = 'long'        
+            # if data['tick'] - data['df']['h_trend_calc_spot'].loc[data['i']] >= data["df"]['sup_res_gap'].loc[data['i']] / 2:
+            #     data["df"]['to_order'][data['i']] = 'long' 
+
+
+
     return(data)    
 #................................................................................................
+
+def capture_pl_data(data):
+    data['stop_loss_pip']                                   = -data['sup_res_gap'] * 0.75
+    data['pl_move_trail_trigger']                           = data['sup_res_gap'] * 0.75
+    data['df']['stop_loss_pip'].loc[data['i']]              = data['stop_loss_pip'] 
+    data['df']['pl_move_trail_trigger'].loc[data['i']]      = data['pl_move_trail_trigger'] 
+    return(data)
 
 #...............................................................................................     
 def trend_angle_check(data):

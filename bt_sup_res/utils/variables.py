@@ -166,7 +166,7 @@ data['min_line_points'] = 3
 data['pip_decimal_num'] = 3
 data['trend_angle']     = 10
 
-data['min_sup_res_gap']             = 0.0005
+data['min_sup_res_gap']             = 0.0006
 # data['max_sup_res_gap']             = 0.0010
 
 data['stop_loss_pip']               = -0.0010
@@ -180,7 +180,7 @@ data['l_slope_available']       = False
 
 data['plot_tip_points']         = False
 data['plot_trend_lines']        = False
-data['plot_angle_line']         = True
+data['plot_angle_line']         = False
 data['plot_trend_calc_lines']   = True
 data['plot_transactions']       = False
 

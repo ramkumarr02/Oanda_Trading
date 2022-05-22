@@ -100,7 +100,7 @@ def after_angle(data):
 
     # Get Lema Angle --------------------------------
     data['y_axis'] = list(data["llema_angle_list"])        
-    data = get_slope(data)            
+    # data = get_slope(data)            
     # ----------------------------------------------------------  
         
     return(data)

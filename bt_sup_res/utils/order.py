@@ -1,5 +1,6 @@
 from utils.packages import *
 from utils.i_o import *
+from utils.dir_slope import *
 
 
 #...............................................................................................
@@ -21,6 +22,8 @@ def make_long_order(data):
     data['open_order'] = True
     data['open_order_type'] = 'long'
     data['df']['long_open'].iloc[data['i']] = data['ask']
+    data['pl_positive'] = False
+    data = capture_pl_data(data)
     return(data)
 
 
@@ -29,6 +32,8 @@ def make_short_order(data):
     data['open_order'] = True
     data['open_order_type'] = 'short'
     data['df']['short_open'].iloc[data['i']] = data['bid']
+    data['pl_positive'] = False
+    data = capture_pl_data(data)
     return(data)
 
 
@@ -36,6 +41,7 @@ def close_long_order(data):
     data['open_order'] = False
     data['df']['long_close'].iloc[data['i']] = data['bid']
     data['df']['pl'].iloc[data['i']] = data['pl']
+    data['pl_positive'] = False
     return(data)
 
 
@@ -43,6 +49,7 @@ def close_short_order(data):
     data['open_order'] = False
     data['df']['short_close'].iloc[data['i']] = data['ask']
     data['df']['pl'].iloc[data['i']] = data['pl']
+    data['pl_positive'] = False
     return(data)
 
 #...............................................................................................
