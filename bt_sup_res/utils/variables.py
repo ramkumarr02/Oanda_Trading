@@ -15,6 +15,7 @@ data['pl_list'] =  collections.deque()
 data['sema_angle_list'] =  collections.deque()
 data['lema_angle_list'] =  collections.deque()
 data['llema_angle_list'] =  collections.deque()
+data['sup_res_gap_list'] =  collections.deque()
 
 data['i_list'] = []
 data['tick_list'] = []
@@ -100,7 +101,6 @@ data['tick_close_angle'] = 5
 data['pl_close_angle'] = 15
 
 # data['sema_len']        = 3000
-# data['slema_len']       = 7500
 # data['lema_len']        = 30000
 # data['sema_len']        = 6000
 # data['slema_len']       = 15000
@@ -133,40 +133,42 @@ data['marker_size'] = 1
 
 data['take_profit_flag'] = False
 
-
 data['sema_close_flag'] = False
-
 
 data['df_bars'] = pd.DataFrame()
 data['df_bars']['support'] = ''
 data['df_bars']['resistance'] = ''
 
-data['start_date'] = {'year':2021, 'month':1, 'date':6}
-data['end_date']   = {'year':2021, 'month':1, 'date':6}
+data['start_date'] = {'year':2021, 'month':1, 'date':1}
+data['end_date']   = {'year':2021, 'month':1, 'date':4}
 
 # data['input_rows'] = 1_000_000
 # data['input_rows'] = 130000
 # data['input_rows'] = 130000 - 3000
 # data['input_rows'] = 125000 - 4000 - 500
 # data['input_rows'] = 350_000 - 100_000
+# data['df_subset_size'] = 50_000
 data['input_rows'] = None
-data['df_subset_size'] = 100_000
+data['df_subset_size'] = None
 
 # data['sema_len']    = 60                    * 6
 # data['lema_len']    = data['sema_len']      * 2
 # data['candle_size'] = data['sema_len']      * 5
 # data['line_length'] = data['candle_size']   * 6
 
-data['sema_len']    = 300
-data['lema_len']    = 600
+data['sema_len']    = 100
 data['candle_size'] = 1800
-data['line_length'] = 10800
+data['line_length'] = data['candle_size'] * 6
+# data['line_length'] = 10800
+# data['slema_len']   = 1800
+data['lema_len']    = data['candle_size'] * 5
 
 data['min_line_points'] = 3
 data['pip_decimal_num'] = 3
 data['trend_angle']     = 10
 
-data['min_sup_res_gap']             = 0.0006
+data['min_sup_res_gap']             = 0.0010
+data['sup_res_buffer']              = 0.0001
 # data['max_sup_res_gap']             = 0.0010
 
 data['stop_loss_pip']               = -0.0010
@@ -183,6 +185,7 @@ data['plot_trend_lines']        = False
 data['plot_angle_line']         = False
 data['plot_trend_calc_lines']   = True
 data['plot_transactions']       = False
+data['plot_std']                = False
 
 data['plot_type'] = 'file'
 data['chrome_path'] = "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s"

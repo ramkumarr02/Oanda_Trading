@@ -74,11 +74,33 @@ def simple_stop_loss(data):
             if data['open_order_type'] == 'long':
                 data['df']['stop_text'].iloc[data['i']] = 'simple_stop'
                 data = close_long_order(data)
+                data = print_results(data)
                     
             if data['open_order_type'] == 'short':                
                 data['df']['stop_text'].iloc[data['i']] = 'simple_stop'
                 data = close_short_order(data)            
+                data = print_results(data)
     return(data)   
+#...............................................................................................
+
+def tick_close(data):
+    if data['open_order']:
+        if data['open_order_type'] == 'long':
+            if data['pl'] > 0:
+                if data['tick'] <= data['df']['l_trend_calc_spot'].loc[data['i']]:
+                    data['df']['stop_text'].iloc[data['i']] = 'tick_stop'
+                    data = close_long_order(data)
+                    data = print_results(data)
+
+        if data['open_order_type'] == 'short':
+            if data['pl'] > 0:
+                if data['tick'] <= data['df']['h_trend_calc_spot'].loc[data['i']]:
+                    data['df']['stop_text'].iloc[data['i']] = 'tick_stop'
+                    data = close_short_order(data)
+                    data = print_results(data)
+
+    return(data)
+
 
 #...............................................................................................
 def simple_take_profit(data):       
@@ -87,10 +109,12 @@ def simple_take_profit(data):
             if data['open_order_type'] == 'long':
                 data['df']['stop_text'].iloc[data['i']] = 'simple_take_profit'
                 data = close_long_order(data)  
+                data = print_results(data)
 
             if data['open_order_type'] == 'short':                
                 data['df']['stop_text'].iloc[data['i']] = 'simple_take_profit'
                 data = close_short_order(data)  
+                data = print_results(data)
     
     return(data)    
 #...............................................................................................
@@ -190,47 +214,6 @@ def take_profit(data):
     return(data)    
 
 #...............................................................................................
-
-
-def tick_close_check(data):
-    if data['tick_check_flag']:
-        if data['open_order']:
-            if data['open_order_type'] == 'long':
-                if data['tick'] > data['sema'] and data['tick'] > data['slema'] and data['tick'] > data['lema']:
-                    data['tick_positive'] = True
-                    data['tick_check_flag'] = False
-                else:
-                    data['tick_positive'] = False
-
-            if data['open_order_type'] == 'short':
-                if data['tick'] < data['sema'] and data['tick'] < data['slema'] and data['tick'] < data['lema']:
-                    data['tick_positive'] = True
-                    data['tick_check_flag'] = False
-                else:
-                    data['tick_positive'] = False
-
-    return(data)
-
-#...............................................................................................
-
-def tick_close(data):
-    if data['tick_positive']:
-        if data['pl'] > 0:
-            if data['open_order']:
-                if data['open_order_type'] == 'long':
-                    if data['tick'] < data['sema'] and data['tick'] < data['slema'] and data['tick'] < data['lema']:
-                        data['stop_text'] = 'tick_close'
-                        data = close_long_order(data)  
-
-                if data['open_order_type'] == 'short':
-                    if data['tick'] > data['sema'] and data['tick'] > data['slema'] and data['tick'] > data['lema']:
-                        data['stop_text'] = 'tick_close'
-                        data = close_short_order(data)  
-
-    return(data)
-
-#...............................................................................................   
-
 
 def slema_positive_check(data):
     if data['slema_check_flag']:

@@ -66,10 +66,10 @@ def get_trend_fwd(data):
 
 def get_position(data):
     
-    if data['sema'] >= data['df']['h_trend_calc_spot'].loc[data['i']]:
+    if data['sema'] >= data['df']['h_trend_calc_spot'].loc[data['i']] - data['sup_res_buffer']:
         data['position'] = 'up'
 
-    elif data['sema'] <= data['df']['l_trend_calc_spot'].loc[data['i']]:
+    elif data['sema'] <= data['df']['l_trend_calc_spot'].loc[data['i']] + data['sup_res_buffer']:
         data['position'] = 'down'
 
     else:
@@ -93,25 +93,37 @@ def get_cross_dir(data):
         if data["df"]['h_line_angle'][data['i']] < 0 and data["df"]['l_line_angle'][data['i']] < 0:
             if data['pos_1'] == 'up' and data['pos_2'] == 'middle':    
                 data["df"]['to_order'][data['i']] = 'short'
-            # if data['df']['l_trend_calc_spot'].loc[data['i']] - data['tick'] >= data["df"]['sup_res_gap'].loc[data['i']] / 2:
-            #     data["df"]['to_order'][data['i']] = 'short' 
+                data = build_sup_res_gap_list(data)
 
         elif data["df"]['h_line_angle'][data['i']] > 0 and data["df"]['l_line_angle'][data['i']] > 0:
             if data['pos_1'] == 'down' and data['pos_2'] == 'middle':
                 data["df"]['to_order'][data['i']] = 'long'        
-            # if data['tick'] - data['df']['h_trend_calc_spot'].loc[data['i']] >= data["df"]['sup_res_gap'].loc[data['i']] / 2:
-            #     data["df"]['to_order'][data['i']] = 'long' 
-
-
+                data = build_sup_res_gap_list(data)
 
     return(data)    
 #................................................................................................
 
 def capture_pl_data(data):
-    data['stop_loss_pip']                                   = -data['sup_res_gap'] * 0.75
-    data['pl_move_trail_trigger']                           = data['sup_res_gap'] * 0.75
+    data['stop_loss_pip']                                   = -data['avg_sup_res_gap'] * 0.8
+    data['pl_move_trail_trigger']                           = data['avg_sup_res_gap'] * 0.8
     data['df']['stop_loss_pip'].loc[data['i']]              = data['stop_loss_pip'] 
     data['df']['pl_move_trail_trigger'].loc[data['i']]      = data['pl_move_trail_trigger'] 
+    return(data)
+#................................................................................................
+
+def build_sup_res_gap_list(data):
+    if len(data['sup_res_gap_list']) < 4:
+        data['sup_res_gap_list'].append(data['sup_res_gap'])
+
+    elif len(data['sup_res_gap_list']) == 4:
+        data['sup_res_gap_list'].popleft()
+        data['sup_res_gap_list'].append(data['sup_res_gap'])
+
+    if np.isnan(np.mean(data['sup_res_gap_list'])):
+        data['avg_sup_res_gap'] = data['min_sup_res_gap']
+    else:
+        data['avg_sup_res_gap'] = np.mean(data['sup_res_gap_list'])
+
     return(data)
 
 #...............................................................................................     

@@ -20,7 +20,11 @@ def read_data(data):
     data["df"]['tick']  = np.float()
     data['df']['DateTime_frmt'] = np.nan
     del data['df']['Volume']
+
     data["df"]['sema'] = np.nan
+    data["df"]['slema'] = np.nan
+    data["df"]['lema'] = np.nan
+
     data["df"]['position'] = np.nan
     data["df"]['to_order'] = np.nan
     data["df"]['h_line_angle'] = np.nan
@@ -33,7 +37,6 @@ def read_data(data):
     data['df']['stop_loss_pip'] = np.nan
     data['df']['pl_move_trail_trigger'] = np.nan
     data['df']['pl_move_min'] = np.nan
-    # data["df"]['lema'] = np.nan
     # data["df"]['direction'] = np.nan
     # data["df"]['trend_angle'] = np.nan
 
@@ -42,7 +45,6 @@ def read_data(data):
     
     # data['df']['h_line'] = np.nan
     # data['df']['l_line'] = np.nan
-    # data["df"]['slema'] = np.nan
     data['df']['long_open'] = np.nan
     data['df']['long_close'] = np.nan
     data['df']['short_open'] = np.nan
@@ -91,7 +93,17 @@ def split_date_col(data):
     data['report_df']['minute_val'] = [x.minute for x in data['report_df']['date']]
 #...............................................................................................
 
+def print_results(data):
+    try:
+        display.clear_output(wait = True)
+    except:
+        pass
 
+    pl_list = data['df']['pl'][data['df']['pl'].notnull()]
+    print(f'Sum : {sum(pl_list)}')
+    print('-----------------------------')
+    print(data['df'][['DateTime','pl']][data['df']['pl'].notnull()])
+    return(data)
 
 #...............................................................................................
 def print_report(data):
@@ -158,9 +170,18 @@ def plot_graph(data):
                             y=data['df']['sema'],
                             mode='lines',
                             name='sema',
-                            line=dict(color='burlywood', width=1),
+                            line=dict(color='grey', width=1),
                         )
                 )    
+
+    # fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
+    #                     y=data['df']['slema'],
+    #                     mode='lines',
+    #                     name='slema',
+    #                     line=dict(color='burlywood', width=1),
+    #                 )
+    #         )       
+
 
     # fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
     #                     y=data['df']['lema'],
@@ -170,6 +191,25 @@ def plot_graph(data):
     #                 )
     #         )                                                
     # --------------------------------
+    if data['plot_std']:
+        fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
+                            y=data['df']['std_up'],
+                            mode='lines',
+                            name='std_up',
+                            line=dict(color='grey', width=1),
+                        )
+                )       
+
+
+        fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
+                            y=data['df']['std_down'],
+                            mode='lines',
+                            name='std_down',
+                            line=dict(color='grey', width=1),
+                        )
+                )                                                
+    # --------------------------------
+
 
     # Tip points --------------------------------
     if data['plot_tip_points']:
@@ -199,59 +239,59 @@ def plot_graph(data):
                                 )),
                     opacity=1)
     #  --------------------------------
+    if data['plot_transactions']:
+        fig.add_scatter(x = data['df']['DateTime_frmt'], 
+                    y = data['df']['long_open'], 
+                    mode = 'markers', 
+                    name = 'long_open',
+                    marker_symbol = 'triangle-up',
+                    marker=dict(color='blue',
+                                size=10,
+                                line=dict(
+                                    color='blue',
+                                    width=1
+                                )),
+                    opacity=1)
 
-    fig.add_scatter(x = data['df']['DateTime_frmt'], 
-                y = data['df']['long_open'], 
-                mode = 'markers', 
-                name = 'long_open',
-                marker_symbol = 'triangle-up',
-                marker=dict(color='blue',
-                            size=10,
-                            line=dict(
-                                color='blue',
-                                width=1
-                            )),
-                opacity=1)
-
-    fig.add_scatter(x = data['df']['DateTime_frmt'], 
-                y = data['df']['long_close'], 
-                mode = 'markers', 
-                name = 'long_close',
-                marker_symbol = 'triangle-up',
-                marker=dict(color='red',
-                            size=10,
-                            line=dict(
-                                color='red',
-                                width=1
-                            )),
-                opacity=1)
+        fig.add_scatter(x = data['df']['DateTime_frmt'], 
+                    y = data['df']['long_close'], 
+                    mode = 'markers', 
+                    name = 'long_close',
+                    marker_symbol = 'triangle-up',
+                    marker=dict(color='red',
+                                size=10,
+                                line=dict(
+                                    color='red',
+                                    width=1
+                                )),
+                    opacity=1)
 
 
-    fig.add_scatter(x = data['df']['DateTime_frmt'], 
-                y = data['df']['short_open'], 
-                mode = 'markers', 
-                name = 'short_open',
-                marker_symbol = 'triangle-down',
-                marker=dict(color='blue',
-                            size=10,
-                            line=dict(
-                                color='blue',
-                                width=1
-                            )),
-                opacity=1)
+        fig.add_scatter(x = data['df']['DateTime_frmt'], 
+                    y = data['df']['short_open'], 
+                    mode = 'markers', 
+                    name = 'short_open',
+                    marker_symbol = 'triangle-down',
+                    marker=dict(color='blue',
+                                size=10,
+                                line=dict(
+                                    color='blue',
+                                    width=1
+                                )),
+                    opacity=1)
 
-    fig.add_scatter(x = data['df']['DateTime_frmt'], 
-                y = data['df']['short_close'], 
-                mode = 'markers', 
-                name = 'short_close',
-                marker_symbol = 'triangle-down',
-                marker=dict(color='red',
-                            size=10,
-                            line=dict(
-                                color='red',
-                                width=1
-                            )),
-                opacity=1)
+        fig.add_scatter(x = data['df']['DateTime_frmt'], 
+                    y = data['df']['short_close'], 
+                    mode = 'markers', 
+                    name = 'short_close',
+                    marker_symbol = 'triangle-down',
+                    marker=dict(color='red',
+                                size=10,
+                                line=dict(
+                                    color='red',
+                                    width=1
+                                )),
+                    opacity=1)
 
     # Trend lines --------------------------------
     if data['plot_trend_lines']:
