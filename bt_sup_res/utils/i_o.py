@@ -31,6 +31,8 @@ def read_data(data):
     data["df"]['l_line_angle'] = np.nan
     data["df"]['h_trend_calc_spot'] = np.nan
     data["df"]['l_trend_calc_spot'] = np.nan
+    data["df"]['small_h_trend_calc_spot'] = np.nan
+    data["df"]['small_l_trend_calc_spot'] = np.nan
     data["df"]['sup_res_gap'] = np.nan
     data["df"]['stop_text'] = np.nan
     
@@ -42,6 +44,8 @@ def read_data(data):
 
     data['df']['h'] = np.nan
     data['df']['l'] = np.nan
+    data['df']['small_h'] = np.nan
+    data['df']['small_l'] = np.nan
     
     # data['df']['h_line'] = np.nan
     # data['df']['l_line'] = np.nan
@@ -143,7 +147,7 @@ def print_report(data):
 #...............................................................................................
 def plot_graph(data):
     # Plot Layout --------------------------------
-    chart_name = f"Trade Chart   --   sema-lema:{data['sema_len']}-{data['lema_len']},   candle_size:{data['candle_size']},   line_len:{data['line_length']},   min_pts:{data['min_line_points']}"
+    chart_name = f"Trade Chart -- sema-lema:{data['sema_len']}-{data['lema_len']}, candle_size:{data['candle_size']}, line_len:{data['line_length']}, min_pts:{data['min_line_points']}, small_candle_size:{data['small_candle_size']}, line_len:{data['small_line_length']}"
     layout = go.Layout(title = chart_name,
                        xaxis = dict(title="DateTime"),
                        xaxis2 = dict(title= 'x', side= 'top'),
@@ -166,30 +170,33 @@ def plot_graph(data):
                         )
                 )
 
-    fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
-                            y=data['df']['sema'],
+    if 'sema' in data['included_loops']:
+        fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
+                                y=data['df']['sema'],
+                                mode='lines',
+                                name='sema',
+                                line=dict(color='grey', width=1),
+                            )
+                    )    
+
+    if 'slema' in data['included_loops']:
+        fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
+                            y=data['df']['slema'],
                             mode='lines',
-                            name='sema',
-                            line=dict(color='grey', width=1),
+                            name='slema',
+                            line=dict(color='burlywood', width=1),
                         )
-                )    
-
-    # fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
-    #                     y=data['df']['slema'],
-    #                     mode='lines',
-    #                     name='slema',
-    #                     line=dict(color='burlywood', width=1),
-    #                 )
-    #         )       
+                )       
 
 
-    # fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
-    #                     y=data['df']['lema'],
-    #                     mode='lines',
-    #                     name='lema',
-    #                     line=dict(color='blue', width=1),
-    #                 )
-    #         )                                                
+    if 'lema' in data['included_loops']:
+        fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
+                            y=data['df']['lema'],
+                            mode='lines',
+                            name='lema',
+                            line=dict(color='blue', width=1),
+                        )
+                )                                                
     # --------------------------------
     if data['plot_std']:
         fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
@@ -325,7 +332,7 @@ def plot_graph(data):
                                 size=data['marker_size'],
                                 line=dict(
                                     color='red',
-                                    width=1.5
+                                    width=0.5
                                 )),
                     opacity=1)
 
@@ -338,10 +345,35 @@ def plot_graph(data):
                                 size=data['marker_size'],
                                 line=dict(
                                     color='blue',
-                                    width=1.5
+                                    width=0.5
                                 )),
                     opacity=1)
         
+        fig.add_scatter(x = data['df']['DateTime_frmt'], 
+                    y = data['df']['small_h_trend_calc_spot'], 
+                    mode = 'markers', 
+                    name = 'Resistance',
+                    marker_symbol = 'circle',
+                    marker=dict(color='orange',
+                                size=data['marker_size'],
+                                line=dict(
+                                    color='orange',
+                                    width=0.5
+                                )),
+                    opacity=1)
+
+        fig.add_scatter(x = data['df']['DateTime_frmt'], 
+                    y = data['df']['small_l_trend_calc_spot'], 
+                    mode = 'markers', 
+                    name = 'Support',
+                    marker_symbol = 'circle',
+                    marker=dict(color='purple',
+                                size=data['marker_size'],
+                                line=dict(
+                                    color='purple',
+                                    width=0.5
+                                )),
+                    opacity=1)
     #  --------------------------------    
     
     
@@ -369,6 +401,12 @@ def plot_graph(data):
                                  ))
     
     if data['plot_type'] == 'file':
+        chart_name = str(dt.datetime.now())
+        chart_name = chart_name.replace(":", "-")
+        chart_name = chart_name.replace(".", "-")
+        chart_name = chart_name.replace(" ", "-")
+        data['chart_file_path'] = (f'{os.getcwd()}\\data\\chart-{chart_name}.html')
+
         fig.write_html(data['chart_file_path'])
         webbrowser.get(data['chrome_path']).open(data['chart_file_path'])
     elif data['plot_type'] == 'show':

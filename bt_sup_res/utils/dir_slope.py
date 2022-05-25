@@ -14,7 +14,53 @@ def get_tick_time(data):
 
 #...............................................................................................    
 
+#...............................................................................................    
+def get_ohlc_small(data):
+    
+    if data['i'] % data['small_candle_size'] == 0 and data['i'] > 0:        
+        data['tick_list'] = data['df']['tick'].loc[data['i'] - data['small_candle_size'] : data['i']]
+        max_index = data['tick_list'].idxmax()
+        min_index = data['tick_list'].idxmin()
+        data['df']['small_h'].loc[max_index] = max(data['tick_list'])
+        data['df']['small_l'].loc[min_index] = min(data['tick_list'])
 
+    return(data)
+#...............................................................................................    
+
+#...............................................................................................    
+def get_trend_fwd_small(data):
+    
+    if data['i'] >= data['small_line_length']:
+    
+        line_index  = data['df'][data['i']-data['small_line_length']+1 : data['i']+1].index
+        temp_df     = data['df'].loc[line_index]
+
+        x           = temp_df['small_h'][temp_df['small_h'].notnull()].index
+        y           = temp_df['small_h'][temp_df['small_h'].notnull()].values 
+
+        if len(x) >= data['min_line_points']:
+            slope_tick, intercept, _, _, _                  = linregress(x, y)
+            data['df']['small_h_trend_calc_spot'].loc[data['i']]      = (slope_tick * data['i']) + intercept
+            # data['df']['small_h_line_angle'].loc[data['i']]           = math.degrees(math.atan(slope_tick)) * 10**6
+
+    # ----------------------------------------------------------------------------------
+
+        x           = temp_df['small_l'][temp_df['small_l'].notnull()].index
+        y           = temp_df['small_l'][temp_df['small_l'].notnull()].values 
+
+        if len(x) >= data['min_line_points']:
+            slope_tick, intercept, _, _, _                  = linregress(x, y)
+            data['df']['small_l_trend_calc_spot'].loc[data['i']]      = (slope_tick * data['i']) + intercept
+            # data['df']['small_l_line_angle'].loc[data['i']]           = math.degrees(math.atan(slope_tick)) * 10**6
+
+        #data['sup_res_gap'] = data['df']['small_h_trend_calc_spot'].loc[data['i']] - data['df']['small_l_trend_calc_spot'].loc[data['i']]        
+        #data["df"]['sup_res_gap'].loc[data['i']]                = data['sup_res_gap']
+
+    return(data)
+
+#...............................................................................................   
+
+#...............................................................................................    
 def get_ohlc(data):
     
     if data['i'] % data['candle_size'] == 0 and data['i'] > 0:        
@@ -25,10 +71,7 @@ def get_ohlc(data):
         data['df']['l'].loc[min_index] = min(data['tick_list'])
 
     return(data)
-
 #...............................................................................................    
-
-
 
 #...............................................................................................    
 def get_trend_fwd(data):
