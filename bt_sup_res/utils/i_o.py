@@ -483,7 +483,10 @@ def create_report(data):
 
 
 #...............................................................................................    
-def send_telegram_message(message_text):        
+def send_telegram_message(message_text):     
+    data['telegram_url'] = "https://api.telegram.org/bot"
+    data['url_for_Chat_id'] = f'{data["telegram_url"]}{keys.tester_bot_token}/getUpdates'   
+    
     send_message_url = f'{data["telegram_url"]}{keys.tester_bot_token}/sendMessage?chat_id={keys.chat_id}/&text={message_text}'
     requests.get(send_message_url)
 #...............................................................................................    

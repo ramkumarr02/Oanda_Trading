@@ -165,11 +165,11 @@ data['lema_len']    = 6000
 
 data['min_line_points'] = 3
 
-data['candle_size'] = 3600 * 4
+data['candle_size'] = 3600 * 2
 data['line_length'] = data['candle_size'] * 4
 
-data['small_candle_size'] = 360 * 2
-data['small_line_length'] = data['small_candle_size'] * 6
+data['small_candle_size'] = 360 * 1
+data['small_line_length'] = data['small_candle_size'] * 4
 
 data['pip_decimal_num'] = 3
 data['trend_angle']     = 10
@@ -196,7 +196,4 @@ data['plot_std']                = False
 
 data['plot_type'] = 'file'
 data['chrome_path'] = "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s"
-
-data['telegram_url'] = "https://api.telegram.org/bot"
-data['url_for_Chat_id'] = f'{data["telegram_url"]}{keys.tester_bot_token}/getUpdates'
 #...............................................................................................
