@@ -349,31 +349,31 @@ def plot_graph(data):
                                 )),
                     opacity=1)
         
-        fig.add_scatter(x = data['df']['DateTime_frmt'], 
-                    y = data['df']['small_h_trend_calc_spot'], 
-                    mode = 'markers', 
-                    name = 'Resistance',
-                    marker_symbol = 'circle',
-                    marker=dict(color='orange',
-                                size=data['marker_size'],
-                                line=dict(
-                                    color='orange',
-                                    width=0.5
-                                )),
-                    opacity=1)
+        # fig.add_scatter(x = data['df']['DateTime_frmt'], 
+        #             y = data['df']['small_h_trend_calc_spot'], 
+        #             mode = 'markers', 
+        #             name = 'Resistance',
+        #             marker_symbol = 'circle',
+        #             marker=dict(color='orange',
+        #                         size=data['marker_size'],
+        #                         line=dict(
+        #                             color='orange',
+        #                             width=0.5
+        #                         )),
+        #             opacity=1)
 
-        fig.add_scatter(x = data['df']['DateTime_frmt'], 
-                    y = data['df']['small_l_trend_calc_spot'], 
-                    mode = 'markers', 
-                    name = 'Support',
-                    marker_symbol = 'circle',
-                    marker=dict(color='purple',
-                                size=data['marker_size'],
-                                line=dict(
-                                    color='purple',
-                                    width=0.5
-                                )),
-                    opacity=1)
+        # fig.add_scatter(x = data['df']['DateTime_frmt'], 
+        #             y = data['df']['small_l_trend_calc_spot'], 
+        #             mode = 'markers', 
+        #             name = 'Support',
+        #             marker_symbol = 'circle',
+        #             marker=dict(color='purple',
+        #                         size=data['marker_size'],
+        #                         line=dict(
+        #                             color='purple',
+        #                             width=0.5
+        #                         )),
+        #             opacity=1)
     #  --------------------------------    
     
     

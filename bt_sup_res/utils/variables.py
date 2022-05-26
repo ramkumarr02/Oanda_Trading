@@ -139,8 +139,10 @@ data['df_bars'] = pd.DataFrame()
 data['df_bars']['support'] = ''
 data['df_bars']['resistance'] = ''
 
-data['start_date'] = {'year':2021, 'month':1, 'date':5}
-data['end_date']   = {'year':2021, 'month':1, 'date':6}
+data['ema_crossing_point'] = 0
+
+data['start_date'] = {'year':2021, 'month':1, 'date':1}
+data['end_date']   = {'year':2021, 'month':1, 'date':5}
 
 # data['input_rows'] = 1_000_000
 # data['input_rows'] = 130000
@@ -156,16 +158,18 @@ data['df_subset_size'] = None
 # data['candle_size'] = data['sema_len']      * 5
 # data['line_length'] = data['candle_size']   * 6
 
-# data['included_loops']       = ['sema', 'slema', 'lema']
-data['included_loops']       = ['']
+data['included_loops']       = ['sema', 'slema', 'lema']
+# data['included_loops']       = ['sema', 'lema']
+# data['included_loops']       = ['']
 
-data['sema_len']    = 100
-data['slema_len']   = 600
-data['lema_len']    = 6000
+
+data['sema_len']    = 1800
+data['slema_len']   = 3600
+data['lema_len']    = 7200
 
 data['min_line_points'] = 3
 
-data['candle_size'] = 3600 * 2
+data['candle_size'] = 60 * 20
 data['line_length'] = data['candle_size'] * 4
 
 data['small_candle_size'] = 360 * 1

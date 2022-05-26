@@ -76,7 +76,7 @@ def get_ohlc(data):
 #...............................................................................................    
 def get_trend_fwd(data):
     
-    if data['i'] >= data['line_length']:
+    if (data['i'] - data['ema_crossing_point']) >= data['line_length']:
     
         line_index  = data['df'][data['i']-data['line_length']+1 : data['i']+1].index
         temp_df     = data['df'].loc[line_index]
@@ -107,30 +107,30 @@ def get_trend_fwd(data):
 
 #...............................................................................................   
 
-def get_position(data):
+def get_position_trend(data):
     
     if data['sema'] >= data['df']['h_trend_calc_spot'].loc[data['i']] - data['sup_res_buffer']:
-        data['position'] = 'up'
+        data['position_trend'] = 'up'
 
     elif data['sema'] <= data['df']['l_trend_calc_spot'].loc[data['i']] + data['sup_res_buffer']:
-        data['position'] = 'down'
+        data['position_trend'] = 'down'
 
     else:
-        data['position'] = 'middle'
+        data['position_trend'] = 'middle'
 
-    data["df"]['position'][data['i']] = data['position']
+    # data["df"]['position_trend'][data['i']] = data['position_trend']
     
     return(data)
 #...............................................................................................
 
 #...............................................................................................
-def get_cross_dir(data):   
+def get_cross_dir_trend(data):   
     
-    data['dir_list'].popleft()
-    data['dir_list'].append(data['position'])   
+    data['dir_list_trend'].popleft()
+    data['dir_list_trend'].append(data['position_trend'])   
     
-    data['pos_1'] = data['dir_list'][0]
-    data['pos_2'] = data['dir_list'][1]
+    data['pos_1'] = data['dir_list_trend'][0]
+    data['pos_2'] = data['dir_list_trend'][1]
 
     if data["df"]['sup_res_gap'].loc[data['i']] >= data['min_sup_res_gap']:
         if data["df"]['h_line_angle'][data['i']] < 0 and data["df"]['l_line_angle'][data['i']] < 0:
@@ -145,6 +145,40 @@ def get_cross_dir(data):
 
     return(data)    
 #................................................................................................
+
+#...............................................................................................
+def get_position(data):
+
+    if abs(data['sema'] - data['lema']) < 0.00005:
+        data['position'] = 0
+
+    elif data['sema'] > data['lema']:
+        data['position'] = 'up'
+
+    elif data['sema'] < data['lema']:
+        data['position'] = 'down'
+    
+    return(data)
+#...............................................................................................
+
+
+#...............................................................................................
+def get_cross_dir(data):   
+    
+    data['dir_list'].popleft()
+    data['dir_list'].append(data['position'])   
+    
+    pos_1 = data['dir_list'][0]
+    pos_2 = data['dir_list'][1]
+    
+    if pos_2 != pos_1:
+        data['ema_crossing_point'] = data['i']
+    else:
+        pass
+
+    return(data)    
+#................................................................................................
+
 
 def capture_pl_data(data):
     data['stop_loss_pip']                                   = -data['avg_sup_res_gap'] * 0.8
