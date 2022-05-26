@@ -41,6 +41,8 @@ def run_engine(data):
         elif len(data['dir_list']) == 2:
             data = get_cross_dir(data)
         # ----------------------------------------------------------  
+
+        data = delayed_start_check(data)
         
         data = calculate_pl(data)
         data = tick_close_check(data)

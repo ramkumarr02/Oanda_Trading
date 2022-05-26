@@ -4,6 +4,7 @@ from utils.packages import *
 #...............................................................................................
 data = {}
 
+data['df'] = pd.DataFrame()
 data['total_df'] = pd.DataFrame()
 data['dt_list'] =  collections.deque()
 data['dir_list'] = collections.deque()
@@ -75,7 +76,7 @@ data['position'] = None
 data['pip_decimal_num'] = 6
 data['test_val'] = []
 
-data["product"] = 'eurusd'
+data["product"] = 'EURUSD'
 data["input_year"] = 2021
 data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 
@@ -115,9 +116,9 @@ data['pl_move_trail_ratio']         = 0.75
 data['pl_loss_trail_trigger']       = -0.0040
 data['pl_loss_trail_size']          = 0.75
 
-data['sema_len']    = 30000
-data['slema_len']   = 45000
-data['lema_len']    = 100000
+data['sema_len']    = 1800
+data['slema_len']   = 3600
+data['lema_len']    = 7200
 
 data['angle_len']       = 100
 
@@ -141,4 +142,10 @@ data['take_profit_flag'] = False
 
 data['input_rows'] = None
 data['sema_close_flag'] = False
+
+
+data['short_start'] = False
+data['long_start'] = False
+data['delay_counter'] = 0
+data['delay_tics_num'] = 1000
 #...............................................................................................

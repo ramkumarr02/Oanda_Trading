@@ -4,16 +4,13 @@ from utils.packages import *
 #...............................................................................................
 def get_position(data):
 
-    data['short'] = data['sema']
-    data['long'] = data['lema']
-
-    if data['short'] == data['long']:
+    if data['sema'] == data['lema']:
         data['position'] = 0
 
-    elif data['short'] - data['long'] >= 0.00001:
+    elif data['sema'] - data['lema'] >= 0.00001:
         data['position'] = 1
 
-    elif data['long'] - data['short'] >= 0.00001:
+    elif data['lema'] - data['sema'] >= 0.00001:
         data['position'] = -1
     
     return(data)
@@ -33,21 +30,47 @@ def get_cross_dir(data):
     return(data)    
 #................................................................................................
 
+#...............................................................................................
+def delayed_start_check(data):
+    if data['short_start']:
+        if data['delay_counter'] < data['delay_tics_num']:
+            data['delay_counter'] += 1
+        else:
+            data['to_order'] = 'short'
+            data['dir_change'] = True 
+    
+    if data['long_start']:
+        if data['delay_counter'] < data['delay_tics_num']:
+            data['delay_counter'] += 1
+        else:
+            data['to_order'] = 'long'
+            data['dir_change'] = True
+
+    return(data)
+#...............................................................................................
+
+
+#...............................................................................................
 def dir_switch_check(data):
 
     if data['direction'] == 'straight':
         if data['pos_1'] != data['pos_2'] and data['pos_2'] == -1:
             data['dir_change'] = True    
-            data['to_order'] = 'short'
+            data['short_start'] = True
+            data['long_start'] = False
+            data['delay_counter'] = 0
 
         elif data['pos_1'] != data['pos_2'] and data['pos_2'] == 1:
             data['dir_change'] = True    
-            data['to_order'] = 'long'   
+            data['long_start'] = True
+            data['short_start'] = False
+            data['delay_counter'] = 0
         
-        else:
-            data['dir_change'] = False
-            data['to_order'] = None
-            data['sema_close_flag'] = False        
+        # else:
+            # data['dir_change'] = False
+            # data['short_start'] = False
+            # data['long_start'] = False
+            # data['sema_close_flag'] = False        
 
     #-------------------------
 
@@ -99,6 +122,7 @@ def dir_switch_check(data):
     return(data)    
 
 #...............................................................................................
+
 
 #...............................................................................................
 
