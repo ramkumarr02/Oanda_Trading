@@ -1,5 +1,6 @@
 from utils.packages import *
 from utils.dir_slope import *
+from utils.i_o import *
 
 
 #...............................................................................................
@@ -100,7 +101,7 @@ def after_angle(data):
 
     # Get Lema Angle --------------------------------
     data['y_axis'] = list(data["llema_angle_list"])        
-    data = get_slope(data)            
+    # data = get_slope(data)            
     # ----------------------------------------------------------  
         
     return(data)
@@ -130,41 +131,41 @@ def roll_slope(slope_list):
 
 #...............................................................................................  
 def get_rolling_emas(data):
-    data['df']['tick']      = (data["df"]['Ask'] + data["df"]['Bid'])/2
-    data['dt_val_series']   = [dt.datetime.strptime(x.split(".")[0],"%Y%m%d %H:%M:%S") for x in data["df"]['DateTime']]
 
-    print('Building Lema...')
-    data['df']['lema'] = data['df']['tick'].rolling(window=data['lema_len']).progress_apply(roll_ema)
-    data['df'] = data['df'].dropna()
-    
-    print('Building SLema...')
-    data['df']['slema'] = data['df']['tick'].rolling(window=data['slema_len']).progress_apply(roll_ema)
-    data['df'] = data['df'].dropna()
-    
-    print('Building Sema...')
-    data['df']['sema'] = data['df']['tick'].rolling(window=data['sema_len']).progress_apply(roll_ema)
-    data['df'] = data['df'].dropna()   
+    if data['ema_roll_method'] == 'new':
+        data = read_data(data)
+        data['df']['tick']      = (data["df"]['Ask'] + data["df"]['Bid'])/2
+        data['dt_val_series']   = [dt.datetime.strptime(x.split(".")[0],"%Y%m%d %H:%M:%S") for x in data["df"]['DateTime']]
 
-    data['df'] = data['df'][['DateTime', 'Bid', 'Ask', 'tick', 'sema', 'lema', 'slema']].round(6)
-    data['df'] = data['df'].reset_index(drop=True) 
-    data['df_len'] = len(data["df"])
-    data['df'].to_csv('data/full_df.csv', index = False)
+        print('Building Lema...')
+        data['df']['lema'] = data['df']['tick'].rolling(window=data['lema_len']).progress_apply(roll_ema)
+        data['df'] = data['df'].dropna()
+        
+        print('Building SLema...')
+        data['df']['slema'] = data['df']['tick'].rolling(window=data['slema_len']).progress_apply(roll_ema)
+        data['df'] = data['df'].dropna()
+        
+        print('Building Sema...')
+        data['df']['sema'] = data['df']['tick'].rolling(window=data['sema_len']).progress_apply(roll_ema)
+        data['df'] = data['df'].dropna()   
 
-    return(data)
-#...............................................................................................  
+        data['df'] = data['df'][['DateTime', 'Bid', 'Ask', 'tick', 'sema', 'lema', 'slema']].round(6)
+        data['df'] = data['df'].reset_index(drop=True) 
+        data['df_len'] = len(data["df"])
+        data['df'].to_csv('data/full_df.csv', index = False)
 
-#...............................................................................................  
-def get_rolling_emas(data):
-    data['df'] = pd.read_csv(f'data/full_df.csv')    
-    data["df"] = data["df"][data["df"]['DateTime'].str.contains('|'.join(data['date_list']))]
-    
-    data['dt_val_series']   = [dt.datetime.strptime(x.split(".")[0],"%Y%m%d %H:%M:%S") for x in data["df"]['DateTime']]
 
-    data['df'] = data['df'].reset_index(drop=True)        
-    data['df_len'] = len(data["df"])
+    elif data['ema_roll_method'] == 'file':
+        data['df'] = pd.read_csv(f'data/full_df.csv')    
+        data["df"] = data["df"][data["df"]['DateTime'].str.contains('|'.join(data['date_list']))]
+        
+        data['dt_val_series']   = [dt.datetime.strptime(x.split(".")[0],"%Y%m%d %H:%M:%S") for x in data["df"]['DateTime']]
 
-    data['df'] = data['df'][['DateTime', 'Bid', 'Ask', 'tick', 'sema', 'lema', 'slema']].round(6)
-    # data['df'].to_csv('data/full_df.csv', index = False)
-    
+        data['df'] = data['df'].reset_index(drop=True)        
+        data['df_len'] = len(data["df"])
+
+        data['df'] = data['df'][['DateTime', 'Bid', 'Ask', 'tick', 'sema', 'lema', 'slema']].round(6)
+        # data['df'].to_csv('data/full_df.csv', index = False)
+
     return(data)
 #...............................................................................................  

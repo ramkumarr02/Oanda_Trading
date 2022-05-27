@@ -113,8 +113,8 @@ data['dir_change'] = False
 data['to_order'] = None
 
 data['pl_move_trail_ratio']         = 0.75
-data['pl_loss_trail_trigger']       = -0.0040
-data['pl_loss_trail_size']          = 0.75
+data['pl_loss_trail_trigger']       = -0.0020
+data['pl_loss_trail_size']          = 1.25
 
 data['sema_len']    = 1800
 data['slema_len']   = 3600
@@ -122,16 +122,19 @@ data['lema_len']    = 7200
 
 data['angle_len']       = 100
 
-data['pl_move_trail_trigger']       = 0.0040
-data['stop_loss_pip']               = -0.0040
+data['pl_move_trail_trigger']       = 0.0020
+data['stop_loss_pip']               = -0.0020
 
 data['min_llema_angle'] = 0
 
 data['take_profit_method']  = 'simple'
 data['stop_loss_method']    = 'simple'
+# data['take_profit_method'] = 'trail'
+# data['stop_loss_method']    = 'trail'
 
 data['start_date'] = {'year':2021, 'month':1, 'date':1}
-data['end_date']   = {'year':2021, 'month':1, 'date':4}
+data['end_date']   = {'year':2021, 'month':1, 'date':31}
+data['ema_roll_method'] = 'file'
 
 # data['direction'] = 'reverse'
 data['direction'] = 'straight'

@@ -42,20 +42,16 @@ def run_engine(data):
             data = get_cross_dir(data)
         # ----------------------------------------------------------  
 
-        data = delayed_start_check(data)
-        
+        data = delayed_start_check(data)        
         data = calculate_pl(data)
-        data = tick_close_check(data)
-        data = tick_close(data)
+        data = take_profit(data)
+        data = stop_loss(data)
+        
         data = slema_positive_check(data)
-        data = simple_slema_move_close(data)
-        data = sema_close(data)
-        data = stop_loss_dynamic(data)   
-        data = dir_switch_check(data)               
+        data = simple_slema_move_close(data)        
+        # data = sema_close(data)
+        
         data = make_order(data)          
-
-        if data['take_profit_flag']:
-            data = simple_take_profit(data)   
             
 
     return(data)
