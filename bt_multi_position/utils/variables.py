@@ -73,7 +73,7 @@ data['stop_loss_pip'] = 0.0010
 # data["input_file_name"] = 'eurusd_2021'
 # data['min_order_angle'] = 20
 data['position'] = None
-data['pip_decimal_num'] = 6
+data['pip_decimal_num'] = 10**-6
 data['test_val'] = []
 
 data["product"] = 'EURUSD'
@@ -102,13 +102,6 @@ data['close_angle']     = 25
 data['tick_close_angle'] = 5
 data['pl_close_angle'] = 15
 
-# data['sema_len']        = 3000
-# data['slema_len']       = 7500
-# data['lema_len']        = 30000
-# data['sema_len']        = 6000
-# data['slema_len']       = 15000
-# data['lema_len']        = 60000
-
 data['dir_change'] = False
 data['to_order'] = None
 
@@ -119,8 +112,8 @@ data['pl_loss_trail_size']          = 1.25
 data['sema_len']    = 1800
 data['slema_len']   = 3600
 data['lema_len']    = 7200
+data['angle_len']   = 7200
 
-data['angle_len']       = 100
 
 data['pl_move_trail_trigger']       = 0.0020
 data['stop_loss_pip']               = -0.0020
@@ -129,12 +122,10 @@ data['min_llema_angle'] = 0
 
 data['take_profit_method']  = 'simple'
 data['stop_loss_method']    = 'simple'
-# data['take_profit_method'] = 'trail'
-# data['stop_loss_method']    = 'trail'
 
 data['start_date'] = {'year':2021, 'month':1, 'date':1}
-data['end_date']   = {'year':2021, 'month':1, 'date':31}
-data['ema_roll_method'] = 'file'
+data['end_date']   = {'year':2021, 'month':1, 'date':4}
+data['ema_roll_method'] = 'new'
 
 # data['direction'] = 'reverse'
 data['direction'] = 'straight'

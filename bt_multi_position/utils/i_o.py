@@ -135,8 +135,8 @@ def plot_graph(data):
     ax1.plot(x_axis, data["df"]['sema'], label='sema', color='red')
     ax1.plot(x_axis, data["df"]['slema'], label='slema', color='darkblue')
     ax1.plot(x_axis, data["df"]['lema'], label='lema', color='black')
-    # ax1.plot(x_axis, data["df"]['llema'], label='llema', color='black')
-    # ax2.plot(x_axis, data["df"]['llema_angle'], label='llema_angle', color='lightgrey', linestyle=linestyle)
+    ax2.plot(x_axis, data["df"]['lema_angle'], label='lema_angle', color='black', linestyle=linestyle)
+    ax2.plot(x_axis, [0] * len(data["df"]['lema_angle']), label='lema_angle', color='black')
 
     data = get_date_lines(data)
 
@@ -148,7 +148,7 @@ def plot_graph(data):
     ax1.scatter(data['sell_markers_x'], data['sell_markers_y'], s=300, c='red', marker=11)
 
     legend = ax1.legend(loc='upper left', fontsize='xx-large')
-    # legend = ax2.legend(loc='upper right', fontsize='xx-large')
+    legend = ax2.legend(loc='upper right', fontsize='xx-large')
     
     ax1.tick_params(axis='x', colors='red', labelsize = 25)
     ax1.tick_params(axis='y', colors='red', labelsize = 25)

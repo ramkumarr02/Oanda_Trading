@@ -44,13 +44,8 @@ def run_engine(data):
 
         data = delayed_start_check(data)        
         data = calculate_pl(data)
-        data = take_profit(data)
-        data = stop_loss(data)
-        
-        data = slema_positive_check(data)
-        data = simple_slema_move_close(data)        
-        # data = sema_close(data)
-        
+        data = simple_take_profit(data)
+        data = simple_stop_loss(data)    
         data = make_order(data)          
             
 

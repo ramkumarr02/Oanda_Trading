@@ -113,21 +113,26 @@ def roll_ema(ema_list):
 #...............................................................................................
 def roll_slope(slope_list):
     
-    slope_list = list(np.round(slope_list, 6))
-    ma_len = len(slope_list)
+    slope_list = list(np.round(slope_list, 6))    
 
-    x_axis = []
-    for i in range(ma_len):
-        x_axis.append(1 + ((i+1) * 10**(-6)))
-    
-    slope_tick, intercept, _, _, _ = linregress(x_axis, slope_list)
-    
-    # slope = np.round(math.degrees(math.atan(slope_tick)),0)
+    # if len(data['x_axis']) == 7200:
+    #     print(len(data['x_axis']))
+
+    # if len(slope_list) != len(data['x_axis']):
+    #     print(len(slope_list), len(data['x_axis']))
+    #     # print(data['x_axis'])
+
+    slope_tick, intercept, _, _, _ = linregress(data['x_axis'], slope_list)
     slope = math.degrees(math.atan(slope_tick))
 
     return(slope)    
 #...............................................................................................  
 
+def get_x_axis(data):
+    start = 1 + 1 * data['pip_decimal_num']
+    stop = 1 + (data['angle_len']) * data['pip_decimal_num']
+    data['x_axis'] = list(np.arange(start, stop, data['pip_decimal_num']).round(6))
+    return(data)
 
 #...............................................................................................  
 def get_rolling_emas(data):
@@ -140,6 +145,11 @@ def get_rolling_emas(data):
         print('Building Lema...')
         data['df']['lema'] = data['df']['tick'].rolling(window=data['lema_len']).progress_apply(roll_ema)
         data['df'] = data['df'].dropna()
+
+        print('Building slope...')        
+        data = get_x_axis(data)
+        data['df']['lema_angle'] = data['df']['lema'].rolling(window=data['angle_len']).progress_apply(roll_slope)
+        data['df'] = data['df'].dropna()   
         
         print('Building SLema...')
         data['df']['slema'] = data['df']['tick'].rolling(window=data['slema_len']).progress_apply(roll_ema)
@@ -149,7 +159,7 @@ def get_rolling_emas(data):
         data['df']['sema'] = data['df']['tick'].rolling(window=data['sema_len']).progress_apply(roll_ema)
         data['df'] = data['df'].dropna()   
 
-        data['df'] = data['df'][['DateTime', 'Bid', 'Ask', 'tick', 'sema', 'lema', 'slema']].round(6)
+        data['df'] = data['df'][['DateTime', 'Bid', 'Ask', 'tick', 'sema', 'slema', 'lema', 'lema_angle']].round(6)
         data['df'] = data['df'].reset_index(drop=True) 
         data['df_len'] = len(data["df"])
         data['df'].to_csv('data/full_df.csv', index = False)
@@ -169,3 +179,4 @@ def get_rolling_emas(data):
 
     return(data)
 #...............................................................................................  
+
