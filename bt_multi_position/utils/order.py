@@ -25,6 +25,45 @@ def make_order(data):
                     data['open_order'] = 2
                     data = make_short_order(data)
 
+    if data['open_order'] == 2:
+        if data['open_order_type'] == 'short':
+            if data['to_order'] == 'long':                
+                if data['orders_list'][2]['pl'] < 0:
+                    data['open_order'] = 3
+                    data = make_long_order(data)
+
+        if data['open_order_type'] == 'long':
+            if data['to_order'] == 'short':
+                if data['orders_list'][2]['pl'] < 0:
+                    data['open_order'] = 3
+                    data = make_short_order(data)
+
+    if data['open_order'] == 3:
+        if data['open_order_type'] == 'short':
+            if data['to_order'] == 'long':                
+                if data['orders_list'][3]['pl'] < 0:
+                    data['open_order'] = 4
+                    data = make_long_order(data)
+
+        if data['open_order_type'] == 'long':
+            if data['to_order'] == 'short':
+                if data['orders_list'][3]['pl'] < 0:
+                    data['open_order'] = 4
+                    data = make_short_order(data)
+
+    # if data['open_order'] == 2:
+    #     if data['open_order_type'] == 'short':
+    #         if data['to_order'] == 'long':                
+    #             if data['orders_list'][2]['pl'] < 0:
+    #                 data['open_order'] = 3
+    #                 data = make_long_order(data)
+
+    #     if data['open_order_type'] == 'long':
+    #         if data['to_order'] == 'short':
+    #             if data['orders_list'][2]['pl'] < 0:
+    #                 data['open_order'] = 3
+    #                 data = make_short_order(data)
+
     return(data)
 #...............................................................................................
 
@@ -32,8 +71,7 @@ def make_order(data):
 def close_all_orders(data):
 
     if data['open_order'] > 1:
-        if data['orders_list']['total_pl'] >= 0.0001:
-
+        if data['orders_list']['total_pl'] >= 0.0001:            
             for i in range(1, data['open_order']+1):
                 if data['orders_list'][i]['open_order_type'] == 'long':   
                     data['pl'] = data['orders_list'][i]['pl']
@@ -53,14 +91,14 @@ def slema_positive_check(data):
     if data['open_order'] == 1:
         if data['slema_check_flag']:
             if data['orders_list'][1]['open_order_type'] == 'long':
-                if data['sema'] > data['lema']:
+                if data['sema'] > data['slema']:
                     data['slema_positive'] = True
                     data['slema_check_flag'] = False
                 else:
                     data['slema_positive'] = False
 
             if data['orders_list'][1]['open_order_type'] == 'short':
-                if data['sema'] < data['lema']:
+                if data['sema'] < data['slema']:
                     data['slema_positive'] = True
                     data['slema_check_flag'] = False
                 else:
@@ -76,12 +114,12 @@ def simple_slema_move_close(data):
             data['pl'] = data['orders_list'][1]['pl']
             if data['pl'] > 0:            
                 if data['orders_list'][1]['open_order_type'] == 'long':
-                    if data['sema'] < data['lema']:
+                    if data['sema'] < data['slema']:
                         data['close_type_val'] = ('simple_slema_move_close')
                         data = close_long_order(data)               
             
                 if data['orders_list'][1]['open_order_type'] == 'short':
-                    if data['sema'] > data['lema']:                
+                    if data['sema'] > data['slema']:                
                         # data['stop_text'] = 'simple_slema_move_close'
                         data['close_type_val'] = ('simple_slema_move_close')
                         data = close_short_order(data)  
@@ -94,8 +132,12 @@ def calculate_pl(data):
     for i in range(1, data['open_order']+1):
         if i == 1:
             data['order_size'] = 1
-        elif i > 1:
+        elif i == 2:
             data['order_size'] = 2
+        elif i == 3:
+            data['order_size'] = 3
+        elif i == 4:
+            data['order_size'] = 4
 
         if data['orders_list'][i]['open_order_type'] == 'long':
             data['orders_list'][i]['pl'] = np.round((data['bid'] - data['orders_list'][i]['ask']) * data['order_size'], 5)
