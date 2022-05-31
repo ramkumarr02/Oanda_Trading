@@ -135,8 +135,8 @@ def plot_graph(data):
     ax1.plot(x_axis, data["df"]['sema'], label='sema', color='red')
     ax1.plot(x_axis, data["df"]['slema'], label='slema', color='darkblue')
     ax1.plot(x_axis, data["df"]['lema'], label='lema', color='black')
-    ax2.plot(x_axis, data["df"]['lema_angle'], label='lema_angle', color='black', linestyle=linestyle)
-    ax2.plot(x_axis, [0] * len(data["df"]['lema_angle']), label='lema_angle', color='black')
+    # ax2.plot(x_axis, data["df"]['lema_angle'], label='lema_angle', color='black', linestyle=linestyle)
+    # ax2.plot(x_axis, [0] * len(data["df"]['lema_angle']), label='lema_angle', color='black')
 
     data = get_date_lines(data)
 

@@ -138,10 +138,10 @@ def get_rolling_emas(data):
         data['df']['lema'] = data['df']['tick'].rolling(window=data['lema_len']).progress_apply(roll_ema)
         data['df'] = data['df'].dropna()
 
-        print('Building slope...')        
-        data = get_x_axis(data)
-        data['df']['lema_angle'] = data['df']['lema'].rolling(window=data['angle_len']).progress_apply(roll_slope)
-        data['df'] = data['df'].dropna()   
+        # print('Building slope...')        
+        # data = get_x_axis(data)
+        # data['df']['lema_angle'] = data['df']['lema'].rolling(window=data['angle_len']).progress_apply(roll_slope)
+        # data['df'] = data['df'].dropna()   
         
         print('Building SLema...')
         data['df']['slema'] = data['df']['tick'].rolling(window=data['slema_len']).progress_apply(roll_ema)
@@ -151,14 +151,15 @@ def get_rolling_emas(data):
         data['df']['sema'] = data['df']['tick'].rolling(window=data['sema_len']).progress_apply(roll_ema)
         data['df'] = data['df'].dropna()   
 
-        data['df'] = data['df'][['DateTime', 'Bid', 'Ask', 'tick', 'sema', 'slema', 'lema', 'lema_angle']].round(6)
+        # data['df'] = data['df'][['DateTime', 'Bid', 'Ask', 'tick', 'sema', 'slema', 'lema', 'lema_angle']].round(6)
+        data['df'] = data['df'][['DateTime', 'Bid', 'Ask', 'tick', 'sema', 'slema', 'lema']].round(6)
         data['df'] = data['df'].reset_index(drop=True) 
         data['df_len'] = len(data["df"])
         data['df'].to_csv('data/full_df.csv', index = False)
 
 
     elif data['ema_roll_method'] == 'file':
-        data['df'] = pd.read_csv(f'data/full_df.csv')    
+        data['df'] = pd.read_csv(f'data/full_df_Jan_2021.csv')    
         data["df"] = data["df"][data["df"]['DateTime'].str.contains('|'.join(data['date_list']))]
         
         data['dt_val_series']   = [dt.datetime.strptime(x.split(".")[0],"%Y%m%d %H:%M:%S") for x in data["df"]['DateTime']]
@@ -166,7 +167,8 @@ def get_rolling_emas(data):
         data['df'] = data['df'].reset_index(drop=True)        
         data['df_len'] = len(data["df"])
 
-        data['df'] = data['df'][['DateTime', 'Bid', 'Ask', 'tick', 'sema', 'slema', 'lema', 'lema_angle']].round(6)
+        # data['df'] = data['df'][['DateTime', 'Bid', 'Ask', 'tick', 'sema', 'slema', 'lema', 'lema_angle']].round(6)
+        data['df'] = data['df'][['DateTime', 'Bid', 'Ask', 'tick', 'sema', 'slema', 'lema']].round(6)
         # data['df'].to_csv('data/full_df.csv', index = False)
 
     return(data)
