@@ -44,8 +44,8 @@ def run_engine(data):
 
         data = delayed_start_check(data)        
         data = calculate_pl(data)
-        data = simple_take_profit(data)
-        data = simple_stop_loss(data)    
+        # data = simple_take_profit(data)
+        # data = simple_stop_loss(data)    
         data = make_order(data)          
             
 

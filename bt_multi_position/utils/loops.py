@@ -114,15 +114,7 @@ def roll_ema(ema_list):
 def roll_slope(slope_list):
     
     slope_list = list(np.round(slope_list, 6))    
-
-    # if len(data['x_axis']) == 7200:
-    #     print(len(data['x_axis']))
-
-    # if len(slope_list) != len(data['x_axis']):
-    #     print(len(slope_list), len(data['x_axis']))
-    #     # print(data['x_axis'])
-
-    slope_tick, intercept, _, _, _ = linregress(data['x_axis'], slope_list)
+    slope_tick, _, _, _, _ = linregress(data['x_axis'], slope_list)
     slope = math.degrees(math.atan(slope_tick))
 
     return(slope)    
@@ -174,7 +166,7 @@ def get_rolling_emas(data):
         data['df'] = data['df'].reset_index(drop=True)        
         data['df_len'] = len(data["df"])
 
-        data['df'] = data['df'][['DateTime', 'Bid', 'Ask', 'tick', 'sema', 'lema', 'slema']].round(6)
+        data['df'] = data['df'][['DateTime', 'Bid', 'Ask', 'tick', 'sema', 'slema', 'lema', 'lema_angle']].round(6)
         # data['df'].to_csv('data/full_df.csv', index = False)
 
     return(data)

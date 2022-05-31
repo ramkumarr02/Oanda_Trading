@@ -36,7 +36,7 @@ data['sell_markers_x'] = []
 data['sell_markers_y'] = []
 
 data['position'] = False
-data['open_order'] = False    
+data['open_order'] = 0    
 data['open_order_type'] = None
 data['df_subset_size'] = None
 data['pl_positive'] = False
@@ -53,6 +53,8 @@ data['slema_closed_flag'] = None
 # data['slema_move_close_flag'] =  None
 
 data['position_without_cushion'] = None
+
+data['orders_list'] = {}
 
 data['close_type'] = []
 data['ord_types'] = []
@@ -125,7 +127,7 @@ data['stop_loss_method']    = 'simple'
 
 data['start_date'] = {'year':2021, 'month':1, 'date':1}
 data['end_date']   = {'year':2021, 'month':1, 'date':4}
-data['ema_roll_method'] = 'new'
+data['ema_roll_method'] = 'file'
 
 # data['direction'] = 'reverse'
 data['direction'] = 'straight'
