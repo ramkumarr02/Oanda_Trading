@@ -5,6 +5,9 @@ import numpy as np
 import pandas as pd
 import datetime as dt
 
+import requests
+from config import keys
+
 import math
 from scipy.stats import linregress
 

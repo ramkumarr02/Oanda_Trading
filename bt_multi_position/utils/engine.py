@@ -42,12 +42,13 @@ def run_engine(data):
             data = get_cross_dir(data)
         # ----------------------------------------------------------  
 
-        data = delayed_start_check(data)        
         data = calculate_pl(data)
-        # data = simple_take_profit(data)
-        # data = simple_stop_loss(data)    
-        data = make_order(data)          
+        data = slema_positive_check(data)
+        data = simple_slema_move_close(data)
+        data = close_all_orders(data)     
+        
+        data = delayed_start_check(data)        
+        data = make_order(data)     
             
-
     return(data)
 #...............................................................................................    

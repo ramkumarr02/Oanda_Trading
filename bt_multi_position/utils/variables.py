@@ -17,6 +17,7 @@ data['sema_angle_list'] =  collections.deque()
 data['lema_angle_list'] =  collections.deque()
 data['llema_angle_list'] =  collections.deque()
 
+
 data['i_list'] = []
 data['tick_list'] = []
 data['angle_list'] = []
@@ -126,8 +127,8 @@ data['take_profit_method']  = 'simple'
 data['stop_loss_method']    = 'simple'
 
 data['start_date'] = {'year':2021, 'month':1, 'date':1}
-data['end_date']   = {'year':2021, 'month':1, 'date':4}
-data['ema_roll_method'] = 'file'
+data['end_date']   = {'year':2021, 'month':1, 'date':10}
+data['ema_roll_method'] = 'new'
 
 # data['direction'] = 'reverse'
 data['direction'] = 'straight'
