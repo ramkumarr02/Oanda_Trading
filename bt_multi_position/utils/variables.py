@@ -8,6 +8,7 @@ data['df'] = pd.DataFrame()
 data['total_df'] = pd.DataFrame()
 data['dt_list'] =  collections.deque()
 data['dir_list'] = collections.deque()
+data['after_order_dir_list'] = collections.deque()
 data['sema_list'] = collections.deque()
 data['lema_list'] = collections.deque()
 data['slema_list'] = collections.deque()
@@ -37,9 +38,10 @@ data['sell_markers_x'] = []
 data['sell_markers_y'] = []
 
 data['position'] = False
+data['after_order_position'] = False
 data['open_order'] = 0    
 data['open_order_type'] = None
-data['df_subset_size'] = 50_000
+data['df_subset_size'] = None
 data['pl_positive'] = False
 data['pl_positive_flag'] = True
 data['slema_positive'] = False
@@ -115,8 +117,7 @@ data['pl_loss_trail_size']          = 1.25
 data['sema_len']    = 1800
 data['slema_len']   = 3600
 data['lema_len']    = 7200
-data['angle_len']   = 2000
-
+data['angle_len']   = 7200
 
 data['pl_move_trail_trigger']       = 0.0020
 data['stop_loss_pip']               = -0.0020
@@ -126,8 +127,8 @@ data['min_llema_angle'] = 0
 data['take_profit_method']  = 'simple'
 data['stop_loss_method']    = 'simple'
 
-data['start_date'] = {'year':2021, 'month':1, 'date':4}
-data['end_date']   = {'year':2021, 'month':1, 'date':4}
+data['start_date'] = {'year':2021, 'month':1, 'date':1}
+data['end_date']   = {'year':2021, 'month':1, 'date':31}
 
 data['ema_roll_method'] = 'new'
 

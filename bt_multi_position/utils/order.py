@@ -160,6 +160,7 @@ def make_long_order(data):
     data['orders_list'][data['open_order']] = {}
     data['orders_list'][data['open_order']]['open_order_type'] = data['open_order_type']
     data['orders_list'][data['open_order']]['ask'] = data['ask'] 
+    # data['orders_list'][data['open_order']]['status'] = 'open'
     data['long_start']	= False
     data['short_start']	= False
     data['to_order']	= None
@@ -178,6 +179,7 @@ def make_short_order(data):
     data['orders_list'][data['open_order']] = {}
     data['orders_list'][data['open_order']]['open_order_type'] = data['open_order_type']
     data['orders_list'][data['open_order']]['bid'] = data['bid'] 
+    # data['orders_list'][data['open_order']]['status'] = 'open'
     data['long_start']	= False
     data['short_start']	= False
     data['to_order']	= None
@@ -197,6 +199,7 @@ def close_long_order(data):
     # data['ll_angle'].append(data['ordered_llema_angle'])
     # data['take_profit_flag'] = False
     # data['dir_change']	= False
+    # data['orders_list'][data['open_order']]['status'] = 'closed' 
     data['open_order'] = 0
     data['slema_check_flag'] = False
     data['long_start']	= False
@@ -220,6 +223,7 @@ def close_short_order(data):
     # data['ll_angle'].append(data['ordered_llema_angle'])
     # data['take_profit_flag'] = False
     # data['dir_change']	= False
+    # data['orders_list'][data['open_order']]['status'] = 'closed'
     data['open_order'] = 0
     data['slema_check_flag'] = False
     data['long_start']	= False
@@ -235,6 +239,11 @@ def close_short_order(data):
     return(data)
 
 #...............................................................................................
+def get_order_details(data):
+    data['no_of_orders'] = len(list(data['orders_list'])[1:])
+    last_key = list(data['orders_list'])[-1]
+    data['last_order'] = data['orders_list'][last_key]
+    return(data)
 #...............................................................................................
 #...............................................................................................
 #...............................................................................................

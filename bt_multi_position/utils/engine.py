@@ -20,6 +20,7 @@ def run_engine(data):
         data['sema'] = data['df']['sema'][i]      
         data['slema'] = data['df']['slema'][i]      
         data['lema'] = data['df']['lema'][i]    
+        data['tick_angle'] = data['df']['tick_angle'][i]    
         
         if data["plot"]:     
             data['i_list'].append(i)
@@ -29,8 +30,11 @@ def run_engine(data):
             data["df_lema_list"].append(data['lema'])
 
         data = get_position(data)
-        
         if data['position'] == None:
+            continue
+        
+        data = after_order_get_position(data)
+        if data['after_order_position'] == None:
             continue
         
         # Get Dirs --------------------------------
@@ -42,13 +46,23 @@ def run_engine(data):
             data = get_cross_dir(data)
         # ----------------------------------------------------------  
 
-        data = calculate_pl(data)
+        # after_order_ Get Dirs --------------------------------
+        if len(data['after_order_dir_list']) < 2:
+            data['after_order_dir_list'].append(data['after_order_position'])   
+            continue
+
+        elif len(data['dir_list']) == 2:
+            data = after_order_get_cross_dir(data)
+        # ----------------------------------------------------------  
+
         data = slema_positive_check(data)
         data = simple_slema_move_close(data)
         data = close_all_orders(data)     
 
         data = delayed_start_check(data)        
         data = make_order(data)     
+        data = calculate_pl(data)
+        data = get_order_details(data)
             
     return(data)
 #...............................................................................................    
