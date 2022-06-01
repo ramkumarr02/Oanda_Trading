@@ -162,9 +162,8 @@ def get_rolling_emas(data):
         data['df_len'] = len(data["df"])
         data['df'].to_csv('data/full_df.csv', index = False)
 
-
     elif data['ema_roll_method'] == 'file':
-        data['df'] = pd.read_csv(f'data/full_df.csv')    
+        data['df'] = pd.read_csv(f'data/full_df_Jan_lemangle.csv')    
         data["df"] = data["df"][data["df"]['DateTime'].str.contains('|'.join(data['date_list']))]
         
         data['dt_val_series']   = [dt.datetime.strptime(x.split(".")[0],"%Y%m%d %H:%M:%S") for x in data["df"]['DateTime']]
@@ -173,12 +172,9 @@ def get_rolling_emas(data):
         data['df_len'] = len(data["df"])
 
         data['df'] = data['df'][['DateTime', 'Bid', 'Ask', 'tick', 'sema', 'slema', 'lema', 'tick_angle']].round(6)
-        # data['df'] = data['df'][['DateTime', 'Bid', 'Ask', 'tick', 'sema', 'slema', 'lema']].round(6)
-        # data['df'].to_csv('data/full_df.csv', index = False)
-
 
     elif data['ema_roll_method'] == 'mix':
-        data['df'] = pd.read_csv(f'data/full_df.csv')    
+        data['df'] = pd.read_csv(f'data/full_df_Jan_lemangle.csv')    
         data["df"] = data["df"][data["df"]['DateTime'].str.contains('|'.join(data['date_list']))]
         
         data['dt_val_series']   = [dt.datetime.strptime(x.split(".")[0],"%Y%m%d %H:%M:%S") for x in data["df"]['DateTime']]
@@ -191,10 +187,7 @@ def get_rolling_emas(data):
         data['df'] = data['df'].reset_index(drop=True)        
         data['df_len'] = len(data["df"])
 
-        data['df'] = data['df'][['DateTime', 'Bid', 'Ask', 'tick', 'sema', 'slema', 'lema', 'tick_angle']].round(6)
-        # data['df'] = data['df'][['DateTime', 'Bid', 'Ask', 'tick', 'sema', 'slema', 'lema']].round(6)
-        # data['df'].to_csv('data/full_df.csv', index = False)
-    
+        data['df'] = data['df'][['DateTime', 'Bid', 'Ask', 'tick', 'sema', 'slema', 'lema', 'tick_angle']].round(6) 
 
     return(data)
 #...............................................................................................  
