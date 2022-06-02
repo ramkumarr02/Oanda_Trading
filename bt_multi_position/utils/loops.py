@@ -166,7 +166,7 @@ def get_rolling_emas(data):
         data['df'].to_csv('data/full_df.csv', index = False)
 
     elif data['ema_roll_method'] == 'file':
-        data['df'] = pd.read_csv(f'data/full_df_Jan_lemangle.csv')    
+        data['df'] = pd.read_csv(f'data/full_df_feb_2021.csv')    
         data["df"] = data["df"][data["df"]['DateTime'].str.contains('|'.join(data['date_list']))]
         print(f'Record num : {len(data["df"])}') 
         

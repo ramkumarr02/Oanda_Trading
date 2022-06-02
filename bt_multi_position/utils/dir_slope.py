@@ -105,7 +105,7 @@ def delayed_start_check(data):
                 data['to_order'] = 'short'
     
         if data['long_start']:
-            if data['delay_counter'] < data['delay_tics_num'] * (data['open_order'] + 1):
+            if data['delay_counter'] < data['delay_tics_num']:
                 if data['tick'] > data['sema'] > data['slema'] > data['lema']:
                     data['delay_counter'] += 1
                 else:
@@ -116,16 +116,16 @@ def delayed_start_check(data):
     return(data)
 #...............................................................................................
 
-def get_open_direction(data):
-    for i in data['orders_list']:
-        if type(i) == int:
-            if data['orders_list'][i]['status'] == 'open':
-                data['open_direction'] = data['orders_list'][i]['open_order_type']
-                data['open_direction_pl'] = data['orders_list'][i]['pl']
-                data['open_direction_order'] = i
-                print(data['open_direction'])
-                print(data['open_direction_order'])
-                break
+# def get_open_direction(data):
+#     for i in data['orders_list']:
+#         if type(i) == int:
+#             if data['orders_list'][i]['status'] == 'open':
+#                 data['open_direction'] = data['orders_list'][i]['open_order_type']
+#                 data['open_direction_pl'] = data['orders_list'][i]['pl']
+#                 data['open_direction_order'] = i
+#                 print(data['open_direction'])
+#                 print(data['open_direction_order'])
+#                 break
 
-    return(data)
-#...............................................................................................
+#     return(data)
+# #...............................................................................................

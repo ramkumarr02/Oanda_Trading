@@ -120,6 +120,8 @@ data['slema_len']   = 3600
 data['lema_len']    = 7200
 data['angle_len']   = 7200
 
+data['num_of_switch_orders'] = 100
+
 data['pl_move_trail_trigger']       = 0.0020
 data['stop_loss_pip']               = -0.0020
 
@@ -131,7 +133,7 @@ data['stop_loss_method']    = 'simple'
 data['start_date'] = {'year':2021, 'month':2, 'date':1}
 data['end_date']   = {'year':2021, 'month':2, 'date':28}
 
-data['ema_roll_method'] = 'new'
+data['ema_roll_method'] = 'file'
 
 # data['direction'] = 'reverse'
 data['direction'] = 'straight'

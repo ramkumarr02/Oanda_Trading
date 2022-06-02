@@ -2,6 +2,33 @@ from utils.packages import *
 from utils.i_o import *
 from utils.dir_slope import *
 
+
+# ...............................................................................................
+def dynamic_make_order(data):
+    for order_num_i in range(data['num_of_switch_orders']):    
+        if order_num_i == 0:
+            if data['open_order'] == order_num_i:
+                if data['to_order'] == 'long':                
+                    data['open_order'] = order_num_i + 1
+                    data = make_long_order(data)
+
+                elif data['to_order'] == 'short':
+                    data['open_order'] = order_num_i + 1
+                    data = make_short_order(data)
+        elif order_num_i > 0:
+            if data['open_order_type'] == 'short':
+                if data['to_order'] == 'long':                
+                    if data['orders_list'][order_num_i]['pl'] < 0:
+                        data['open_order'] = order_num_i + 1
+                        data = make_long_order(data)
+
+            if data['open_order_type'] == 'long':
+                if data['to_order'] == 'short':
+                    if data['orders_list'][order_num_i]['pl'] < 0:
+                        data['open_order'] = order_num_i + 1
+                        data = make_short_order(data)
+    return(data)
+
 #...............................................................................................
 def make_order(data):
     if data['open_order'] == 0:
@@ -50,7 +77,7 @@ def make_order(data):
             if data['to_order'] == 'short':
                 if data['orders_list'][3]['pl'] < 0:
                     data['open_order'] = 4
-                    data = make_short_order(data)
+                    data = make_short_order(data)                    
 
     # # -----------------------------------------------------------------
     # if data['open_order'] == 4:
@@ -152,6 +179,7 @@ def close_all_orders(data):
                     data = close_short_order(data)
 
             data['open_order'] = 0
+            data['orders_list'] = {}
 
     return(data)
 #...............................................................................................
@@ -280,14 +308,14 @@ def calculate_pl(data):
     for i in range(1, data['open_order']+1):
         if i == 1:
             data['order_size'] = 1
-        # else:
-        #     data['order_size'] = 2
-        elif i == 2:
+        else:
             data['order_size'] = 2
-        elif i == 3:
-            data['order_size'] = 3
-        elif i == 4:
-            data['order_size'] = 4
+        # elif i == 2:
+        #     data['order_size'] = 2
+        # elif i == 3:
+        #     data['order_size'] = 3
+        # elif i == 4:
+        #     data['order_size'] = 4
 
         if data['orders_list'][i]['open_order_type'] == 'long':
             data['orders_list'][i]['pl'] = np.round((data['bid'] - data['orders_list'][i]['ask']) * data['order_size'], 5)            
@@ -298,6 +326,10 @@ def calculate_pl(data):
         data['orders_list']['total_pl'].append(data['orders_list'][i]['pl'])
     
     data['orders_list']['total_pl'] = np.round(sum(data['orders_list']['total_pl']), 5)
+
+    # if data['open_order'] == 4:
+    #     print(data['orders_list'])
+    #     sys.exit()
 
     return(data) 
 #...............................................................................................
@@ -396,12 +428,12 @@ def get_order_details(data):
     last_key = list(data['orders_list'])[-1]
     data['last_order'] = data['orders_list'][last_key]
 
-    data['open_orders_list'] = data['orders_list'].copy()
+    # data['open_orders_list'] = data['orders_list'].copy()
 
-    for i in data['orders_list']:
-        if type(i) == int:
-            if data['orders_list'][i]['status'] == 'closed':
-                del data['open_orders_list'][i]
+    # for i in data['orders_list']:
+    #     if type(i) == int:
+    #         if data['orders_list'][i]['status'] == 'closed':
+    #             del data['open_orders_list'][i]
 
     return(data)
 #...............................................................................................
