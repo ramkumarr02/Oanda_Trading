@@ -189,6 +189,7 @@ def get_date_lines(data):
 #...............................................................................................
 def create_report(data):
     data['report_df'] = pd.DataFrame({
+        'start_date':list(data['start_dt_list'])[:len(data['dt_list'])],
         'date':data['dt_list'],
         'pls': data['pl_list'],
         'close_type': data['close_type'], 
@@ -204,12 +205,14 @@ def create_report(data):
 
     split_date_col(data)
 
+    data['report_df']['duration'] = data['report_df']['date'] - data['report_df']['start_date']
+
     data['report_df'] = data['report_df'][[
-        'date', 'year_val', 'month_val', 'date_val', 'hour_val','minute_val', 
+        'start_date','date', 'year_val', 'month_val', 'date_val', 'hour_val','minute_val', 
         'close_type', 'pls', 'ord_types', 
         # 'llema_angle', 'llema_len',
         'sema_len', 'slema_len', 'lema_len', 
-        'pl_move_trail_trigger' ,'stop_loss_pip']]
+        'pl_move_trail_trigger' ,'stop_loss_pip', 'duration']]
 
     data["report_df"] = data["report_df"].reset_index(drop = True)    
         

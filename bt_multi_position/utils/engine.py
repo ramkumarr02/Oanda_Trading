@@ -29,15 +29,11 @@ def run_engine(data):
             data["df_slema_list"].append(data['slema'])
             data["df_lema_list"].append(data['lema'])
 
+        # Get Dirs : Before Order --------------------------------
         data = get_position(data)
         if data['position'] == None:
             continue
-        
-        data = after_order_get_position(data)
-        if data['after_order_position'] == None:
-            continue
-        
-        # Get Dirs --------------------------------
+
         if len(data['dir_list']) < 2:
             data['dir_list'].append(data['position'])   
             continue
@@ -45,19 +41,29 @@ def run_engine(data):
         elif len(data['dir_list']) == 2:
             data = get_cross_dir(data)
         # ----------------------------------------------------------  
+        
+
 
         # after_order_ Get Dirs --------------------------------
+        data = after_order_get_position(data)
+        if data['after_order_position'] == None:
+            continue
+        
+
         if len(data['after_order_dir_list']) < 2:
             data['after_order_dir_list'].append(data['after_order_position'])   
             continue
 
-        elif len(data['dir_list']) == 2:
+        elif len(data['after_order_dir_list']) == 2:
             data = after_order_get_cross_dir(data)
         # ----------------------------------------------------------  
 
         data = slema_positive_check(data)
         data = simple_slema_move_close(data)
         data = close_all_orders(data)     
+        # data = close_half_orders(data)     
+        # data = half_slema_positive_check(data)
+        # data = half_slema_move_close(data)
 
         data = delayed_start_check(data)        
         data = make_order(data)     

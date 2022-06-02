@@ -124,6 +124,9 @@ def get_x_axis(data):
     start = 1 + 1 * data['pip_decimal_num']
     stop = 1 + (data['angle_len']) * data['pip_decimal_num']
     data['x_axis'] = list(np.arange(start, stop, data['pip_decimal_num']).round(6))
+
+    if len(data['x_axis']) < data['angle_len']:
+        data['x_axis'].append(data['x_axis'][-1] + data['pip_decimal_num'])
     return(data)
 
 #...............................................................................................  
@@ -138,17 +141,17 @@ def get_rolling_emas(data):
         data['df']['lema'] = data['df']['tick'].rolling(window=data['lema_len']).progress_apply(roll_ema)
         data['df'] = data['df'].dropna()
 
+        print('Building tick slope...')        
+        data = get_x_axis(data)
+        data['df']['tick_angle'] = data['df']['lema'].rolling(window=data['angle_len']).progress_apply(roll_slope)
+        data['df'] = data['df'].dropna()   
+
         print('Building SLema...')
         data['df']['slema'] = data['df']['tick'].rolling(window=data['slema_len']).progress_apply(roll_ema)
         data['df'] = data['df'].dropna()
         
         print('Building Sema...')
         data['df']['sema'] = data['df']['tick'].rolling(window=data['sema_len']).progress_apply(roll_ema)
-        data['df'] = data['df'].dropna()   
-
-        print('Building tick slope...')        
-        data = get_x_axis(data)
-        data['df']['tick_angle'] = data['df']['lema'].rolling(window=data['angle_len']).progress_apply(roll_slope)
         data['df'] = data['df'].dropna()   
 
         # print('Building lema slope...')        
@@ -165,6 +168,7 @@ def get_rolling_emas(data):
     elif data['ema_roll_method'] == 'file':
         data['df'] = pd.read_csv(f'data/full_df_Jan_lemangle.csv')    
         data["df"] = data["df"][data["df"]['DateTime'].str.contains('|'.join(data['date_list']))]
+        print(f'Record num : {len(data["df"])}') 
         
         data['dt_val_series']   = [dt.datetime.strptime(x.split(".")[0],"%Y%m%d %H:%M:%S") for x in data["df"]['DateTime']]
 
@@ -176,6 +180,7 @@ def get_rolling_emas(data):
     elif data['ema_roll_method'] == 'mix':
         data['df'] = pd.read_csv(f'data/full_df_Jan_lemangle.csv')    
         data["df"] = data["df"][data["df"]['DateTime'].str.contains('|'.join(data['date_list']))]
+        print(f'Record num : {len(data["df"])}') 
         
         data['dt_val_series']   = [dt.datetime.strptime(x.split(".")[0],"%Y%m%d %H:%M:%S") for x in data["df"]['DateTime']]
 

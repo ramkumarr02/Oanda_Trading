@@ -3,15 +3,16 @@ from utils.packages import *
 
 #...............................................................................................
 def get_position(data):
-
-    if data['tick'] > data['sema'] > data['slema'] > data['lema']:
-        data['position'] = 1
-
-    elif data['tick'] < data['sema'] < data['slema'] < data['lema']:
-        data['position'] = -1
     
-    else:
-        data['position'] = 0
+    if data['open_order'] == 0:
+        if data['tick'] > data['sema'] > data['slema'] > data['lema']:
+            data['position'] = 1
+
+        elif data['tick'] < data['sema'] < data['slema'] < data['lema']:
+            data['position'] = -1
+        
+        else:
+            data['position'] = 0
 
     return(data)
 #...............................................................................................
@@ -32,8 +33,8 @@ def get_cross_dir(data):
                 data['short_start'] = True
                 data['long_start'] = False
                 data['delay_counter'] = 0
-        else:
-            data['to_order'] = 'short'
+        # else:
+        #     data['to_order'] = 'short'
         
 
     elif data['pos_1'] != data['pos_2'] and data['pos_2'] == 1:
@@ -42,16 +43,16 @@ def get_cross_dir(data):
                 data['long_start'] = True
                 data['short_start'] = False
                 data['delay_counter'] = 0
-        else:
-            data['to_order'] = 'long'
+        # else:
+        #     data['to_order'] = 'long'
 
     return(data)    
 #................................................................................................
 
 #...............................................................................................
 def after_order_get_position(data):
-
-    if data['open_order'] != 0:
+    
+    if data['open_order'] > 0:
         if data['sema'] > data['slema']:            
             data['after_order_position'] = 1
 
@@ -67,7 +68,7 @@ def after_order_get_position(data):
 #...............................................................................................
 def after_order_get_cross_dir(data):   
     
-    if data['open_order'] != 0:
+    if data['open_order'] > 0:
         data['after_order_dir_list'].popleft()
         data['after_order_dir_list'].append(data['after_order_position'])   
         
@@ -75,40 +76,56 @@ def after_order_get_cross_dir(data):
         data['pos_2'] = data['after_order_dir_list'][1]
 
         if data['pos_1'] != data['pos_2'] and data['pos_2'] == -1:            
-            if data['last_order']['pl'] < 0:
-                data['to_order'] = 'short'
-                data['long_start'] = False
-                data['delay_counter'] = 0
+            data['to_order'] = 'short'
+            data['long_start'] = False
+            data['delay_counter'] = 0
 
         elif data['pos_1'] != data['pos_2'] and data['pos_2'] == 1:
-            if data['last_order']['pl'] < 0:
-                data['to_order'] = 'long'
-                data['short_start'] = False
-                data['delay_counter'] = 0
+            data['to_order'] = 'long'
+            data['short_start'] = False
+            data['delay_counter'] = 0
 
     return(data)    
 #................................................................................................
 
+# def after_order_pl_switch(data):
+
+
+#     return(data)
 #...............................................................................................
 def delayed_start_check(data):
-    # if data['open_order'] == 0:
-    if data['short_start']:
-        if data['delay_counter'] < data['delay_tics_num'] * (data['open_order'] + 1):
-            if data['tick'] < data['sema'] < data['slema'] < data['lema']:
-                data['delay_counter'] += 1
+    if data['open_order'] == 0:
+        if data['short_start']:
+            if data['delay_counter'] < data['delay_tics_num']:
+                if data['tick'] < data['sema'] < data['slema'] < data['lema']:
+                    data['delay_counter'] += 1
+                else:
+                    data['delay_counter'] = 0
             else:
-                data['delay_counter'] = 0
-        else:
-            data['to_order'] = 'short'
+                data['to_order'] = 'short'
     
-    if data['long_start']:
-        if data['delay_counter'] < data['delay_tics_num'] * (data['open_order'] + 1):
-            if data['tick'] > data['sema'] > data['slema'] > data['lema']:
-                data['delay_counter'] += 1
+        if data['long_start']:
+            if data['delay_counter'] < data['delay_tics_num'] * (data['open_order'] + 1):
+                if data['tick'] > data['sema'] > data['slema'] > data['lema']:
+                    data['delay_counter'] += 1
+                else:
+                    data['delay_counter'] = 0
             else:
-                data['delay_counter'] = 0
-        else:
-            data['to_order'] = 'long'              
+                data['to_order'] = 'long'              
+
+    return(data)
+#...............................................................................................
+
+def get_open_direction(data):
+    for i in data['orders_list']:
+        if type(i) == int:
+            if data['orders_list'][i]['status'] == 'open':
+                data['open_direction'] = data['orders_list'][i]['open_order_type']
+                data['open_direction_pl'] = data['orders_list'][i]['pl']
+                data['open_direction_order'] = i
+                print(data['open_direction'])
+                print(data['open_direction_order'])
+                break
 
     return(data)
 #...............................................................................................

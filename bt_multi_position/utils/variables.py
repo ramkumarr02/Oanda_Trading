@@ -7,6 +7,7 @@ data = {}
 data['df'] = pd.DataFrame()
 data['total_df'] = pd.DataFrame()
 data['dt_list'] =  collections.deque()
+data['start_dt_list'] =  collections.deque()
 data['dir_list'] = collections.deque()
 data['after_order_dir_list'] = collections.deque()
 data['sema_list'] = collections.deque()
@@ -127,10 +128,10 @@ data['min_llema_angle'] = 0
 data['take_profit_method']  = 'simple'
 data['stop_loss_method']    = 'simple'
 
-data['start_date'] = {'year':2021, 'month':1, 'date':1}
-data['end_date']   = {'year':2021, 'month':1, 'date':31}
+data['start_date'] = {'year':2021, 'month':2, 'date':1}
+data['end_date']   = {'year':2021, 'month':2, 'date':28}
 
-data['ema_roll_method'] = 'file'
+data['ema_roll_method'] = 'new'
 
 # data['direction'] = 'reverse'
 data['direction'] = 'straight'
@@ -147,4 +148,6 @@ data['short_start'] = False
 data['long_start'] = False
 data['delay_counter'] = 0
 data['delay_tics_num'] = 1000
+
+data['positions_half_closed'] = False
 #...............................................................................................
