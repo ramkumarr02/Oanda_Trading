@@ -46,14 +46,14 @@ def run_engine(data):
             data = get_cross_dir(data)
         # ----------------------------------------------------------  
 
-        # # after_order_ Get Dirs --------------------------------
-        # if len(data['after_order_dir_list']) < 2:
-        #     data['after_order_dir_list'].append(data['after_order_position'])   
-        #     continue
+        # after_order_ Get Dirs --------------------------------
+        if len(data['after_order_dir_list']) < 2:
+            data['after_order_dir_list'].append(data['after_order_position'])   
+            continue
 
-        # elif len(data['dir_list']) == 2:
-        #     data = after_order_get_cross_dir(data)
-        # # ----------------------------------------------------------  
+        elif len(data['dir_list']) == 2:
+            data = after_order_get_cross_dir(data)
+        # ----------------------------------------------------------  
 
         data = slema_positive_check(data)
         data = simple_slema_move_close(data)
