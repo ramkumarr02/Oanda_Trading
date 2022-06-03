@@ -60,14 +60,16 @@ def run_engine(data):
 
         data = slema_positive_check(data)
         data = simple_slema_move_close(data)
-        data = close_all_orders(data)     
+        data = close_all_orders(data)             
         # data = close_half_orders(data)     
         # data = half_slema_positive_check(data)
         # data = half_slema_move_close(data)
 
         data = delayed_start_check(data)        
-        data = make_order(data)     
-        # data = dynamic_make_order(data)
+
+        # data = make_order(data)     
+        data = dynamic_make_order(data)
+
         data = calculate_pl(data)
         # data = get_order_details(data)
             

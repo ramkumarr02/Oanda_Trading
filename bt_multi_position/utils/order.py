@@ -6,6 +6,7 @@ from utils.dir_slope import *
 # ...............................................................................................
 def dynamic_make_order(data):
     for order_num_i in range(data['num_of_switch_orders']):    
+        data['order_num_i'] = order_num_i
         if order_num_i == 0:
             if data['open_order'] == order_num_i:
                 if data['to_order'] == 'long':                
@@ -15,18 +16,27 @@ def dynamic_make_order(data):
                 elif data['to_order'] == 'short':
                     data['open_order'] = order_num_i + 1
                     data = make_short_order(data)
-        elif order_num_i > 0:
-            if data['open_order_type'] == 'short':
-                if data['to_order'] == 'long':                
-                    if data['orders_list'][order_num_i]['pl'] < 0:
-                        data['open_order'] = order_num_i + 1
-                        data = make_long_order(data)
 
-            if data['open_order_type'] == 'long':
-                if data['to_order'] == 'short':
-                    if data['orders_list'][order_num_i]['pl'] < 0:
-                        data['open_order'] = order_num_i + 1
-                        data = make_short_order(data)
+        elif order_num_i > 0:
+            if data['open_order'] == order_num_i:
+                if data['open_order_type'] == 'short':
+                    if data['to_order'] == 'long':                
+                        if data['orders_list'][order_num_i]['pl'] < 0:
+                            data['open_order'] = order_num_i + 1
+                            data = make_long_order(data)
+                            # data['open_order_temp_list'].append(data['orders_list'])
+                            # data['pl_temp_list'].append(data['orders_list'][order_num_i]['pl'])
+
+                if data['open_order_type'] == 'long':
+                    if data['to_order'] == 'short':
+                        if data['orders_list'][order_num_i]['pl'] < 0:
+                            data['open_order'] = order_num_i + 1
+                            data = make_short_order(data)
+                            # data['open_order_temp_list'].append(data['orders_list'])
+                            # data['pl_temp_list'].append(data['orders_list'][order_num_i]['pl'])
+        
+
+
     return(data)
 
 #...............................................................................................
@@ -40,7 +50,7 @@ def make_order(data):
             data['open_order'] = 1
             data = make_short_order(data)
 
-    if data['open_order'] == 1:
+    elif data['open_order'] == 1:
         if data['open_order_type'] == 'short':
             if data['to_order'] == 'long':                
                 if data['orders_list'][1]['pl'] < 0:
@@ -53,7 +63,7 @@ def make_order(data):
                     data['open_order'] = 2
                     data = make_short_order(data)
 
-    if data['open_order'] == 2:
+    elif data['open_order'] == 2:
         if data['open_order_type'] == 'short':
             if data['to_order'] == 'long':                
                 if data['orders_list'][2]['pl'] < 0:
@@ -66,7 +76,7 @@ def make_order(data):
                     data['open_order'] = 3
                     data = make_short_order(data)
 
-    if data['open_order'] == 3:
+    elif data['open_order'] == 3:
         if data['open_order_type'] == 'short':
             if data['to_order'] == 'long':                
                 if data['orders_list'][3]['pl'] < 0:
@@ -310,12 +320,8 @@ def calculate_pl(data):
             data['order_size'] = 1
         else:
             data['order_size'] = 2
-        # elif i == 2:
-        #     data['order_size'] = 2
-        # elif i == 3:
-        #     data['order_size'] = 3
-        # elif i == 4:
-        #     data['order_size'] = 4
+        # else:
+        #     data['order_size'] = i
 
         if data['orders_list'][i]['open_order_type'] == 'long':
             data['orders_list'][i]['pl'] = np.round((data['bid'] - data['orders_list'][i]['ask']) * data['order_size'], 5)            
@@ -327,7 +333,9 @@ def calculate_pl(data):
     
     data['orders_list']['total_pl'] = np.round(sum(data['orders_list']['total_pl']), 5)
 
-    # if data['open_order'] == 4:
+    data['open_order_temp_list'].append(data['open_order'])
+    data['pl_temp_list'].append(data['orders_list']['total_pl'])
+    # if data['orders_list']['total_pl'] < -0.0068:
     #     print(data['orders_list'])
     #     sys.exit()
 
@@ -343,7 +351,7 @@ def make_long_order(data):
     data['orders_list'][data['open_order']] = {}
     data['orders_list'][data['open_order']]['open_order_type'] = data['open_order_type']
     data['orders_list'][data['open_order']]['ask'] = data['ask'] 
-    data['orders_list'][data['open_order']]['status'] = 'open'
+    # data['orders_list'][data['open_order']]['status'] = 'open'
     data['long_start']	= False
     data['short_start']	= False
     data['to_order']	= None
@@ -363,7 +371,7 @@ def make_short_order(data):
     data['orders_list'][data['open_order']] = {}
     data['orders_list'][data['open_order']]['open_order_type'] = data['open_order_type']
     data['orders_list'][data['open_order']]['bid'] = data['bid'] 
-    data['orders_list'][data['open_order']]['status'] = 'open'
+    # data['orders_list'][data['open_order']]['status'] = 'open'
     data['long_start']	= False
     data['short_start']	= False
     data['to_order']	= None
@@ -383,7 +391,7 @@ def close_long_order(data):
     # data['ll_angle'].append(data['ordered_llema_angle'])
     # data['take_profit_flag'] = False
     # data['dir_change']	= False
-    data['orders_list'][data['i']]['status'] = 'closed' 
+    # data['orders_list'][data['i']]['status'] = 'closed' 
     data['open_order'] = 0
     data['slema_check_flag'] = False
     data['long_start']	= False
@@ -407,7 +415,7 @@ def close_short_order(data):
     # data['ll_angle'].append(data['ordered_llema_angle'])
     # data['take_profit_flag'] = False
     # data['dir_change']	= False
-    data['orders_list'][data['i']]['status'] = 'closed'
+    # data['orders_list'][data['i']]['status'] = 'closed'
     data['open_order'] = 0
     data['slema_check_flag'] = False
     data['long_start']	= False
