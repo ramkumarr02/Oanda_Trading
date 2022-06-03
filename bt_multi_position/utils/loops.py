@@ -142,19 +142,23 @@ def get_rolling_emas(data):
         print('Building Lema...')
         data['df']['lema'] = data['df']['tick'].rolling(window=data['lema_len']).progress_apply(roll_ema)
         data['df'] = data['df'].dropna()
+        send_telegram_message(f'Lema Complete : {data["df_name"]}')
 
         print('Building tick slope...')        
         data = get_x_axis(data)
         data['df']['tick_angle'] = data['df']['lema'].rolling(window=data['angle_len']).progress_apply(roll_slope)
         data['df'] = data['df'].dropna()   
+        send_telegram_message(f'Slope Complete : {data["df_name"]}')
 
         print('Building SLema...')
         data['df']['slema'] = data['df']['tick'].rolling(window=data['slema_len']).progress_apply(roll_ema)
         data['df'] = data['df'].dropna()
+        send_telegram_message(f'Slema Complete : {data["df_name"]}')
         
         print('Building Sema...')
         data['df']['sema'] = data['df']['tick'].rolling(window=data['sema_len']).progress_apply(roll_ema)
         data['df'] = data['df'].dropna()   
+        send_telegram_message(f'Sema Complete : {data["df_name"]}')
 
         # print('Building lema slope...')        
         # data = get_x_axis(data)
@@ -170,7 +174,7 @@ def get_rolling_emas(data):
     # ---------------------------------------------------------------------------------------------------------------------
 
     elif data['ema_roll_method'] == 'file':
-        data['df'] = pd.read_csv(f'data/full_df_feb_2021.csv')    
+        data['df'] = pd.read_csv(f'data/ema_2021_may-jun.csv')    
         data["df"] = data["df"][data["df"]['DateTime'].str.contains('|'.join(data['date_list']))]
         print(f'Record num : {len(data["df"])}') 
         
