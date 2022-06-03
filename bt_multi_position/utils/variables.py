@@ -51,6 +51,7 @@ data['slema_check_flag'] = False
 data['tick_check_flag'] = False
 data['tick_close_flag'] = False
 data['tick_close_flag'] = False
+data['pl_available'] = False
 data['stop_loss_flag'] = True
 data['reverse_order_flag'] =  None
 data['slema_closed_flag'] = None
@@ -120,7 +121,8 @@ data['slema_len']   = 3600
 data['lema_len']    = 7200
 data['angle_len']   = 7200
 
-data['num_of_switch_orders'] = 50
+data['num_of_switch_orders']    = 19
+data['loss_switch_pl_pip']      = -0.0005
 
 data['pl_move_trail_trigger']       = 0.0020
 data['stop_loss_pip']               = -0.0020
@@ -131,14 +133,14 @@ data['take_profit_method']  = 'simple'
 data['stop_loss_method']    = 'simple'
 
 data['start_date'] = {'year':2021, 'month':2, 'date':1}
-data['end_date']   = {'year':2021, 'month':2, 'date':10}
+data['end_date']   = {'year':2021, 'month':2, 'date':28}
 
-data['ema_roll_method'] = 'file'
+data['ema_roll_method'] = 'new'
 
 # data['direction'] = 'reverse'
 data['direction'] = 'straight'
 
-data["plot"] = True
+data["plot"] = False
 
 data['take_profit_flag'] = False
 

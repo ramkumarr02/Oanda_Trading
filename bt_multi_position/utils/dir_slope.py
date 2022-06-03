@@ -53,10 +53,10 @@ def get_cross_dir(data):
 def after_order_get_position(data):
     
     if data['open_order'] > 0:
-        if data['sema'] > data['slema']:            
+        if data['tick'] > data['lema']:            
             data['after_order_position'] = 1
 
-        elif data['sema'] < data['slema']:
+        elif data['tick'] < data['lema']:
             data['after_order_position'] = -1
         
         else:
@@ -76,11 +76,13 @@ def after_order_get_cross_dir(data):
         data['pos_2'] = data['after_order_dir_list'][1]
 
         if data['pos_1'] != data['pos_2'] and data['pos_2'] == -1:            
+            # if data['tick_angle'] < 0:
             data['to_order'] = 'short'
             data['long_start'] = False
             data['delay_counter'] = 0
 
         elif data['pos_1'] != data['pos_2'] and data['pos_2'] == 1:
+            # if data['tick_angle'] > 0:
             data['to_order'] = 'long'
             data['short_start'] = False
             data['delay_counter'] = 0

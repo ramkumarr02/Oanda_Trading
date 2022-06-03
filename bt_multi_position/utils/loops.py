@@ -132,6 +132,8 @@ def get_x_axis(data):
 #...............................................................................................  
 def get_rolling_emas(data):
 
+    data['df_name'] = f"data/ema_df-({data['start_date'].year}-{data['end_date'].year})-({data['start_date'].month}-{data['end_date'].month})-({data['start_date'].day}-{data['end_date'].day}).csv"
+
     if data['ema_roll_method'] == 'new':
         data = read_data(data)
         data['df']['tick']      = (data["df"]['Ask'] + data["df"]['Bid'])/2
@@ -163,7 +165,7 @@ def get_rolling_emas(data):
         # data['df'] = data['df'][['DateTime', 'Bid', 'Ask', 'tick', 'sema', 'slema', 'lema']].round(6)
         data['df'] = data['df'].reset_index(drop=True) 
         data['df_len'] = len(data["df"])
-        data['df'].to_csv('data/full_df.csv', index = False)
+        data['df'].to_csv(data['df_name'], index = False)
 
     # ---------------------------------------------------------------------------------------------------------------------
 
@@ -178,7 +180,7 @@ def get_rolling_emas(data):
         data['df_len'] = len(data["df"])
 
         data['df'] = data['df'][['DateTime', 'Bid', 'Ask', 'tick', 'sema', 'slema', 'lema', 'tick_angle']].round(6)
-        
+
     # ---------------------------------------------------------------------------------------------------------------------
 
     elif data['ema_roll_method'] == 'mix':

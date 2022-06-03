@@ -223,6 +223,7 @@ def create_report(data):
     
     try:
         display.clear_output(wait = True)
+        # print('------------------------------')
     except:
         pass
     
