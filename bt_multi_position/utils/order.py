@@ -300,7 +300,7 @@ def simple_slema_move_close(data):
                     if data['sema'] < data['slema']:
                         data['close_type_val'] = ('simple_slema_move_close')
                         data['i'] = 1
-                        data = close_long_order(data)               
+                        data = close_long_order(data)       
             
                 if data['orders_list'][1]['open_order_type'] == 'short':
                     if data['sema'] > data['slema']:                
