@@ -174,7 +174,7 @@ def get_rolling_emas(data):
     # ---------------------------------------------------------------------------------------------------------------------
 
     elif data['ema_roll_method'] == 'file':
-        data['df'] = pd.read_csv(f'data/ema_df-(2021-2021)-(1-1)-(1-10).csv')    
+        data['df'] = pd.read_csv(f'data/ema_df-(2021-2021)-(1-1)-(1-31).csv')    
         data["df"] = data["df"][data["df"]['DateTime'].str.contains('|'.join(data['date_list']))]
         print(f'Record num : {len(data["df"])}') 
         
