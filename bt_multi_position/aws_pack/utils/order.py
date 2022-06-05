@@ -11,15 +11,11 @@ def dynamic_make_order(data):
             if data['open_order'] == order_num_i:
                 if data['to_order'] == 'long':                
                     data['open_order'] = order_num_i + 1
-                    data['start_prices'] = {}
                     data = make_long_order(data)
-                    # print(1, data['start_prices'])
 
                 elif data['to_order'] == 'short':
                     data['open_order'] = order_num_i + 1
-                    data['start_prices'] = {}
                     data = make_short_order(data)
-                    # print(2, data['start_prices'])
 
         elif order_num_i > 0:
             if data['open_order'] == order_num_i:
@@ -34,13 +30,11 @@ def dynamic_make_order(data):
                         if data['orders_list'][order_num_i]['pl'] < data['loss_switch_pl_pip']:
                             data['open_order'] = order_num_i + 1
                             data = make_long_order(data)
-                            # print(3, data['start_prices'])
             
                     if data['orders_list'][1]['open_order_type'] == 'long':
                         if data['orders_list'][order_num_i]['pl'] < data['loss_switch_pl_pip']:
                             data['open_order'] = order_num_i + 1
                             data = make_short_order(data)      
-                            # print(4, data['start_prices'])
 
     return(data)
 
@@ -185,14 +179,12 @@ def close_all_orders(data):
                     data['pl'] = data['orders_list'][i]['pl']
                     data['close_type_val'] = ('all_close')
                     data['i'] = i
-                    # print(5, data['start_prices'])
                     data = close_long_order(data)
 
                 elif data['orders_list'][i]['open_order_type'] == 'short':
                     data['pl'] = data['orders_list'][i]['pl']
                     data['i'] = i
                     data['close_type_val'] = ('all_close')
-                    # print(6, data['start_prices'])
                     data = close_short_order(data)
 
             data['open_order'] = 0
@@ -311,7 +303,6 @@ def simple_slema_move_close(data):
                     if data['sema'] < data['slema']:
                         data['close_type_val'] = ('simple_slema_move_close')
                         data['i'] = 1
-                        # print(7, data['start_prices'])
                         data = close_long_order(data)       
             
                 if data['orders_list'][1]['open_order_type'] == 'short':
@@ -319,7 +310,6 @@ def simple_slema_move_close(data):
                         # data['stop_text'] = 'simple_slema_move_close'
                         data['close_type_val'] = ('simple_slema_move_close')
                         data['i'] = 1
-                        # print(8, data['start_prices'])
                         data = close_short_order(data)  
 
     return(data) 
@@ -356,7 +346,6 @@ def calculate_pl(data):
 #...............................................................................................
 def make_long_order(data):
     data['order_ask_price'] = data['ask']
-    data['start_prices'][data['open_order']] = data['ask']
     data['open_order_type'] = 'long'
     data['start_dt_list'].append(data['dt_val'])
     data['slema_check_flag'] = True
@@ -377,7 +366,6 @@ def make_long_order(data):
 
 def make_short_order(data):
     data['order_bid_price'] = data['bid']
-    data['start_prices'][data['open_order']] = data['bid']
     data['open_order_type'] = 'short'
     data['start_dt_list'].append(data['dt_val'])
     data['slema_check_flag'] = True
@@ -398,7 +386,7 @@ def make_short_order(data):
 
 def close_long_order(data):
     data['pl_list'].append(data['pl'])
-    data['start_price'].append(data['start_prices'][data['i']])
+    data['start_price'].append(data['order_ask_price'])
     data['end_price'].append(data['bid'])
     data['num_orders'].append(data['i'])
     data['dt_list'].append(data['dt_val'])
@@ -425,8 +413,7 @@ def close_long_order(data):
 
 def close_short_order(data):
     data['pl_list'].append(data['pl'])
-    # data['start_price'].append(data['order_bid_price'])
-    data['start_price'].append(data['start_prices'][data['i']])
+    data['start_price'].append(data['order_bid_price'])
     data['end_price'].append(data['ask'])
     data['num_orders'].append(data['i'])
     data['dt_list'].append(data['dt_val'])

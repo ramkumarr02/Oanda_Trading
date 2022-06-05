@@ -3,6 +3,5 @@ pandas
 scipy
 tqdm
 IPython
-matplotlib
 tqdm
 requests

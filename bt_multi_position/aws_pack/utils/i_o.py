@@ -225,8 +225,8 @@ def create_report(data):
         pass
     
     try:
-        display.clear_output(wait = True)
-        # print('------------------------------')
+        # display.clear_output(wait = True)
+        print('------------------------------')
     except:
         pass
     
