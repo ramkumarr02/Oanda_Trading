@@ -119,13 +119,13 @@ data['pl_move_trail_ratio']         = 0.75
 data['pl_loss_trail_trigger']       = -0.0020
 data['pl_loss_trail_size']          = 1.25
 
-data['sema_len']    = 250
-data['slema_len']   = 500
-data['lema_len']    = 1000
-data['angle_len']   = 1000
+data['sema_len']    = 1800
+data['slema_len']   = 3600
+data['lema_len']    = 7200
+data['angle_len']   = 7200
 
-data['num_of_switch_orders']    = 19
-data['loss_switch_pl_pip']      = -0.0002
+data['num_of_switch_orders']    = 2
+data['loss_switch_pl_pip']      = -0.0005
 
 data['pl_move_trail_trigger']       = 0.0020
 data['stop_loss_pip']               = -0.0020
@@ -136,7 +136,7 @@ data['take_profit_method']  = 'simple'
 data['stop_loss_method']    = 'simple'
 
 data['start_date'] = {'year':2021, 'month':1, 'date':1}
-data['end_date']   = {'year':2021, 'month':1, 'date':31}
+data['end_date']   = {'year':2021, 'month':1, 'date':10}
 
 data['ema_roll_method'] = 'file'
 
@@ -161,4 +161,6 @@ data['positions_half_closed'] = False
 data['temp_df'] = pd.DataFrame()
 data['open_order_temp_list']   = []
 data['pl_temp_list']           = []
+data['first_type']             = None
+data['forward_order_list'] = []
 #...............................................................................................

@@ -13,13 +13,11 @@ def dynamic_make_order(data):
                     data['open_order'] = order_num_i + 1
                     data['start_prices'] = {}
                     data = make_long_order(data)
-                    # print(1, data['start_prices'])
 
                 elif data['to_order'] == 'short':
                     data['open_order'] = order_num_i + 1
                     data['start_prices'] = {}
                     data = make_short_order(data)
-                    # print(2, data['start_prices'])
 
         elif order_num_i > 0:
             if data['open_order'] == order_num_i:
@@ -30,19 +28,28 @@ def dynamic_make_order(data):
                     data['pl_available'] = False
 
                 if data['pl_available']:
-                    if data['orders_list'][1]['open_order_type'] == 'long':
+                    if data['orders_list'][1]['open_order_type'] == 'short':
                         if data['orders_list'][order_num_i]['pl'] < data['loss_switch_pl_pip']:
+                            # data['first_type'] = 'short'
+                            # data = get_order_list(data)
                             data['open_order'] = order_num_i + 1
+                            # if data['forward_order_list'][data['open_order']] == 'long':
                             data = make_long_order(data)
+                            # if data['forward_order_list'][data['open_order']] == 'short':
+                            #     data = make_short_order(data)
                             # if data['ask'] >= 1.2211 and data['open_order'] == 19:
                             #     sys.exit()
 
-                            # print(3, data['start_prices'])
             
-                    if data['orders_list'][1]['open_order_type'] == 'short':
+                    if data['orders_list'][1]['open_order_type'] == 'long':
                         if data['orders_list'][order_num_i]['pl'] < data['loss_switch_pl_pip']:
+                            # data['first_type'] = 'long'
+                            # data = get_order_list(data)
                             data['open_order'] = order_num_i + 1
-                            data = make_short_order(data)      
+                            # if data['forward_order_list'][data['open_order']] == 'long':
+                                # data = make_long_order(data)
+                            # if data['forward_order_list'][data['open_order']] == 'short':
+                            data = make_short_order(data)
                             # print(4, data['start_prices'])
 
     return(data)
@@ -188,14 +195,12 @@ def close_all_orders(data):
                     data['pl'] = data['orders_list'][i]['pl']
                     data['close_type_val'] = ('all_close')
                     data['i'] = i
-                    # print(5, data['start_prices'])
                     data = close_long_order(data)
 
                 elif data['orders_list'][i]['open_order_type'] == 'short':
                     data['pl'] = data['orders_list'][i]['pl']
                     data['i'] = i
                     data['close_type_val'] = ('all_close')
-                    # print(6, data['start_prices'])
                     data = close_short_order(data)
 
             data['open_order'] = 0
@@ -314,21 +319,19 @@ def simple_slema_move_close(data):
                     if data['sema'] < data['slema']:
                         data['close_type_val'] = ('simple_slema_move_close')
                         data['i'] = 1
-                        # print(7, data['start_prices'])
                         data = close_long_order(data)       
             
                 if data['orders_list'][1]['open_order_type'] == 'short':
                     if data['sema'] > data['slema']:                
-                        # data['stop_text'] = 'simple_slema_move_close'
                         data['close_type_val'] = ('simple_slema_move_close')
                         data['i'] = 1
-                        # print(8, data['start_prices'])
                         data = close_short_order(data)  
 
     return(data) 
 #...............................................................................................
 def calculate_pl(data):
     data['orders_list']['total_pl'] = []
+    data['orders_list']['pl_list'] = []
 
     for i in range(1, data['open_order']+1):
         if i == 1:
@@ -339,17 +342,17 @@ def calculate_pl(data):
 
         if data['orders_list'][i]['open_order_type'] == 'long':
             data['orders_list'][i]['pl'] = np.round((data['bid'] - data['orders_list'][i]['ask']) * data['order_size'], 5)            
+            data['orders_list']['pl_list'].append(data['orders_list'][i]['pl'])
 
         if data['orders_list'][i]['open_order_type'] == 'short':
             data['orders_list'][i]['pl'] = np.round((data['orders_list'][i]['bid'] - data['ask']) * data['order_size'], 5)
-
-        data['orders_list']['total_pl'].append(data['orders_list'][i]['pl'])
+            data['orders_list']['pl_list'].append(data['orders_list'][i]['pl'])
     
-    data['orders_list']['total_pl'] = np.round(sum(data['orders_list']['total_pl']), 5)
+    data['orders_list']['total_pl'] = np.round(sum(data['orders_list']['pl_list']), 5)
 
     data['open_order_temp_list'].append(data['open_order'])
     data['pl_temp_list'].append(data['orders_list']['total_pl'])
-    # if data['orders_list']['total_pl'] < -0.0068:
+    # if data['orders_list']['total_pl'] <= -0.31915:
     #     print(data['orders_list'])
     #     sys.exit()
 
@@ -468,6 +471,43 @@ def get_order_details(data):
 
     return(data)
 #...............................................................................................
+def get_order_list(data):
+    if data['first_type'] == 'long':
+        data['forward_order_list'] = ['']
+        data['forward_order_list'] = data['forward_order_list'] + [data['first_type']]
+        data['forward_order_list'] = data['forward_order_list'] + ['short'] * 5
+        data['forward_order_list'] = data['forward_order_list'] + ['long'] * 5
+        data['forward_order_list'] = data['forward_order_list'] + ['short'] * 5
+        data['forward_order_list'] = data['forward_order_list'] + ['long'] * 3
+    elif data['first_type'] == 'short':
+        data['forward_order_list'] = ['']
+        data['forward_order_list'] = data['forward_order_list'] + [data['first_type']]
+        data['forward_order_list'] = data['forward_order_list'] + ['long'] * 5
+        data['forward_order_list'] = data['forward_order_list'] + ['short'] * 5
+        data['forward_order_list'] = data['forward_order_list'] + ['long'] * 5
+        data['forward_order_list'] = data['forward_order_list'] + ['short'] * 3
+    return(data)
+#...............................................................................................
+def get_order_list(data):
+    if data['first_type'] == 'long':
+        data['forward_order_list'] = ['']
+        data['forward_order_list'] = data['forward_order_list'] + [data['first_type']]
+        for i in range(1,21):
+            if i%2 == 0:
+                data['forward_order_list'] = data['forward_order_list'] + ['long']
+            else:
+                data['forward_order_list'] = data['forward_order_list'] + ['short']
+
+
+    elif data['first_type'] == 'short':
+        data['forward_order_list'] = ['']
+        data['forward_order_list'] = data['forward_order_list'] + [data['first_type']]
+        for i in range(1,21):
+            if i%2 == 0:
+                data['forward_order_list'] = data['forward_order_list'] + ['short']
+            else:
+                data['forward_order_list'] = data['forward_order_list'] + ['long']
+    return(data)
 #...............................................................................................
 #...............................................................................................
 #...............................................................................................
