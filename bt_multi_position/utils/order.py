@@ -30,27 +30,13 @@ def dynamic_make_order(data):
                 if data['pl_available']:
                     if data['orders_list'][1]['open_order_type'] == 'short':
                         if data['orders_list'][order_num_i]['pl'] < data['loss_switch_pl_pip']:
-                            # data['first_type'] = 'short'
-                            # data = get_order_list(data)
                             data['open_order'] = order_num_i + 1
-                            # if data['forward_order_list'][data['open_order']] == 'long':
                             data = make_long_order(data)
-                            # if data['forward_order_list'][data['open_order']] == 'short':
-                            #     data = make_short_order(data)
-                            # if data['ask'] >= 1.2211 and data['open_order'] == 19:
-                            #     sys.exit()
-
             
                     if data['orders_list'][1]['open_order_type'] == 'long':
                         if data['orders_list'][order_num_i]['pl'] < data['loss_switch_pl_pip']:
-                            # data['first_type'] = 'long'
-                            # data = get_order_list(data)
                             data['open_order'] = order_num_i + 1
-                            # if data['forward_order_list'][data['open_order']] == 'long':
-                                # data = make_long_order(data)
-                            # if data['forward_order_list'][data['open_order']] == 'short':
                             data = make_short_order(data)
-                            # print(4, data['start_prices'])
 
     return(data)
 
@@ -338,6 +324,7 @@ def calculate_pl(data):
             data['order_size'] = 1
         else:
             # data['order_size'] = 2
+            # data['order_size'] = i * 5
             data['order_size'] = i
 
         if data['orders_list'][i]['open_order_type'] == 'long':
