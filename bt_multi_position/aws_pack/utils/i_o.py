@@ -84,7 +84,7 @@ def print_report(data):
     data['report_df'].to_csv(data['file_name'], index = False) 
     
     print('==============================')
-    print(f'date_val          : {data["date_list"]}')    
+    # print(f'date_val          : {data["date_list"]}')    
     print(f'Total PL : {sum(data["pl_list"])}')
     print('-------------')
     print(f'net_pl            : {net_pl}/{sum_total}')  
@@ -225,8 +225,8 @@ def create_report(data):
         pass
     
     try:
-        # display.clear_output(wait = True)
-        print('------------------------------')
+        display.clear_output(wait = True)
+        # print('------------------------------')
     except:
         pass
     
@@ -251,3 +251,19 @@ def send_telegram_message(message_text):
     
     send_message_url = f'{data["telegram_url"]}{keys.tester_bot_token}/sendMessage?chat_id={keys.chat_id}/&text={message_text}'
     requests.get(send_message_url)
+#...............................................................................................    '
+def combine_csv_files(data):
+    for i, csv_file in enumerate(data['csv_list']):
+        if i == 0:
+            df = pd.read_csv(f"data/{csv_file}.csv")
+            print(f"{csv_file} has {len(df)} records")
+        else:
+            df_new= pd.read_csv(f"data/{csv_file}.csv")
+            print(f"{csv_file} has {len(df_new)} records")
+            df =  df.append(df_new)
+            
+        print(f"{data['new_file']} has {len(df)} records")
+        df.to_csv(f"data/{data['new_file']}.csv")
+    
+    return(data)
+#...............................................................................................    

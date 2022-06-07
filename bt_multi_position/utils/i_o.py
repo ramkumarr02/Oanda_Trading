@@ -84,7 +84,7 @@ def print_report(data):
     data['report_df'].to_csv(data['file_name'], index = False) 
     
     print('==============================')
-    print(f'date_val          : {data["date_list"]}')    
+    # print(f'date_val          : {data["date_list"]}')    
     print(f'Total PL : {sum(data["pl_list"])}')
     print('-------------')
     print(f'net_pl            : {net_pl}/{sum_total}')  
