@@ -80,13 +80,12 @@ data['pip_size'] = 0.0001
 data['tick_order_angle'] = 20
 data['stop_loss_pip'] = 0.0010
 
-# data["input_file_name"] = 'eurusd_2021'
 # data['min_order_angle'] = 20
 data['position'] = None
 data['pip_decimal_num'] = 10**-6
 data['test_val'] = []
 
-data["product"] = 'EURUSD'
+data["product"] = 'eurusd'
 data["input_year"] = 2021
 data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 
@@ -119,10 +118,10 @@ data['pl_move_trail_ratio']         = 0.75
 data['pl_loss_trail_trigger']       = -0.0020
 data['pl_loss_trail_size']          = 1.25
 
-data['sema_len']    = 1800
-data['slema_len']   = 3600
-data['lema_len']    = 7200
-data['angle_len']   = 7200
+data['sema_len']    = 250
+data['slema_len']   = 500
+data['lema_len']    = 1000
+data['angle_len']   = 1000
 
 data['num_of_switch_orders']    = 19
 data['loss_switch_pl_pip']      = -0.0002
@@ -138,7 +137,7 @@ data['stop_loss_method']    = 'simple'
 data['start_date'] = {'year':2021, 'month':1, 'date':1}
 data['end_date']   = {'year':2021, 'month':12, 'date':31}
 
-data['ema_roll_method'] = 'file'
+data['ema_roll_method'] = 'new'
 
 # data['direction'] = 'reverse'
 data['direction'] = 'straight'
@@ -154,7 +153,7 @@ data['sema_close_flag'] = False
 data['short_start'] = False
 data['long_start'] = False
 data['delay_counter'] = 0
-data['delay_tics_num'] = 1000
+data['delay_tics_num'] = 250
 
 data['positions_half_closed'] = False
 
