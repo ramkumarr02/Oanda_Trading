@@ -16,11 +16,13 @@ import collections
 
 from tqdm import tqdm
 from IPython import display
-
-# import winsound
 from tqdm import tqdm
 tqdm.pandas()
 
 import warnings
 warnings.filterwarnings('ignore')
+
+import winsound
+import matplotlib.pyplot as plt
+from matplotlib.pyplot import figure
 #...............................................................................................

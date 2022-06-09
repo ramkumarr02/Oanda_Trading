@@ -175,7 +175,7 @@ def make_order(data):
 def close_all_orders(data):
     
     if data['open_order'] > 1:
-        if data['orders_list']['total_pl'] >= 0.0001:            
+        if data['orders_list']['total_pl'] >= data['all_close_min_pip']:            
             for i in range(1, data['open_order']+1):
                 if data['orders_list'][i]['open_order_type'] == 'long':   
                     data['pl'] = data['orders_list'][i]['pl']
