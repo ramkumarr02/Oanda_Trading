@@ -118,26 +118,25 @@ data['pl_move_trail_ratio']         = 0.75
 data['pl_loss_trail_trigger']       = -0.0020
 data['pl_loss_trail_size']          = 1.25
 
+data['pl_move_trail_trigger']       = 0.0020
+data['stop_loss_pip']               = -0.0020
+
 data['sema_len']    = 250
 data['slema_len']   = 500
 data['lema_len']    = 1000
 data['angle_len']   = 1000
 
 data['num_of_switch_orders']    = 19
-data['loss_switch_pl_pip']      = -0.0010
+data['loss_switch_pl_pip']      = -0.0020
 data['all_close_min_pip']      = 0.0000
-
-
-data['pl_move_trail_trigger']       = 0.0020
-data['stop_loss_pip']               = -0.0020
 
 data['min_llema_angle'] = 0
 
 data['take_profit_method']  = 'simple'
 data['stop_loss_method']    = 'simple'
 
-data['start_date'] = {'year':2020, 'month':1, 'date':1}
-data['end_date']   = {'year':2020, 'month':12, 'date':31}
+data['start_date'] = {'year':2021, 'month':1, 'date':1}
+data['end_date']   = {'year':2021, 'month':12, 'date':31}
 
 data['ema_roll_method'] = 'file'
 
@@ -155,7 +154,7 @@ data['sema_close_flag'] = False
 data['short_start'] = False
 data['long_start'] = False
 data['delay_counter'] = 0
-data['delay_tics_num'] = 250
+data['delay_tics_num'] = 100
 
 data['positions_half_closed'] = False
 

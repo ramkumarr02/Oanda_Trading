@@ -28,12 +28,12 @@ def dynamic_make_order(data):
                     data['pl_available'] = False
 
                 if data['pl_available']:
-                    if data['orders_list'][1]['open_order_type'] == 'short':
+                    if data['orders_list'][1]['open_order_type'] == 'long':
                         if data['orders_list'][order_num_i]['pl'] < data['loss_switch_pl_pip']:
                             data['open_order'] = order_num_i + 1
                             data = make_long_order(data)
             
-                    if data['orders_list'][1]['open_order_type'] == 'long':
+                    if data['orders_list'][1]['open_order_type'] == 'short':
                         if data['orders_list'][order_num_i]['pl'] < data['loss_switch_pl_pip']:
                             data['open_order'] = order_num_i + 1
                             data = make_short_order(data)
@@ -175,7 +175,7 @@ def make_order(data):
 def close_all_orders(data):
     
     if data['open_order'] > 1:
-        if data['orders_list']['total_pl'] >= 0.0001:            
+        if data['orders_list']['total_pl'] >= data['all_close_min_pip']:            
             for i in range(1, data['open_order']+1):
                 if data['orders_list'][i]['open_order_type'] == 'long':   
                     data['pl'] = data['orders_list'][i]['pl']
