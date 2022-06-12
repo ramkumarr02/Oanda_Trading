@@ -154,7 +154,7 @@ data['sema_close_flag'] = False
 data['short_start'] = False
 data['long_start'] = False
 data['delay_counter'] = 0
-data['delay_tics_num'] = 100
+data['delay_tics_num'] = 900
 
 data['positions_half_closed'] = False
 
@@ -164,7 +164,7 @@ data['pl_temp_list']           = []
 data['first_type']             = None
 data['forward_order_list'] = []
 
-
+data["csv_file_name"] = 'ema_2021-jan_dec_1000'
 data['csv_list'] = ['ema_2021_jan_aug' , 'ema_df-(2021-2021)-(9-9)-(1-30)', 'ema_df-(2021-2021)-(10-10)-(1-31)', 'ema_df-(2021-2021)-(12-12)-(1-31)']
 data['new_file'] = 'ema_2021-jan_dec'
 #...............................................................................................
