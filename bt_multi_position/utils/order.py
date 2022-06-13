@@ -325,7 +325,8 @@ def calculate_pl(data):
         else:
             # data['order_size'] = 2
             # data['order_size'] = i * 5
-            data['order_size'] = i
+            data['order_size'] = (i-1) * 5
+            # data['order_size'] = i
 
         if data['orders_list'][i]['open_order_type'] == 'long':
             data['orders_list'][i]['pl'] = np.round((data['bid'] - data['orders_list'][i]['ask']) * data['order_size'], 5)            
@@ -496,6 +497,8 @@ def get_order_list(data):
                 data['forward_order_list'] = data['forward_order_list'] + ['long']
     return(data)
 #...............................................................................................
+
+
 #...............................................................................................
 #...............................................................................................
 #...............................................................................................

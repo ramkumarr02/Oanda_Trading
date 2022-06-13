@@ -85,10 +85,6 @@ data['position'] = None
 data['pip_decimal_num'] = 10**-6
 data['test_val'] = []
 
-data["product"] = 'eurusd'
-data["input_year"] = 2021
-data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
-
 data['date_index'] = 0
 
 data['close_angle'] = 40
@@ -114,6 +110,11 @@ data['pl_close_angle'] = 15
 data['dir_change'] = False
 data['to_order'] = None
 
+data['min_llema_angle'] = 0
+
+data['take_profit_method']  = 'simple'
+data['stop_loss_method']    = 'simple'
+
 data['pl_move_trail_ratio']         = 0.75
 data['pl_loss_trail_trigger']       = -0.0020
 data['pl_loss_trail_size']          = 1.25
@@ -121,29 +122,28 @@ data['pl_loss_trail_size']          = 1.25
 data['pl_move_trail_trigger']       = 0.0020
 data['stop_loss_pip']               = -0.0020
 
-data['sema_len']    = 250
+data['sema_len']    = 100
 data['slema_len']   = 500
 data['lema_len']    = 1000
 data['angle_len']   = 1000
 
-data['num_of_switch_orders']    = 19
+data['num_of_switch_orders']    = 4
 data['loss_switch_pl_pip']      = -0.0020
 data['all_close_min_pip']      = 0.0000
 
-data['min_llema_angle'] = 0
-
-data['take_profit_method']  = 'simple'
-data['stop_loss_method']    = 'simple'
+data["product"] = 'eurusd'
+data["input_year"] = 2021
+data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 
 data['start_date'] = {'year':2021, 'month':1, 'date':1}
-data['end_date']   = {'year':2021, 'month':12, 'date':31}
+data['end_date']   = {'year':2021, 'month':1, 'date':31}
 
 data['ema_roll_method'] = 'file'
 
 # data['direction'] = 'reverse'
 data['direction'] = 'straight'
 
-data["plot"] = False
+data["plot"] = True
 
 data['take_profit_flag'] = False
 
