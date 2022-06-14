@@ -46,7 +46,6 @@ def run_engine(data):
         # ----------------------------------------------------------  
         
 
-
         # # after_order_ Get Dirs --------------------------------
         # data = after_order_get_position(data)
         # if data['after_order_position'] == None:
@@ -65,7 +64,6 @@ def run_engine(data):
         data = simple_slema_move_close(data)
         data = close_all_orders(data)             
         data = delayed_start_check(data)        
-        # data = make_order(data)     
         data = dynamic_make_order(data)
 
         data = calculate_pl(data)
