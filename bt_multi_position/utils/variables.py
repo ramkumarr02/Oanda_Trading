@@ -45,7 +45,6 @@ data['position'] = False
 data['after_order_position'] = False
 data['open_order'] = 0    
 data['open_order_type'] = None
-data['df_subset_size'] = None
 data['pl_positive'] = False
 data['pl_positive_flag'] = True
 data['slema_positive'] = False
@@ -135,8 +134,10 @@ data["product"] = 'eurusd'
 data["input_year"] = 2021
 data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 
+data['df_subset_size'] = 5000
+
 data['start_date'] = {'year':2021, 'month':1, 'date':1}
-data['end_date']   = {'year':2021, 'month':1, 'date':31}
+data['end_date']   = {'year':2021, 'month':1, 'date':4}
 
 data['ema_roll_method'] = 'file'
 
