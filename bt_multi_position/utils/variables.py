@@ -127,17 +127,17 @@ data['lema_len']    = 500
 data['angle_len']   = 500
 
 data['num_of_switch_orders']    = 4
-data['loss_switch_pl_pip']      = -0.0010
+data['loss_switch_pl_pip']      = -0.0020
 data['all_close_min_pip']      = 0.0000
 
 data["product"] = 'eurusd'
-data["input_year"] = 2020
+data["input_year"] = 2021
 data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 
 data['df_subset_size'] = None
 
-data['start_date'] = {'year':2020, 'month':1, 'date':1}
-data['end_date']   = {'year':2020, 'month':12, 'date':31}
+data['start_date'] = {'year':2021, 'month':1, 'date':1}
+data['end_date']   = {'year':2021, 'month':12, 'date':31}
 
 data['ema_roll_method'] = 'file'
 
