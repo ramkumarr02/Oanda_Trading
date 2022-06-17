@@ -45,7 +45,6 @@ data['position'] = False
 data['after_order_position'] = False
 data['open_order'] = 0    
 data['open_order_type'] = None
-data['df_subset_size'] = 20000
 data['pl_positive'] = False
 data['pl_positive_flag'] = True
 data['slema_positive'] = False
@@ -85,7 +84,6 @@ data['position'] = None
 data['pip_decimal_num'] = 10**-6
 data['test_val'] = []
 
-
 data['date_index'] = 0
 
 data['close_angle'] = 40
@@ -111,6 +109,11 @@ data['pl_close_angle'] = 15
 data['dir_change'] = False
 data['to_order'] = None
 
+data['min_llema_angle'] = 0
+
+data['take_profit_method']  = 'simple'
+data['stop_loss_method']    = 'simple'
+
 data['pl_move_trail_ratio']         = 0.75
 data['pl_loss_trail_trigger']       = -0.0020
 data['pl_loss_trail_size']          = 1.25
@@ -118,26 +121,23 @@ data['pl_loss_trail_size']          = 1.25
 data['pl_move_trail_trigger']       = 0.0020
 data['stop_loss_pip']               = -0.0020
 
-data['sema_len']    = 250
-data['slema_len']   = 500
-data['lema_len']    = 1000
-data['angle_len']   = 1000
+data['sema_len']    = 50
+data['slema_len']   = 100
+data['lema_len']    = 200
+data['angle_len']   = 200
 
-data['num_of_switch_orders']    = 19
-data['loss_switch_pl_pip']      = -0.0020
+data['num_of_switch_orders']    = 4
+data['loss_switch_pl_pip']      = -0.0010
 data['all_close_min_pip']      = 0.0000
 
-data['min_llema_angle'] = 0
-
-data['take_profit_method']  = 'simple'
-data['stop_loss_method']    = 'simple'
-
 data["product"] = 'eurusd'
-data["input_year"] = 2020
+data["input_year"] = 2021
 data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 
-data['start_date'] = {'year':2020, 'month':1, 'date':1}
-data['end_date']   = {'year':2020, 'month':12, 'date':31}
+data['df_subset_size'] = None
+
+data['start_date'] = {'year':2021, 'month':1, 'date':1}
+data['end_date']   = {'year':2021, 'month':12, 'date':31}
 
 data['ema_roll_method'] = 'new'
 
@@ -155,7 +155,7 @@ data['sema_close_flag'] = False
 data['short_start'] = False
 data['long_start'] = False
 data['delay_counter'] = 0
-data['delay_tics_num'] = 100
+data['delay_tics_num'] = 50
 
 data['positions_half_closed'] = False
 
@@ -165,6 +165,8 @@ data['pl_temp_list']           = []
 data['first_type']             = None
 data['forward_order_list'] = []
 
+# data["csv_file_name"] = 'ema_2021-jan_dec_250'
+data["csv_file_name"] = 'ema_df-(2021-2021)-(1-1)-(1-31)'
 
 data['csv_list'] = ['ema_2021_jan_aug' , 'ema_df-(2021-2021)-(9-9)-(1-30)', 'ema_df-(2021-2021)-(10-10)-(1-31)', 'ema_df-(2021-2021)-(12-12)-(1-31)']
 data['new_file'] = 'ema_2021-jan_dec'

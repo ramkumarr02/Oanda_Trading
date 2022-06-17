@@ -121,13 +121,13 @@ data['pl_loss_trail_size']          = 1.25
 data['pl_move_trail_trigger']       = 0.0020
 data['stop_loss_pip']               = -0.0020
 
-data['sema_len']    = 100
-data['slema_len']   = 250
-data['lema_len']    = 500
-data['angle_len']   = 500
+data['sema_len']    = 50
+data['slema_len']   = 100
+data['lema_len']    = 200
+data['angle_len']   = 200
 
 data['num_of_switch_orders']    = 4
-data['loss_switch_pl_pip']      = -0.0020
+data['loss_switch_pl_pip']      = -0.0010
 data['all_close_min_pip']      = 0.0000
 
 data["product"] = 'eurusd'
@@ -137,9 +137,9 @@ data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 data['df_subset_size'] = None
 
 data['start_date'] = {'year':2021, 'month':1, 'date':1}
-data['end_date']   = {'year':2021, 'month':12, 'date':31}
+data['end_date']   = {'year':2021, 'month':1, 'date':10}
 
-data['ema_roll_method'] = 'file'
+data['ema_roll_method'] = 'new'
 
 # data['direction'] = 'reverse'
 data['direction'] = 'straight'
