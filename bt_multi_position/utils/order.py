@@ -227,7 +227,7 @@ def calculate_pl(data):
         else:
             # data['order_size'] = 2
             # data['order_size'] = i * 5
-            data['order_size'] = (i-1) * 5
+            data['order_size'] = (i-1) * data['order_multiplier']
             # data['order_size'] = i
 
         if data['orders_list'][i]['open_order_type'] == 'long':
