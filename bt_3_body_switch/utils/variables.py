@@ -122,6 +122,7 @@ data['pl_move_trail_trigger']       = 0.0020
 data['stop_loss_pip']               = -0.0020
 
 # --------------------------------------------------------
+data['order_num_i'] = 0
 
 data['sema_len']    = 250
 data['slema_len']   = 500
@@ -129,7 +130,7 @@ data['lema_len']    = 1000
 data['angle_len']   = 1000
 
 data['num_of_switch_orders']    = 6
-data['loss_switch_pl_pip']      = -0.0010
+data['loss_switch_pl_pip']      = -0.0005
 data['all_close_min_pip']       = 0
 data['order_multiplier']        = 2
 
@@ -137,10 +138,10 @@ data["product"] = 'eurusd'
 data["input_year"] = 2021
 data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 
-data['df_subset_size'] = None
+data['df_subset_size'] = 25000
 
 data['start_date'] = {'year':2021, 'month':1, 'date':1}
-data['end_date']   = {'year':2021, 'month':12, 'date':31}
+data['end_date']   = {'year':2021, 'month':1, 'date':4}
 
 data['ema_roll_method'] = 'file'
 

@@ -4,6 +4,77 @@ from utils.dir_slope import *
 
 
 # ...............................................................................................
+def make_triple_order(data):
+    if data['open_order'] == 0:
+        if data['to_order'] == 'long':                
+            data['open_order'] = 1
+            data['start_prices'] = {}
+            data = make_long_order(data)
+
+        elif data['to_order'] == 'short':
+            data['open_order'] = 1
+            data['start_prices'] = {}
+            data = make_short_order(data)
+
+    elif data['open_order'] == 1:
+        try:
+            data['orders_list'][1]['pl']
+            data['pl_available'] = True
+        except:
+            data['pl_available'] = False
+
+        if data['pl_available']:
+            if data['orders_list'][1]['open_order_type'] == 'long':
+                if data['orders_list'][1]['pl'] < data['loss_switch_pl_pip']:
+                     if data['to_order'] == 'short':
+                        data['open_order'] = 2
+                        data = make_short_order(data)
+    
+            if data['orders_list'][1]['open_order_type'] == 'short':
+                if data['orders_list'][1]['pl'] < data['loss_switch_pl_pip']:
+                    if data['to_order'] == 'long':
+                        data['open_order'] = 2
+                        data = make_long_order(data)
+
+    elif data['open_order'] == 2:
+        try:
+            data['orders_list'][2]['pl']
+            data['pl_available'] = True
+        except:
+            data['pl_available'] = False 
+    
+        if data['pl_available']:
+            if data['orders_list'][2]['pl'] < 0:
+                if data['orders_list'][1]['pl'] >= data['loss_switch_pl_pip'] * -2:
+                    if data['orders_list'][1]['open_order_type'] == 'long':
+                        data['open_order'] = 3
+                        data = make_long_order(data)
+                    if data['orders_list'][1]['open_order_type'] == 'short':
+                        data['open_order'] = 3
+                        data = make_short_order(data)
+
+            if data['orders_list'][1]['pl'] < 0:
+                if data['orders_list'][2]['pl'] >= data['loss_switch_pl_pip'] * -2:
+                    if data['orders_list'][2]['open_order_type'] == 'long':
+                        data['open_order'] = 3
+                        data = make_long_order(data)
+                    if data['orders_list'][2]['open_order_type'] == 'short':
+                        data['open_order'] = 3
+                        data = make_short_order(data)
+
+    # elif data['open_order'] == 3:
+    #     try:
+    #         data['orders_list'][2]['pl']
+    #         data['pl_available'] = True
+    #     except:
+    #         data['pl_available'] = False 
+ 
+    #     if data['pl_available']:
+    #         print(data['orders_list'])
+    #         sys.exit()
+
+    return(data)
+# ...............................................................................................
 def dynamic_make_order(data):
     for order_num_i in range(data['num_of_switch_orders']):    
         data['order_num_i'] = order_num_i
