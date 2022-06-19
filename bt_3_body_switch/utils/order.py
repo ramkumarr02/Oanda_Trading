@@ -72,6 +72,7 @@ def make_triple_order(data):
     #     if data['pl_available']:
     #         print(data['orders_list'])
     #         sys.exit()
+    #         print('add 3rd order switch here')
 
     return(data)
 # ...............................................................................................
