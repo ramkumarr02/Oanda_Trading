@@ -27,13 +27,13 @@ def make_triple_order(data):
 
         if data['pl_available']:
             if data['orders_list'][1]['open_order_type'] == 'long':
-                if data['orders_list'][1]['pl'] < data['loss_switch_pl_pip'] * 0.5:
+                if data['orders_list'][1]['pl'] < data['loss_switch_pl_pip']:
                     # if data['to_order'] == 'short':
                     data['open_order'] = 2
                     data = make_short_order(data)
     
             if data['orders_list'][1]['open_order_type'] == 'short':
-                if data['orders_list'][1]['pl'] < data['loss_switch_pl_pip'] * 0.5:
+                if data['orders_list'][1]['pl'] < data['loss_switch_pl_pip']:
                     # if data['to_order'] == 'long':
                     data['open_order'] = 2
                     data = make_long_order(data)
@@ -48,7 +48,7 @@ def make_triple_order(data):
     
         if data['pl_available']:
             if data['orders_list'][2]['pl'] < 0:
-                if data['orders_list'][1]['pl'] >= data['loss_switch_pl_pip']:
+                if data['orders_list'][1]['pl'] >= data['loss_switch_pl_pip'] * -0.5:
                     if data['orders_list'][1]['open_order_type'] == 'long':
                         if data['to_order'] == 'long':
                             data['open_order'] = 3
@@ -59,7 +59,7 @@ def make_triple_order(data):
                             data = make_short_order(data)
 
             if data['orders_list'][1]['pl'] < 0:
-                if data['orders_list'][2]['pl'] >= data['loss_switch_pl_pip']:
+                if data['orders_list'][2]['pl'] >= data['loss_switch_pl_pip'] * -0.5:
                     if data['orders_list'][2]['open_order_type'] == 'long':
                         if data['to_order'] == 'long':
                             data['open_order'] = 3
