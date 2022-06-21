@@ -267,3 +267,61 @@ def combine_csv_files(data):
     
     return(data)
 #...............................................................................................    
+#...............................................................................................
+def plotly_graph(data):
+    # Plot Layout --------------------------------
+    chart_name = f"Trade Chart"
+    layout = go.Layout(title = chart_name,
+                       xaxis = dict(title="DateTime"),
+                       xaxis2 = dict(title= 'x', side= 'top'),
+                       
+                       yaxis = dict(title="PIP"),
+                       yaxis2 = dict(title= 'Trend Angle', overlaying="y", side="right",)
+                      )
+    
+
+    fig = go.Figure(layout = layout)
+    # --------------------------------
+
+    # Tick  --------------------------------
+    fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
+                            y=data['df']['tick'],
+                            mode='lines',
+                            name='tick',
+                            line=dict(color='lightgrey', width=1),
+                        )
+                )
+
+    fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
+                        y=data['df']['lema'],
+                        mode='lines',
+                        name='lema',
+                        line=dict(color='blue', width=1),
+                    )
+            )                                                
+    # fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
+    #                         y=data['df']['tick_angle'],
+    #                         mode='lines',
+    #                         name='tick_angle',
+    #                         line=dict(color='red', width=1, dash = 'dot'),yaxis='y2'),
+    #             )
+
+    fig.update_layout(legend=dict(orientation="h",
+                                  yanchor="bottom",
+                                  y=1.02,
+                                  xanchor="right",
+                                  x=1
+                                 ))
+    
+    if data['plot_type'] == 'file':
+        chart_name = str(dt.datetime.now())
+        chart_name = chart_name.replace(":", "-")
+        chart_name = chart_name.replace(".", "-")
+        chart_name = chart_name.replace(" ", "-")
+        data['chart_file_path'] = (f'{os.getcwd()}\\data\\chart-{chart_name}.html')
+
+        fig.write_html(data['chart_file_path'])
+        webbrowser.get(data['chrome_path']).open(data['chart_file_path'])
+    elif data['plot_type'] == 'show':
+        fig.show()
+#...............................................................................................
