@@ -177,6 +177,10 @@ def get_rolling_emas(data):
         data['df'] = pd.read_csv(f'data/{data["csv_file_name"]}.csv')    
         # data['df'] = pd.read_csv(f'data/ema_df-(2021-2021)-(1-1)-(1-31).csv')    
         data["df"] = data["df"][data["df"]['DateTime'].str.contains('|'.join(data['date_list']))]
+
+        if data['df_subset_size'] is not None:
+            data["df"] = data["df"][0:data['df_subset_size']]
+        
         print(f'Record num : {len(data["df"])}') 
         
         data['dt_val_series']   = [dt.datetime.strptime(x.split(".")[0],"%Y%m%d %H:%M:%S") for x in data["df"]['DateTime']]
@@ -191,6 +195,10 @@ def get_rolling_emas(data):
     elif data['ema_roll_method'] == 'mix':
         data['df'] = pd.read_csv(f'data/full_df_Jan_lemangle.csv')    
         data["df"] = data["df"][data["df"]['DateTime'].str.contains('|'.join(data['date_list']))]
+
+        if data['df_subset_size'] is not None:
+            data["df"] = data["df"][0:data['df_subset_size']]
+
         print(f'Record num : {len(data["df"])}') 
         
         data['dt_val_series']   = [dt.datetime.strptime(x.split(".")[0],"%Y%m%d %H:%M:%S") for x in data["df"]['DateTime']]
@@ -208,3 +216,19 @@ def get_rolling_emas(data):
     return(data)
 #...............................................................................................  
 
+def get_hl(data):
+    data['df']['h']         = np.nan
+    data['df']['l']         = np.nan
+    # data['df']['mid_point'] = np.nan
+    for i in tqdm(range(len(data['df']))):
+        if i % data['candle_size'] == 0 and i > 0:        
+            data['tick_list'] = data['df']['tick'].loc[i - data['candle_size'] : i-1]
+            max_index   = data['tick_list'].idxmax()
+            min_index   = data['tick_list'].idxmin()
+            max_val     = max(data['tick_list'])
+            min_val     = min(data['tick_list'])
+            data['df']['h'].loc[max_index]          = max_val
+            data['df']['l'].loc[min_index]          = min_val
+            # data['df']['mid_point'].loc[i]  = np.mean([max_val, min_val])
+    return(data)
+#...............................................................................................  

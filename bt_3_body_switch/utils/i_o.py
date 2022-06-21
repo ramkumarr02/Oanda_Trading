@@ -298,13 +298,46 @@ def plotly_graph(data):
                         name='lema',
                         line=dict(color='blue', width=1),
                     )
-            )                                                
-    # fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
-    #                         y=data['df']['tick_angle'],
-    #                         mode='lines',
-    #                         name='tick_angle',
-    #                         line=dict(color='red', width=1, dash = 'dot'),yaxis='y2'),
-    #             )
+            )                            
+
+    fig.add_scatter(x = data['df']['DateTime_frmt'], 
+                    y = data['df']['h'], 
+                    mode = 'markers', 
+                    name = 'high',
+                    marker_symbol = 'circle',
+                    marker=dict(color='red',
+                                size=data['marker_size'],
+                                line=dict(
+                                    color='crimson',
+                                    width=5
+                                )),
+                    opacity=1)
+                                
+    fig.add_scatter(x = data['df']['DateTime_frmt'], 
+                    y = data['df']['l'], 
+                    mode = 'markers', 
+                    name = 'low',
+                    marker_symbol = 'circle',
+                    marker=dict(color='blue',
+                                size=data['marker_size'],
+                                line=dict(
+                                    color='blue',
+                                    width=5
+                                )),
+                    opacity=1)
+                                
+    # fig.add_scatter(x = data['df']['DateTime_frmt'], 
+    #                 y = data['df']['mid_point'], 
+    #                 mode = 'markers', 
+    #                 name = 'mid_point',
+    #                 marker_symbol = 'circle',
+    #                 marker=dict(color='black',
+    #                             size=data['marker_size'],
+    #                             line=dict(
+    #                                 color='black',
+    #                                 width=5
+    #                             )),
+    #                 opacity=1)
 
     fig.update_layout(legend=dict(orientation="h",
                                   yanchor="bottom",
