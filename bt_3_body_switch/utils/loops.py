@@ -219,7 +219,14 @@ def get_rolling_emas(data):
 def get_hl(data):
     data['df']['h']         = np.nan
     data['df']['l']         = np.nan
-    # data['df']['mid_point'] = np.nan
+    data['df']['h_l_gap'] = np.nan
+    data['df']['h_avg'] = np.nan
+    data['df']['l_avg'] = np.nan
+    data['df']['h_gap'] = np.nan
+    data['df']['l_gap'] = np.nan
+    data['df']['h_lema'] = np.nan
+    data['df']['l_lema'] = np.nan
+
     for i in tqdm(range(len(data['df']))):
         if i % data['candle_size'] == 0 and i > 0:        
             data['tick_list'] = data['df']['tick'].loc[i - data['candle_size'] : i-1]
@@ -227,8 +234,16 @@ def get_hl(data):
             min_index   = data['tick_list'].idxmin()
             max_val     = max(data['tick_list'])
             min_val     = min(data['tick_list'])
-            data['df']['h'].loc[max_index]          = max_val
-            data['df']['l'].loc[min_index]          = min_val
-            # data['df']['mid_point'].loc[i]  = np.mean([max_val, min_val])
+            data['df']['h'].loc[max_index]  = max_val
+            data['df']['l'].loc[min_index]  = min_val
+            data['df']['h_l_gap'].loc[i]    = max_val - min_val
+            data['df']['h_avg'].loc[i]      = data['df']['h'].loc[i - data['candle_size'] : i-1].mean()
+            data['df']['l_avg'].loc[i]      = data['df']['l'].loc[i - data['candle_size'] : i-1].mean()
+            data['df']['h_gap'].loc[i]     = data['df']['h_avg'].loc[i] - data['df']['lema'].loc[i]
+            data['df']['l_gap'].loc[i]     = data['df']['lema'].loc[i] - data['df']['l_avg'].loc[i]
+   
+            data['df']['h_lema'].loc[i - data['candle_size'] : i-1]     = data['df']['h_gap'].loc[i] + data['df']['lema'].loc[i - data['candle_size'] : i-1]
+            data['df']['l_lema'].loc[i - data['candle_size'] : i-1]     = data['df']['lema'].loc[i - data['candle_size'] : i-1] - data['df']['l_gap'].loc[i]
+
     return(data)
 #...............................................................................................  

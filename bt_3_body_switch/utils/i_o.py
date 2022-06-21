@@ -300,6 +300,22 @@ def plotly_graph(data):
                     )
             )                            
 
+    fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
+                        y=data['df']['h_lema'],
+                        mode='lines',
+                        name='h_lema',
+                        line=dict(color='cyan', width=1),
+                    )
+            )   
+
+    fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
+                        y=data['df']['l_lema'],
+                        mode='lines',
+                        name='l_lema',
+                        line=dict(color='brown', width=1),
+                    )
+            )   
+
     fig.add_scatter(x = data['df']['DateTime_frmt'], 
                     y = data['df']['h'], 
                     mode = 'markers', 
