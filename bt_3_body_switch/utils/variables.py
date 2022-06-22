@@ -121,6 +121,9 @@ data['pl_loss_trail_size']          = 1.25
 data['pl_move_trail_trigger']       = 0.0020
 data['stop_loss_pip']               = -0.0020
 
+data['input_rows'] = None
+data['sema_close_flag'] = False
+
 # --------------------------------------------------------
 data['order_num_i'] = 0
 
@@ -138,7 +141,7 @@ data["product"] = 'eurusd'
 data["input_year"] = 2021
 data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 
-data['df_subset_size'] = 10000
+data['df_subset_size'] = None
 
 data['start_date'] = {'year':2021, 'month':1, 'date':1}
 data['end_date']   = {'year':2021, 'month':1, 'date':4}
@@ -151,10 +154,6 @@ data['direction'] = 'straight'
 data["plot"] = True
 
 data['take_profit_flag'] = False
-
-data['input_rows'] = None
-data['sema_close_flag'] = False
-
 
 data['short_start'] = False
 data['long_start'] = False
