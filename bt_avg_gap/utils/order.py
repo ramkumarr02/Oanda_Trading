@@ -32,7 +32,7 @@ def calculate_pl(data):
 
 # ...............................................................................................
 def simple_stop_loss(data):   
-    data['stop_loss_pip']               = data['h_l_gap']
+    data['stop_loss_pip']               = data['h_l_gap'] * 0.5
 
     if data['open_order']:
         if data['pl'] <= -data['stop_loss_pip']:
