@@ -11,7 +11,11 @@ if data['plot']:
 def run_engine(data):
 
     data["start_ts"] = dt.datetime.strftime(dt.datetime.now(), '%Y-%m-%d-%H-%M')
+    data = get_date_list(data)
     data = get_rolling_emas(data)
+    data = get_hl(data)
+    data = get_avg_lines(data)
+    data['df_len'] = len(data["df"])
 
     for i in tqdm(range(0, data['df_len'])):
 
@@ -23,6 +27,9 @@ def run_engine(data):
         data['sema'] = data['df']['sema'][i]      
         data['slema'] = data['df']['slema'][i]      
         data['lema'] = data['df']['lema'][i]    
+        data['h_l_gap'] = data['df']['h_l_gap'][i]    
+        data['h_lema'] = data['df']['h_lema'][i]    
+        data['l_lema'] = data['df']['l_lema'][i]    
         data['tick_angle'] = data['df']['tick_angle'][i]    
         
         if data["plot"]:     
@@ -45,11 +52,9 @@ def run_engine(data):
             data = get_cross_dir(data)
         # ----------------------------------------------------------  
 
-        data = slema_positive_check(data)
-        data = simple_slema_move_close(data)
-        data = close_all_orders(data)             
-        data = delayed_start_check(data)        
-        data = make_triple_order(data)
+        data = simple_take_profit(data)                 
+        data = simple_stop_loss(data)
+        data = make_order(data)
         data = calculate_pl(data)
             
     return(data)

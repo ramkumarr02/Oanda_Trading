@@ -44,6 +44,7 @@ def get_date_list(data):
     
     date_list = list(pd.date_range(data['start_date'],data['end_date'],freq='d').values)
     data['date_list'] = [str(x).split('T')[0].replace('-','') for x in date_list]
+    print('Date List Created')
     return(data)
 #...............................................................................................
 
@@ -197,11 +198,9 @@ def create_report(data):
         'pls': data['pl_list'],
         'close_type': data['close_type'], 
         'ord_types': data['ord_types'],
-        # 'llema_angle':data['ll_angle'],
         'sema_len': data['sema_len'],
         'slema_len': data['slema_len'], 
         'lema_len': data['lema_len'],
-        # 'llema_len': data['llema_len'], 
         'pl_move_trail_trigger': data['pl_move_trail_trigger'],
         'stop_loss_pip': data['stop_loss_pip']
         })
@@ -213,7 +212,6 @@ def create_report(data):
     data['report_df'] = data['report_df'][[
         'start_date','date', 'year_val', 'month_val', 'date_val', 'hour_val','minute_val', 
         'close_type', 'start_price', 'end_price', 'num_orders','pls', 'ord_types', 
-        # 'llema_angle', 'llema_len',
         'sema_len', 'slema_len', 'lema_len', 
         'pl_move_trail_trigger' ,'stop_loss_pip', 'duration']]
 
@@ -238,10 +236,7 @@ def create_report(data):
     print(np.sum(data['report_df'][['pls']]))
     print('--------------------------------------')
     print(data['report_df'][['start_date', 'ord_types', 'close_type', 'pls']].tail(15))
-    # print(data['report_df'][['date', 'ord_types', 'close_type', 'pls']])
-    
-    # print(data['report_df'][['date', 'ord_types', 'llema_angle','close_type', 'pls']].tail(15))
-    # print(data['report_df'][['date', 'ord_types', 'llema_angle','close_type', 'pls']])
+
 #...............................................................................................    
 
 #...............................................................................................    
@@ -303,7 +298,7 @@ def plotly_graph(data):
     # fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
     #                     y=data['df']['slema'],
     #                     mode='lines',
-    #                     name='lema',
+    #                     name='slema',
     #                     line=dict(color='black', width=1),
     #                 )
     #         )                            
@@ -311,7 +306,7 @@ def plotly_graph(data):
     # fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
     #                     y=data['df']['sema'],
     #                     mode='lines',
-    #                     name='lema',
+    #                     name='sema',
     #                     line=dict(color='red', width=1),
     #                 )
     #         )                            

@@ -212,6 +212,7 @@ def get_rolling_emas(data):
 
         data['df'] = data['df'][['DateTime', 'Bid', 'Ask', 'tick', 'sema', 'slema', 'lema', 'tick_angle']].round(6) 
 
+    print('EMA Rolling completed')
     return(data)
 #...............................................................................................  
 
@@ -233,6 +234,8 @@ def get_hl(data):
             min_val     = min(data['tick_list'])
             data['df']['h'].loc[i - data['candle_size'] : i-1]  = max_val
             data['df']['l'].loc[i - data['candle_size'] : i-1]  = min_val
+
+    print('HL Created')
 
     return(data)
 
@@ -256,6 +259,10 @@ def get_avg_lines(data):
     del data['df']['h_gap']
     del data['df']['l_gap']
     data['df'] = data['df'].round(6)
+    data['df'] = data['df'].dropna()
+    data['df'] = data['df'].reset_index(drop=True) 
+
+    print('Avg HL Created')
 
     return(data)
 #...............................................................................................  
