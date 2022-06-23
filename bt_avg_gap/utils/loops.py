@@ -175,7 +175,6 @@ def get_rolling_emas(data):
 
     elif data['ema_roll_method'] == 'file':
         data['df'] = pd.read_csv(f'data/{data["csv_file_name"]}.csv')    
-        # data['df'] = pd.read_csv(f'data/ema_df-(2021-2021)-(1-1)-(1-31).csv')    
         data["df"] = data["df"][data["df"]['DateTime'].str.contains('|'.join(data['date_list']))]
 
         if data['df_subset_size'] is not None:
@@ -230,8 +229,6 @@ def get_hl(data):
     for i in tqdm(range(len(data['df']))):
         if i % data['candle_size'] == 0 and i > 0:        
             data['tick_list'] = data['df']['tick'].loc[i - data['candle_size'] : i-1]
-            # max_index   = data['tick_list'].idxmax()
-            # min_index   = data['tick_list'].idxmin()
             max_val     = max(data['tick_list'])
             min_val     = min(data['tick_list'])
             data['df']['h'].loc[i - data['candle_size'] : i-1]  = max_val
@@ -252,11 +249,12 @@ def get_avg_lines(data):
     data['df']['h_lema'] = data['df']['h_gap'] + data['df']['lema']
     data['df']['l_lema'] = data['df']['lema'] - data['df']['l_gap']
 
+    del data['df']['h']
+    del data['df']['l']
     del data['df']['h_avg']
     del data['df']['l_avg']
     del data['df']['h_gap']
     del data['df']['l_gap']
-
     data['df'] = data['df'].round(6)
 
     return(data)

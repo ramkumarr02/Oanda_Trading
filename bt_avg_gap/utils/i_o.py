@@ -296,9 +296,25 @@ def plotly_graph(data):
                         y=data['df']['lema'],
                         mode='lines',
                         name='lema',
-                        line=dict(color='grey', width=1),
+                        line=dict(color='blue', width=1),
                     )
             )                            
+
+    # fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
+    #                     y=data['df']['slema'],
+    #                     mode='lines',
+    #                     name='lema',
+    #                     line=dict(color='black', width=1),
+    #                 )
+    #         )                            
+
+    # fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
+    #                     y=data['df']['sema'],
+    #                     mode='lines',
+    #                     name='lema',
+    #                     line=dict(color='red', width=1),
+    #                 )
+    #         )                            
 
     fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
                         y=data['df']['h_lema'],
@@ -313,6 +329,24 @@ def plotly_graph(data):
                         mode='lines',
                         name='l_lema',
                     line=dict(color='blue', width=1, dash = 'dot'),
+                    )
+            )   
+
+    fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
+                        y=data['df']['tick_angle'],
+                        mode='lines',
+                        name='tick_angle',
+                        yaxis='y2',
+                    line=dict(color='darkcyan', width=0.5, dash = 'dot'),
+                    )
+            )   
+
+    fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
+                        y=[0] * len(data['df']['tick_angle']),
+                        mode='lines',
+                        name='angle_0',
+                        yaxis='y2',
+                    line=dict(color='black', width=1),
                     )
             )   
 

@@ -127,10 +127,10 @@ data['sema_close_flag'] = False
 # --------------------------------------------------------
 data['order_num_i'] = 0
 
-data['sema_len']    = 250
-data['slema_len']   = 500
-data['lema_len']    = 1000
-data['angle_len']   = 1000
+data['sema_len']    = 100
+data['slema_len']   = 250
+data['lema_len']    = 2000
+data['angle_len']   = 2000
 
 data['num_of_switch_orders']    = 6
 data['loss_switch_pl_pip']      = -0.0020
@@ -141,7 +141,7 @@ data["product"] = 'eurusd'
 data["input_year"] = 2021
 data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 
-data['df_subset_size'] = 20000
+data['df_subset_size'] = None
 
 data['start_date'] = {'year':2021, 'month':1, 'date':1}
 data['end_date']   = {'year':2021, 'month':1, 'date':4}
