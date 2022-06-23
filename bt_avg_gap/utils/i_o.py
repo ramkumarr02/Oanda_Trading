@@ -296,7 +296,7 @@ def plotly_graph(data):
                         y=data['df']['lema'],
                         mode='lines',
                         name='lema',
-                        line=dict(color='blue', width=1),
+                        line=dict(color='grey', width=1),
                     )
             )                            
 
@@ -304,7 +304,7 @@ def plotly_graph(data):
                         y=data['df']['h_lema'],
                         mode='lines',
                         name='h_lema',
-                        line=dict(color='cyan', width=1),
+                        line=dict(color='red', width=1, dash = 'dot'),
                     )
             )   
 
@@ -312,35 +312,35 @@ def plotly_graph(data):
                         y=data['df']['l_lema'],
                         mode='lines',
                         name='l_lema',
-                        line=dict(color='brown', width=1),
+                    line=dict(color='blue', width=1, dash = 'dot'),
                     )
             )   
 
-    fig.add_scatter(x = data['df']['DateTime_frmt'], 
-                    y = data['df']['h'], 
-                    mode = 'markers', 
-                    name = 'high',
-                    marker_symbol = 'circle',
-                    marker=dict(color='red',
-                                size=data['marker_size'],
-                                line=dict(
-                                    color='crimson',
-                                    width=5
-                                )),
-                    opacity=1)
+    # fig.add_scatter(x = data['df']['DateTime_frmt'], 
+    #                 y = data['df']['h'], 
+    #                 mode = 'markers', 
+    #                 name = 'high',
+    #                 marker_symbol = 'circle',
+    #                 marker=dict(color='red',
+    #                             size=data['marker_size'],
+    #                             line=dict(
+    #                                 color='crimson',
+    #                                 width=5
+    #                             )),
+    #                 opacity=1)
                                 
-    fig.add_scatter(x = data['df']['DateTime_frmt'], 
-                    y = data['df']['l'], 
-                    mode = 'markers', 
-                    name = 'low',
-                    marker_symbol = 'circle',
-                    marker=dict(color='blue',
-                                size=data['marker_size'],
-                                line=dict(
-                                    color='blue',
-                                    width=5
-                                )),
-                    opacity=1)
+    # fig.add_scatter(x = data['df']['DateTime_frmt'], 
+    #                 y = data['df']['l'], 
+    #                 mode = 'markers', 
+    #                 name = 'low',
+    #                 marker_symbol = 'circle',
+    #                 marker=dict(color='blue',
+    #                             size=data['marker_size'],
+    #                             line=dict(
+    #                                 color='blue',
+    #                                 width=5
+    #                             )),
+    #                 opacity=1)
                                 
     # fig.add_scatter(x = data['df']['DateTime_frmt'], 
     #                 y = data['df']['mid_point'], 

@@ -230,36 +230,34 @@ def get_hl(data):
     for i in tqdm(range(len(data['df']))):
         if i % data['candle_size'] == 0 and i > 0:        
             data['tick_list'] = data['df']['tick'].loc[i - data['candle_size'] : i-1]
-            max_index   = data['tick_list'].idxmax()
-            min_index   = data['tick_list'].idxmin()
+            # max_index   = data['tick_list'].idxmax()
+            # min_index   = data['tick_list'].idxmin()
             max_val     = max(data['tick_list'])
             min_val     = min(data['tick_list'])
-            data['df']['h'].loc[max_index]  = max_val
-            data['df']['l'].loc[min_index]  = min_val
-            data['df']['h_l_gap'].loc[i]    = max_val - min_val   
-
-            data['df']['h_avg'].loc[i]      = data['df']['h'].loc[i - data['candle_size'] : i-1].mean()
-            data['df']['l_avg'].loc[i]      = data['df']['l'].loc[i - data['candle_size'] : i-1].mean()
-            data['df']['h_gap'].loc[i]     = data['df']['h_avg'].loc[i] - data['df']['lema'].loc[i]
-            data['df']['l_gap'].loc[i]     = data['df']['lema'].loc[i] - data['df']['l_avg'].loc[i]
-
-            data['df']['h_lema'].loc[i - data['candle_size'] : i-1]     = data['df']['h_gap'].loc[i] + data['df']['lema'].loc[i - data['candle_size'] : i-1]
-            data['df']['l_lema'].loc[i - data['candle_size'] : i-1]     = data['df']['lema'].loc[i - data['candle_size'] : i-1] - data['df']['l_gap'].loc[i]
+            data['df']['h'].loc[i - data['candle_size'] : i-1]  = max_val
+            data['df']['l'].loc[i - data['candle_size'] : i-1]  = min_val
 
     return(data)
 
-def get_h_avg(data):
-    data['candle_size'] = 500
-    for i in tqdm(range(len(data['df']))):
-        if i > data['candle_size']:  
-            data['df']['h_avg'].loc[i]      = data['df']['h'].loc[i - data['candle_size'] : i-1].dropna().mean()
-            data['df']['l_avg'].loc[i]      = data['df']['l'].loc[i - data['candle_size'] : i-1].dropna().mean()
-            data['df']['h_gap'].loc[i]     = data['df']['h_avg'].loc[i] - data['df']['lema'].loc[i]
-            data['df']['l_gap'].loc[i]     = data['df']['lema'].loc[i] - data['df']['l_avg'].loc[i]
+def get_avg_lines(data):
 
-            # data['df']['h_lema'].loc[i - data['candle_size'] : i-1]     = data['df']['h_gap'].loc[i] + data['df']['lema'].loc[i - data['candle_size'] : i-1]
-            # data['df']['l_lema'].loc[i - data['candle_size'] : i-1]     = data['df']['lema'].loc[i - data['candle_size'] : i-1] - data['df']['l_gap'].loc[i]
-            data['df']['h_lema'].loc[i]     = data['df']['h_gap'].loc[i] + data['df']['lema'].loc[i]
-            data['df']['l_lema'].loc[i]     = data['df']['lema'].loc[i] - data['df']['l_gap'].loc[i]
+    data['df']['h_l_gap'] = data['df']['h'] - data['df']['l']
+    
+    data['df']['h_avg'] = data['df']['h'].rolling(window=data['candle_size'] * data['avg_candle_num']).mean()
+    data['df']['l_avg'] = data['df']['l'].rolling(window=data['candle_size'] * data['avg_candle_num']).mean()
+
+    data['df']['h_gap'] = data['df']['h_avg'] - data['df']['lema']
+    data['df']['l_gap'] = data['df']['lema'] - data['df']['l_avg']
+
+    data['df']['h_lema'] = data['df']['h_gap'] + data['df']['lema']
+    data['df']['l_lema'] = data['df']['lema'] - data['df']['l_gap']
+
+    del data['df']['h_avg']
+    del data['df']['l_avg']
+    del data['df']['h_gap']
+    del data['df']['l_gap']
+
+    data['df'] = data['df'].round(6)
+
     return(data)
 #...............................................................................................  

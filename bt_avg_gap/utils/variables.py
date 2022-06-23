@@ -141,7 +141,7 @@ data["product"] = 'eurusd'
 data["input_year"] = 2021
 data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 
-data['df_subset_size'] = None
+data['df_subset_size'] = 20000
 
 data['start_date'] = {'year':2021, 'month':1, 'date':1}
 data['end_date']   = {'year':2021, 'month':1, 'date':4}
@@ -161,6 +161,7 @@ data['delay_counter'] = 0
 data['delay_tics_num'] = 100
 
 data['candle_size'] = 500
+data['avg_candle_num'] = 1
 data['marker_size'] = 1
 
 data['positions_half_closed'] = False
