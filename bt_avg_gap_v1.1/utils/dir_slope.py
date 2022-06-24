@@ -27,12 +27,12 @@ def get_cross_dir(data):
     data['pos_2'] = data['dir_list'][1]
 
     if data['pos_1'] != data['pos_2'] and data['pos_2'] == -1:
-        if data['h_l_gap'] > 0.0003:
+        if data['h_l_gap'] > data['min_hl_gap']:
             data['dir_change'] = True
             data['to_order'] = 'short'      
 
     elif data['pos_1'] != data['pos_2'] and data['pos_2'] == 1:
-        if data['h_l_gap'] > 0.0003:
+        if data['h_l_gap'] > data['min_hl_gap']:
             data['dir_change'] = True    
             data['to_order'] = 'long'
         

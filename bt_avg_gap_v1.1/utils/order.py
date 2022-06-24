@@ -32,10 +32,10 @@ def calculate_pl(data):
 
 # ...............................................................................................
 def simple_stop_loss(data):   
-    data['stop_loss_pip']               = data['h_l_gap'] * 0.5
+    data['stop_loss_pip']               = min(data['min_stop_loss_pip'], -data['h_l_gap'])
 
     if data['open_order']:
-        if data['pl'] <= -data['stop_loss_pip']:
+        if data['pl'] <= data['stop_loss_pip']:
             if data['open_order_type'] == 'long':
                 data['stop_text'] = 'simple_stop'
                 data = close_long_order(data)
@@ -49,7 +49,7 @@ def simple_stop_loss(data):
 
 #...............................................................................................
 def simple_take_profit(data):       
-    data['pl_move_trail_trigger']       = data['h_l_gap'] * 0.5
+    data['pl_move_trail_trigger']       = max(data['min_take_profit_pip'], data['h_l_gap'] * 0.5)
 
     if data['open_order']:                        
         if data['pl'] >= data['pl_move_trail_trigger']:
