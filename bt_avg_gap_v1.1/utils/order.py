@@ -69,77 +69,41 @@ def simple_take_profit(data):
 def make_long_order(data):
     data['order_ask_price'] = data['ask']
     data['open_order'] = True
-    data['slema_check_flag'] = True
-    data['tick_check_flag'] = True
     data['open_order_type'] = 'long'
-    data['start_dt_list'].append(data['dt_val'])
-    data['reverse_order_flag'] =  'new'    
-    data['take_profit_flag'] = False
     data['pl_positive'] = False
     data['pl_move_min'] = 0
-    # data['ordered_llema_angle'] = round(data['llema_angle'])
-    
-    if data["plot"]:
-        data['buy_markers_x'].append(data['i_list'][-1])
-        data['buy_markers_y'].append(data['ask'])
+    data['df']['long_open'].iloc[data['i']] = data['ask']
     return(data)
 
 
 def make_short_order(data):
     data['order_bid_price'] = data['bid']
     data['open_order'] = True
-    data['slema_check_flag'] = True
-    data['tick_check_flag'] = True
     data['open_order_type'] = 'short'
-    data['start_dt_list'].append(data['dt_val'])
-    data['reverse_order_flag'] =  'new'
-    data['take_profit_flag'] = False
     data['pl_positive'] = False
     data['pl_move_min'] = 0
-    # data['ordered_llema_angle'] = round(data['llema_angle'])
-
-    if data["plot"]:
-        data['buy_markers_x'].append(data['i_list'][-1])
-        data['buy_markers_y'].append(data['bid'])
+    data['df']['short_open'].iloc[data['i']] = data['bid']
     return(data)
 
 
 def close_long_order(data):
-    data['pl_list'].append(data['pl'])
-    data['start_price'].append(data['order_ask_price'])
-    data['dt_list'].append(data['dt_val'])
-    data['end_price'].append(data['bid'])
-    data['num_orders'].append(1)
     data['open_order'] = False
-    data['close_type'].append(data['stop_text'])
-    data['ord_types'].append('long')
-    # data['ll_angle'].append(data['ordered_llema_angle'])
-    data['take_profit_flag'] = False
-    
-    if data["plot"]:
-        data['sell_markers_x'].append(data['i_list'][-1])
-        data['sell_markers_y'].append(data['bid'])   
-
-    create_report(data)    
+    data['pl_positive'] = False
+    data['pl_move_min'] = 0
+    data['df']['close_type'].iloc[data['i']] = data['stop_text']
+    data['df']['long_close'].iloc[data['i']] = data['bid']  
+    data['df']['pl'].iloc[data['i']] = data['pl']
+    create_report(data)
     return(data)
 
 
 def close_short_order(data):
-    data['pl_list'].append(data['pl'])
-    data['start_price'].append(data['order_bid_price'])
-    data['end_price'].append(data['ask'])
-    data['num_orders'].append(1)
-    data['dt_list'].append(data['dt_val'])
     data['open_order'] = False
-    data['close_type'].append(data['stop_text'])
-    data['ord_types'].append('short')
-    # data['ll_angle'].append(data['ordered_llema_angle'])
-    data['take_profit_flag'] = False
-    
-    if data["plot"]:
-        data['sell_markers_x'].append(data['i_list'][-1])
-        data['sell_markers_y'].append(data['ask'])  
-    
+    data['pl_positive'] = False
+    data['pl_move_min'] = 0
+    data['df']['close_type'].iloc[data['i']] = data['stop_text']
+    data['df']['short_close'].iloc[data['i']] = data['ask']  
+    data['df']['pl'].iloc[data['i']] = data['pl']
     create_report(data)
     return(data)
 
