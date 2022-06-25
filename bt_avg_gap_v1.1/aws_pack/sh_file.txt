@@ -6,4 +6,4 @@ pip3 install -r requirements.txt
 screen -S myscreen
 
 chmod +x runme.sh && ./runme.sh
-python3 ema_repeat_orders.py
+python3 bt_avg_gap.py
