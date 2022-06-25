@@ -177,9 +177,10 @@ def get_rolling_emas(data):
 
         if data['df_subset_size'] is not None:
             data["df"] = data["df"][0:data['df_subset_size']]
-        
-        data['df'] = data['df'].reset_index(drop=True)        
+            
         print(f'Record num : {len(data["df"])}') 
+        
+        data['df']['DateTime_frmt']   = [dt.datetime.strptime(x.split(".")[0],"%Y-%m-%d %H:%M:%S") for x in data["df"]['DateTime_frmt']]
         
         data['df'] = data['df'].reset_index(drop=True)        
         data['df_len'] = len(data["df"])

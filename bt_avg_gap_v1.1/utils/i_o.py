@@ -106,161 +106,7 @@ def combine_csv_files(data):
     
     return(data)
 #...............................................................................................    
-#...............................................................................................
-def plot_graph(data):
-    if data["plot"]:
-        # Plot Layout --------------------------------
-        chart_name = f"Trade Chart"
-        layout = go.Layout(title = chart_name,
-                        xaxis = dict(title="DateTime"),
-                        xaxis2 = dict(title= 'x', side= 'top'),
-                        
-                        yaxis = dict(title="PIP"),
-                        yaxis2 = dict(title= 'Trend Angle', overlaying="y", side="right",)
-                        )
-        
 
-        fig = go.Figure(layout = layout)
-        # --------------------------------
-
-        # Tick  --------------------------------
-        fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
-                                y=data['df']['tick'],
-                                mode='lines',
-                                name='tick',
-                                line=dict(color='lightgrey', width=1),
-                            )
-                    )
-
-        fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
-                            y=data['df']['lema'],
-                            mode='lines',
-                            name='lema',
-                            line=dict(color='blue', width=1),
-                        )
-                )                            
-
-        # fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
-        #                     y=data['df']['slema'],
-        #                     mode='lines',
-        #                     name='slema',
-        #                     line=dict(color='black', width=1),
-        #                 )
-        #         )                            
-
-        # fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
-        #                     y=data['df']['sema'],
-        #                     mode='lines',
-        #                     name='sema',
-        #                     line=dict(color='red', width=1),
-        #                 )
-        #         )                            
-
-        fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
-                            y=data['df']['h_lema'],
-                            mode='lines',
-                            name='h_lema',
-                            line=dict(color='red', width=1, dash = 'dot'),
-                        )
-                )   
-
-        fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
-                            y=data['df']['l_lema'],
-                            mode='lines',
-                            name='l_lema',
-                        line=dict(color='blue', width=1, dash = 'dot'),
-                        )
-                )   
-
-        # fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
-        #                     y=data['df']['tick_angle'],
-        #                     mode='lines',
-        #                     name='tick_angle',
-        #                     yaxis='y2',
-        #                 line=dict(color='darkcyan', width=0.5, dash = 'dot'),
-        #                 )
-        #         )   
-
-        # fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
-        #                     y=[0] * len(data['df']['tick_angle']),
-        #                     mode='lines',
-        #                     name='angle_0',
-        #                     yaxis='y2',
-        #                 line=dict(color='black', width=1),
-        #                 )
-        #         )   
-
-        fig.add_scatter(x = data['df']['DateTime_frmt'], 
-                            y = data['df']['long_open'], 
-                            mode = 'markers', 
-                            name = 'long_open',
-                            marker_symbol = 'triangle-up',
-                            marker=dict(color='blue',
-                                        size=10,
-                                        line=dict(
-                                            color='blue',
-                                            width=1
-                                        )),
-                            opacity=1)
-
-        fig.add_scatter(x = data['df']['DateTime_frmt'], 
-                    y = data['df']['long_close'], 
-                    mode = 'markers', 
-                    name = 'long_close',
-                    marker_symbol = 'triangle-up',
-                    marker=dict(color='red',
-                                size=10,
-                                line=dict(
-                                    color='red',
-                                    width=1
-                                )),
-                    opacity=1)
-
-
-        fig.add_scatter(x = data['df']['DateTime_frmt'], 
-                    y = data['df']['short_open'], 
-                    mode = 'markers', 
-                    name = 'short_open',
-                    marker_symbol = 'triangle-down',
-                    marker=dict(color='blue',
-                                size=10,
-                                line=dict(
-                                    color='blue',
-                                    width=1
-                                )),
-                    opacity=1)
-
-        fig.add_scatter(x = data['df']['DateTime_frmt'], 
-                    y = data['df']['short_close'], 
-                    mode = 'markers', 
-                    name = 'short_close',
-                    marker_symbol = 'triangle-down',
-                    marker=dict(color='red',
-                                size=10,
-                                line=dict(
-                                    color='red',
-                                    width=1
-                                )),
-                    opacity=1)
-
-        fig.update_layout(legend=dict(orientation="h",
-                                    yanchor="bottom",
-                                    y=1.02,
-                                    xanchor="right",
-                                    x=1
-                                    ))
-        
-        if data['plot_type'] == 'file':
-            chart_name = str(dt.datetime.now())
-            chart_name = chart_name.replace(":", "-")
-            chart_name = chart_name.replace(".", "-")
-            chart_name = chart_name.replace(" ", "-")
-            data['chart_file_path'] = (f'{os.getcwd()}\\data\\chart-{chart_name}.html')
-
-            fig.write_html(data['chart_file_path'])
-            webbrowser.get(data['chrome_path']).open(data['chart_file_path'])
-        elif data['plot_type'] == 'show':
-            fig.show()
 #...............................................................................................
 def generate_result_report(data):
     data['report_df'] = data['df'][data['df']['pl'].notnull()]
@@ -315,5 +161,167 @@ def generate_result_report(data):
     print(f'Average orders per day : {x}')
     print('--------------------------------------\n\n')
 
-    plot_graph(data)
+    data['report_df'].to_csv('data/result.csv')
+#...............................................................................................
+
+#...............................................................................................
+def plot_graph(data):
+    if data["plot"]:
+        if data['reduce_plot']:
+            data['plot_df'] = data['df'][(data['df']['DateTime_frmt'] > data['plot_start']) & (data['df']['DateTime_frmt'] < data['plot_stop'])]
+        else:
+            data['plot_df'] = data['df']
+
+        # Plot Layout --------------------------------
+        chart_name = f"Trade Chart"
+        layout = go.Layout(title = chart_name,
+                        xaxis = dict(title="DateTime"),
+                        xaxis2 = dict(title= 'x', side= 'top'),
+                        
+                        yaxis = dict(title="PIP"),
+                        yaxis2 = dict(title= 'Trend Angle', overlaying="y", side="right",)
+                        )
+        
+
+        fig = go.Figure(layout = layout)
+        # --------------------------------
+
+        # Tick  --------------------------------
+        fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+                                y=data['plot_df']['tick'],
+                                mode='lines',
+                                name='tick',
+                                line=dict(color='lightgrey', width=1),
+                            )
+                    )
+
+        fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+                            y=data['plot_df']['lema'],
+                            mode='lines',
+                            name='lema',
+                            line=dict(color='blue', width=1),
+                        )
+                )                            
+
+        # fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+        #                     y=data['plot_df']['slema'],
+        #                     mode='lines',
+        #                     name='slema',
+        #                     line=dict(color='black', width=1),
+        #                 )
+        #         )                            
+
+        # fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+        #                     y=data['plot_df']['sema'],
+        #                     mode='lines',
+        #                     name='sema',
+        #                     line=dict(color='red', width=1),
+        #                 )
+        #         )                            
+
+        fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+                            y=data['plot_df']['h_lema'],
+                            mode='lines',
+                            name='h_lema',
+                            line=dict(color='red', width=1, dash = 'dot'),
+                        )
+                )   
+
+        fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+                            y=data['plot_df']['l_lema'],
+                            mode='lines',
+                            name='l_lema',
+                        line=dict(color='blue', width=1, dash = 'dot'),
+                        )
+                )   
+
+        # fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+        #                     y=data['plot_df']['tick_angle'],
+        #                     mode='lines',
+        #                     name='tick_angle',
+        #                     yaxis='y2',
+        #                 line=dict(color='darkcyan', width=0.5, dash = 'dot'),
+        #                 )
+        #         )   
+
+        # fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+        #                     y=[0] * len(data['plot_df']['tick_angle']),
+        #                     mode='lines',
+        #                     name='angle_0',
+        #                     yaxis='y2',
+        #                 line=dict(color='black', width=1),
+        #                 )
+        #         )   
+
+        fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
+                            y = data['plot_df']['long_open'], 
+                            mode = 'markers', 
+                            name = 'long_open',
+                            marker_symbol = 'triangle-up',
+                            marker=dict(color='blue',
+                                        size=10,
+                                        line=dict(
+                                            color='blue',
+                                            width=1
+                                        )),
+                            opacity=1)
+
+        fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
+                    y = data['plot_df']['long_close'], 
+                    mode = 'markers', 
+                    name = 'long_close',
+                    marker_symbol = 'triangle-up',
+                    marker=dict(color='red',
+                                size=10,
+                                line=dict(
+                                    color='red',
+                                    width=1
+                                )),
+                    opacity=1)
+
+
+        fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
+                    y = data['plot_df']['short_open'], 
+                    mode = 'markers', 
+                    name = 'short_open',
+                    marker_symbol = 'triangle-down',
+                    marker=dict(color='blue',
+                                size=10,
+                                line=dict(
+                                    color='blue',
+                                    width=1
+                                )),
+                    opacity=1)
+
+        fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
+                    y = data['plot_df']['short_close'], 
+                    mode = 'markers', 
+                    name = 'short_close',
+                    marker_symbol = 'triangle-down',
+                    marker=dict(color='red',
+                                size=10,
+                                line=dict(
+                                    color='red',
+                                    width=1
+                                )),
+                    opacity=1)
+
+        fig.update_layout(legend=dict(orientation="h",
+                                    yanchor="bottom",
+                                    y=1.02,
+                                    xanchor="right",
+                                    x=1
+                                    ))
+        
+        if data['plot_type'] == 'file':
+            chart_name = str(dt.datetime.now())
+            chart_name = chart_name.replace(":", "-")
+            chart_name = chart_name.replace(".", "-")
+            chart_name = chart_name.replace(" ", "-")
+            data['chart_file_path'] = (f'{os.getcwd()}\\data\\chart-{chart_name}.html')
+
+            fig.write_html(data['chart_file_path'])
+            webbrowser.get(data['chrome_path']).open(data['chart_file_path'])
+        elif data['plot_type'] == 'show':
+            fig.show()
 #...............................................................................................

@@ -146,15 +146,21 @@ data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 
 data['df_subset_size'] = None
 
-data['start_date'] = {'year':2021, 'month':1, 'date':4}
-data['end_date']   = {'year':2021, 'month':1, 'date':4}
+data['start_date'] = {'year':2021, 'month':1, 'date':1}
+data['end_date']   = {'year':2021, 'month':12, 'date':31}
 
 data['ema_roll_method'] = 'mix'
 
 # data['direction'] = 'reverse'
 data['direction'] = 'straight'
 
-data["plot"] = True
+
+data['plot_type'] = 'file'
+data["plot"] = False
+data['reduce_plot'] = True
+data['plot_start']  = '2021-01-04 03:00:00'
+data['plot_stop']   = '2021-01-04 06:00:00'
+
 
 data['take_profit_flag'] = False
 
@@ -175,12 +181,14 @@ data['pl_temp_list']           = []
 data['first_type']             = None
 data['forward_order_list'] = []
 
+# data["csv_file_name"] = 'h_l_ema_2021-jan_250'
 data["csv_file_name"] = 'ema_2021-jan_dec_250'
-# data["csv_file_name"] = 'ema_df-(2021-2021)-(1-12)-(1-31)'
+
 
 data['csv_list'] = ['ema_2021_jan_aug' , 'ema_df-(2021-2021)-(9-9)-(1-30)', 'ema_df-(2021-2021)-(10-10)-(1-31)', 'ema_df-(2021-2021)-(12-12)-(1-31)']
 data['new_file'] = 'ema_2021-jan_dec'
 
-data['plot_type'] = 'file'
 data['chrome_path'] = "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s"
+
+data['temp_total_pl'] = []
 #...............................................................................................

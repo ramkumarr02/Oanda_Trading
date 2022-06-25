@@ -22,10 +22,13 @@ def calculate_pl(data):
     if data['open_order_type'] == 'long':
         data['close_bid_price'] = data['bid']
         data['pl'] = np.round(data['close_bid_price'] - data['order_ask_price'], 5)
+        # data['temp_total_pl'].append(data['df']['pl'][data['df']['pl'].notnull()].sum() + data['pl'])
 
     if data['open_order_type'] == 'short':
         data['close_ask_price'] = data['ask']
         data['pl'] = np.round(data['order_bid_price'] - data['close_ask_price'], 5)
+        # data['temp_total_pl'].append(data['df']['pl'][data['df']['pl'].notnull()].sum() + data['pl'])
+
     
     return(data) 
 #...............................................................................................
