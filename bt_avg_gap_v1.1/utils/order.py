@@ -112,36 +112,6 @@ def close_short_order(data):
 
 
 #...............................................................................................
-
-#...............................................................................................
-
-def take_profit_dynamic(data):
-    
-    data['pl_move_trail_trigger']       = max(data['min_take_profit_pip'], data['h_l_gap'] * 0.5)
-
-    if data['open_order']:
-        if data['pl'] >= data['pl_move_trail_trigger']:
-            data['pl_positive'] = True
-            data['pl_move_min'] = max((data['pl'] - 0.0001), data['pl_move_min'])
-
-        if data['pl_positive']:    
-            if 0 < data['pl'] <= data['pl_move_min']: 
-                if data['open_order_type'] == 'long':
-                    data['stop_text'] = 'pl_move_close'
-                    data['to_order'] = None
-                    data['pl_positive'] = False
-                    data['pl_move_min'] = 0
-                    data = close_long_order(data)             
-                    
-                if data['open_order_type'] == 'short':
-                    data['stop_text'] = 'pl_move_close'
-                    data['to_order'] = None
-                    data['pl_positive'] = False
-                    data['pl_move_min'] = 0
-                    data = close_short_order(data)
-
-    return(data)    
-#...............................................................................................
 #...............................................................................................
 #...............................................................................................
 #...............................................................................................

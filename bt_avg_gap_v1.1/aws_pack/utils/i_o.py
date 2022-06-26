@@ -90,21 +90,6 @@ def send_telegram_message(message_text):
     
     send_message_url = f'{data["telegram_url"]}{keys.tester_bot_token}/sendMessage?chat_id={keys.chat_id}/&text={message_text}'
     requests.get(send_message_url)
-#...............................................................................................    '
-def combine_csv_files(data):
-    for i, csv_file in enumerate(data['csv_list']):
-        if i == 0:
-            df = pd.read_csv(f"data/{csv_file}.csv")
-            print(f"{csv_file} has {len(df)} records")
-        else:
-            df_new= pd.read_csv(f"data/{csv_file}.csv")
-            print(f"{csv_file} has {len(df_new)} records")
-            df =  df.append(df_new)
-            
-        print(f"{data['new_file']} has {len(df)} records")
-        df.to_csv(f"data/{data['new_file']}.csv")
-    
-    return(data)
 #...............................................................................................    
 
 #...............................................................................................
@@ -161,7 +146,8 @@ def generate_result_report(data):
     print(f'Average orders per day : {x}')
     print('--------------------------------------\n\n')
 
-    data['report_df'].to_csv('data/result.csv')
+    if data['to_csv']:
+        data['report_df'].to_csv('data/result.csv')
 #...............................................................................................
 
 #...............................................................................................

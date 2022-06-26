@@ -128,7 +128,7 @@ data['order_num_i'] = 0
 
 data['sema_len']    = 100
 data['slema_len']   = 250
-data['lema_len']    = 2000
+data['lema_len']    = 1000
 data['angle_len']   = 500
 
 data['min_hl_gap'] = 0.0003
@@ -141,13 +141,13 @@ data['all_close_min_pip']       = 0
 data['order_multiplier']        = 2
 
 data["product"] = 'eurusd'
-data["input_year"] = 2021
+data["input_year"] = 2020
 data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 
 data['df_subset_size'] = None
 
-data['start_date'] = {'year':2021, 'month':1, 'date':1}
-data['end_date']   = {'year':2021, 'month':1, 'date':31}
+data['start_date'] = {'year':2020, 'month':1, 'date':1}
+data['end_date']   = {'year':2020, 'month':2, 'date':29}
 
 data['ema_roll_method'] = 'file'
 
@@ -161,6 +161,7 @@ data['reduce_plot'] = True
 data['plot_start']  = '2021-01-04 03:00:00'
 data['plot_stop']   = '2021-01-04 06:00:00'
 
+data['to_csv']      = False
 
 data['take_profit_flag'] = False
 
@@ -181,7 +182,7 @@ data['pl_temp_list']           = []
 data['first_type']             = None
 data['forward_order_list'] = []
 
-data["csv_file_name"] = 'h_l_ema_2021-jan_dec_250'
+data["csv_file_name"] = 'H_L_ema_2020-jan_Jun_250'
 # data["csv_file_name"] = 'ema_2021-jan_dec_250'
 
 

@@ -144,30 +144,17 @@ def get_rolling_emas(data):
         data['df'] = data['df'].dropna()
         send_telegram_message(f'Lema Complete : {data["df_name"]}')
 
-        # print('Building tick slope...')        
-        # data = get_x_axis(data)
-        # data['df']['tick_angle'] = data['df']['lema'].rolling(window=data['angle_len']).progress_apply(roll_slope)
-        # data['df'] = data['df'].dropna()   
-        # send_telegram_message(f'Slope Complete : {data["df_name"]}')
-
-        # print('Building SLema...')
-        # data['df']['slema'] = data['df']['tick'].rolling(window=data['slema_len']).progress_apply(roll_ema)
-        # data['df'] = data['df'].dropna()
-        # send_telegram_message(f'Slema Complete : {data["df_name"]}')
-        
-        # print('Building Sema...')
-        # data['df']['sema'] = data['df']['tick'].rolling(window=data['sema_len']).progress_apply(roll_ema)
-        # data['df'] = data['df'].dropna()   
-        # send_telegram_message(f'Sema Complete : {data["df_name"]}')
-
+        data['df'] = data['df'].reset_index(drop=True) 
         data = get_hl(data)
         data = get_avg_lines(data)
 
-        data['df'] = data['df'][['DateTime', 'DateTime_frmt','Bid', 'Ask', 'tick', 'sema', 'slema', 'lema', 'tick_angle','h_l_gap', 'h_lema', 'l_lema']].round(6) 
+        # data['df'] = data['df'][['DateTime', 'DateTime_frmt','Bid', 'Ask', 'tick', 'lema', 'h_l_gap', 'h_lema', 'l_lema']].round(6) 
+        data['df'] = data['df'][['DateTime_frmt','Bid', 'Ask', 'tick', 'lema', 'h_l_gap', 'h_lema', 'l_lema']].round(6) 
 
         data['df'] = data['df'].reset_index(drop=True) 
         data['df_len'] = len(data["df"])
-        data['df'].to_csv(data['df_name'], index = False)
+        if data['to_csv']:
+            data['df'].to_csv(data['df_name'], index = False)
 
     # ---------------------------------------------------------------------------------------------------------------------
 
@@ -185,7 +172,7 @@ def get_rolling_emas(data):
         data['df'] = data['df'].reset_index(drop=True)        
         data['df_len'] = len(data["df"])
 
-        data['df'] = data['df'][['DateTime', 'DateTime_frmt','Bid', 'Ask', 'tick', 'sema', 'slema', 'lema', 'tick_angle','h_l_gap', 'h_lema', 'l_lema']].round(6) 
+        data['df'] = data['df'][['DateTime', 'DateTime_frmt','Bid', 'Ask', 'tick', 'lema', 'h_l_gap', 'h_lema', 'l_lema']].round(6) 
 
     # ---------------------------------------------------------------------------------------------------------------------
 
@@ -207,8 +194,9 @@ def get_rolling_emas(data):
         data['df'] = data['df'].reset_index(drop=True)        
         data['df_len'] = len(data["df"])
 
-        data['df'] = data['df'][['DateTime', 'DateTime_frmt','Bid', 'Ask', 'tick', 'sema', 'slema', 'lema', 'tick_angle','h_l_gap', 'h_lema', 'l_lema']].round(6) 
-        data['df'].to_csv('data/temp.csv', index = False)
+        data['df'] = data['df'][['DateTime', 'DateTime_frmt','Bid', 'Ask', 'tick', 'lema', 'h_l_gap', 'h_lema', 'l_lema']].round(6) 
+        if data['to_csv']:
+            data['df'].to_csv('data/temp.csv', index = False)
 
     print('EMA Rolling completed')
     return(data)
