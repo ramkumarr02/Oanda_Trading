@@ -141,13 +141,13 @@ data['all_close_min_pip']       = 0
 data['order_multiplier']        = 2
 
 data["product"] = 'eurusd'
-data["input_year"] = 2021
+data["input_year"] = 2020
 data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 
 data['df_subset_size'] = None
 
-data['start_date'] = {'year':2021, 'month':1, 'date':1}
-data['end_date']   = {'year':2021, 'month':2, 'date':28}
+data['start_date'] = {'year':2020, 'month':1, 'date':1}
+data['end_date']   = {'year':2020, 'month':12, 'date':31}
 
 data['ema_roll_method'] = 'new'
 
@@ -161,7 +161,7 @@ data['reduce_plot'] = True
 data['plot_start']  = '2021-01-04 03:00:00'
 data['plot_stop']   = '2021-01-04 06:00:00'
 
-data['to_csv']      = True
+data['to_csv']      = False
 
 data['take_profit_flag'] = False
 
