@@ -4,7 +4,7 @@ from utils.dir_slope import *
 
 #...............................................................................................
 def before_lema(data):   
-    data['lema_tick_list'].append(data['tick'])    
+    data['tick_list'].append(data['tick'])    
     return(data)
 #...............................................................................................
 
@@ -12,9 +12,9 @@ def before_lema(data):
 
 #...............................................................................................
 def after_lema(data):     
-    data['lema_tick_list'].popleft()
-    data['lema_tick_list'].append(data['tick'])
-    data['lema'] = list(pd.DataFrame(list(data['lema_tick_list'])).ewm(span=data['lema_len']).mean()[0])[-1]
+    data['tick_list'].popleft()
+    data['tick_list'].append(data['tick'])
+    data['lema'] = list(pd.DataFrame(list(data['tick_list'])).ewm(span=data['lema_len']).mean()[0])[-1]
     # data['lema'] = np.round(data['lema'],5)
     return(data)
 #...............................................................................................    

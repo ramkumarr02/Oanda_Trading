@@ -47,11 +47,11 @@ def run_engine(data):
 
 
         # lema before after loops --------------------------------
-        if len(data['lema_tick_list']) < data['lema_len']:
+        if len(data['tick_list']) < data['lema_len']:
             data = before_lema(data)        
             continue        
         
-        if len(data['lema_tick_list']) == data['lema_len']:
+        if len(data['tick_list']) == data['lema_len']:
             data = after_lema(data)                  
         # ----------------------------------------------------------
 

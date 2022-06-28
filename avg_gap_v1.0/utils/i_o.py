@@ -32,12 +32,29 @@ def print_report(data):
 #...............................................................................................  
 
 def capture_in_df(data):
-    data['df'] = data['df'][-1000:]
+    data['df'] = data['df'][-data['lema_len']:]
     data['df'].loc[data['iter'], ['DateTime_frmt']] = data['tot_ts_2']
     data['df'].loc[data['iter'], ['bid']] = data['bid']
     data['df'].loc[data['iter'], ['ask']] = data['ask']
     data['df'].loc[data['iter'], ['tick']] = data['tick']
     data['df'].loc[data['iter'], ['lema']] = data['lema']
+
+    if len(data['df']) >= data['candle_size']:
+        data['candle_tick_list'] = list(data['tick_list'])[-data['candle_size']:]
+        max_val     = max(data['candle_tick_list'])
+        min_val     = min(data['candle_tick_list'])
+        data['df']['h'].iloc[-data['candle_size']:] = max_val
+        data['df']['l'].iloc[-data['candle_size']:] = min_val
+
+        # data['df'].loc[data['iter'], 'h_avg'] = data['df']['h'][-10:].mean()
+        # data['df'].loc[data['iter'], 'l_avg'] = data['df']['l'][-10:].mean()
+
+        data['df'].loc[data['iter'],'h_gap'] = data['df']['h'][-data['candle_size']:].mean() - data['df']['lema'][data['iter']]
+        data['df'].loc[data['iter'],'l_gap'] = data['df']['lema'][data['iter']] - data['df']['l'][-data['candle_size']:].mean()
+
+        data['df'].loc[data['iter'],'h_lema'] = data['df']['h_gap'][data['iter']] + data['df']['lema'][data['iter']]
+        data['df'].loc[data['iter'],'l_lema'] = data['df']['lema'][data['iter']] - data['df']['l_gap'][data['iter']]        
+
     return(data)
    
 #...............................................................................................    
@@ -72,5 +89,21 @@ def plot_plotly_graph(data):
                         name='lema',
                         line=dict(color='blue', width=1),
                     )
-            )         
+            ) 
+
+    fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
+                        y=data['df']['h_lema'],
+                        mode='lines',
+                        name='h_lema',
+                        line=dict(color='red', width=1, dash = 'dot'),
+                    )
+            )   
+
+    fig.add_trace(go.Scatter(x=data['df']['DateTime_frmt'],
+                        y=data['df']['l_lema'],
+                        mode='lines',
+                        name='l_lema',
+                    line=dict(color='blue', width=1, dash = 'dot'),
+                    )
+            )                     
     fig.show()

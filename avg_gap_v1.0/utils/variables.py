@@ -10,8 +10,7 @@ data['account'] = 'oanda_demo_2'
 
 data['leverage'] = 10
 
-data['sema_tick_list'] = collections.deque()
-data['lema_tick_list'] = collections.deque()
+data['tick_list'] = collections.deque()
 data['sema'] = np.float()
 data['lema'] = np.float()
 data['pl'] = np.float()
@@ -55,7 +54,8 @@ data['run_type'] = 'single'
 data['order_num'] = np.float()
 data['gap_cushion'] = data['pip_size'] * 2
 
-data['lema_len'] = 10
+data['lema_len'] = 1000
+data['candle_size'] = 500
 
 data['candle_count'] = 5
 data['candle_granularity'] = 'H4'
