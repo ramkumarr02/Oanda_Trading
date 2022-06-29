@@ -108,7 +108,7 @@ def after_angle(data):
 #............................................................................................... 
 
 def roll_ema(ema_list):
-    return(pd.DataFrame(ema_list).ewm(span=len(ema_list)).mean()[0].iloc[-1])
+    return(pd.Series(ema_list).ewm(span=len(ema_list)).mean().iloc[-1])
 
 #...............................................................................................
 def roll_slope(slope_list):
@@ -144,12 +144,16 @@ def get_rolling_emas(data):
         data['df'] = data['df'].dropna()
         send_telegram_message(f'Lema Complete : {data["df_name"]}')
 
-        data['df'] = data['df'].reset_index(drop=True) 
-        data = get_hl(data)
-        data = get_avg_lines(data)
+        # print('Building Slope...')
+        # data = get_x_axis(data)
+        # data['df']['tick_angle'] = data['df']['tick'].rolling(window=data['angle_len']).progress_apply(roll_slope)
+        # data['df'] = data['df'].dropna()
 
-        # data['df'] = data['df'][['DateTime', 'DateTime_frmt','Bid', 'Ask', 'tick', 'lema', 'h_l_gap', 'h_lema', 'l_lema']].round(6) 
-        data['df'] = data['df'][['DateTime_frmt','Bid', 'Ask', 'tick', 'lema', 'h_l_gap', 'h_lema', 'l_lema']].round(6) 
+        data['df'] = data['df'].reset_index(drop=True) 
+        print('Building H_L_Lema...')
+        data = get_h_l_lema(data)
+
+        data['df'] = data['df'][data['columns_list']].round(6) 
 
         data['df'] = data['df'].reset_index(drop=True) 
         data['df_len'] = len(data["df"])
@@ -160,25 +164,28 @@ def get_rolling_emas(data):
 
     elif data['ema_roll_method'] == 'file':
         data['df'] = pd.read_csv(f'data/{data["csv_file_name"]}.csv')    
-        data["df"] = data["df"][data["df"]['DateTime'].str.contains('|'.join(data['date_list']))]
+        data['df']['DateTime_frmt']   = [dt.datetime.strptime(x.split(".")[0],"%Y-%m-%d %H:%M:%S") for x in data["df"]['DateTime_frmt']]
+        data['df'] = data['df'][(data['df']['DateTime_frmt'] > data['start_date']) & (data['df']['DateTime_frmt'] < data['end_date'])]
+        # data["df"] = data["df"][data["df"]['DateTime_frmt'].str.contains('|'.join(data['date_list']))]
 
         if data['df_subset_size'] is not None:
             data["df"] = data["df"][0:data['df_subset_size']]
             
         print(f'Record num : {len(data["df"])}') 
         
-        data['df']['DateTime_frmt']   = [dt.datetime.strptime(x.split(".")[0],"%Y-%m-%d %H:%M:%S") for x in data["df"]['DateTime_frmt']]
         
         data['df'] = data['df'].reset_index(drop=True)        
         data['df_len'] = len(data["df"])
 
-        data['df'] = data['df'][['DateTime', 'DateTime_frmt','Bid', 'Ask', 'tick', 'lema', 'h_l_gap', 'h_lema', 'l_lema']].round(6) 
+        data['df'] = data['df'][data['columns_list']].round(6) 
 
     # ---------------------------------------------------------------------------------------------------------------------
 
     elif data['ema_roll_method'] == 'mix':
         data['df'] = pd.read_csv(f'data/{data["csv_file_name"]}.csv')    
-        data["df"] = data["df"][data["df"]['DateTime'].str.contains('|'.join(data['date_list']))]
+        data['df']['DateTime_frmt']   = [dt.datetime.strptime(x.split(".")[0],"%Y%m%d %H:%M:%S") for x in data["df"]['DateTime']]
+        data['df'] = data['df'][(data['df']['DateTime_frmt'] > data['start_date']) & (data['df']['DateTime_frmt'] < data['end_date'])]
+        # data["df"] = data["df"][data["df"]['DateTime_frmt'].str.contains('|'.join(data['date_list']))]
 
         if data['df_subset_size'] is not None:
             data["df"] = data["df"][0:data['df_subset_size']]
@@ -186,15 +193,15 @@ def get_rolling_emas(data):
         data['df'] = data['df'].reset_index(drop=True)        
         print(f'Record num : {len(data["df"])}') 
         
-        data['df']['DateTime_frmt']   = [dt.datetime.strptime(x.split(".")[0],"%Y%m%d %H:%M:%S") for x in data["df"]['DateTime']]
-        data = get_hl(data)
-        data = get_avg_lines(data)  
+        # data = get_hl(data)
+        # data = get_avg_lines(data)  
+        data = get_h_l_lema(data)
 
         data['df'] = data['df'].dropna() 
         data['df'] = data['df'].reset_index(drop=True)        
         data['df_len'] = len(data["df"])
 
-        data['df'] = data['df'][['DateTime', 'DateTime_frmt','Bid', 'Ask', 'tick', 'lema', 'h_l_gap', 'h_lema', 'l_lema']].round(6) 
+        data['df'] = data['df'][data['columns_list']].round(6) 
         if data['to_csv']:
             data['df'].to_csv('data/temp.csv', index = False)
 
@@ -202,46 +209,40 @@ def get_rolling_emas(data):
     return(data)
 #...............................................................................................  
 
-def get_hl(data):
+def get_h_l_lema(data):
+
     data['df']['h']         = np.nan
     data['df']['l']         = np.nan
-    data['df']['h_l_gap'] = np.nan
-    data['df']['h_avg'] = np.nan
-    data['df']['l_avg'] = np.nan
-    data['df']['h_gap'] = np.nan
-    data['df']['l_gap'] = np.nan
-    data['df']['h_lema'] = np.nan
-    data['df']['l_lema'] = np.nan
+    data['df']['h_l_gap']   = np.nan
+
+    data['df']['h_gap']     = np.nan
+    data['df']['l_gap']     = np.nan
+
+    data['df']['h_lema']    = np.nan
+    data['df']['l_lema']    = np.nan
 
     for i in tqdm(range(len(data['df']))):
         if i % data['candle_size'] == 0 and i > 0:        
             data['tick_list'] = data['df']['tick'].loc[i - data['candle_size'] : i-1]
             max_val     = max(data['tick_list'])
             min_val     = min(data['tick_list'])
-            data['df']['h'].loc[i - data['candle_size'] : i-1]  = max_val
-            data['df']['l'].loc[i - data['candle_size'] : i-1]  = min_val
+            data['df']['h'].loc[i:i+data['candle_size']]  = max_val
+            data['df']['l'].loc[i:i+data['candle_size']]  = min_val
+
+            data['df']['h_gap'].loc[i:i+data['candle_size']] = max_val - data['df']['lema'][i]
+            data['df']['l_gap'].loc[i:i+data['candle_size']] = data['df']['lema'][i] - min_val
+            
+            data['df']['h_lema'] = data['df']['h_gap'] + data['df']['lema']
+            data['df']['l_lema'] = data['df']['lema'] - data['df']['l_gap']
+            
+    data['df']['h_l_gap'] = data['df']['h'] - data['df']['l']
+
+    #---------------------
 
     print('HL Created')
-
-    return(data)
-
-def get_avg_lines(data):
-
-    data['df']['h_l_gap'] = data['df']['h'] - data['df']['l']
     
-    data['df']['h_avg'] = data['df']['h'].rolling(window=data['candle_size'] * data['avg_candle_num']).mean()
-    data['df']['l_avg'] = data['df']['l'].rolling(window=data['candle_size'] * data['avg_candle_num']).mean()
-
-    data['df']['h_gap'] = data['df']['h_avg'] - data['df']['lema']
-    data['df']['l_gap'] = data['df']['lema'] - data['df']['l_avg']
-
-    data['df']['h_lema'] = data['df']['h_gap'] + data['df']['lema']
-    data['df']['l_lema'] = data['df']['lema'] - data['df']['l_gap']
-
     del data['df']['h']
     del data['df']['l']
-    del data['df']['h_avg']
-    del data['df']['l_avg']
     del data['df']['h_gap']
     del data['df']['l_gap']
     data['df'] = data['df'].round(6)
@@ -252,3 +253,103 @@ def get_avg_lines(data):
 
     return(data)
 #...............................................................................................  
+
+# def get_h_l_lema_old(data):
+
+#     data['df']['h']         = np.nan
+#     data['df']['l']         = np.nan
+#     data['df']['h_l_gap']   = np.nan
+#     data['df']['h_avg']     = np.nan
+#     data['df']['l_avg']     = np.nan
+#     data['df']['h_gap']     = np.nan
+#     data['df']['l_gap']     = np.nan
+#     data['df']['h_lema']    = np.nan
+#     data['df']['l_lema']    = np.nan
+
+#     # data['df']['h']  = data['df']['tick'].rolling(window = data['candle_size']).progress_apply(max)
+#     # data['df']['l']  = data['df']['tick'].rolling(window = data['candle_size']).progress_apply(min)
+#     for i in tqdm(range(len(data['df']))):
+#         if i % data['candle_size'] == 0 and i > 0:        
+#             data['tick_list'] = data['df']['tick'].loc[i - data['candle_size'] : i-1]
+#             max_val     = max(data['tick_list'])
+#             min_val     = min(data['tick_list'])
+#             data['df']['h'].loc[i:i+data['candle_size']]  = max_val
+#             data['df']['l'].loc[i:i+data['candle_size']]  = min_val
+
+#     print('HL Created')
+    
+#     data['df']['h_l_gap'] = data['df']['h'] - data['df']['l']
+    
+#     data['df']['h_avg'] = data['df']['h'].rolling(window=data['candle_size'] * data['avg_candle_num']).mean()
+#     data['df']['l_avg'] = data['df']['l'].rolling(window=data['candle_size'] * data['avg_candle_num']).mean()
+
+#     data['df']['h_gap'] = data['df']['h_avg'] - data['df']['lema']
+#     data['df']['l_gap'] = data['df']['lema'] - data['df']['l_avg']
+
+#     data['df']['h_lema'] = data['df']['h_gap'] + data['df']['lema']
+#     data['df']['l_lema'] = data['df']['lema'] - data['df']['l_gap']
+
+#     del data['df']['h']
+#     del data['df']['l']
+#     del data['df']['h_avg']
+#     del data['df']['l_avg']
+#     del data['df']['h_gap']
+#     del data['df']['l_gap']
+#     data['df'] = data['df'].round(6)
+#     data['df'] = data['df'].dropna()
+#     data['df'] = data['df'].reset_index(drop=True) 
+
+#     print('Avg HL Created')
+
+#     return(data)
+
+
+# def get_hl(data):
+#     data['df']['h']         = np.nan
+#     data['df']['l']         = np.nan
+#     data['df']['h_l_gap'] = np.nan
+#     data['df']['h_avg'] = np.nan
+#     data['df']['l_avg'] = np.nan
+#     data['df']['h_gap'] = np.nan
+#     data['df']['l_gap'] = np.nan
+#     data['df']['h_lema'] = np.nan
+#     data['df']['l_lema'] = np.nan
+
+#     for i in tqdm(range(len(data['df']))):
+#         if i > data['candle_size']:        
+#             data['tick_list'] = data['df']['tick'].loc[i - data['candle_size'] : i-1]
+#             max_val     = max(data['tick_list'])
+#             min_val     = min(data['tick_list'])
+#             data['df']['h'].loc[i]  = max_val
+#             data['df']['l'].loc[i]  = min_val
+
+#     print('HL Created')
+
+#     return(data)
+
+# def get_avg_lines(data):
+
+#     data['df']['h_l_gap'] = data['df']['h'] - data['df']['l']
+    
+#     data['df']['h_avg'] = data['df']['h'].rolling(window=data['candle_size'] * data['avg_candle_num']).mean()
+#     data['df']['l_avg'] = data['df']['l'].rolling(window=data['candle_size'] * data['avg_candle_num']).mean()
+
+#     data['df']['h_gap'] = data['df']['h_avg'] - data['df']['lema']
+#     data['df']['l_gap'] = data['df']['lema'] - data['df']['l_avg']
+
+#     data['df']['h_lema'] = data['df']['h_gap'] + data['df']['lema']
+#     data['df']['l_lema'] = data['df']['lema'] - data['df']['l_gap']
+
+#     del data['df']['h']
+#     del data['df']['l']
+#     del data['df']['h_avg']
+#     del data['df']['l_avg']
+#     del data['df']['h_gap']
+#     del data['df']['l_gap']
+#     data['df'] = data['df'].round(6)
+#     data['df'] = data['df'].dropna()
+#     data['df'] = data['df'].reset_index(drop=True) 
+
+#     print('Avg HL Created')
+
+#     return(data)

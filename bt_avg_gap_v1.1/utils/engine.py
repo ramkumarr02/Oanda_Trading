@@ -14,7 +14,7 @@ def run_engine(data):
 
     data                        = get_date_list(data)
     data                        = get_rolling_emas(data)    
-    data['df']                  = data['df'][['DateTime_frmt', 'Bid', 'Ask', 'tick', 'lema', 'h_l_gap', 'h_lema', 'l_lema']]
+    data['df']                  = data['df'][data['columns_list']]
     
     data['df']['long_open']     = np.nan
     data['df']['long_close']    = np.nan
@@ -29,6 +29,7 @@ def run_engine(data):
         data['ask'] = data["df"]['Ask'][data['i']]
         data['tick'] = data['df']['tick'][data['i']]        
         data['lema'] = data['df']['lema'][data['i']]    
+        # data['tick_angle'] = data['df']['tick_angle'][data['i']]    
         data['h_l_gap'] = data['df']['h_l_gap'][data['i']]    
         data['h_lema'] = data['df']['h_lema'][data['i']]    
         data['l_lema'] = data['df']['l_lema'][data['i']]    
