@@ -178,7 +178,7 @@ data['delay_counter'] = 0
 data['delay_tics_num'] = 100
 
 data['candle_size'] = 500
-data['avg_candle_num'] = 1
+data['avg_candle_num'] = 2
 data['marker_size'] = 1
 
 data['positions_half_closed'] = False

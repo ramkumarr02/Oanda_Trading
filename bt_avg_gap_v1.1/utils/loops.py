@@ -215,8 +215,8 @@ def get_h_l_lema(data):
     data['df']['l']         = np.nan
     data['df']['h_l_gap']   = np.nan
 
-    # data['df']['h_avg']     = np.nan
-    # data['df']['l_avg']     = np.nan    
+    data['df']['h_avg']     = np.nan
+    data['df']['l_avg']     = np.nan    
 
     data['df']['h_gap']     = np.nan
     data['df']['l_gap']     = np.nan
@@ -229,11 +229,19 @@ def get_h_l_lema(data):
             data['tick_list'] = data['df']['tick'].loc[i - data['candle_size'] : i-1]
             max_val     = max(data['tick_list'])
             min_val     = min(data['tick_list'])
-            data['df']['h'].loc[i:i+data['candle_size']]  = max_val
-            data['df']['l'].loc[i:i+data['candle_size']]  = min_val
 
-            data['df']['h_gap'].loc[i:i+data['candle_size']] = max_val - data['df']['lema'][i]
-            data['df']['l_gap'].loc[i:i+data['candle_size']] = data['df']['lema'][i] - min_val
+            data['df']['h'].loc[i]  = max_val
+            data['df']['l'].loc[i]  = min_val
+
+    data['df']['h_avg']     = np.nan
+    data['df']['l_avg']     = np.nan 
+
+
+            # data['df']['h'].loc[i:i+data['candle_size']]  = max_val
+            # data['df']['l'].loc[i:i+data['candle_size']]  = min_val
+
+            # data['df']['h_gap'].loc[i:i+data['candle_size']] = max_val - data['df']['lema'][i]
+            # data['df']['l_gap'].loc[i:i+data['candle_size']] = data['df']['lema'][i] - min_val
             
             data['df']['h_lema'] = data['df']['h_gap'] + data['df']['lema']
             data['df']['l_lema'] = data['df']['lema'] - data['df']['l_gap']
