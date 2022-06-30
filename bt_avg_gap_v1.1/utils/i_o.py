@@ -55,8 +55,7 @@ def split_date_col(data):
     data['df']['month_val'] = [x.month for x in data['df']['DateTime_frmt']]
     data['df']['date_val'] = [x.day for x in data['df']['DateTime_frmt']]
     data['df']['hour_val'] = [x.hour for x in data['df']['DateTime_frmt']]
-    data['df'] = data['df'][['DateTime_frmt', 'month_val', 'date_val', 'hour_val','Bid', 'Ask', 'tick', 'lema', 'h_l_gap', 'h_lema', 'l_lema', 'long_open', 'long_close', 'short_open', 'short_close','close_type', 'pl']]
-    # data['df'] = data['df'][['DateTime_frmt', 'month_val', 'date_val', 'hour_val','Bid', 'Ask', 'tick', 'lema', 'tick_angle', 'h', 'l','h_l_gap', 'h_lema', 'l_lema', 'long_open', 'long_close', 'short_open', 'short_close','close_type', 'pl']]
+    data['df'] = data['df'][data['final_columns_list']]
     return(data)
 #...............................................................................................
 

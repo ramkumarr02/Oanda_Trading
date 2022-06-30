@@ -215,6 +215,9 @@ def get_h_l_lema(data):
     data['df']['l']         = np.nan
     data['df']['h_l_gap']   = np.nan
 
+    # data['df']['h_avg']     = np.nan
+    # data['df']['l_avg']     = np.nan    
+
     data['df']['h_gap']     = np.nan
     data['df']['l_gap']     = np.nan
 
@@ -241,8 +244,8 @@ def get_h_l_lema(data):
 
     print('HL Created')
     
-    del data['df']['h']
-    del data['df']['l']
+    # del data['df']['h']
+    # del data['df']['l']
     del data['df']['h_gap']
     del data['df']['l_gap']
     data['df'] = data['df'].round(6)
