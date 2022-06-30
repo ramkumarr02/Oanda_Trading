@@ -183,7 +183,7 @@ def get_rolling_emas(data):
 
     elif data['ema_roll_method'] == 'mix':
         data['df'] = pd.read_csv(f'data/{data["csv_file_name"]}.csv')    
-        data['df']['DateTime_frmt']   = [dt.datetime.strptime(x.split(".")[0],"%Y%m%d %H:%M:%S") for x in data["df"]['DateTime']]
+        data['df']['DateTime_frmt']   = [dt.datetime.strptime(x.split(".")[0],"%Y%m%d %H:%M:%S") for x in data["df"]['DateTime_frmt']]
         data['df'] = data['df'][(data['df']['DateTime_frmt'] > data['start_date']) & (data['df']['DateTime_frmt'] < data['end_date'])]
         # data["df"] = data["df"][data["df"]['DateTime_frmt'].str.contains('|'.join(data['date_list']))]
 
@@ -215,9 +215,6 @@ def get_h_l_lema(data):
     data['df']['l']         = np.nan
     data['df']['h_l_gap']   = np.nan
 
-    data['df']['h_avg']     = np.nan
-    data['df']['l_avg']     = np.nan    
-
     data['df']['h_gap']     = np.nan
     data['df']['l_gap']     = np.nan
 
@@ -233,27 +230,19 @@ def get_h_l_lema(data):
             data['df']['h'].loc[i]  = max_val
             data['df']['l'].loc[i]  = min_val
 
-    data['df']['h_avg']     = np.nan
-    data['df']['l_avg']     = np.nan 
+            ind = data['df']['h'][data['df']['h'].notnull()].loc[i - data['candle_size'] * data['avg_candle_num'] + 1 : i].index
+            data['df']['h_gap'].loc[i:i+data['candle_size']] = np.mean(data['df']['h'].loc[ind] - data['df']['lema'].loc[ind])
+            data['df']['l_gap'].loc[i:i+data['candle_size']] = np.mean(data['df']['lema'].loc[ind] - data['df']['l'].loc[ind])
 
-
-            # data['df']['h'].loc[i:i+data['candle_size']]  = max_val
-            # data['df']['l'].loc[i:i+data['candle_size']]  = min_val
-
-            # data['df']['h_gap'].loc[i:i+data['candle_size']] = max_val - data['df']['lema'][i]
-            # data['df']['l_gap'].loc[i:i+data['candle_size']] = data['df']['lema'][i] - min_val
-            
-            data['df']['h_lema'] = data['df']['h_gap'] + data['df']['lema']
-            data['df']['l_lema'] = data['df']['lema'] - data['df']['l_gap']
-            
+    data['df']['h_lema'] = data['df']['h_gap'] + data['df']['lema']
+    data['df']['l_lema'] = data['df']['lema'] - data['df']['l_gap']
     data['df']['h_l_gap'] = data['df']['h'] - data['df']['l']
 
     #---------------------
-
     print('HL Created')
     
-    # del data['df']['h']
-    # del data['df']['l']
+    del data['df']['h']
+    del data['df']['l']
     del data['df']['h_gap']
     del data['df']['l_gap']
     data['df'] = data['df'].round(6)

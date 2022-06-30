@@ -148,17 +148,17 @@ data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 data['df_subset_size'] = None
 
 data['start_date'] = {'year':2021, 'month':1, 'date':1}
-data['end_date']   = {'year':2021, 'month':1, 'date':4}
+data['end_date']   = {'year':2021, 'month':1, 'date':10}
 
 data['ema_roll_method'] = 'new'
 
 # data['direction'] = 'reverse'
 data['direction'] = 'straight'
 
-# data['columns_list'] = ['DateTime_frmt', 'Bid', 'Ask', 'tick', 'lema', 'tick_angle','h','l', 'h_l_gap', 'h_lema', 'l_lema']
 # data['columns_list'] = ['DateTime_frmt', 'Bid', 'Ask', 'tick', 'lema', 'tick_angle', 'h_l_gap', 'h_lema', 'l_lema']
-data['columns_list'] = ['DateTime_frmt', 'Bid', 'Ask', 'tick', 'lema', 'h', 'l', 'h_l_gap', 'h_lema', 'l_lema']
-data['final_columns_list'] = ['DateTime_frmt', 'month_val', 'date_val', 'hour_val','Bid', 'Ask', 'tick', 'lema', 'h', 'l', 'h_l_gap', 'h_lema', 'l_lema', 'long_open', 'long_close', 'short_open', 'short_close','close_type', 'pl']
+# data['columns_list'] = ['DateTime_frmt', 'Bid', 'Ask', 'tick', 'lema', 'h', 'l', 'h_l_gap', 'h_lema', 'l_lema']
+data['columns_list'] = ['DateTime_frmt', 'Bid', 'Ask', 'tick', 'lema', 'h_l_gap', 'h_lema', 'l_lema']
+data['final_columns_list'] = ['DateTime_frmt', 'month_val', 'date_val', 'hour_val','Bid', 'Ask', 'tick', 'lema', 'h_l_gap', 'h_lema', 'l_lema', 'long_open', 'long_close', 'short_open', 'short_close','close_type', 'pl']
 
 data["plot"] = False
 data['plot_type'] = 'file'
@@ -178,7 +178,7 @@ data['delay_counter'] = 0
 data['delay_tics_num'] = 100
 
 data['candle_size'] = 500
-data['avg_candle_num'] = 2
+data['avg_candle_num'] = 3
 data['marker_size'] = 1
 
 data['positions_half_closed'] = False
