@@ -165,7 +165,7 @@ def get_rolling_emas(data):
     elif data['ema_roll_method'] == 'file':
         data['df'] = pd.read_csv(f'data/{data["csv_file_name"]}.csv')    
         data['df']['DateTime_frmt']   = [dt.datetime.strptime(x.split(".")[0],"%Y-%m-%d %H:%M:%S") for x in data["df"]['DateTime_frmt']]
-        data['df'] = data['df'][(data['df']['DateTime_frmt'] > data['start_date']) & (data['df']['DateTime_frmt'] < data['end_date'])]
+        data['df'] = data['df'][(data['df']['DateTime_frmt'] >= data['start_date']) & (data['df']['DateTime_frmt'] <= data['end_date'])]
         # data["df"] = data["df"][data["df"]['DateTime_frmt'].str.contains('|'.join(data['date_list']))]
 
         if data['df_subset_size'] is not None:
