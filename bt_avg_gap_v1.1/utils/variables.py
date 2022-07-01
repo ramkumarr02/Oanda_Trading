@@ -130,7 +130,7 @@ data['order_num_i'] = 0
 data['sema_len']    = 100
 data['slema_len']   = 250
 data['lema_len']    = 1000
-data['angle_len']   = 1000
+data['angle_len']   = 500
 
 data['min_hl_gap'] = 0.0003
 data['min_take_profit_pip'] = 0.00005
@@ -150,9 +150,9 @@ data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 data['df_subset_size'] = None
 
 data['start_date'] = {'year':2021, 'month':1, 'date':1}
-data['end_date']   = {'year':2021, 'month':1, 'date':31}
+data['end_date']   = {'year':2021, 'month':1, 'date':4}
 
-data['ema_roll_method'] = 'file'
+data['ema_roll_method'] = 'new'
 
 # data['direction'] = 'reverse'
 data['direction'] = 'straight'
@@ -160,7 +160,7 @@ data['direction'] = 'straight'
 # data['columns_list'] = ['DateTime_frmt', 'Bid', 'Ask', 'tick', 'lema', 'tick_angle', 'h_l_gap', 'h_lema', 'l_lema']
 # data['columns_list'] = ['DateTime_frmt', 'Bid', 'Ask', 'tick', 'lema', 'h', 'l', 'h_l_gap', 'h_lema', 'l_lema']
 data['columns_list']        = ['DateTime_frmt', 'Bid', 'Ask', 'tick', 'lema', 'tick_angle', 'h_l_gap', 'h_lema', 'l_lema']
-data['final_columns_list']  = ['DateTime_frmt', 'month_val', 'date_val', 'hour_val','Bid', 'Ask', 'tick', 'lema', 'tick_angle', 'h_l_gap', 'h_lema', 'l_lema', 'long_open', 'long_close', 'short_open', 'short_close','close_type', 'pl']
+data['final_columns_list']  = ['DateTime_frmt', 'month_val', 'date_val', 'hour_val','Bid', 'Ask', 'tick', 'lema', 'tick_angle', 'h_l_gap', 'h_lema', 'l_lema', 'long_open', 'short_open', 'long_profit','long_loss', 'short_profit', 'short_loss','close_type', 'pl']
 
 data["plot"] = False
 data['plot_type'] = 'file'
@@ -191,7 +191,7 @@ data['pl_temp_list']           = []
 data['first_type']             = None
 data['forward_order_list'] = []
 
-data["csv_file_name"] = 'ema_df-(2021-2021)-(1-1)-(1-31)'
+data["csv_file_name"] = 'ema_df-(2021-2021)-(1-1)-(1-10)'
 
 data['csv_list'] = ['ema_2021_jan_aug' , 'ema_df-(2021-2021)-(9-9)-(1-30)', 'ema_df-(2021-2021)-(10-10)-(1-31)', 'ema_df-(2021-2021)-(12-12)-(1-31)']
 data['new_file'] = 'ema_2021-jan_dec'

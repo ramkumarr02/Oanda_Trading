@@ -55,6 +55,21 @@ def split_date_col(data):
     data['df']['month_val'] = [x.month for x in data['df']['DateTime_frmt']]
     data['df']['date_val'] = [x.day for x in data['df']['DateTime_frmt']]
     data['df']['hour_val'] = [x.hour for x in data['df']['DateTime_frmt']]
+
+    data['df']['long_profit'] = np.nan
+    data['df']['long_loss'] = np.nan
+    data['df']['short_profit'] = np.nan
+    data['df']['short_loss'] = np.nan
+
+    data['df']['long_profit'][data['df']['pl'] > 0] = data['df']['long_close']
+    data['df']['long_loss'][data['df']['pl'] < 0] = data['df']['long_close']
+
+    data['df']['short_profit'][data['df']['pl'] > 0] = data['df']['short_close']
+    data['df']['short_loss'][data['df']['pl'] < 0] = data['df']['short_close']
+
+    del data['df']['long_close']
+    del data['df']['short_close']
+
     data['df'] = data['df'][data['final_columns_list']]
     return(data)
 #...............................................................................................
@@ -158,6 +173,7 @@ def generate_result_report(data):
 #...............................................................................................
 
 #...............................................................................................
+#...............................................................................................
 def plot_graph(data):
     if data["plot"]:
         if data['reduce_plot']:
@@ -209,9 +225,9 @@ def plot_graph(data):
                             marker=dict(color='red',
                                         size=data['marker_size'],
                                         line=dict(
-                                            color='crimson',
+                                            color='red',
                                             width=5
-                                        )),
+                                        )),                            
                             opacity=1)
 
             fig.add_scatter(x = data['df']['DateTime_frmt'], 
@@ -278,18 +294,44 @@ def plot_graph(data):
                                 mode = 'markers', 
                                 name = 'long_open',
                                 marker_symbol = 'triangle-up',
-                                marker=dict(color='blue',
+                                marker=dict(color='cadetblue',
                                             size=10,
                                             line=dict(
-                                                color='blue',
+                                                color='black',
                                                 width=1
                                             )),
                                 opacity=1)
 
             fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
-                        y = data['plot_df']['long_close'], 
+                        y = data['plot_df']['short_open'], 
                         mode = 'markers', 
-                        name = 'long_close',
+                        name = 'short_open',
+                        marker_symbol = 'triangle-down',
+                        marker=dict(color='cadetblue',
+                                    size=10,
+                                    line=dict(
+                                        color='black',
+                                        width=1
+                                    )),
+                        opacity=1)
+
+            fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
+                        y = data['plot_df']['long_profit'], 
+                        mode = 'markers', 
+                        name = 'long_profit',
+                        marker_symbol = 'triangle-up',
+                        marker=dict(color='blue',
+                                    size=10,
+                                    line=dict(
+                                        color='blue',
+                                        width=1
+                                    )),
+                        opacity=1)
+
+            fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
+                        y = data['plot_df']['long_loss'], 
+                        mode = 'markers', 
+                        name = 'long_loss',
                         marker_symbol = 'triangle-up',
                         marker=dict(color='red',
                                     size=10,
@@ -301,9 +343,9 @@ def plot_graph(data):
 
 
             fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
-                        y = data['plot_df']['short_open'], 
+                        y = data['plot_df']['short_profit'], 
                         mode = 'markers', 
-                        name = 'short_open',
+                        name = 'short_profit',
                         marker_symbol = 'triangle-down',
                         marker=dict(color='blue',
                                     size=10,
@@ -313,10 +355,13 @@ def plot_graph(data):
                                     )),
                         opacity=1)
 
+
+
+
             fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
-                        y = data['plot_df']['short_close'], 
+                        y = data['plot_df']['short_loss'], 
                         mode = 'markers', 
-                        name = 'short_close',
+                        name = 'short_loss',
                         marker_symbol = 'triangle-down',
                         marker=dict(color='red',
                                     size=10,
@@ -324,7 +369,7 @@ def plot_graph(data):
                                         color='red',
                                         width=1
                                     )),
-                        opacity=1)
+                        opacity=1)                        
         # -------------------------------------------------------------------
 
 
