@@ -31,22 +31,6 @@ def calculate_pl(data):
 #...............................................................................................
 
 # ...............................................................................................
-def simple_stop_loss(data):   
-    data['stop_loss_pip']               = min(data['min_stop_loss_pip'], -data['h_l_gap'] * data['stop_loss_multiplier'])
-
-    if data['open_order']:
-        if data['pl'] <= data['stop_loss_pip']:
-            if data['open_order_type'] == 'long':
-                data['stop_text'] = 'simple_stop'
-                data = close_long_order(data)
-                    
-            if data['open_order_type'] == 'short':                
-                data['stop_text'] = 'simple_stop'
-                data = close_short_order(data)
-    return(data)   
-# ...............................................................................................   
-
-# ...............................................................................................
 def loss_reverse_position(data):   
     data['stop_loss_pip']               = min(data['min_stop_loss_pip'], -data['h_l_gap'])
 
@@ -66,13 +50,29 @@ def loss_reverse_position(data):
     return(data)   
 # ...............................................................................................   
 
+# ...............................................................................................
+def simple_stop_loss(data):   
+    data['stop_loss_pip']               = min(data['min_stop_loss_pip'], -data['h_l_gap'] * data['stop_loss_multiplier'])
+
+    if data['open_order']:
+        if data['pl'] <= data['stop_loss_pip']:
+            if data['open_order_type'] == 'long':
+                data['stop_text'] = 'simple_stop'
+                data = close_long_order(data)
+                    
+            if data['open_order_type'] == 'short':                
+                data['stop_text'] = 'simple_stop'
+                data = close_short_order(data)
+    return(data)   
+# ...............................................................................................   
+
 #...............................................................................................
 def simple_take_profit(data):       
 
     if data['reversed']:
         data['pl_move_trail_trigger'] = 0.0001
     else:
-        data['pl_move_trail_trigger']       = max(data['min_take_profit_pip'], data['h_l_gap'] * 0.5)
+        data['pl_move_trail_trigger']       = max(data['min_take_profit_pip'], data['h_l_gap'] * data['take_profit_multiplier'])
 
     if data['open_order']:                        
         if data['pl'] >= data['pl_move_trail_trigger']:
