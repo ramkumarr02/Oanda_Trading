@@ -23,3 +23,4 @@ ERROR:root:--- Timestamp-2021-06-04 20:38:21.876278, Error-Time difference is ab
 ERROR:root:--- Timestamp-2021-06-04 20:38:45.681371, Error-KeyboardInterrupt
 ERROR:oandapyV20.oandapyV20:request https://api-fxpractice.oanda.com/v3/instruments/EUR_USD/candles failed [400,{"errorMessage":"Invalid value specified for 'granularity'"}]
 ERROR:oandapyV20.oandapyV20:request https://api-fxpractice.oanda.com/v3/instruments/SGD_USD/candles failed [400,{"errorMessage":"Invalid value specified for 'instrument'"}]
+ERROR:oandapyV20.oandapyV20:request https://api-fxpractice.oanda.com/v3/instruments/EUR_USD/candles failed [400,{"errorMessage":"Invalid value specified for 'granularity'"}]

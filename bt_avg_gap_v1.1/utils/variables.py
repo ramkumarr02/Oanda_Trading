@@ -162,6 +162,9 @@ data['direction'] = 'straight'
 data['columns_list']        = ['DateTime_frmt', 'Bid', 'Ask', 'tick', 'lema', 'tick_angle', 'h_l_gap', 'h_lema', 'l_lema']
 data['final_columns_list']  = ['DateTime_frmt', 'month_val', 'date_val', 'hour_val','Bid', 'Ask', 'tick', 'lema', 'tick_angle', 'h_l_gap', 'h_lema', 'l_lema', 'long_open', 'short_open', 'long_profit','long_loss', 'short_profit', 'short_loss','close_type', 'pl']
 
+data['columns_list']        = ['DateTime_frmt', 'Bid', 'Ask', 'tick', 'lema', 'tick_angle', 'h_l_gap', 'h_lema', 'l_lema', 'h_lema_2', 'l_lema_2']
+data['final_columns_list']  = ['DateTime_frmt', 'month_val', 'date_val', 'hour_val','Bid', 'Ask', 'tick', 'lema', 'tick_angle', 'h_l_gap', 'h_lema', 'l_lema', 'h_lema_2', 'l_lema_2', 'long_open', 'short_open', 'long_profit','long_loss', 'short_profit', 'short_loss','close_type', 'pl']
+
 data["plot"] = False
 data['plot_type'] = 'file'
 data['reduce_plot'] = False
@@ -180,6 +183,7 @@ data['delay_counter'] = 0
 data['delay_tics_num'] = 100
 
 data['candle_size'] = 500
+data['candle_size_2'] = 2000
 data['avg_candle_num'] = 3
 data['marker_size'] = 1
 

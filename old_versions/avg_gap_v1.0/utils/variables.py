@@ -54,8 +54,8 @@ data['run_type'] = 'single'
 data['order_num'] = np.float()
 data['gap_cushion'] = data['pip_size'] * 2
 
-data['lema_len'] = 1000
-data['candle_size'] = 500
+data['lema_len'] = 20
+data['candle_size'] = 10
 
 data['candle_count'] = 5
 data['candle_granularity'] = 'H4'

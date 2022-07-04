@@ -152,6 +152,7 @@ def get_rolling_emas(data):
         data['df'] = data['df'].reset_index(drop=True) 
         print('Building H_L_Lema...')
         data = get_h_l_lema(data)
+        data = get_h_l_lema_2(data)
 
         data['df'] = data['df'][data['columns_list']].round(6) 
 
@@ -237,6 +238,51 @@ def get_h_l_lema(data):
     data['df']['h_l_gap'] = data['df']['h_gap'] + data['df']['l_gap']
     data['df']['h_lema'] = data['df']['h_gap'] + data['df']['lema']
     data['df']['l_lema'] = data['df']['lema'] - data['df']['l_gap']
+
+    #---------------------
+    print('HL Created')
+    
+    del data['df']['h']
+    del data['df']['l']
+    del data['df']['h_gap']
+    del data['df']['l_gap']
+    # data['df'] = data['df'].round(6)
+    # data['df'] = data['df'].dropna()
+    # data['df'] = data['df'].reset_index(drop=True) 
+
+    print('Avg HL Created')
+
+    return(data)
+#...............................................................................................  
+
+def get_h_l_lema_2(data):
+    
+    data['df']['h']         = np.nan
+    data['df']['l']         = np.nan
+    data['df']['h_l_gap']   = np.nan
+
+    data['df']['h_gap']     = np.nan
+    data['df']['l_gap']     = np.nan
+
+    data['df']['h_lema_2']    = np.nan
+    data['df']['l_lema_2']    = np.nan
+
+    for i in tqdm(range(len(data['df']))):
+        if i % data['candle_size_2'] == 0 and i > 0:        
+            data['tick_list'] = data['df']['tick'].loc[i - data['candle_size_2'] : i-1]
+            max_val     = max(data['tick_list'])
+            min_val     = min(data['tick_list'])
+
+            data['df']['h'].loc[i]  = max_val
+            data['df']['l'].loc[i]  = min_val
+
+            ind = data['df']['h'][data['df']['h'].notnull()].loc[i - data['candle_size_2'] * data['avg_candle_num'] + 1 : i].index
+            data['df']['h_gap'].loc[i:i+data['candle_size_2']] = np.mean(data['df']['h'].loc[ind] - data['df']['lema'].loc[ind])
+            data['df']['l_gap'].loc[i:i+data['candle_size_2']] = np.mean(data['df']['lema'].loc[ind] - data['df']['l'].loc[ind])
+
+    data['df']['h_l_gap'] = data['df']['h_gap'] + data['df']['l_gap']
+    data['df']['h_lema_2'] = data['df']['h_gap'] + data['df']['lema']
+    data['df']['l_lema_2'] = data['df']['lema'] - data['df']['l_gap']
 
     #---------------------
     print('HL Created')

@@ -47,11 +47,11 @@ def run_engine(data):
             data = get_cross_dir(data)
         # ----------------------------------------------------------  
 
-        data = simple_take_profit(data)                 
-        data = simple_stop_loss(data)
+        # data = simple_take_profit(data)                 
+        # data = simple_stop_loss(data)
         # data = loss_reverse_position(data)
-        data = make_order(data)
-        data = calculate_pl(data)
+        # data = make_order(data)
+        # data = calculate_pl(data)
 
     data = split_date_col(data)
             
