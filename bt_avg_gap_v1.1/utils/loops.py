@@ -146,15 +146,15 @@ def get_rolling_emas(data):
 
         print('Building Slope...')
         data = get_x_axis(data)
-        data['df']['tick_angle'] = data['df']['tick'].rolling(window=data['angle_len']).progress_apply(roll_slope)
+        data['df']['tick_angle'] = data['df']['lema'].rolling(window=data['angle_len']).progress_apply(roll_slope)
         data['df'] = data['df'].dropna()
 
         data['df'] = data['df'].reset_index(drop=True) 
         print('Building H_L_Lema...')
         data = get_h_l_lema(data)
-        data = get_h_l_lema_2(data)
+        # data = get_h_l_lema_2(data)
 
-        data['df'] = data['df'][data['columns_list']].round(6) 
+        # data['df'] = data['df'][data['columns_list']].round(6) 
 
         data['df'] = data['df'].reset_index(drop=True) 
         data['df_len'] = len(data["df"])
@@ -178,7 +178,7 @@ def get_rolling_emas(data):
         data['df'] = data['df'].reset_index(drop=True)        
         data['df_len'] = len(data["df"])
 
-        data['df'] = data['df'][data['columns_list']].round(6) 
+        # data['df'] = data['df'][data['columns_list']].round(6) 
 
     # ---------------------------------------------------------------------------------------------------------------------
 
@@ -202,7 +202,7 @@ def get_rolling_emas(data):
         data['df'] = data['df'].reset_index(drop=True)        
         data['df_len'] = len(data["df"])
 
-        data['df'] = data['df'][data['columns_list']].round(6) 
+        # data['df'] = data['df'][data['columns_list']].round(6) 
         if data['to_csv']:
             data['df'].to_csv('data/temp.csv', index = False)
 

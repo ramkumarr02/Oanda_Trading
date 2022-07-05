@@ -70,7 +70,7 @@ def split_date_col(data):
     del data['df']['long_close']
     del data['df']['short_close']
 
-    data['df'] = data['df'][data['final_columns_list']]
+    # data['df'] = data['df'][data['final_columns_list']]
     return(data)
 #...............................................................................................
 
@@ -263,21 +263,21 @@ def plot_graph(data):
                             )
                     )   
 
-            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
-                                y=data['plot_df']['h_lema_2'],
-                                mode='lines',
-                                name='h_lema_2',
-                                line=dict(color='red', width=1, dash = 'dash'),
-                            )
-                    )   
+            # fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+            #                     y=data['plot_df']['h_lema_2'],
+            #                     mode='lines',
+            #                     name='h_lema_2',
+            #                     line=dict(color='red', width=1, dash = 'dash'),
+            #                 )
+            #         )   
 
-            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
-                                y=data['plot_df']['l_lema_2'],
-                                mode='lines',
-                                name='l_lema_2',
-                            line=dict(color='blue', width=1, dash = 'dash'),
-                            )
-                    )                       
+            # fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+            #                     y=data['plot_df']['l_lema_2'],
+            #                     mode='lines',
+            #                     name='l_lema_2',
+            #                 line=dict(color='blue', width=1, dash = 'dash'),
+            #                 )
+            #         )                       
         # -------------------------------------------------------------------
 
 
@@ -310,10 +310,10 @@ def plot_graph(data):
                                 mode = 'markers', 
                                 name = 'long_open',
                                 marker_symbol = 'triangle-up',
-                                marker=dict(color='cadetblue',
+                                marker=dict(color='blue',
                                             size=10,
                                             line=dict(
-                                                color='black',
+                                                color='blue',
                                                 width=1
                                             )),
                                 opacity=1)
@@ -323,10 +323,10 @@ def plot_graph(data):
                         mode = 'markers', 
                         name = 'short_open',
                         marker_symbol = 'triangle-down',
-                        marker=dict(color='cadetblue',
+                        marker=dict(color='blue',
                                     size=10,
                                     line=dict(
-                                        color='black',
+                                        color='blue',
                                         width=1
                                     )),
                         opacity=1)
@@ -336,10 +336,10 @@ def plot_graph(data):
                         mode = 'markers', 
                         name = 'long_profit',
                         marker_symbol = 'triangle-up',
-                        marker=dict(color='blue',
+                        marker=dict(color='cadetblue',
                                     size=10,
                                     line=dict(
-                                        color='blue',
+                                        color='black',
                                         width=1
                                     )),
                         opacity=1)
@@ -363,10 +363,10 @@ def plot_graph(data):
                         mode = 'markers', 
                         name = 'short_profit',
                         marker_symbol = 'triangle-down',
-                        marker=dict(color='blue',
+                        marker=dict(color='cadetblue',
                                     size=10,
                                     line=dict(
-                                        color='blue',
+                                        color='black',
                                         width=1
                                     )),
                         opacity=1)

@@ -114,7 +114,7 @@ data['min_llema_angle'] = 0
 data['take_profit_method']  = 'simple'
 data['stop_loss_method']    = 'simple'
 
-data['pl_move_trail_ratio']         = 0.75
+data['pl_move_trail_ratio']         = 0.8
 data['pl_loss_trail_trigger']       = -0.0020
 data['pl_loss_trail_size']          = 1.25
 
@@ -129,14 +129,14 @@ data['order_num_i'] = 0
 
 data['sema_len']    = 100
 data['slema_len']   = 250
-data['lema_len']    = 1000
+data['lema_len']    = 500
 data['angle_len']   = 500
 
 data['min_hl_gap'] = 0.0003
 data['min_take_profit_pip'] = 0.00005
 data['min_stop_loss_pip']   = -0.0003
 data['stop_loss_multiplier'] = 1
-data['take_profit_multiplier'] = 0.5
+data['take_profit_multiplier'] = 1
 
 data['num_of_switch_orders']    = 6
 data['loss_switch_pl_pip']      = -0.0020
@@ -150,9 +150,9 @@ data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 data['df_subset_size'] = None
 
 data['start_date'] = {'year':2021, 'month':1, 'date':1}
-data['end_date']   = {'year':2021, 'month':1, 'date':4}
+data['end_date']   = {'year':2021, 'month':1, 'date':11}
 
-data['ema_roll_method'] = 'new'
+data['ema_roll_method'] = 'file'
 
 # data['direction'] = 'reverse'
 data['direction'] = 'straight'
@@ -184,7 +184,7 @@ data['delay_tics_num'] = 100
 
 data['candle_size'] = 500
 data['candle_size_2'] = 2000
-data['avg_candle_num'] = 3
+data['avg_candle_num'] = 10
 data['marker_size'] = 1
 
 data['positions_half_closed'] = False

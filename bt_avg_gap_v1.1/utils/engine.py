@@ -14,7 +14,7 @@ def run_engine(data):
 
     data                        = get_date_list(data)
     data                        = get_rolling_emas(data)    
-    data['df']                  = data['df'][data['columns_list']]
+    # data['df']                  = data['df'][data['columns_list']]
 
     data['df']['long_open']     = np.nan
     data['df']['long_close']    = np.nan
@@ -48,10 +48,12 @@ def run_engine(data):
         # ----------------------------------------------------------  
 
         # data = simple_take_profit(data)                 
-        # data = simple_stop_loss(data)
+        # data = lock_profit(data)                 
         # data = loss_reverse_position(data)
-        # data = make_order(data)
-        # data = calculate_pl(data)
+        data = trail_take_profit(data)                 
+        data = simple_stop_loss(data)
+        data = make_order(data)
+        data = calculate_pl(data)
 
     data = split_date_col(data)
             
