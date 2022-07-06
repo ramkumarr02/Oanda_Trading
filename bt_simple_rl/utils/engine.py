@@ -46,7 +46,8 @@ def run_engine(data):
             continue
 
         elif len(data['dir_list']) == 2:
-            data = get_cross_dir_rl(data)
+            # data = get_cross_dir_rl(data)
+            data = get_cross_dir(data)
         # ----------------------------------------------------------  
 
         # data = simple_take_profit(data)                 
