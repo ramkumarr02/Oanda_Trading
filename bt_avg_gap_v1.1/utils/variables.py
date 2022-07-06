@@ -130,7 +130,7 @@ data['order_num_i'] = 0
 data['sema_len']    = 100
 data['slema_len']   = 250
 data['lema_len']    = 500
-data['angle_len']   = 500
+data['angle_len']   = 2000
 
 data['min_hl_gap'] = 0.0003
 data['min_take_profit_pip'] = 0.00005
@@ -150,9 +150,9 @@ data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 data['df_subset_size'] = None
 
 data['start_date'] = {'year':2021, 'month':1, 'date':1}
-data['end_date']   = {'year':2021, 'month':1, 'date':11}
+data['end_date']   = {'year':2021, 'month':1, 'date':10}
 
-data['ema_roll_method'] = 'file'
+data['ema_roll_method'] = 'new'
 
 # data['direction'] = 'reverse'
 data['direction'] = 'straight'
