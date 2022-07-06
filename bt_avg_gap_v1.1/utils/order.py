@@ -7,12 +7,19 @@ from utils.dir_slope import *
 #...............................................................................................
 def make_order(data):
     if not data['open_order']:
-        if data['dir_change']:
-            if data['to_order'] == 'long':
-                data = make_long_order(data)
+        if data['to_order'] == 'long':
+            data = make_long_order(data)
 
-            elif data['to_order'] == 'short':
-                data = make_short_order(data)
+        elif data['to_order'] == 'short':
+            data = make_short_order(data)
+
+        elif data['reverse'] == 'long':
+            data = make_long_order(data)
+            data['reverse'] = 'reversed'
+
+        elif data['reverse'] == 'short':
+            data = make_short_order(data)
+            data['reverse'] = 'reversed'
 
     return(data)
 #...............................................................................................
@@ -34,20 +41,18 @@ def calculate_pl(data):
 def loss_reverse_position(data):   
     data['stop_loss_pip']               = min(data['min_stop_loss_pip'], -data['h_l_gap'] * 0.5)
 
-    if not data['reversed']:
+    if data['reverse'] == None:
         if data['open_order']:
             if data['pl'] <= data['stop_loss_pip']:
                 if data['open_order_type'] == 'long':
                     data['stop_text'] = 'reversed'
                     data = close_long_order(data)
-                    data = make_short_order(data)
-                    data['reversed'] = True
+                    data['reverse'] = 'short'
                         
                 if data['open_order_type'] == 'short':                
                     data['stop_text'] = 'reversed'
                     data = close_short_order(data)            
-                    data = make_long_order(data)
-                    data['reversed'] = True            
+                    data['reverse'] = 'long'            
     return(data)   
 # ...............................................................................................   
 
@@ -70,10 +75,7 @@ def simple_stop_loss(data):
 #...............................................................................................
 def simple_take_profit(data):       
 
-    if data['reversed']:
-        data['pl_move_trail_trigger'] = 0.0001
-    else:
-        data['pl_move_trail_trigger']       = max(data['min_take_profit_pip'], data['h_l_gap'] * data['take_profit_multiplier'])
+    data['pl_move_trail_trigger']       = max(data['min_take_profit_pip'], data['h_l_gap'] * data['take_profit_multiplier'])
 
     if data['open_order']:                        
         if data['pl'] >= data['pl_move_trail_trigger']:
@@ -154,7 +156,7 @@ def make_long_order(data):
     data['pl_safety_reached'] = False
     data['pl_move_min'] = 0
     data['df']['long_open'].iloc[data['i']] = data['ask']
-    data['reversed'] = False
+    data['reverse'] = None
     return(data)
 
 
@@ -166,7 +168,7 @@ def make_short_order(data):
     data['pl_safety_reached'] = False
     data['pl_move_min'] = 0
     data['df']['short_open'].iloc[data['i']] = data['bid']
-    data['reversed'] = False
+    data['reverse'] = None
     return(data)
 
 
@@ -178,7 +180,7 @@ def close_long_order(data):
     data['df']['close_type'].iloc[data['i']] = data['stop_text']
     data['df']['long_close'].iloc[data['i']] = data['bid']  
     data['df']['pl'].iloc[data['i']] = data['pl']
-    data['reversed'] = False
+    data['reverse'] = None
     create_report(data)
     return(data)
 
@@ -191,7 +193,7 @@ def close_short_order(data):
     data['df']['close_type'].iloc[data['i']] = data['stop_text']
     data['df']['short_close'].iloc[data['i']] = data['ask']  
     data['df']['pl'].iloc[data['i']] = data['pl']
-    data['reversed'] = False
+    data['reverse'] = None
     create_report(data)
     return(data)
 
