@@ -16,6 +16,8 @@ def run_engine(data):
     data                        = get_rolling_emas(data)    
     # data['df']                  = data['df'][data['columns_list']]
 
+    data['df']['touched_line']  = np.nan
+    data['df']['order_side']    = np.nan
     data['df']['long_open']     = np.nan
     data['df']['long_close']    = np.nan
     data['df']['short_open']    = np.nan
@@ -29,7 +31,7 @@ def run_engine(data):
         data['ask'] = data["df"]['Ask'][data['i']]
         data['tick'] = data['df']['tick'][data['i']]        
         data['lema'] = data['df']['lema'][data['i']]    
-        data['tick_angle'] = data['df']['tick_angle'][data['i']]    
+        # data['tick_angle'] = data['df']['tick_angle'][data['i']]    
         data['h_l_gap'] = data['df']['h_l_gap'][data['i']]    
         data['h_lema'] = data['df']['h_lema'][data['i']]    
         data['l_lema'] = data['df']['l_lema'][data['i']]    
@@ -44,12 +46,12 @@ def run_engine(data):
             continue
 
         elif len(data['dir_list']) == 2:
-            data = get_cross_dir(data)
+            data = get_cross_dir_rl(data)
         # ----------------------------------------------------------  
 
         # data = simple_take_profit(data)                 
         # data = lock_profit(data)                 
-        data = loss_reverse_position(data)
+        # data = loss_reverse_position(data)
         data = trail_take_profit(data)                 
         data = simple_stop_loss(data)
         data = make_order(data)
