@@ -117,9 +117,10 @@ def generate_result_report(data):
     data["monthly_pl"] = pd.DataFrame(data['report_df'].groupby(['month_val'])['pl'].sum())
     data["net_pl"] = data['report_df']['pl'].sum().round(4)
 
-    send_telegram_message(f'Run Complete: \n------------\n {data["df_name"]}')
-    send_telegram_message(f'Net PL: \n------------\n {data["net_pl"]} pips')
-    send_telegram_message(f'Monthly PL: \n------------\n {data["monthly_pl"]}')
+    if data['send_message_to_phone']:
+        send_telegram_message(f'Run Complete: \n------------\n {data["df_name"]}')
+        send_telegram_message(f'Net PL: \n------------\n {data["net_pl"]} pips')
+        send_telegram_message(f'Monthly PL: \n------------\n {data["monthly_pl"]}')
 
     print('--------------------------------------')
     print(f'Run Complete : {data["df_name"]}')

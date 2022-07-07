@@ -46,13 +46,13 @@ def run_engine(data):
             continue
 
         elif len(data['dir_list']) == 2:
-            # data = get_cross_dir_rl(data)
-            data = get_cross_dir(data)
+            # data = get_cross_dir(data)
+            data = get_cross_dir_rl(data)
         # ----------------------------------------------------------  
 
-        # data = simple_take_profit(data)                 
         # data = lock_profit(data)                 
         # data = loss_reverse_position(data)
+        # data = simple_take_profit(data)                 
         data = trail_take_profit(data)                 
         data = simple_stop_loss(data)
         data = make_order(data)
