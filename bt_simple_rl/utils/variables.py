@@ -115,7 +115,6 @@ data['min_llema_angle'] = 0
 data['take_profit_method']  = 'simple'
 data['stop_loss_method']    = 'simple'
 
-data['pl_move_trail_ratio']         = 0.8
 data['pl_loss_trail_trigger']       = -0.0020
 data['pl_loss_trail_size']          = 1.25
 
@@ -148,16 +147,18 @@ data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 data['df_subset_size'] = None
 
 data['start_date'] = {'year':2021, 'month':1, 'date':1}
-data['end_date']   = {'year':2021, 'month':1, 'date':10}
+data['end_date']   = {'year':2021, 'month':2, 'date':1}
 
-data['ema_roll_method'] = 'new'
+data['ema_roll_method'] = 'file'
 
 data['lema_len']    = 5000
 data['candle_size'] = 2500
 data['avg_candle_num'] = 2
 
-data['stop_loss_multiplier'] = 1
-data['take_profit_multiplier'] = 0.5
+data['stop_loss_multiplier']    = 0.5
+data['take_profit_multiplier']  = 0.5
+data['pl_move_trail_ratio']     = 0.8
+data['rl_rows'] = 3
 
 # data['direction'] = 'reverse'
 data['direction'] = 'straight'
@@ -198,7 +199,7 @@ data['pl_temp_list']           = []
 data['first_type']             = None
 data['forward_order_list'] = []
 
-data["csv_file_name"] = 'ema_df-(2021-2021)-(1-1)-(1-10)'
+data["csv_file_name"] = 'ema_df-(2021-2021)-(1-1)-(1-31)'
 
 data['csv_list'] = ['ema_2021_jan_aug' , 'ema_df-(2021-2021)-(9-9)-(1-30)', 'ema_df-(2021-2021)-(10-10)-(1-31)', 'ema_df-(2021-2021)-(12-12)-(1-31)']
 data['new_file'] = 'ema_2021-jan_dec'

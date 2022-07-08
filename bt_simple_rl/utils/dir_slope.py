@@ -59,6 +59,7 @@ def get_cross_dir_rl(data):
         if data['h_l_gap'] > data['min_hl_gap']:
             data['touched_line'] = 'l_lema'
             # data['to_order'] = 'long'            
+            # data = r_l_dir_selection_multi_row(data)
             data = r_l_dir_selection(data)
     else:
         data['to_order'] = None
@@ -113,49 +114,75 @@ def r_l_dir_selection(data):
     return(data)
 
 # #...............................................................................................
-# def r_l_dir_selection(data):
-#     row_nums = 1
-#     data['df_h_lema'] = data['df'][(data['df']['pl'].notnull()) & (data['df']['touched_line'] == 'h_lema')][['touched_line', 'order_side','pl']].tail(row_nums)
-#     data['df_h_lema'] = data['df_h_lema'].reset_index(drop=True) 
+def r_l_dir_selection_multi_row(data):
+    
+    data['df_l_lema'] = data['df'][(data['df']['pl'].notnull()) & (data['df']['touched_line'] == 'l_lema')][['touched_line', 'order_side','pl']].tail(data['rl_rows']).reset_index(drop=True)
+    data['df_l_lema']['pl'] = data['df_l_lema']['pl'].mask(data['df_l_lema']['pl'] > 0, 1)
+    data['df_l_lema']['pl'] = data['df_l_lema']['pl'].mask(data['df_l_lema']['pl'] < 0, -1)
 
-#     data['df_l_lema'] = data['df'][(data['df']['pl'].notnull()) & (data['df']['touched_line'] == 'l_lema')][['touched_line', 'order_side','pl']].tail(row_nums)
-#     data['df_l_lema'] = data['df_l_lema'].reset_index(drop=True) 
+    data['df_h_lema'] = data['df'][(data['df']['pl'].notnull()) & (data['df']['touched_line'] == 'h_lema')][['touched_line', 'order_side','pl']].tail(data['rl_rows']).reset_index(drop=True)
+    data['df_h_lema']['pl'] = data['df_h_lema']['pl'].mask(data['df_h_lema']['pl'] > 0, 1)
+    data['df_h_lema']['pl'] = data['df_h_lema']['pl'].mask(data['df_h_lema']['pl'] < 0, -1)
 
-#     if data['touched_line'] == 'h_lema':
-#         if len(data['df_h_lema']) == row_nums:
-#             pl = data['df_h_lema']['pl'][0]
-#             order_side = data['df_h_lema']['order_side'][0]
-            
-#             if pl > 0:
-#                 if order_side == 'short':
-#                     data['to_order'] = 'short'      
-#                 elif order_side == 'long':
-#                     data['to_order'] = 'long'
-#             elif pl < 0:
-#                 if order_side == 'long':
-#                     data['to_order'] = 'short'      
-#                 elif order_side == 'short':
-#                     data['to_order'] = 'long'
-#         else:
-#             data['to_order'] = 'short'      
+    if data['touched_line'] == 'h_lema':
+        if len(data['df_h_lema']) > 0:
+            # if there is only one type of order sides in the selected last few trades
+            # -----------------------------------------------------
+            if len(set(data['df_h_lema']['order_side'])) == 1:
+                x = data['df_h_lema'].groupby('order_side').pl.sum()
+                
+                # if the selected one order side is a profit
+                if x.values[0] > 0:
+                    order_side = x.index[0]
+                    
+                # if the selected one order side is a loss, perform a switch
+                elif x.values[0] < 0:
+                    if x.index[0] =='short':
+                        order_side = 'long'
+                    
+                    if x.index[0] =='long':
+                        order_side = 'short'
 
-#     if data['touched_line'] == 'l_lema':
-#         if len(data['df_l_lema']) == row_nums:
-#             pl = data['df_l_lema']['pl'][0]
-#             order_side = data['df_l_lema']['order_side'][0]
+            elif len(set(data['df_h_lema']['order_side'])) == 2:
+                x = data['df_h_lema'].groupby('order_side').pl.sum()
+                order_side = x.index[x.argmax()]
 
-#             if pl > 0:
-#                 if order_side == 'short':
-#                     data['to_order'] = 'short'      
-#                 elif order_side == 'long':
-#                     data['to_order'] = 'long'
-#             elif pl < 0:
-#                 if order_side == 'long':
-#                     data['to_order'] = 'short'      
-#                 elif order_side == 'short':
-#                     data['to_order'] = 'long'
-#         else:
-#             data['to_order'] = 'long'   
+                if x[0] == x[1]:
+                    order_side = list(data['df_h_lema']['order_side'][data['df_h_lema']['pl'] > 0])[-1]
+            # -----------------------------------------------------
+  
+        else:
+            data['to_order'] = 'short'   
 
-#     return(data)
+    if data['touched_line'] == 'l_lema':
+        if len(data['df_l_lema']) > 0:
+            # if there is only one type of order sides in the selected last few trades
+            # -----------------------------------------------------
+            if len(set(data['df_l_lema']['order_side'])) == 1:
+                x = data['df_l_lema'].groupby('order_side').pl.sum()
+                
+                # if the selected one order side is a profit
+                if x.values[0] > 0:
+                    order_side = x.index[0]
+                    
+                # if the selected one order side is a loss, perform a switch
+                elif x.values[0] < 0:
+                    if x.index[0] =='short':
+                        order_side = 'long'
+                    
+                    if x.index[0] =='long':
+                        order_side = 'short'
+
+            elif len(set(data['df_l_lema']['order_side'])) == 2:
+                x = data['df_l_lema'].groupby('order_side').pl.sum()
+                order_side = x.index[x.argmax()]
+
+                if x[0] == x[1]:
+                    order_side = list(data['df_l_lema']['order_side'][data['df_l_lema']['pl'] > 0])[-1]
+            # -----------------------------------------------------
+  
+        else:
+            data['to_order'] = 'long'   
+
+    return(data)
 # #................................................................................................

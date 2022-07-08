@@ -95,7 +95,7 @@ def create_report(data):
 
     print(np.sum(data['df'][['pl']]))
     print('--------------------------------------')
-    print(data['df'][data['df']['pl'].notnull()][['DateTime_frmt', 'close_type', 'pl']].tail(15))
+    print(data['df'][data['df']['pl'].notnull()][['DateTime_frmt', 'order_side','close_type', 'pl']].tail(15))
 
 #...............................................................................................    
 
