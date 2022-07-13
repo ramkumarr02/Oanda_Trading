@@ -91,6 +91,46 @@ def simple_take_profit(data):
 #...............................................................................................
 
 #...............................................................................................
+def slema_positive_check(data):
+    if data['slema_check_flag']:
+        if data['open_order']:
+            if data['open_order_type'] == 'long':
+                if data['sema'] > data['lema']:
+                    data['slema_positive'] = True
+                    data['slema_check_flag'] = False
+                else:
+                    data['slema_positive'] = False
+
+            if data['open_order_type'] == 'short':
+                if data['sema'] < data['lema']:
+                    data['slema_positive'] = True
+                    data['slema_check_flag'] = False
+                else:
+                    data['slema_positive'] = False
+
+    return(data)
+#...............................................................................................
+
+#...............................................................................................
+
+def simple_slema_move_close(data):
+    if data['open_order']:
+        if data['slema_positive']: 
+            if data['pl'] > 0:            
+
+                if data['open_order_type'] == 'long':
+                    if data['sema'] <= data['lema']:
+                        data['stop_text'] = 'simple_slema_move_close'
+                        data = close_long_order(data)               
+            
+                if data['open_order_type'] == 'short':
+                    if data['sema'] >= data['lema']:                
+                        data['stop_text'] = 'simple_slema_move_close'
+                        data = close_short_order(data)  
+
+    return(data)    
+
+#...............................................................................................
 def trail_take_profit(data):
     data['pl_move_trail_trigger']       = max(data['min_take_profit_pip'], data['h_l_gap'] * data['take_profit_multiplier'])
 
@@ -151,6 +191,7 @@ def lock_profit(data):
 def make_long_order(data):
     data['order_ask_price'] = data['ask']
     data['open_order'] = True
+    data['slema_check_flag'] = True
     data['open_order_type'] = 'long'
     data['pl_positive'] = False
     data['pl_safety_reached'] = False
@@ -166,6 +207,7 @@ def make_long_order(data):
 def make_short_order(data):
     data['order_bid_price'] = data['bid']
     data['open_order'] = True
+    data['slema_check_flag'] = True
     data['open_order_type'] = 'short'
     data['pl_positive'] = False
     data['pl_safety_reached'] = False

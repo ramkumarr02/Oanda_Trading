@@ -31,6 +31,7 @@ def run_engine(data):
         data['ask'] = data["df"]['Ask'][data['i']]
         data['tick'] = data['df']['tick'][data['i']]        
         data['lema'] = data['df']['lema'][data['i']]    
+        data['sema'] = data['df']['sema'][data['i']]    
         # data['tick_angle'] = data['df']['tick_angle'][data['i']]    
         data['h_l_gap'] = data['df']['h_l_gap'][data['i']]    
         data['h_lema'] = data['df']['h_lema'][data['i']]    
@@ -53,7 +54,9 @@ def run_engine(data):
         # data = lock_profit(data)                 
         # data = loss_reverse_position(data)
         # data = trail_take_profit(data)                 
-        data = simple_take_profit(data)                 
+        # data = simple_take_profit(data)       
+        data = slema_positive_check(data)
+        data = simple_slema_move_close(data)          
         data = simple_stop_loss(data)
         data = make_order(data)
         data = calculate_pl(data)

@@ -127,7 +127,6 @@ data['sema_close_flag'] = False
 data['reversed'] = False
 data['order_num_i'] = 0
 
-data['sema_len']    = 100
 data['slema_len']   = 250
 data['angle_len']   = 3000
 
@@ -151,8 +150,9 @@ data['end_date']   = {'year':2021, 'month':2, 'date':1}
 
 data['ema_roll_method'] = 'file'
 
-data['lema_len']    = 5000
-data['candle_size'] = 2500
+data['sema_len']    = 500
+data['lema_len']    = 10000
+data['candle_size'] = 5000
 data['avg_candle_num'] = 2
 
 data['stop_loss_multiplier']    = 0.5
@@ -176,7 +176,7 @@ data['plot_type'] = 'file'
 data['reduce_plot'] = False
 data['plot_start']  = '2021-01-04 03:00:00'
 data['plot_stop']   = '2021-01-04 06:00:00'
-data['things_to_plot'] = ['tick', 'lema', 'h_l_lema', 'tick_angle', 'positions']
+data['things_to_plot'] = ['tick', 'ema', 'h_l_lema', 'tick_angle', 'positions']
 # data['things_to_plot'] = ['tick', 'lema', 'h_l', 'h_l_Lema', 'tick_angle', 'positions']
 
 data['to_csv']      = True

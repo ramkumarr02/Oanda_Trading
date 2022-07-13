@@ -142,7 +142,14 @@ def get_rolling_emas(data):
         print('Building Lema...')
         data['df']['lema'] = data['df']['tick'].rolling(window=data['lema_len']).progress_apply(roll_ema)
         data['df'] = data['df'].dropna()
-        send_telegram_message(f'Lema Complete : {data["df_name"]}')
+        if data['send_message_to_phone']:
+            send_telegram_message(f'Lema Complete : {data["df_name"]}')
+
+        print('Building Sema...')
+        data['df']['sema'] = data['df']['tick'].rolling(window=data['sema_len']).progress_apply(roll_ema)
+        data['df'] = data['df'].dropna()
+        if data['send_message_to_phone']:
+            send_telegram_message(f'Sema Complete : {data["df_name"]}')
 
         # print('Building Slope...')
         # data = get_x_axis(data)

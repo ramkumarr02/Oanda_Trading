@@ -52,15 +52,13 @@ def get_cross_dir_rl(data):
     if data['pos_1'] != data['pos_2'] and data['pos_2'] == -1:
         if data['h_l_gap'] > data['min_hl_gap']:
             data['touched_line'] = 'h_lema'
-            # data['to_order'] = 'short'      
             data = r_l_dir_selection(data)
 
     elif data['pos_1'] != data['pos_2'] and data['pos_2'] == 1:
         if data['h_l_gap'] > data['min_hl_gap']:
             data['touched_line'] = 'l_lema'
-            # data['to_order'] = 'long'            
-            # data = r_l_dir_selection_multi_row(data)
-            data = r_l_dir_selection(data)
+            # data = r_l_dir_selection(data)
+            data = r_l_dir_selection_multi_row(data)
     else:
         data['to_order'] = None
         data['touched_line'] = None

@@ -205,14 +205,22 @@ def plot_graph(data):
                                 )
                         )
 
-        if 'lema' in data['things_to_plot']:
+        if 'ema' in data['things_to_plot']:
             fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
                                 y=data['plot_df']['lema'],
                                 mode='lines',
                                 name='lema',
                                 line=dict(color='blue', width=1),
                             )
-                    )                                                     
+                    ) 
+
+            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+                                y=data['plot_df']['sema'],
+                                mode='lines',
+                                name='sema',
+                                line=dict(color='red', width=1),
+                            )
+                    )                                                                         
         # -------------------------------------------------------------------
 
 
