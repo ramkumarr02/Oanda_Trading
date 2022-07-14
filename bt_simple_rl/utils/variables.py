@@ -158,7 +158,11 @@ data['avg_candle_num'] = 2
 data['stop_loss_multiplier']    = 0.5
 data['take_profit_multiplier']  = 0.5
 data['pl_move_trail_ratio']     = 0.8
-data['rl_rows'] = 3
+
+# data['get_cross_dir_type'] = 'multi_row_rl'
+# data['rl_rows'] = 4
+# data['get_cross_dir_type'] = 'normal'
+data['get_cross_dir_type'] = 'simple_rl'
 
 # data['direction'] = 'reverse'
 data['direction'] = 'straight'

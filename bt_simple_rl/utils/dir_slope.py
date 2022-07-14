@@ -16,6 +16,16 @@ def get_position(data):
     return(data)
 #...............................................................................................
 
+def get_cross_dir_chooser(data):
+    if data['get_cross_dir_type'] == 'normal':
+        data = get_cross_dir(data)
+    elif data['get_cross_dir_type'] == 'simple_rl':
+        data = get_cross_dir_simple(data)
+    elif data['get_cross_dir_type'] == 'multi_row_rl':
+        data = get_cross_dir_multi_row(data)
+
+    return(data)
+
 #...............................................................................................
 def get_cross_dir(data):   
     
@@ -41,7 +51,7 @@ def get_cross_dir(data):
     return(data)    
 
 #...............................................................................................
-def get_cross_dir_rl(data):   
+def get_cross_dir_simple(data):   
     
     data['dir_list'].popleft()
     data['dir_list'].append(data['position'])   
@@ -58,7 +68,6 @@ def get_cross_dir_rl(data):
         if data['h_l_gap'] > data['min_hl_gap']:
             data['touched_line'] = 'l_lema'
             data = r_l_dir_selection(data)
-            # data = r_l_dir_selection_multi_row(data)
     else:
         data['to_order'] = None
         data['touched_line'] = None
@@ -111,6 +120,30 @@ def r_l_dir_selection(data):
 
     return(data)
 
+#...............................................................................................
+def get_cross_dir_multi_row(data):   
+    
+    data['dir_list'].popleft()
+    data['dir_list'].append(data['position'])   
+    
+    data['pos_1'] = data['dir_list'][0]
+    data['pos_2'] = data['dir_list'][1]
+
+    if data['pos_1'] != data['pos_2'] and data['pos_2'] == -1:
+        if data['h_l_gap'] > data['min_hl_gap']:
+            data['touched_line'] = 'h_lema'
+            data = r_l_dir_selection_multi_row(data)
+
+    elif data['pos_1'] != data['pos_2'] and data['pos_2'] == 1:
+        if data['h_l_gap'] > data['min_hl_gap']:
+            data['touched_line'] = 'l_lema'
+            data = r_l_dir_selection_multi_row(data)
+    else:
+        data['to_order'] = None
+        data['touched_line'] = None
+
+    return(data)    
+#................................................................................................
 # #...............................................................................................
 def r_l_dir_selection_multi_row(data):
     
@@ -131,22 +164,22 @@ def r_l_dir_selection_multi_row(data):
                 
                 # if the selected one order side is a profit
                 if x.values[0] > 0:
-                    order_side = x.index[0]
+                    data['to_order'] = x.index[0]
                     
                 # if the selected one order side is a loss, perform a switch
                 elif x.values[0] < 0:
                     if x.index[0] =='short':
-                        order_side = 'long'
+                        data['to_order'] = 'long'
                     
                     if x.index[0] =='long':
-                        order_side = 'short'
+                        data['to_order'] = 'short'
 
             elif len(set(data['df_h_lema']['order_side'])) == 2:
                 x = data['df_h_lema'].groupby('order_side').pl.sum()
-                order_side = x.index[x.argmax()]
+                data['to_order'] = x.index[x.argmax()]
 
                 if x[0] == x[1]:
-                    order_side = list(data['df_h_lema']['order_side'][data['df_h_lema']['pl'] > 0])[-1]
+                    data['to_order'] = list(data['df_h_lema']['order_side'][data['df_h_lema']['pl'] > 0])[-1]
             # -----------------------------------------------------
   
         else:
@@ -161,22 +194,22 @@ def r_l_dir_selection_multi_row(data):
                 
                 # if the selected one order side is a profit
                 if x.values[0] > 0:
-                    order_side = x.index[0]
+                    data['to_order'] = x.index[0]
                     
                 # if the selected one order side is a loss, perform a switch
                 elif x.values[0] < 0:
                     if x.index[0] =='short':
-                        order_side = 'long'
+                        data['to_order'] = 'long'
                     
                     if x.index[0] =='long':
-                        order_side = 'short'
+                        data['to_order'] = 'short'
 
             elif len(set(data['df_l_lema']['order_side'])) == 2:
                 x = data['df_l_lema'].groupby('order_side').pl.sum()
-                order_side = x.index[x.argmax()]
+                data['to_order'] = x.index[x.argmax()]
 
                 if x[0] == x[1]:
-                    order_side = list(data['df_l_lema']['order_side'][data['df_l_lema']['pl'] > 0])[-1]
+                    data['to_order'] = list(data['df_l_lema']['order_side'][data['df_l_lema']['pl'] > 0])[-1]
             # -----------------------------------------------------
   
         else:

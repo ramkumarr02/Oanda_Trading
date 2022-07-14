@@ -47,8 +47,8 @@ def run_engine(data):
             continue
 
         elif len(data['dir_list']) == 2:
-            data = get_cross_dir_rl(data)
-            # data = get_cross_dir(data)
+            data = get_cross_dir_chooser(data)
+            
         # ----------------------------------------------------------  
 
         # data = lock_profit(data)                 
