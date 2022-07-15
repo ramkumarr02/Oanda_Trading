@@ -127,8 +127,6 @@ data['sema_close_flag'] = False
 data['reversed'] = False
 data['order_num_i'] = 0
 
-data['slema_len']   = 250
-data['angle_len']   = 3000
 
 data['min_hl_gap'] = 0.0003
 data['min_take_profit_pip'] = 0.00005
@@ -146,12 +144,17 @@ data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 data['df_subset_size'] = None
 
 data['start_date'] = {'year':2021, 'month':1, 'date':1}
-data['end_date']   = {'year':2021, 'month':2, 'date':1}
+data['end_date']   = {'year':2021, 'month':1, 'date':4}
 
-data['ema_roll_method'] = 'file'
+data['ema_roll_method'] = 'new'
 
-data['sema_len']    = 500
+
+data['sema_len']    = 1000
+data['slema_len']   = 5000
 data['lema_len']    = 10000
+data['angle_len']   = 1000
+data['angle_len_2']   = 10000
+
 data['candle_size'] = 5000
 data['avg_candle_num'] = 2
 
@@ -164,6 +167,14 @@ data['pl_move_trail_ratio']     = 0.8
 # data['get_cross_dir_type'] = 'normal'
 data['get_cross_dir_type'] = 'simple_rl'
 
+data["plot"] = True
+data['plot_type'] = 'file'
+data['reduce_plot'] = True
+data['plot_start']  = '2021-01-1'
+data['plot_stop']   = '2021-01-4'
+# data['things_to_plot'] = ['tick', 'lema', 'h_l_lema', 'tick_angle', 'positions']
+data['things_to_plot'] = ['tick', 'ema', 'h_l_lema', 'tick_angle', 'positions']
+
 # data['direction'] = 'reverse'
 data['direction'] = 'straight'
 
@@ -175,13 +186,6 @@ data['final_columns_list']  = ['DateTime_frmt', 'month_val', 'date_val', 'hour_v
 data['columns_list']        = ['DateTime_frmt', 'Bid', 'Ask', 'tick', 'lema', 'tick_angle', 'h_l_gap', 'h_lema', 'l_lema', 'h_lema_2', 'l_lema_2']
 data['final_columns_list']  = ['DateTime_frmt', 'month_val', 'date_val', 'hour_val','Bid', 'Ask', 'tick', 'lema', 'tick_angle', 'h_l_gap', 'h_lema', 'l_lema', 'h_lema_2', 'l_lema_2', 'long_open', 'short_open', 'long_profit','long_loss', 'short_profit', 'short_loss','close_type', 'pl']
 
-data["plot"] = False
-data['plot_type'] = 'file'
-data['reduce_plot'] = False
-data['plot_start']  = '2021-01-04 03:00:00'
-data['plot_stop']   = '2021-01-04 06:00:00'
-data['things_to_plot'] = ['tick', 'ema', 'h_l_lema', 'tick_angle', 'positions']
-# data['things_to_plot'] = ['tick', 'lema', 'h_l', 'h_l_Lema', 'tick_angle', 'positions']
 
 data['to_csv']      = True
 

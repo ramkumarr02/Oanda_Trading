@@ -122,10 +122,10 @@ def roll_slope(slope_list):
 
 def get_x_axis(data):
     start = 1 + 1 * data['pip_decimal_num']
-    stop = 1 + (data['angle_len']) * data['pip_decimal_num']
+    stop = 1 + (data['curr_angle_len']) * data['pip_decimal_num']
     data['x_axis'] = list(np.arange(start, stop, data['pip_decimal_num']).round(6))
 
-    if len(data['x_axis']) < data['angle_len']:
+    if len(data['x_axis']) < data['curr_angle_len']:
         data['x_axis'].append(data['x_axis'][-1] + data['pip_decimal_num'])
     return(data)
 
@@ -145,16 +145,29 @@ def get_rolling_emas(data):
         if data['send_message_to_phone']:
             send_telegram_message(f'Lema Complete : {data["df_name"]}')
 
+        print('Building Slope...')
+        data['curr_angle_len'] = data['angle_len']
+        data = get_x_axis(data)
+        data['df']['tick_angle'] = data['df']['lema'].rolling(window=data['angle_len']).progress_apply(roll_slope)
+        data['df'] = data['df'].dropna()
+
+        print('Building Slope_2...')
+        data['curr_angle_len'] = data['angle_len_2']
+        data = get_x_axis(data)
+        data['df']['tick_angle_2'] = data['df']['tick'].rolling(window=data['angle_len_2']).progress_apply(roll_slope)
+        data['df'] = data['df'].dropna()
+
+        print('Building slema...')
+        data['df']['slema'] = data['df']['tick'].rolling(window=data['slema_len']).progress_apply(roll_ema)
+        data['df'] = data['df'].dropna()
+        if data['send_message_to_phone']:
+            send_telegram_message(f'slema Complete : {data["df_name"]}')
+
         print('Building Sema...')
         data['df']['sema'] = data['df']['tick'].rolling(window=data['sema_len']).progress_apply(roll_ema)
         data['df'] = data['df'].dropna()
         if data['send_message_to_phone']:
             send_telegram_message(f'Sema Complete : {data["df_name"]}')
-
-        # print('Building Slope...')
-        # data = get_x_axis(data)
-        # data['df']['tick_angle'] = data['df']['lema'].rolling(window=data['angle_len']).progress_apply(roll_slope)
-        # data['df'] = data['df'].dropna()
 
         data['df'] = data['df'].reset_index(drop=True) 
         print('Building H_L_Lema...')

@@ -207,20 +207,28 @@ def plot_graph(data):
 
         if 'ema' in data['things_to_plot']:
             fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
-                                y=data['plot_df']['lema'],
-                                mode='lines',
-                                name='lema',
-                                line=dict(color='blue', width=1),
-                            )
-                    ) 
-
-            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
                                 y=data['plot_df']['sema'],
                                 mode='lines',
                                 name='sema',
                                 line=dict(color='red', width=1),
                             )
                     )                                                                         
+
+            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+                                y=data['plot_df']['slema'],
+                                mode='lines',
+                                name='slema',
+                                line=dict(color='black', width=1),
+                            )
+                    )                                                                         
+
+            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+                                y=data['plot_df']['lema'],
+                                mode='lines',
+                                name='lema',
+                                line=dict(color='blue', width=1),
+                            )
+                    ) 
         # -------------------------------------------------------------------
 
 
@@ -260,7 +268,7 @@ def plot_graph(data):
                                 y=data['plot_df']['h_lema'],
                                 mode='lines',
                                 name='h_lema',
-                                line=dict(color='red', width=1, dash = 'dot'),
+                                line=dict(color='red', width=1, dash = 'dash'),
                             )
                     )   
 
@@ -268,7 +276,7 @@ def plot_graph(data):
                                 y=data['plot_df']['l_lema'],
                                 mode='lines',
                                 name='l_lema',
-                            line=dict(color='blue', width=1, dash = 'dot'),
+                            line=dict(color='blue', width=1, dash = 'dash'),
                             )
                     )   
 
@@ -297,7 +305,16 @@ def plot_graph(data):
                                 mode='lines',
                                 name='tick_angle',
                                 yaxis='y2',
-                            line=dict(color='grey', width=0.5, dash = 'dot'),
+                            line=dict(color='grey', width=1, dash = 'dot'),
+                            )
+                    )   
+                    
+            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+                                y=data['plot_df']['tick_angle_2'],
+                                mode='lines',
+                                name='tick_angle_2',
+                                yaxis='y2',
+                            line=dict(color='darkcyan', width=1, dash = 'dot'),
                             )
                     )   
 
@@ -379,8 +396,6 @@ def plot_graph(data):
                                         width=1
                                     )),
                         opacity=1)
-
-
 
 
             fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
