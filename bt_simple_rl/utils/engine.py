@@ -34,7 +34,7 @@ def run_engine(data):
         data['slema'] = data['df']['slema'][data['i']]    
         data['lema'] = data['df']['lema'][data['i']]    
         data['tick_angle'] = data['df']['tick_angle'][data['i']]    
-        data['tick_angle_2'] = data['df']['tick_angle_2'][data['i']]    
+        # data['tick_angle_2'] = data['df']['tick_angle_2'][data['i']]    
         data['h_l_gap'] = data['df']['h_l_gap'][data['i']]    
         data['h_lema'] = data['df']['h_lema'][data['i']]    
         data['l_lema'] = data['df']['l_lema'][data['i']]    

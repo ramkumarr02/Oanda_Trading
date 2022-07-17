@@ -148,14 +148,14 @@ def get_rolling_emas(data):
         print('Building Slope...')
         data['curr_angle_len'] = data['angle_len']
         data = get_x_axis(data)
-        data['df']['tick_angle'] = data['df']['lema'].rolling(window=data['angle_len']).progress_apply(roll_slope)
+        data['df']['tick_angle'] = data['df']['tick'].rolling(window=data['angle_len']).progress_apply(roll_slope)
         data['df'] = data['df'].dropna()
 
-        print('Building Slope_2...')
-        data['curr_angle_len'] = data['angle_len_2']
-        data = get_x_axis(data)
-        data['df']['tick_angle_2'] = data['df']['tick'].rolling(window=data['angle_len_2']).progress_apply(roll_slope)
-        data['df'] = data['df'].dropna()
+        # print('Building Slope_2...')
+        # data['curr_angle_len'] = data['angle_len_2']
+        # data = get_x_axis(data)
+        # data['df']['tick_angle_2'] = data['df']['tick'].rolling(window=data['angle_len_2']).progress_apply(roll_slope)
+        # data['df'] = data['df'].dropna()
 
         print('Building slema...')
         data['df']['slema'] = data['df']['tick'].rolling(window=data['slema_len']).progress_apply(roll_ema)

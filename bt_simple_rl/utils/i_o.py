@@ -309,14 +309,14 @@ def plot_graph(data):
                             )
                     )   
                     
-            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
-                                y=data['plot_df']['tick_angle_2'],
-                                mode='lines',
-                                name='tick_angle_2',
-                                yaxis='y2',
-                            line=dict(color='darkcyan', width=1, dash = 'dot'),
-                            )
-                    )   
+            # fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+            #                     y=data['plot_df']['tick_angle_2'],
+            #                     mode='lines',
+            #                     name='tick_angle_2',
+            #                     yaxis='y2',
+            #                 line=dict(color='darkcyan', width=1, dash = 'dot'),
+            #                 )
+            #         )   
 
             fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
                                 y=[0] * len(data['plot_df']['tick_angle']),

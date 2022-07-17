@@ -80,7 +80,7 @@ data['pip_size'] = 0.0001
 data['tick_order_angle'] = 20
 data['stop_loss_pip'] = 0.0010
 
-# data['min_order_angle'] = 20
+data['min_order_angle'] = 2.5
 data['position'] = None
 data['pip_decimal_num'] = 10**-6
 data['test_val'] = []
@@ -144,15 +144,14 @@ data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 data['df_subset_size'] = None
 
 data['start_date'] = {'year':2021, 'month':1, 'date':1}
-data['end_date']   = {'year':2021, 'month':1, 'date':4}
+data['end_date']   = {'year':2021, 'month':1, 'date':11}
 
-data['ema_roll_method'] = 'new'
-
+data['ema_roll_method'] = 'file'
 
 data['sema_len']    = 1000
 data['slema_len']   = 5000
 data['lema_len']    = 10000
-data['angle_len']   = 1000
+data['angle_len']   = 10000
 data['angle_len_2']   = 10000
 
 data['candle_size'] = 5000
@@ -165,13 +164,14 @@ data['pl_move_trail_ratio']     = 0.8
 # data['get_cross_dir_type'] = 'multi_row_rl'
 # data['rl_rows'] = 4
 # data['get_cross_dir_type'] = 'normal'
-data['get_cross_dir_type'] = 'simple_rl'
+# data['get_cross_dir_type'] = 'simple_rl'
+data['get_cross_dir_type'] = 'angle_alone'
 
 data["plot"] = True
 data['plot_type'] = 'file'
 data['reduce_plot'] = True
 data['plot_start']  = '2021-01-1'
-data['plot_stop']   = '2021-01-4'
+data['plot_stop']   = '2021-01-10'
 # data['things_to_plot'] = ['tick', 'lema', 'h_l_lema', 'tick_angle', 'positions']
 data['things_to_plot'] = ['tick', 'ema', 'h_l_lema', 'tick_angle', 'positions']
 
@@ -207,7 +207,7 @@ data['pl_temp_list']           = []
 data['first_type']             = None
 data['forward_order_list'] = []
 
-data["csv_file_name"] = 'ema_df-(2021-2021)-(1-1)-(1-31)'
+data["csv_file_name"] = 'ema_df-(2021-2021)-(1-1)-(1-10)'
 
 data['csv_list'] = ['ema_2021_jan_aug' , 'ema_df-(2021-2021)-(9-9)-(1-30)', 'ema_df-(2021-2021)-(10-10)-(1-31)', 'ema_df-(2021-2021)-(12-12)-(1-31)']
 data['new_file'] = 'ema_2021-jan_dec'
@@ -215,5 +215,5 @@ data['new_file'] = 'ema_2021-jan_dec'
 data['chrome_path'] = "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s"
 
 data['temp_total_pl'] = []
-data['send_message_to_phone'] = False
+data['send_message_to_phone'] = True
 #...............................................................................................

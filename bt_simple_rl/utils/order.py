@@ -119,12 +119,12 @@ def simple_slema_move_close(data):
             if data['pl'] > 0:            
 
                 if data['open_order_type'] == 'long':
-                    if data['sema'] <= data['lema']:
+                    if data['sema'] < data['lema']:
                         data['stop_text'] = 'simple_slema_move_close'
                         data = close_long_order(data)               
             
                 if data['open_order_type'] == 'short':
-                    if data['sema'] >= data['lema']:                
+                    if data['sema'] > data['lema']:                
                         data['stop_text'] = 'simple_slema_move_close'
                         data = close_short_order(data)  
 
