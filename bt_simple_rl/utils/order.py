@@ -39,22 +39,67 @@ def calculate_pl(data):
 
 # ...............................................................................................
 def loss_reverse_position(data):   
-    data['stop_loss_pip']               = min(data['min_stop_loss_pip'], -data['h_l_gap'] * 0.5)
+    data['stop_loss_pip']               = min(data['min_stop_loss_pip'], -data['h_l_gap'] * data['stop_loss_multiplier'])
 
     if data['reverse'] == None:
         if data['open_order']:
             if data['pl'] <= data['stop_loss_pip']:
                 if data['open_order_type'] == 'long':
+                    if data['tick_angle'] < -data['min_order_angle']:
+                        data['stop_text'] = 'reversed'
+                        data = close_long_order(data)
+                        data['reverse'] = 'short'
+                        
+                if data['open_order_type'] == 'short':       
+                    if data['tick_angle'] > data['min_order_angle']:         
+                        data['stop_text'] = 'reversed'
+                        data = close_short_order(data)            
+                        data['reverse'] = 'long'  
+
+    elif data['reverse'] != None:
+        if data['open_order_type'] == 'long':
+            if data['pl'] <= data['stop_loss_pip'] * 2:
+                data['stop_text'] = 'simple_stop'
+                data = close_long_order(data)
+
+        if data['open_order_type'] == 'short':       
+            if data['pl'] <= data['stop_loss_pip'] * 2:
+                data['stop_text'] = 'simple_stop'
+                data = close_short_order(data)
+
+    return(data)   
+# ...............................................................................................   
+
+# ...............................................................................................
+def loss_reverse_position_continous(data):   
+    data['stop_loss_pip']               = min(data['min_stop_loss_pip'], -data['h_l_gap'] * data['stop_loss_multiplier'])
+
+    if data['open_order']:
+        if data['pl'] <= data['stop_loss_pip']:
+            if data['open_order_type'] == 'long':
+                if data['tick_angle'] < -data['min_order_angle']:
                     data['stop_text'] = 'reversed'
                     data = close_long_order(data)
                     data['reverse'] = 'short'
-                        
-                if data['open_order_type'] == 'short':                
+                else:
+                    if data['pl'] <= data['stop_loss_pip'] * 2:
+                        data['stop_text'] = 'simple_stop'
+                        data = close_long_order(data)
+
+                    
+            if data['open_order_type'] == 'short':       
+                if data['tick_angle'] > data['min_order_angle']:         
                     data['stop_text'] = 'reversed'
                     data = close_short_order(data)            
-                    data['reverse'] = 'long'            
+                    data['reverse'] = 'long' 
+                else:
+                    if data['pl'] <= data['stop_loss_pip'] * 2:
+                        data['stop_text'] = 'simple_stop'
+                        data = close_short_order(data)
+    
     return(data)   
 # ...............................................................................................   
+
 
 # ...............................................................................................
 def simple_stop_loss(data):   
@@ -127,6 +172,17 @@ def simple_slema_move_close(data):
                     if data['sema'] > data['lema']:                
                         data['stop_text'] = 'simple_slema_move_close'
                         data = close_short_order(data)  
+
+            else:
+                if data['open_order_type'] == 'long':
+                    if data['sema'] < data['lema']:
+                        data['slema_positive'] = False
+                        data['slema_check_flag'] = True
+
+                if data['open_order_type'] == 'short':
+                    if data['sema'] > data['lema']:
+                        data['slema_positive'] = False
+                        data['slema_check_flag'] = True
 
     return(data)    
 

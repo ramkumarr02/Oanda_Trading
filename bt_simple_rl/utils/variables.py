@@ -148,14 +148,20 @@ data['end_date']   = {'year':2021, 'month':1, 'date':11}
 
 data['ema_roll_method'] = 'file'
 
-data['sema_len']    = 1000
-data['slema_len']   = 5000
-data['lema_len']    = 10000
-data['angle_len']   = 10000
-data['angle_len_2']   = 10000
+# data['sema_len']    = 1000
+# data['slema_len']   = 5000
+# data['lema_len']    = 10000
+# data['angle_len']   = 10000
 
-data['candle_size'] = 5000
+x                   = 1000
+data['sema_len']    = int(x / 5)
+data['slema_len']   = int(x)
+data['lema_len']    = int(x * 2)
+data['angle_len']   = int(x * 2)
+# data['angle_len_2']   = int(x * 2)
+data['candle_size'] = x
 data['avg_candle_num'] = 2
+
 
 data['stop_loss_multiplier']    = 0.5
 data['take_profit_multiplier']  = 0.5

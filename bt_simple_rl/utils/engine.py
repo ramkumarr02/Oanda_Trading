@@ -59,9 +59,11 @@ def run_engine(data):
         # data = simple_take_profit(data)       
         data = slema_positive_check(data)
         data = simple_slema_move_close(data)          
-        data = simple_stop_loss(data)
+        # data = simple_stop_loss(data)
         data = make_order(data)
         data = calculate_pl(data)
+        data = loss_reverse_position(data)
+        # data = loss_reverse_position_continous(data)
 
     data = split_date_col(data)
             
