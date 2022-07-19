@@ -409,7 +409,20 @@ def plot_graph(data):
                                         color='red',
                                         width=1
                                     )),
-                        opacity=1)                        
+                        opacity=1)    
+
+            fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
+                        y = data['plot_df']['all_close'], 
+                        mode = 'markers', 
+                        name = 'all_close',
+                        marker_symbol = 'circle',
+                        marker=dict(color='black',
+                                    size=10,
+                                    line=dict(
+                                        color='red',
+                                        width=1
+                                    )),
+                        opacity=1)                           
         # -------------------------------------------------------------------
 
 

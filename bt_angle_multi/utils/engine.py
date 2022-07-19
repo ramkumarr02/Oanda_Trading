@@ -22,6 +22,7 @@ def run_engine(data):
     data['df']['long_close']    = np.nan
     data['df']['short_open']    = np.nan
     data['df']['short_close']   = np.nan
+    data['df']['all_close']     = np.nan
     data['df']['close_type']    = np.nan
     data['df']['pl']            = np.nan
 
@@ -53,17 +54,14 @@ def run_engine(data):
             
         # ----------------------------------------------------------  
 
-        # data = lock_profit(data)                 
-        # data = loss_reverse_position(data)
-        # data = trail_take_profit(data)                 
-        # data = simple_take_profit(data)       
         data = slema_positive_check(data)
         data = simple_slema_move_close(data)          
-        # data = simple_stop_loss(data)
-        data = make_order(data)
-        data = calculate_pl(data)
-        data = loss_reverse_position(data)
-        # data = loss_reverse_position_continous(data)
+        data = close_all_orders(data)          
+        data = dynamic_make_order(data)
+        data = calculate_multi_pl(data)
+        # data = simple_stop_loss(data)          
+        # data = make_order(data)
+        # data = calculate_pl(data)
 
     data = split_date_col(data)
             
