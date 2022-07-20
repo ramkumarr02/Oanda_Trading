@@ -67,8 +67,8 @@ def split_date_col(data):
     data['df']['short_profit'][data['df']['pl'] > 0] = data['df']['short_close']
     data['df']['short_loss'][data['df']['pl'] < 0] = data['df']['short_close']
 
-    del data['df']['long_close']
-    del data['df']['short_close']
+    # del data['df']['long_close']
+    # del data['df']['short_close']
 
     # data['df'] = data['df'][data['final_columns_list']]
     return(data)

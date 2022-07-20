@@ -18,6 +18,8 @@ def run_engine(data):
 
     data['df']['touched_line']  = np.nan
     data['df']['order_side']    = np.nan
+    data['df']['order_size']    = np.nan
+    data['df']['order_num']    = np.nan
     data['df']['long_open']     = np.nan
     data['df']['long_close']    = np.nan
     data['df']['short_open']    = np.nan
@@ -56,9 +58,9 @@ def run_engine(data):
 
         data = slema_positive_check(data)
         data = simple_slema_move_close(data)          
-        data = close_all_orders(data)          
         data = dynamic_make_order(data)
         data = calculate_multi_pl(data)
+        data = close_all_orders(data)          
         # data = simple_stop_loss(data)          
         # data = make_order(data)
         # data = calculate_pl(data)

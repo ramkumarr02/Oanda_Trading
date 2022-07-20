@@ -28,15 +28,29 @@ def dynamic_make_order(data):
                     data['pl_available'] = False
 
                 if data['pl_available']:
-                    if data['orders_list'][order_num_i]['open_order_type'] == 'long':
-                        if data['orders_list'][order_num_i]['pl'] < data['loss_switch_pl_pip']:
-                            data['open_order'] = order_num_i + 1
-                            data = make_long_order(data)
-            
+                    data['stop_loss_pip'] = min(data['min_stop_loss_pip'], -data['h_l_gap'] * data['stop_loss_multiplier'])
                     if data['orders_list'][order_num_i]['open_order_type'] == 'short':
-                        if data['orders_list'][order_num_i]['pl'] < data['loss_switch_pl_pip']:
-                            data['open_order'] = order_num_i + 1
-                            data = make_short_order(data)
+                        if data['orders_list'][order_num_i]['pl'] < 0:
+                            if data['to_order'] == 'long':
+                                data['open_order'] = order_num_i + 1
+                                data = make_long_order(data)
+                             
+                    if data['orders_list'][order_num_i]['open_order_type'] == 'long':
+                        if data['orders_list'][order_num_i]['pl'] < 0:
+                            if data['to_order'] == 'short':
+                                data['open_order'] = order_num_i + 1
+                                data = make_short_order(data)
+
+                    if data['orders_list'][order_num_i]['pl'] < data['stop_loss_pip']:
+                        if data['orders_list'][order_num_i]['open_order_type'] == 'long':
+                            if data['tick_angle'] < -data['min_order_angle']:
+                                data['open_order'] = order_num_i + 1
+                                data = make_short_order(data)
+
+                        if data['orders_list'][order_num_i]['open_order_type'] == 'short':
+                            if data['tick_angle'] > data['min_order_angle']:
+                                data['open_order'] = order_num_i + 1
+                                data = make_long_order(data)
 
     return(data)
 #...............................................................................................
@@ -45,21 +59,42 @@ def close_all_orders(data):
     if data['open_order'] > 1:
         if data['orders_list']['total_pl'] >= data['all_close_min_pip']:       
 
-            data['open_order'] = 0
-            data['to_order']	= None
-            data['orders_list'] = {}
-            #------------------------
             data['pl_positive']         = False
             data['pl_move_min']         = 0
             data['slema_check_flag'] = False
             #------------------------
             data['df']['close_type'].iloc[data['i']]    = 'all_close'
-            data['df']['all_close'].iloc[data['i']]    = data['bid']  
-            data['df']['pl'].iloc[data['i']]            = data['pl']
+            data['df']['all_close'].iloc[data['i']]    = data['tick']  
+            data['df']['pl'].iloc[data['i']]            = data['orders_list']['total_pl']
             data['df']['order_side'].iloc[data['i']]    = 'all'
+            data['df']['order_size'].iloc[data['i']]    = data['order_size']
             data['df']['touched_line'].iloc[data['i']]  = data['ordered_touched_line']
             #------------------------
+            data['orders_list'] = {}
+            data['open_order'] = 0
+            data['to_order']	= None
+            #------------------------
             create_report(data)
+
+        if data['open_order'] == data['num_of_switch_orders']:
+            if data['orders_list']['total_pl'] < data['stop_loss_pip']/2:
+                if data['orders_list'][data['num_of_switch_orders']]['pl'] < data['stop_loss_pip']/2:
+                    data['pl_positive']         = False
+                    data['pl_move_min']         = 0
+                    data['slema_check_flag'] = False
+                    #------------------------
+                    data['df']['close_type'].iloc[data['i']]    = 'all_close'
+                    data['df']['all_close'].iloc[data['i']]    = data['tick']  
+                    data['df']['pl'].iloc[data['i']]            = data['orders_list']['total_pl']
+                    data['df']['order_side'].iloc[data['i']]    = 'all'
+                    data['df']['order_size'].iloc[data['i']]    = data['order_size']
+                    data['df']['touched_line'].iloc[data['i']]  = data['ordered_touched_line']
+                    #------------------------
+                    data['orders_list'] = {}
+                    data['open_order'] = 0
+                    data['to_order']	= None
+                    #------------------------
+                    create_report(data)
 
     return(data)
 #...............................................................................................
@@ -142,14 +177,14 @@ def slema_positive_check(data):
     if data['open_order'] == 1:
         if data['slema_check_flag']:
             if data['orders_list'][1]['open_order_type'] == 'long':
-                if data['sema'] > data['slema']:
+                if data['sema'] > data[data['ema_type']]:
                     data['slema_positive'] = True
                     data['slema_check_flag'] = False
                 else:
                     data['slema_positive'] = False
 
             if data['orders_list'][1]['open_order_type'] == 'short':
-                if data['sema'] < data['slema']:
+                if data['sema'] < data[data['ema_type']]:
                     data['slema_positive'] = True
                     data['slema_check_flag'] = False
                 else:
@@ -165,15 +200,15 @@ def simple_slema_move_close(data):
             data['pl'] = data['orders_list'][1]['pl']
             if data['pl'] > 0:            
                 if data['orders_list'][1]['open_order_type'] == 'long':
-                    if data['sema'] < data['slema']:
+                    if data['sema'] < data[data['ema_type']]:
                         data['stop_text'] = ('simple_slema_move_close')
-                        data['i'] = 1
+                        # data['i'] = 1
                         data = close_long_order(data)       
             
                 if data['orders_list'][1]['open_order_type'] == 'short':
-                    if data['sema'] > data['slema']:                
+                    if data['sema'] > data[data['ema_type']]:                
                         data['stop_text'] = ('simple_slema_move_close')
-                        data['i'] = 1
+                        # data['i'] = 1
                         data = close_short_order(data)  
 
     return(data) 
@@ -200,6 +235,7 @@ def make_long_order(data):
     data['df']['touched_line'].iloc[data['i']]  = data['ordered_touched_line']
     data['df']['order_side'].iloc[data['i']]    = 'long'
     data['df']['long_open'].iloc[data['i']]     = data['ask']
+    data['df']['order_num'].iloc[data['i']]    = data['open_order']
 
     return(data)
 
@@ -223,6 +259,7 @@ def make_short_order(data):
     data['df']['touched_line'].iloc[data['i']]  = data['ordered_touched_line']
     data['df']['order_side'].iloc[data['i']]    = 'short'
     data['df']['short_open'].iloc[data['i']]    = data['bid']
+    data['df']['order_num'].iloc[data['i']]    = data['open_order']
     return(data)
 
 
@@ -238,6 +275,7 @@ def close_long_order(data):
     data['df']['long_close'].iloc[data['i']]    = data['bid']  
     data['df']['pl'].iloc[data['i']]            = data['pl']
     data['df']['order_side'].iloc[data['i']]    = 'long'
+    data['df']['order_size'].iloc[data['i']]    = data['order_size']
     data['df']['touched_line'].iloc[data['i']]  = data['ordered_touched_line']
     #------------------------
     create_report(data)
@@ -247,7 +285,8 @@ def close_long_order(data):
 
 
 def close_short_order(data):
-    data['open_order'] = False
+    data['open_order'] = 0
+    data['to_order']	= None
     #------------------------
     data['pl_positive'] = False
     data['pl_move_min'] = 0
@@ -257,6 +296,7 @@ def close_short_order(data):
     data['df']['short_close'].iloc[data['i']]   = data['ask']  
     data['df']['pl'].iloc[data['i']]            = data['pl']
     data['df']['order_side'].iloc[data['i']]    = 'short'
+    data['df']['order_size'].iloc[data['i']]    = data['order_size']
     data['df']['touched_line'].iloc[data['i']]  = data['ordered_touched_line']
     #------------------------
     create_report(data)

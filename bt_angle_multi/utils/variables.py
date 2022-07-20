@@ -161,8 +161,10 @@ data['angle_len']   = int(x * 2)
 data['candle_size'] = x
 data['avg_candle_num'] = 2
 
+data['ema_type'] = 'slema'
 
-data['stop_loss_multiplier']    = 0.5
+data['stop_loss_multiplier']    = 1
+
 data['take_profit_multiplier']  = 0.5
 data['pl_move_trail_ratio']     = 0.8
 
