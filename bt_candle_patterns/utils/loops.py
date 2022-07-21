@@ -230,6 +230,39 @@ def get_rolling_emas(data):
     return(data)
 #...............................................................................................  
 
+def get_ohlc(data):
+    data['df_ohlc'] = data['df_ohlc'].set_index('DateTime_frmt')
+    data['df_ohlc'] = data['df_ohlc'].resample(data['candle_size']).ohlc(_method='ohlc')
+
+    col_names = [col[1] for col in data['df_ohlc'].columns.values]
+    col_names.insert(0,'DateTime_frmt')
+    data['df_ohlc'] = pd.DataFrame(data['df_ohlc'].to_records())
+    data['df_ohlc'].columns = col_names
+    return(data)
+
+#...............................................................................................  
+
+def merge_ohlc_data(data):
+    data['df']['open']          = np.nan
+    data['df']['high']          = np.nan
+    data['df']['low']           = np.nan
+    data['df']['close']         = np.nan
+    data['df']['cdl_hammer']    = np.nan
+    data['df']['cdl_engulfing']    = np.nan
+
+    for i in tqdm(range(len(data['df_ohlc']['DateTime_frmt']))):
+        max_row = max(data['df'][data['df']['DateTime_frmt'] <= data['df_ohlc']['DateTime_frmt'][i]].index)
+
+        data['df']['open'][max_row]         = data['df_ohlc']['open'][i]
+        data['df']['high'][max_row]         = data['df_ohlc']['high'][i]
+        data['df']['low'][max_row]          = data['df_ohlc']['low'][i]
+        data['df']['close'][max_row]        = data['df_ohlc']['close'][i]
+        data['df']['cdl_hammer'][max_row]   = data['df_ohlc']['cdl_hammer'][i]
+        data['df']['cdl_engulfing'][max_row]   = data['df_ohlc']['cdl_engulfing'][i]
+    return(data)
+
+#...............................................................................................  
+
 def get_h_l_lema(data):
 
     data['df']['h']         = np.nan

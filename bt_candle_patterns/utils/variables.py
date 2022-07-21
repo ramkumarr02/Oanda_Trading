@@ -140,10 +140,10 @@ data["product"] = 'eurusd'
 data["input_year"] = 2022
 data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 
-data['df_subset_size'] = 5000
+data['df_subset_size'] = None
 
-data['start_date'] = {'year':2022, 'month':7, 'date':18}
-data['end_date']   = {'year':2022, 'month':7, 'date':21}
+data['start_date'] = {'year':2022, 'month':7, 'date':20}
+data['end_date']   = {'year':2022, 'month':7, 'date':20}
 
 data['ema_roll_method'] = 'file'
 
@@ -160,7 +160,7 @@ data['angle_len']   = int(x * 2)
 # data['angle_len_2']   = int(x * 2)
 
 
-data['candle_size'] = x
+data['candle_size'] = '5T'
 data['avg_candle_num'] = 2
 
 data['ema_type'] = 'slema'

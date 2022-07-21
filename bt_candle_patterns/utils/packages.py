@@ -2,6 +2,7 @@
 import os
 import sys
 import time
+import talib
 import numpy as np
 import pandas as pd
 import datetime as dt
