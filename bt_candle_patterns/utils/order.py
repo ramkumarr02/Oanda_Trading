@@ -12,6 +12,7 @@ def calculate_total_profit(data):
     
     if data['test_type'] == 'up':
         for i in data['identified_points']:
+            # data['df_ohlc']['up_range'][i+1:i+1+data['df_ohlc']['up_range']]
             data['profit'] = data['df_ohlc']['up_range'][i+1] - data['df_ohlc']['down_range'][i+1] - data['spread_cost']
             data['profit_list'].append(data['profit'])
 
