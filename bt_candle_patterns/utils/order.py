@@ -4,6 +4,34 @@ from utils.dir_slope import *
 
 
 # ...............................................................................................
+
+def calculate_total_profit(data):
+        
+    data['profit'] = 0
+    data['profit_list'] = []
+    
+    if data['test_type'] == 'up':
+        for i in data['identified_points']:
+            data['profit'] = data['df_ohlc']['up_range'][i+1] - data['df_ohlc']['down_range'][i+1] - data['spread_cost']
+            data['profit_list'].append(data['profit'])
+
+    if data['test_type'] == 'down':
+        for i in data['identified_points']:
+            data['profit'] = data['df_ohlc']['down_range'][i+1] - data['df_ohlc']['up_range'][i+1] - data['spread_cost']
+            data['profit_list'].append(data['profit'])
+            
+    x = pd.Series(data['profit_list']).dropna()
+    profits = len(x[x>0])
+    losses = len(x[x<0])
+
+    print(f"Total Profit        : {sum(x)}")
+    print(f"Num of Transactions : {len(x)}")
+    print(f'profit Transactions : {profits}')
+    print(f'Loss Transactions   : {losses}')
+
+    return(data)
+
+# ...............................................................................................
 def dynamic_make_order(data):
     for order_num_i in range(data['num_of_switch_orders']):    
         data['order_num_i'] = order_num_i

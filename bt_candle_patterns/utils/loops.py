@@ -238,6 +238,11 @@ def get_ohlc(data):
     col_names.insert(0,'DateTime_frmt')
     data['df_ohlc'] = pd.DataFrame(data['df_ohlc'].to_records())
     data['df_ohlc'].columns = col_names
+
+    data['df_ohlc']['candle_range'] = data['df_ohlc']['high'] - data['df_ohlc']['low']
+    data['df_ohlc']['up_range'] = data['df_ohlc']['high'] - data['df_ohlc']['open']
+    data['df_ohlc']['down_range'] = data['df_ohlc']['open'] - data['df_ohlc']['low']
+
     return(data)
 
 #...............................................................................................  
@@ -247,19 +252,33 @@ def merge_ohlc_data(data):
     data['df']['high']          = np.nan
     data['df']['low']           = np.nan
     data['df']['close']         = np.nan
+
+    data['df']['candle_range']    = np.nan    
+    data['df']['up_range']    = np.nan
+    data['df']['down_range']    = np.nan
+
     data['df']['cdl_hammer']    = np.nan
-    data['df']['cdl_engulfing']    = np.nan
+    # data['df']['cdl_engulfing']    = np.nan
 
     for i in tqdm(range(len(data['df_ohlc']['DateTime_frmt']))):
-        max_row = max(data['df'][data['df']['DateTime_frmt'] <= data['df_ohlc']['DateTime_frmt'][i]].index)
+        df_rows = data['df'][data['df']['DateTime_frmt'] <= data['df_ohlc']['DateTime_frmt'][i]]
+        if len(df_rows) > 0:
+            max_row = max(df_rows.index)
 
-        data['df']['open'][max_row]         = data['df_ohlc']['open'][i]
-        data['df']['high'][max_row]         = data['df_ohlc']['high'][i]
-        data['df']['low'][max_row]          = data['df_ohlc']['low'][i]
-        data['df']['close'][max_row]        = data['df_ohlc']['close'][i]
-        data['df']['cdl_hammer'][max_row]   = data['df_ohlc']['cdl_hammer'][i]
-        data['df']['cdl_engulfing'][max_row]   = data['df_ohlc']['cdl_engulfing'][i]
+            data['df']['open'][max_row]         = data['df_ohlc']['open'][i]
+            data['df']['high'][max_row]         = data['df_ohlc']['high'][i]
+            data['df']['low'][max_row]          = data['df_ohlc']['low'][i]
+            data['df']['close'][max_row]        = data['df_ohlc']['close'][i]
+
+            data['df']['candle_range'][max_row]   = data['df_ohlc']['candle_range'][i]
+            data['df']['up_range'][max_row]   = data['df_ohlc']['up_range'][i]
+            data['df']['down_range'][max_row]   = data['df_ohlc']['down_range'][i]
+
+            data['df']['cdl_hammer'][max_row]   = data['df_ohlc']['cdl_hammer'][i]
+            # data['df']['cdl_engulfing'][max_row]   = data['df_ohlc']['cdl_engulfing'][i]
+    
     return(data)
+
 
 #...............................................................................................  
 

@@ -137,13 +137,16 @@ data['all_close_min_pip']       = 0
 data['order_multiplier']        = 1
 
 data["product"] = 'eurusd'
-data["input_year"] = 2022
+data["input_year"] = 2020
 data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 
 data['df_subset_size'] = None
 
-data['start_date'] = {'year':2022, 'month':7, 'date':20}
-data['end_date']   = {'year':2022, 'month':7, 'date':20}
+data['start_date'] = {'year':2020, 'month':1, 'date':1}
+data['end_date']   = {'year':2020, 'month':12, 'date':31}
+
+data['spread_cost'] = 0.00007
+data['candle_size'] = '1T'
 
 data['ema_roll_method'] = 'file'
 
@@ -160,7 +163,6 @@ data['angle_len']   = int(x * 2)
 # data['angle_len_2']   = int(x * 2)
 
 
-data['candle_size'] = '5T'
 data['avg_candle_num'] = 2
 
 data['ema_type'] = 'slema'
