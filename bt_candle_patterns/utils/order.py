@@ -7,30 +7,43 @@ from utils.dir_slope import *
 
 def calculate_total_profit(data):
         
-    data['profit'] = 0
-    data['profit_list'] = []
+    data['pl'] = 0
+    data['pl_list'] = []
     
-    if data['test_type'] == 'up':
-        for i in data['identified_points']:
-            # data['df_ohlc']['up_range'][i+1:i+1+data['df_ohlc']['up_range']]
-            data['profit'] = data['df_ohlc']['up_range'][i+1] - data['df_ohlc']['down_range'][i+1] - data['spread_cost']
-            data['profit_list'].append(data['profit'])
+    for i in data['identified_points']:
+        data['up_val']      = max(data['df_ohlc']['high'][i+1:i+1+data['pl_candles']]) - data['df_ohlc']['open'][i+1]
+        data['down_val']    = data['df_ohlc']['open'][i+1] - min(data['df_ohlc']['low'][i+1:i+1+data['pl_candles']]) 
+                
+        if data['test_type'] == 'up':
+    
+            if data['up_val'] > data['down_val']:                
+                data['pl'] = data['up_val'] - data['spread_cost']
+                data['pl_list'].append(data['pl'])
+            elif data['up_val'] < data['down_val']:                
+                data['pl'] = -data['down_val'] - data['spread_cost']
+                data['pl_list'].append(data['pl'])
 
-    if data['test_type'] == 'down':
-        for i in data['identified_points']:
-            data['profit'] = data['df_ohlc']['down_range'][i+1] - data['df_ohlc']['up_range'][i+1] - data['spread_cost']
-            data['profit_list'].append(data['profit'])
+
+        if data['test_type'] == 'down':
+            if data['down_val'] > data['up_val']:                
+                data['pl'] = data['down_val'] - data['spread_cost']
+                data['pl_list'].append(data['pl'])
+                
+            elif data['down_val'] < data['up_val']:                
+                data['pl'] = -data['up_val'] - data['spread_cost']
+                data['pl_list'].append(data['pl'])
             
-    x = pd.Series(data['profit_list']).dropna()
-    profits = len(x[x>0])
+    x = pd.Series(data['pl_list']).dropna()
+    pls = len(x[x>0])
     losses = len(x[x<0])
 
-    print(f"Total Profit        : {sum(x)}")
+    print(f"Total pl            : {sum(x)}")
     print(f"Num of Transactions : {len(x)}")
-    print(f'profit Transactions : {profits}')
+    print(f'pl Transactions     : {pls}')
     print(f'Loss Transactions   : {losses}')
 
     return(data)
+
 
 # ...............................................................................................
 def dynamic_make_order(data):

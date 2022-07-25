@@ -146,8 +146,8 @@ data['start_date'] = {'year':2020, 'month':1, 'date':1}
 data['end_date']   = {'year':2020, 'month':12, 'date':31}
 
 data['spread_cost'] = 0.00007
-data['candle_size'] = '1T'
-data['forward_candles'] = 5
+data['candle_size'] = '5T'
+data['pl_candles'] = 1
 
 data['ema_roll_method'] = 'file'
 
