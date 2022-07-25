@@ -214,19 +214,32 @@ def plot_graph(data):
                                 y = data['plot_df']['cdl_hammer'], 
                                 mode = 'markers', 
                                 name = 'cdl_hammer',
-                                marker_symbol = 'cross',
-                                marker=dict(color='red',
+                                marker_symbol = 'hash',
+                                marker=dict(color='blue',
                                             size=10,
                                             line=dict(
-                                                color='red',
+                                                color='blue',
                                                 width=1
                                             )),
                                 opacity=1)
 
             fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
-                                y = data['plot_df']['cdl_engulfing'], 
+                                y = data['plot_df']['cdl_engulfing_up'], 
                                 mode = 'markers', 
-                                name = 'cdl_engulfing',
+                                name = 'cdl_engulfing_up',
+                                marker_symbol = 'square',
+                                marker=dict(color='blue',
+                                            size=10,
+                                            line=dict(
+                                                color='blue',
+                                                width=1
+                                            )),
+                                opacity=1)
+
+            fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
+                                y = data['plot_df']['cdl_engulfing_down'], 
+                                mode = 'markers', 
+                                name = 'cdl_engulfing_down',
                                 marker_symbol = 'square',
                                 marker=dict(color='red',
                                             size=10,

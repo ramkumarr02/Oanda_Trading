@@ -9,6 +9,7 @@ def calculate_total_profit(data):
         
     data['pl'] = 0
     data['pl_list'] = []
+    data['identified_points'] = data['df_ohlc'][data['df_ohlc'][data['identifier_type']] == data['identifier_val']].index
     
     for i in data['identified_points']:
         data['up_val']      = max(data['df_ohlc']['high'][i+1:i+1+data['pl_candles']]) - data['df_ohlc']['open'][i+1]

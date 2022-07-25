@@ -258,7 +258,7 @@ def merge_ohlc_data(data):
     data['df']['down_range']    = np.nan
 
     data['df']['cdl_hammer']    = np.nan
-    # data['df']['cdl_engulfing']    = np.nan
+    data['df']['cdl_engulfing']    = np.nan
 
     for i in tqdm(range(len(data['df_ohlc']['DateTime_frmt']))):
         df_rows = data['df'][data['df']['DateTime_frmt'] <= data['df_ohlc']['DateTime_frmt'][i]]
@@ -275,7 +275,7 @@ def merge_ohlc_data(data):
             data['df']['down_range'][max_row]   = data['df_ohlc']['down_range'][i]
 
             data['df']['cdl_hammer'][max_row]   = data['df_ohlc']['cdl_hammer'][i]
-            # data['df']['cdl_engulfing'][max_row]   = data['df_ohlc']['cdl_engulfing'][i]
+            data['df']['cdl_engulfing'][max_row]   = data['df_ohlc']['cdl_engulfing'][i]
     
     return(data)
 
