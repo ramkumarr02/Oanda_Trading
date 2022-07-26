@@ -259,9 +259,14 @@ def merge_ohlc_data(data):
 
     data['df']['cdl_hammer']    = np.nan
     data['df']['cdl_engulfing']    = np.nan
+    data['df']['cdl_shootingstar']    = np.nan
 
     for i in tqdm(range(len(data['df_ohlc']['DateTime_frmt']))):
-        df_rows = data['df'][data['df']['DateTime_frmt'] <= data['df_ohlc']['DateTime_frmt'][i]]
+        if i == 0:
+            time_gap = data['df_ohlc']['DateTime_frmt'][i+1] - data['df_ohlc']['DateTime_frmt'][i]
+
+        filter_time = data['df_ohlc']['DateTime_frmt'][i] + time_gap
+        df_rows = data['df'][data['df']['DateTime_frmt'] <= filter_time]
         if len(df_rows) > 0:
             max_row = max(df_rows.index)
 
@@ -276,6 +281,7 @@ def merge_ohlc_data(data):
 
             data['df']['cdl_hammer'][max_row]   = data['df_ohlc']['cdl_hammer'][i]
             data['df']['cdl_engulfing'][max_row]   = data['df_ohlc']['cdl_engulfing'][i]
+            data['df']['cdl_shootingstar'][max_row]   = data['df_ohlc']['cdl_shootingstar'][i]
     
     return(data)
 

@@ -206,10 +206,52 @@ def plot_graph(data):
                         )
 
         # -------------------------------------------------------------------
+        if 'ema' in data['things_to_plot']:
+            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+                                    y=data['plot_df']['sema'],
+                                    mode='lines',
+                                    name='sema',
+                                    line=dict(color='red', width=1),
+                                )
+                        )
 
+            # fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+            #                         y=data['plot_df']['lema'],
+            #                         mode='lines',
+            #                         name='lema',
+            #                         line=dict(color='blue', width=1),
+            #                     )
+            #             )
+
+            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+                                    y=data['plot_df']['dema'],
+                                    mode='lines',
+                                    name='dema',
+                                    line=dict(color='black', width=1),
+                                )
+                        )
+
+        if 'mom' in data['things_to_plot']:
+            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+                                    y=data['plot_df']['mom'],
+                                    mode='lines',
+                                    name='mom',
+                                    yaxis='y2',
+                                    line=dict(color='brown', width=1),
+                                )
+                        )
+
+            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+                                y=[0] * len(data['plot_df']['mom']),
+                                mode='lines',
+                                name='mom_zero',
+                                yaxis='y2',
+                            line=dict(color='black', width=1),
+                            )
+                    )  
 
         # -------------------------------------------------------------------
-        if 'positions' in data['things_to_plot']:
+        if 'indicators' in data['things_to_plot']:
             fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
                                 y = data['plot_df']['cdl_hammer'], 
                                 mode = 'markers', 
@@ -219,6 +261,19 @@ def plot_graph(data):
                                             size=10,
                                             line=dict(
                                                 color='blue',
+                                                width=1
+                                            )),
+                                opacity=1)
+
+            fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
+                                y = data['plot_df']['cdl_shootingstar'], 
+                                mode = 'markers', 
+                                name = 'cdl_shootingstar',
+                                marker_symbol = 'star',
+                                marker=dict(color='red',
+                                            size=10,
+                                            line=dict(
+                                                color='red',
                                                 width=1
                                             )),
                                 opacity=1)

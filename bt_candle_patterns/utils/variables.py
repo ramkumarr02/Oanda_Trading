@@ -142,12 +142,20 @@ data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 
 data['df_subset_size'] = None
 
-data['start_date'] = {'year':2022, 'month':7, 'date':19}
-data['end_date']   = {'year':2022, 'month':7, 'date':19}
+data['start_date'] = {'year':2022, 'month':7, 'date':18}
+data['end_date']   = {'year':2022, 'month':7, 'date':18}
 
 data['spread_cost'] = 0.00007
 data['candle_size'] = '5T'
 data['pl_candles'] = 1
+
+data["plot"] = True
+data['plot_type'] = 'file'
+data['reduce_plot'] = True
+data['plot_start']  = '2022-07-18'
+data['plot_stop']   = '2022-07-19'
+# data['things_to_plot'] = ['tick', 'lema', 'h_l_lema', 'tick_angle', 'positions']
+data['things_to_plot'] = ['tick', 'ema', 'indicators']
 
 data['ema_roll_method'] = 'file'
 
@@ -179,13 +187,7 @@ data['pl_move_trail_ratio']     = 0.8
 # data['get_cross_dir_type'] = 'simple_rl'
 data['get_cross_dir_type'] = 'angle_alone'
 
-data["plot"] = True
-data['plot_type'] = 'file'
-data['reduce_plot'] = True
-data['plot_start']  = '2021-01-1'
-data['plot_stop']   = '2021-01-10'
-# data['things_to_plot'] = ['tick', 'lema', 'h_l_lema', 'tick_angle', 'positions']
-data['things_to_plot'] = ['tick', 'ema', 'h_l_lema', 'tick_angle', 'positions']
+
 
 # data['direction'] = 'reverse'
 data['direction'] = 'straight'
