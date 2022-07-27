@@ -143,7 +143,7 @@ data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 data['df_subset_size'] = None
 
 data['start_date'] = {'year':2022, 'month':7, 'date':1}
-data['end_date']   = {'year':2022, 'month':7, 'date':1}
+data['end_date']   = {'year':2022, 'month':7, 'date':4}
 
 data['ema_roll_method'] = 'new'
 
@@ -179,8 +179,8 @@ data['get_cross_dir_type'] = 'angle_alone'
 data["plot"] = True
 data['plot_type'] = 'file'
 data['reduce_plot'] = True
-data['plot_start']  = '2022-07-1'
-data['plot_stop']   = '2022-07-2'
+data['plot_start']  = '2022-07-4'
+data['plot_stop']   = '2022-07-5'
 data['things_to_plot'] = ['tick', 'ema', 'indicators', 'positions']
 # data['things_to_plot'] = ['tick', 'lema', 'h_l_lema', 'tick_angle', 'positions']
 
