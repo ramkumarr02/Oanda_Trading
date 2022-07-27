@@ -160,14 +160,6 @@ def get_rolling_emas(data):
         data['df'] = data['df'].reset_index(drop=True).round(6)  
         data['df'] = data['df'].round(6)  
 
-        data = get_ohlc(data)
-        data = merge_ohlc_data(data)
-
-        data['df'] = data['df'].reset_index(drop=True) 
-        data['df_len'] = len(data["df"])
-        if data['to_csv']:
-            data['df'].to_csv(data['df_name'], index = False)
-
     # ---------------------------------------------------------------------------------------------------------------------
 
     elif data['ema_roll_method'] == 'file':
@@ -205,39 +197,75 @@ def get_ohlc(data):
 
     return(data)
 #...............................................................................................  
-def merge_ohlc_data(data):
-    data['df']['open']          = np.nan
-    data['df']['high']          = np.nan
-    data['df']['low']           = np.nan
-    data['df']['close']         = np.nan
 
-    # data['df']['cdl_hammer']    = np.nan
-    # data['df']['cdl_engulfing']    = np.nan
-    # data['df']['cdl_shootingstar']    = np.nan
+def get_cdl_hammer(data):
+    data['df_ohlc']['cdl_hammer'] = talib.CDLHAMMER(data['df_ohlc']['open'], data['df_ohlc']['high'], data['df_ohlc']['low'], data['df_ohlc']['close'])
+    data['df_ohlc']['cdl_hammer'] = data['df_ohlc']['cdl_hammer'].replace({0:np.nan})
+    data['df_ohlc']['cdl_hammer'] = np.where(data['df_ohlc']['cdl_hammer'] == 100, data['df_ohlc']['close'], data['df_ohlc']['cdl_hammer'])
+
+    return(data)
+
+#...............................................................................................  
+
+# def merge_ohlc_data(data):
+#     data['df']['open']          = np.nan
+#     data['df']['high']          = np.nan
+#     data['df']['low']           = np.nan
+#     data['df']['close']         = np.nan
+
+#     data['df']['cdl_hammer']    = np.nan
+#     # data['df']['cdl_engulfing']    = np.nan
+#     # data['df']['cdl_shootingstar']    = np.nan
+
+#     for i in tqdm(range(len(data['df_ohlc']['DateTime_frmt']))):
+#         if i == 0:
+#             time_gap = data['df_ohlc']['DateTime_frmt'][i+1] - data['df_ohlc']['DateTime_frmt'][i]
+
+#         filter_time = data['df_ohlc']['DateTime_frmt'][i] + time_gap
+#         df_rows = data['df'][data['df']['DateTime_frmt'] < filter_time]
+#         if len(df_rows) > 0:
+#             max_row = max(df_rows.index)
+
+#             data['df']['open'][max_row]         = data['df_ohlc']['open'][i]
+#             data['df']['high'][max_row]         = data['df_ohlc']['high'][i]
+#             data['df']['low'][max_row]          = data['df_ohlc']['low'][i]
+#             data['df']['close'][max_row]        = data['df_ohlc']['close'][i]
+
+#             data['df']['cdl_hammer'][max_row]   = data['df_ohlc']['cdl_hammer'][i]
+#             # data['df']['cdl_engulfing'][max_row]   = data['df_ohlc']['cdl_engulfing'][i]
+#             # data['df']['cdl_shootingstar'][max_row]   = data['df_ohlc']['cdl_shootingstar'][i]
+
+#     data['df'] = data['df'].reset_index(drop=True) 
+#     data['df_len'] = len(data["df"])
+#     if data['to_csv']:
+#         data['df'].to_csv(data['df_name'], index = False) 
+
+#     del data['df_ohlc']
+    
+#     return(data)
+#...............................................................................................  
+def merge_ohlc_data(data):
+
+    for col_name in data['merge_col_names']:
+        data['df'][col_name]          = np.nan
 
     for i in tqdm(range(len(data['df_ohlc']['DateTime_frmt']))):
         if i == 0:
             time_gap = data['df_ohlc']['DateTime_frmt'][i+1] - data['df_ohlc']['DateTime_frmt'][i]
 
         filter_time = data['df_ohlc']['DateTime_frmt'][i] + time_gap
-        df_rows = data['df'][data['df']['DateTime_frmt'] <= filter_time]
+        df_rows = data['df'][data['df']['DateTime_frmt'] < filter_time]
         if len(df_rows) > 0:
             max_row = max(df_rows.index)
+            
+            for col_name in data['merge_col_names']:
+                data['df'][col_name][max_row] = data['df_ohlc'][col_name][i]
 
-            data['df']['open'][max_row]         = data['df_ohlc']['open'][i]
-            data['df']['high'][max_row]         = data['df_ohlc']['high'][i]
-            data['df']['low'][max_row]          = data['df_ohlc']['low'][i]
-            data['df']['close'][max_row]        = data['df_ohlc']['close'][i]
+    data['df'] = data['df'].reset_index(drop=True) 
+    data['df_len'] = len(data["df"])
+    if data['to_csv']:
+        data['df'].to_csv(data['df_name'], index = False) 
 
-            # data['df']['cdl_hammer'][max_row]   = data['df_ohlc']['cdl_hammer'][i]
-            # data['df']['cdl_engulfing'][max_row]   = data['df_ohlc']['cdl_engulfing'][i]
-            # data['df']['cdl_shootingstar'][max_row]   = data['df_ohlc']['cdl_shootingstar'][i]
+    del data['df_ohlc']
     
     return(data)
-#...............................................................................................  
-
-def get_cdl_hammer(data):
-
-
-    return(data)
-#...............................................................................................  

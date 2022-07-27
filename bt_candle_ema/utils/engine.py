@@ -10,10 +10,12 @@ if data['plot']:
 #...............................................................................................
 def run_engine(data):
 
-    data["start_ts"]            = dt.datetime.strftime(dt.datetime.now(), '%Y-%m-%d-%H-%M')
-
-    data                        = get_date_list(data)
-    data                        = get_rolling_emas(data)    
+    data["start_ts"]    = dt.datetime.strftime(dt.datetime.now(), '%Y-%m-%d-%H-%M')
+    data                = get_date_list(data)
+    data                = get_rolling_emas(data)   
+    data                = get_ohlc(data)
+    data                = get_cdl_hammer(data)
+    data                = merge_ohlc_data(data)
 
     data['df']['touched_line']  = np.nan
     data['df']['order_side']    = np.nan

@@ -160,6 +160,8 @@ data['lema_len']    = 10000
 data['candle_size'] = '5T'
 data['avg_candle_num'] = 2
 
+data['merge_col_names'] = ['open', 'high', 'low', 'close', 'cdl_hammer']
+
 data['ema_type'] = 'slema'
 
 data['stop_loss_multiplier']    = 1
