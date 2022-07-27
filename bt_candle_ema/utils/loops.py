@@ -140,41 +140,28 @@ def get_rolling_emas(data):
         data['df']['DateTime_frmt']   = [dt.datetime.strptime(x.split(".")[0],"%Y%m%d %H:%M:%S") for x in data["df"]['DateTime']]
         
         print('Building Lema...')
-        data['df']['lema'] = data['df']['tick'].rolling(window=data['lema_len']).progress_apply(roll_ema)
+        data['df']['lema'] = talib.EMA(data['df']['tick'], timeperiod = data['lema_len'])
         data['df'] = data['df'].dropna()
         if data['send_message_to_phone']:
             send_telegram_message(f'Lema Complete : {data["df_name"]}')
 
-        print('Building Slope...')
-        data['curr_angle_len'] = data['angle_len']
-        data = get_x_axis(data)
-        data['df']['tick_angle'] = data['df']['tick'].rolling(window=data['angle_len']).progress_apply(roll_slope)
-        data['df'] = data['df'].dropna()
-
-        # print('Building Slope_2...')
-        # data['curr_angle_len'] = data['angle_len_2']
-        # data = get_x_axis(data)
-        # data['df']['tick_angle_2'] = data['df']['tick'].rolling(window=data['angle_len_2']).progress_apply(roll_slope)
-        # data['df'] = data['df'].dropna()
-
         print('Building slema...')
-        data['df']['slema'] = data['df']['tick'].rolling(window=data['slema_len']).progress_apply(roll_ema)
+        data['df']['slema'] = talib.EMA(data['df']['tick'], timeperiod = data['slema_len'])
         data['df'] = data['df'].dropna()
         if data['send_message_to_phone']:
             send_telegram_message(f'slema Complete : {data["df_name"]}')
 
         print('Building Sema...')
-        data['df']['sema'] = data['df']['tick'].rolling(window=data['sema_len']).progress_apply(roll_ema)
+        data['df']['sema'] = talib.EMA(data['df']['tick'], timeperiod = data['sema_len'])
         data['df'] = data['df'].dropna()
         if data['send_message_to_phone']:
             send_telegram_message(f'Sema Complete : {data["df_name"]}')
 
-        data['df'] = data['df'].reset_index(drop=True) 
-        print('Building H_L_Lema...')
-        data = get_h_l_lema(data)
-        # data = get_h_l_lema_2(data)
+        data['df'] = data['df'].reset_index(drop=True).round(6)  
+        data['df'] = data['df'].round(6)  
 
-        # data['df'] = data['df'][data['columns_list']].round(6) 
+        data = get_ohlc(data)
+        data = merge_ohlc_data(data)
 
         data['df'] = data['df'].reset_index(drop=True) 
         data['df_len'] = len(data["df"])
@@ -202,120 +189,55 @@ def get_rolling_emas(data):
 
     # ---------------------------------------------------------------------------------------------------------------------
 
-    elif data['ema_roll_method'] == 'mix':
-        data['df'] = pd.read_csv(f'data/{data["csv_file_name"]}.csv')    
-        data['df']['DateTime_frmt']   = [dt.datetime.strptime(x.split(".")[0],"%Y%m%d %H:%M:%S") for x in data["df"]['DateTime_frmt']]
-        data['df'] = data['df'][(data['df']['DateTime_frmt'] > data['start_date']) & (data['df']['DateTime_frmt'] < data['end_date'])]
-        # data["df"] = data["df"][data["df"]['DateTime_frmt'].str.contains('|'.join(data['date_list']))]
-
-        if data['df_subset_size'] is not None:
-            data["df"] = data["df"][0:data['df_subset_size']]
-
-        data['df'] = data['df'].reset_index(drop=True)        
-        print(f'Record num : {len(data["df"])}') 
-        
-        # data = get_hl(data)
-        # data = get_avg_lines(data)  
-        data = get_h_l_lema(data)
-
-        # data['df'] = data['df'].dropna() 
-        data['df'] = data['df'].reset_index(drop=True)        
-        data['df_len'] = len(data["df"])
-
-        # data['df'] = data['df'][data['columns_list']].round(6) 
-        if data['to_csv']:
-            data['df'].to_csv('data/temp.csv', index = False)
-
     print('EMA Rolling completed')
     return(data)
 #...............................................................................................  
 
-def get_h_l_lema(data):
+def get_ohlc(data):
+    data['df_ohlc'] = data['df'][['DateTime_frmt', 'tick']]
+    data['df_ohlc'] = data['df_ohlc'].set_index('DateTime_frmt')
+    data['df_ohlc'] = data['df_ohlc'].resample(data['candle_size']).ohlc(_method='ohlc')
 
-    data['df']['h']         = np.nan
-    data['df']['l']         = np.nan
-    data['df']['h_l_gap']   = np.nan
-
-    data['df']['h_gap']     = np.nan
-    data['df']['l_gap']     = np.nan
-
-    data['df']['h_lema']    = np.nan
-    data['df']['l_lema']    = np.nan
-
-    for i in tqdm(range(len(data['df']))):
-        if i % data['candle_size'] == 0 and i > 0:        
-            data['tick_list'] = data['df']['tick'].loc[i - data['candle_size'] : i-1]
-            max_val     = max(data['tick_list'])
-            min_val     = min(data['tick_list'])
-
-            data['df']['h'].loc[i]  = max_val
-            data['df']['l'].loc[i]  = min_val
-
-            ind = data['df']['h'][data['df']['h'].notnull()].loc[i - data['candle_size'] * data['avg_candle_num'] + 1 : i].index
-            data['df']['h_gap'].loc[i:i+data['candle_size']] = np.mean(data['df']['h'].loc[ind] - data['df']['lema'].loc[ind])
-            data['df']['l_gap'].loc[i:i+data['candle_size']] = np.mean(data['df']['lema'].loc[ind] - data['df']['l'].loc[ind])
-
-    data['df']['h_l_gap'] = data['df']['h_gap'] + data['df']['l_gap']
-    data['df']['h_lema'] = data['df']['h_gap'] + data['df']['lema']
-    data['df']['l_lema'] = data['df']['lema'] - data['df']['l_gap']
-
-    #---------------------
-    print('HL Created')
-    
-    del data['df']['h']
-    del data['df']['l']
-    del data['df']['h_gap']
-    del data['df']['l_gap']
-    # data['df'] = data['df'].round(6)
-    # data['df'] = data['df'].dropna()
-    # data['df'] = data['df'].reset_index(drop=True) 
-
-    print('Avg HL Created')
+    col_names = [col[1] for col in data['df_ohlc'].columns.values]
+    col_names.insert(0,'DateTime_frmt')
+    data['df_ohlc'] = pd.DataFrame(data['df_ohlc'].to_records())
+    data['df_ohlc'].columns = col_names
 
     return(data)
 #...............................................................................................  
+def merge_ohlc_data(data):
+    data['df']['open']          = np.nan
+    data['df']['high']          = np.nan
+    data['df']['low']           = np.nan
+    data['df']['close']         = np.nan
 
-def get_h_l_lema_2(data):
+    # data['df']['cdl_hammer']    = np.nan
+    # data['df']['cdl_engulfing']    = np.nan
+    # data['df']['cdl_shootingstar']    = np.nan
+
+    for i in tqdm(range(len(data['df_ohlc']['DateTime_frmt']))):
+        if i == 0:
+            time_gap = data['df_ohlc']['DateTime_frmt'][i+1] - data['df_ohlc']['DateTime_frmt'][i]
+
+        filter_time = data['df_ohlc']['DateTime_frmt'][i] + time_gap
+        df_rows = data['df'][data['df']['DateTime_frmt'] <= filter_time]
+        if len(df_rows) > 0:
+            max_row = max(df_rows.index)
+
+            data['df']['open'][max_row]         = data['df_ohlc']['open'][i]
+            data['df']['high'][max_row]         = data['df_ohlc']['high'][i]
+            data['df']['low'][max_row]          = data['df_ohlc']['low'][i]
+            data['df']['close'][max_row]        = data['df_ohlc']['close'][i]
+
+            # data['df']['cdl_hammer'][max_row]   = data['df_ohlc']['cdl_hammer'][i]
+            # data['df']['cdl_engulfing'][max_row]   = data['df_ohlc']['cdl_engulfing'][i]
+            # data['df']['cdl_shootingstar'][max_row]   = data['df_ohlc']['cdl_shootingstar'][i]
     
-    data['df']['h']         = np.nan
-    data['df']['l']         = np.nan
-    data['df']['h_l_gap']   = np.nan
+    return(data)
+#...............................................................................................  
 
-    data['df']['h_gap']     = np.nan
-    data['df']['l_gap']     = np.nan
+def get_cdl_hammer(data):
 
-    data['df']['h_lema_2']    = np.nan
-    data['df']['l_lema_2']    = np.nan
-
-    for i in tqdm(range(len(data['df']))):
-        if i % data['candle_size_2'] == 0 and i > 0:        
-            data['tick_list'] = data['df']['tick'].loc[i - data['candle_size_2'] : i-1]
-            max_val     = max(data['tick_list'])
-            min_val     = min(data['tick_list'])
-
-            data['df']['h'].loc[i]  = max_val
-            data['df']['l'].loc[i]  = min_val
-
-            ind = data['df']['h'][data['df']['h'].notnull()].loc[i - data['candle_size_2'] * data['avg_candle_num'] + 1 : i].index
-            data['df']['h_gap'].loc[i:i+data['candle_size_2']] = np.mean(data['df']['h'].loc[ind] - data['df']['lema'].loc[ind])
-            data['df']['l_gap'].loc[i:i+data['candle_size_2']] = np.mean(data['df']['lema'].loc[ind] - data['df']['l'].loc[ind])
-
-    data['df']['h_l_gap'] = data['df']['h_gap'] + data['df']['l_gap']
-    data['df']['h_lema_2'] = data['df']['h_gap'] + data['df']['lema']
-    data['df']['l_lema_2'] = data['df']['lema'] - data['df']['l_gap']
-
-    #---------------------
-    print('HL Created')
-    
-    del data['df']['h']
-    del data['df']['l']
-    del data['df']['h_gap']
-    del data['df']['l_gap']
-    # data['df'] = data['df'].round(6)
-    # data['df'] = data['df'].dropna()
-    # data['df'] = data['df'].reset_index(drop=True) 
-
-    print('Avg HL Created')
 
     return(data)
 #...............................................................................................  

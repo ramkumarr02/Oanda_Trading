@@ -137,28 +137,27 @@ data['all_close_min_pip']       = 0
 data['order_multiplier']        = 1
 
 data["product"] = 'eurusd'
-data["input_year"] = 2021
+data["input_year"] = 2022
 data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 
 data['df_subset_size'] = None
 
-data['start_date'] = {'year':2021, 'month':1, 'date':1}
-data['end_date']   = {'year':2021, 'month':1, 'date':5}
+data['start_date'] = {'year':2022, 'month':7, 'date':1}
+data['end_date']   = {'year':2022, 'month':7, 'date':1}
 
-data['ema_roll_method'] = 'file'
+data['ema_roll_method'] = 'new'
 
-# data['sema_len']    = 1000
-# data['slema_len']   = 5000
-# data['lema_len']    = 10000
-# data['angle_len']   = 10000
+data['sema_len']    = 1000
+data['slema_len']   = 5000
+data['lema_len']    = 10000
 
-x                   = 1000
-data['sema_len']    = int(x / 5)
-data['slema_len']   = int(x)
-data['lema_len']    = int(x * 2)
-data['angle_len']   = int(x * 2)
+# x                   = 1000
+# data['sema_len']    = int(x / 5)
+# data['slema_len']   = int(x)
+# data['lema_len']    = int(x * 2)
+# data['angle_len']   = int(x * 2)
 # data['angle_len_2']   = int(x * 2)
-data['candle_size'] = x
+data['candle_size'] = '5T'
 data['avg_candle_num'] = 2
 
 data['ema_type'] = 'slema'
@@ -177,10 +176,10 @@ data['get_cross_dir_type'] = 'angle_alone'
 data["plot"] = True
 data['plot_type'] = 'file'
 data['reduce_plot'] = True
-data['plot_start']  = '2021-01-1'
-data['plot_stop']   = '2021-01-10'
+data['plot_start']  = '2022-07-1'
+data['plot_stop']   = '2022-07-2'
+data['things_to_plot'] = ['tick', 'ema']
 # data['things_to_plot'] = ['tick', 'lema', 'h_l_lema', 'tick_angle', 'positions']
-data['things_to_plot'] = ['tick', 'ema', 'h_l_lema', 'tick_angle', 'positions']
 
 # data['direction'] = 'reverse'
 data['direction'] = 'straight'
