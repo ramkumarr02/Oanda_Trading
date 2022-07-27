@@ -222,13 +222,13 @@ def plot_graph(data):
                             )
                     )                                                                         
 
-            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
-                                y=data['plot_df']['lema'],
-                                mode='lines',
-                                name='lema',
-                                line=dict(color='blue', width=1),
-                            )
-                    ) 
+            # fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+            #                     y=data['plot_df']['lema'],
+            #                     mode='lines',
+            #                     name='lema',
+            #                     line=dict(color='blue', width=1),
+            #                 )
+            #         ) 
         # -------------------------------------------------------------------
 
 
@@ -424,7 +424,65 @@ def plot_graph(data):
                                     )),
                         opacity=1)                           
         # -------------------------------------------------------------------
+        # -------------------------------------------------------------------
+        if 'indicators' in data['things_to_plot']:
+            if 'cdl_hammer' in data['merge_col_names']:
+                fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
+                                    y = data['plot_df']['cdl_hammer'], 
+                                    mode = 'markers', 
+                                    name = 'cdl_hammer',
+                                    marker_symbol = 'hash',
+                                    marker=dict(color='blue',
+                                                size=10,
+                                                line=dict(
+                                                    color='blue',
+                                                    width=1
+                                                )),
+                                    opacity=1)
 
+            if 'cdl_shootingstar' in data['merge_col_names']:
+                fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
+                                    y = data['plot_df']['cdl_shootingstar'], 
+                                    mode = 'markers', 
+                                    name = 'cdl_shootingstar',
+                                    marker_symbol = 'star',
+                                    marker=dict(color='red',
+                                                size=10,
+                                                line=dict(
+                                                    color='red',
+                                                    width=1
+                                                )),
+                                    opacity=1)
+
+            if 'cdl_engulfing_up' in data['merge_col_names']:
+                fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
+                                    y = data['plot_df']['cdl_engulfing_up'], 
+                                    mode = 'markers', 
+                                    name = 'cdl_engulfing_up',
+                                    marker_symbol = 'square',
+                                    marker=dict(color='blue',
+                                                size=10,
+                                                line=dict(
+                                                    color='blue',
+                                                    width=1
+                                                )),
+                                    opacity=1)
+
+            if 'cdl_engulfing_down' in data['merge_col_names']:
+                fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
+                                    y = data['plot_df']['cdl_engulfing_down'], 
+                                    mode = 'markers', 
+                                    name = 'cdl_engulfing_down',
+                                    marker_symbol = 'square',
+                                    marker=dict(color='red',
+                                                size=10,
+                                                line=dict(
+                                                    color='red',
+                                                    width=1
+                                                )),
+                                    opacity=1)
+
+        # -------------------------------------------------------------------
 
         # -------------------------------------------------------------------
         fig.update_layout(legend=dict(orientation="h",

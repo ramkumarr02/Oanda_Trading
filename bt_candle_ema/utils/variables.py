@@ -129,9 +129,9 @@ data['order_num_i'] = 0
 
 data['min_hl_gap'] = 0.0003
 data['min_take_profit_pip'] = 0.00005
-data['min_stop_loss_pip']   = -0.0003
+data['min_stop_loss_pip']   = -0.0010
 
-data['num_of_switch_orders']    = 4
+data['num_of_switch_orders']    = 1
 data['loss_switch_pl_pip']      = -0.0005
 data['all_close_min_pip']       = 0
 data['order_multiplier']        = 1
@@ -147,9 +147,9 @@ data['end_date']   = {'year':2022, 'month':7, 'date':1}
 
 data['ema_roll_method'] = 'new'
 
-data['sema_len']    = 1000
-data['slema_len']   = 5000
-data['lema_len']    = 10000
+data['sema_len']    = 2500
+data['slema_len']   = 10000
+# data['lema_len']    = 20000
 
 # x                   = 1000
 # data['sema_len']    = int(x / 5)
@@ -160,7 +160,8 @@ data['lema_len']    = 10000
 data['candle_size'] = '5T'
 data['avg_candle_num'] = 2
 
-data['merge_col_names'] = ['open', 'high', 'low', 'close', 'cdl_hammer']
+# data['merge_col_names'] = ['open', 'high', 'low', 'close', 'cdl_hammer', 'cdl_shootingstar', 'cdl_engulfing_up', 'cdl_engulfing_down']
+data['merge_col_names'] = ['open', 'high', 'low', 'close', 'ind_candle_size', 'cdl_engulfing_up', 'cdl_engulfing_down']
 
 data['ema_type'] = 'slema'
 
@@ -180,7 +181,7 @@ data['plot_type'] = 'file'
 data['reduce_plot'] = True
 data['plot_start']  = '2022-07-1'
 data['plot_stop']   = '2022-07-2'
-data['things_to_plot'] = ['tick', 'ema']
+data['things_to_plot'] = ['tick', 'ema', 'indicators', 'positions']
 # data['things_to_plot'] = ['tick', 'lema', 'h_l_lema', 'tick_angle', 'positions']
 
 # data['direction'] = 'reverse'

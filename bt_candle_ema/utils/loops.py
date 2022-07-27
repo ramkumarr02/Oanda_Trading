@@ -139,11 +139,11 @@ def get_rolling_emas(data):
         data['df']['tick']      = (data["df"]['Ask'] + data["df"]['Bid'])/2
         data['df']['DateTime_frmt']   = [dt.datetime.strptime(x.split(".")[0],"%Y%m%d %H:%M:%S") for x in data["df"]['DateTime']]
         
-        print('Building Lema...')
-        data['df']['lema'] = talib.EMA(data['df']['tick'], timeperiod = data['lema_len'])
-        data['df'] = data['df'].dropna()
-        if data['send_message_to_phone']:
-            send_telegram_message(f'Lema Complete : {data["df_name"]}')
+        # print('Building Lema...')
+        # data['df']['lema'] = talib.EMA(data['df']['tick'], timeperiod = data['lema_len'])
+        # data['df'] = data['df'].dropna()
+        # if data['send_message_to_phone']:
+        #     send_telegram_message(f'Lema Complete : {data["df_name"]}')
 
         print('Building slema...')
         data['df']['slema'] = talib.EMA(data['df']['tick'], timeperiod = data['slema_len'])
@@ -195,54 +195,44 @@ def get_ohlc(data):
     data['df_ohlc'] = pd.DataFrame(data['df_ohlc'].to_records())
     data['df_ohlc'].columns = col_names
 
+    data['df_ohlc']['ind_candle_size'] = data['df_ohlc']['high'] - data['df_ohlc']['low']
+
     return(data)
 #...............................................................................................  
 
-def get_cdl_hammer(data):
+def get_cdl_hammer_sstar(data):
     data['df_ohlc']['cdl_hammer'] = talib.CDLHAMMER(data['df_ohlc']['open'], data['df_ohlc']['high'], data['df_ohlc']['low'], data['df_ohlc']['close'])
     data['df_ohlc']['cdl_hammer'] = data['df_ohlc']['cdl_hammer'].replace({0:np.nan})
     data['df_ohlc']['cdl_hammer'] = np.where(data['df_ohlc']['cdl_hammer'] == 100, data['df_ohlc']['close'], data['df_ohlc']['cdl_hammer'])
 
+    data['df_ohlc']['cdl_shootingstar'] = talib.CDLSHOOTINGSTAR(data['df_ohlc']['open'], data['df_ohlc']['high'], data['df_ohlc']['low'], data['df_ohlc']['close'])
+    data['df_ohlc']['cdl_shootingstar'] = data['df_ohlc']['cdl_shootingstar'].replace({0:np.nan})
+    data['df_ohlc']['cdl_shootingstar'] = np.where(data['df_ohlc']['cdl_shootingstar'] == -100, data['df_ohlc']['close'], data['df_ohlc']['cdl_shootingstar'])
+
     return(data)
 
 #...............................................................................................  
 
-# def merge_ohlc_data(data):
-#     data['df']['open']          = np.nan
-#     data['df']['high']          = np.nan
-#     data['df']['low']           = np.nan
-#     data['df']['close']         = np.nan
+#...............................................................................................  
 
-#     data['df']['cdl_hammer']    = np.nan
-#     # data['df']['cdl_engulfing']    = np.nan
-#     # data['df']['cdl_shootingstar']    = np.nan
+def get_cdl_engulfing(data):
+    data['df_ohlc']['cdl_engulfing'] = talib.CDLENGULFING(data['df_ohlc']['open'], data['df_ohlc']['high'], data['df_ohlc']['low'], data['df_ohlc']['close'])
 
-#     for i in tqdm(range(len(data['df_ohlc']['DateTime_frmt']))):
-#         if i == 0:
-#             time_gap = data['df_ohlc']['DateTime_frmt'][i+1] - data['df_ohlc']['DateTime_frmt'][i]
+    data['df_ohlc']['cdl_engulfing_up'] = data['df_ohlc']['cdl_engulfing'][data['df_ohlc']['cdl_engulfing'] == 100]
+    data['df_ohlc']['cdl_engulfing_down'] = data['df_ohlc']['cdl_engulfing'][data['df_ohlc']['cdl_engulfing'] == -100]
 
-#         filter_time = data['df_ohlc']['DateTime_frmt'][i] + time_gap
-#         df_rows = data['df'][data['df']['DateTime_frmt'] < filter_time]
-#         if len(df_rows) > 0:
-#             max_row = max(df_rows.index)
+    data['df_ohlc']['cdl_engulfing_up'] = data['df_ohlc']['cdl_engulfing_up'].replace({0:np.nan})
+    data['df_ohlc']['cdl_engulfing_up'] = np.where(data['df_ohlc']['cdl_engulfing_up'] == 100, data['df_ohlc']['close'], data['df_ohlc']['cdl_engulfing_up'])
 
-#             data['df']['open'][max_row]         = data['df_ohlc']['open'][i]
-#             data['df']['high'][max_row]         = data['df_ohlc']['high'][i]
-#             data['df']['low'][max_row]          = data['df_ohlc']['low'][i]
-#             data['df']['close'][max_row]        = data['df_ohlc']['close'][i]
+    data['df_ohlc']['cdl_engulfing_down'] = data['df_ohlc']['cdl_engulfing_down'].replace({0:np.nan})
+    data['df_ohlc']['cdl_engulfing_down'] = np.where(data['df_ohlc']['cdl_engulfing_down'] == -100, data['df_ohlc']['close'], data['df_ohlc']['cdl_engulfing_down'])
 
-#             data['df']['cdl_hammer'][max_row]   = data['df_ohlc']['cdl_hammer'][i]
-#             # data['df']['cdl_engulfing'][max_row]   = data['df_ohlc']['cdl_engulfing'][i]
-#             # data['df']['cdl_shootingstar'][max_row]   = data['df_ohlc']['cdl_shootingstar'][i]
+    del data['df_ohlc']['cdl_engulfing'] 
 
-#     data['df'] = data['df'].reset_index(drop=True) 
-#     data['df_len'] = len(data["df"])
-#     if data['to_csv']:
-#         data['df'].to_csv(data['df_name'], index = False) 
+    return(data)
 
-#     del data['df_ohlc']
-    
-#     return(data)
+#...............................................................................................  
+
 #...............................................................................................  
 def merge_ohlc_data(data):
 
@@ -269,3 +259,23 @@ def merge_ohlc_data(data):
     del data['df_ohlc']
     
     return(data)
+#...............................................................................................  
+
+def capture_iterative_data(data):
+    data['bid']                 = data["df"]['Bid'][data['i']]        
+    data['ask']                 = data["df"]['Ask'][data['i']]
+    data['tick']                = data['df']['tick'][data['i']]        
+    data['sema']                = data['df']['sema'][data['i']]    
+    data['slema']               = data['df']['slema'][data['i']]    
+    data['lema']                = data['df']['lema'][data['i']]    
+    # data['open']                = data['df']['open'][data['i']]    
+    # data['high']                = data['df']['high'][data['i']]    
+    # data['low']                 = data['df']['low'][data['i']]    
+    data['close']               = data['df']['close'][data['i']]    
+    data['cdl_engulfing_up']    = data['df']['cdl_engulfing_up'][data['i']]    
+    data['cdl_engulfing_down']  = data['df']['cdl_engulfing_down'][data['i']]   
+    if not pd.isna(data['df']['ind_candle_size'][data['i']]):
+        data['min_stop_loss_pip']  = -data['df']['ind_candle_size'][data['i']]    
+    return(data)
+
+#...............................................................................................  
