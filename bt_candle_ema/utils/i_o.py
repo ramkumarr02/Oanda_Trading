@@ -142,6 +142,15 @@ def generate_result_report(data):
     print('--------------------------------------\n\n')
 
     print('--------------------------------------')
+    print('PL Split')
+    p = data['report_df']['pl'][data['report_df']['pl'] > 0]
+    print(f"{p.count()} Positive trans with total pl : {p.sum()}")
+
+    n = data['report_df']['pl'][data['report_df']['pl'] < 0]
+    print(f"{n.count()} Negative trans with total pl : {n.sum()}")
+    print('--------------------------------------\n\n')
+
+    print('--------------------------------------')
     print('Count of transactions by Close Type')
     print('..................')
     print(pd.DataFrame(data['report_df'].groupby(['close_type'])['pl'].count()))
@@ -433,7 +442,7 @@ def plot_graph(data):
                                     name = 'cdl_hammer',
                                     marker_symbol = 'hash',
                                     marker=dict(color='blue',
-                                                size=10,
+                                                size=5,
                                                 line=dict(
                                                     color='blue',
                                                     width=1
@@ -447,7 +456,7 @@ def plot_graph(data):
                                     name = 'cdl_shootingstar',
                                     marker_symbol = 'star',
                                     marker=dict(color='red',
-                                                size=10,
+                                                size=5,
                                                 line=dict(
                                                     color='red',
                                                     width=1
@@ -461,7 +470,7 @@ def plot_graph(data):
                                     name = 'cdl_engulfing_up',
                                     marker_symbol = 'square',
                                     marker=dict(color='blue',
-                                                size=10,
+                                                size=5,
                                                 line=dict(
                                                     color='blue',
                                                     width=1
@@ -475,7 +484,7 @@ def plot_graph(data):
                                     name = 'cdl_engulfing_down',
                                     marker_symbol = 'square',
                                     marker=dict(color='red',
-                                                size=10,
+                                                size=5,
                                                 line=dict(
                                                     color='red',
                                                     width=1

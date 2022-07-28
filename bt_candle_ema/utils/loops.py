@@ -234,16 +234,10 @@ def get_cdl_engulfing(data):
 #...............................................................................................  
 
 #...............................................................................................  
-
 # def merge_ohlc_data(data):
 
-#     data['df']['open']      = np.nan
-#     data['df']['high']      = np.nan
-#     data['df']['low']       = np.nan
-#     data['df']['close']     = np.nan
-#     data['df']['ind_candle_size']     = np.nan
-#     data['df']['cdl_engulfing_up']    = np.nan
-#     data['df']['cdl_engulfing_down']    = np.nan
+#     for col_name in data['merge_col_names']:
+#         data['df'][col_name]          = np.nan
 
 #     for i in tqdm(range(len(data['df_ohlc']['DateTime_frmt']))):
 #         if i == 0:
@@ -253,48 +247,52 @@ def get_cdl_engulfing(data):
 #         df_rows = data['df'][data['df']['DateTime_frmt'] < filter_time]
 #         if len(df_rows) > 0:
 #             max_row = max(df_rows.index)
-#             data['df']['open'][max_row]                 = data['df_ohlc']['open'][i]
-#             data['df']['high'][max_row]                 = data['df_ohlc']['high'][i]
-#             data['df']['low'][max_row]                  = data['df_ohlc']['low'][i]
-#             data['df']['close'][max_row]                = data['df_ohlc']['close'][i]
-#             data['df']['ind_candle_size'][max_row]      = data['df_ohlc']['ind_candle_size'][i]
-#             data['df']['cdl_engulfing_up'][max_row]     = data['df_ohlc']['cdl_engulfing_up'][i]
-#             data['df']['cdl_engulfing_down'][max_row]   = data['df_ohlc']['cdl_engulfing_down'][i]
+            
+#             for col_name in data['merge_col_names']:
+#                 data['df'][col_name][max_row] = data['df_ohlc'][col_name][i]
 
 #     data['df'] = data['df'].reset_index(drop=True) 
 #     data['df_len'] = len(data["df"])
 #     if data['to_csv']:
 #         data['df'].to_csv(data['df_name'], index = False) 
 
-#     del data['df_ohlc']
+#     # del data['df_ohlc']
     
 #     return(data)
-
+#...............................................................................................  
 
 #...............................................................................................  
 def merge_ohlc_data(data):
 
-    for col_name in data['merge_col_names']:
-        data['df'][col_name]          = np.nan
+    gap = data['df_ohlc']['DateTime_frmt'][1] - data['df_ohlc']['DateTime_frmt'][0] - dt.timedelta(seconds=1)
+    y = data['df_ohlc']['DateTime_frmt'] + gap
 
-    for i in tqdm(range(len(data['df_ohlc']['DateTime_frmt']))):
-        if i == 0:
-            time_gap = data['df_ohlc']['DateTime_frmt'][i+1] - data['df_ohlc']['DateTime_frmt'][i]
+    print('Merging OHLC data with full data ...')
 
-        filter_time = data['df_ohlc']['DateTime_frmt'][i] + time_gap
-        df_rows = data['df'][data['df']['DateTime_frmt'] < filter_time]
-        if len(df_rows) > 0:
-            max_row = max(df_rows.index)
-            
-            for col_name in data['merge_col_names']:
-                data['df'][col_name][max_row] = data['df_ohlc'][col_name][i]
+    x = data['df']['DateTime_frmt']
+
+    for idx in tqdm(y.index):
+        # df_rows = x[x <= y[idx]]
+        # if len(df_rows) > 0:
+        # max_row = max(x[x <= y[idx]].index)
+        y[idx] = x[max(x[x <= y[idx]].index)]
+
+
+    data['df_ohlc']['DateTime_frmt'] = y
+
+    data['df'] = data['df'].merge(data['df_ohlc'], how='left', on = 'DateTime_frmt')
+    temp = data['df'][~pd.isna(data['df']['open'])]
+    temp = temp[temp[['DateTime_frmt', 'open', 'high', 'low', 'close']].duplicated(keep = 'last')]
+    dup_ind = temp.index
+    # data['df'].loc[dup_ind, ['open', 'high', 'low', 'close']] = np.nan
+    data['df'].loc[dup_ind, data['merge_col_names']] = np.nan
 
     data['df'] = data['df'].reset_index(drop=True) 
     data['df_len'] = len(data["df"])
     if data['to_csv']:
         data['df'].to_csv(data['df_name'], index = False) 
 
-    del data['df_ohlc']
+    # del data['df_ohlc']
     
     return(data)
 #...............................................................................................  

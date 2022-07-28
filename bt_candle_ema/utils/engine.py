@@ -39,7 +39,7 @@ def run_engine(data):
         data = simple_slema_move_close(data)          
         data = dynamic_make_order(data)
         data = calculate_multi_pl(data)
-        data = simple_stop_loss(data)          
+        # data = simple_stop_loss(data)          
         # data = close_all_orders(data)          
         # data = make_order(data)
         # data = calculate_pl(data)
