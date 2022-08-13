@@ -262,6 +262,42 @@ def get_cdl_engulfing(data):
 #...............................................................................................  
 
 #...............................................................................................  
+# def merge_ohlc_data(data):
+
+#     gap = data['df_ohlc']['DateTime_frmt'][1] - data['df_ohlc']['DateTime_frmt'][0] - dt.timedelta(seconds=1)
+#     y = data['df_ohlc']['DateTime_frmt'] + gap
+
+#     print('Merging OHLC data with full data ...')
+
+#     x = data['df']['DateTime_frmt']
+
+#     for idx in tqdm(y.index):
+#         # df_rows = x[x <= y[idx]]
+#         # if len(df_rows) > 0:
+#         # max_row = max(x[x <= y[idx]].index)
+#         y[idx] = x[max(x[x <= y[idx]].index)]
+
+
+#     data['df_ohlc']['DateTime_frmt'] = y
+
+#     data['df'] = data['df'].merge(data['df_ohlc'], how='left', on = 'DateTime_frmt')
+#     temp = data['df'][~pd.isna(data['df']['open'])]
+#     temp = temp[temp[['DateTime_frmt', 'open', 'high', 'low', 'close']].duplicated(keep = 'last')]
+#     dup_ind = temp.index
+#     # data['df'].loc[dup_ind, ['open', 'high', 'low', 'close']] = np.nan
+#     data['df'].loc[dup_ind, data['merge_col_names']] = np.nan
+
+#     data['df'] = data['df'].reset_index(drop=True) 
+#     data['df_len'] = len(data["df"])
+#     if data['to_csv']:
+#         data['df'].to_csv(data['df_name'], index = False) 
+
+#     # del data['df_ohlc']
+    
+#     return(data)
+#...............................................................................................  
+
+#...............................................................................................  
 def merge_ohlc_data(data):
 
     gap = data['df_ohlc']['DateTime_frmt'][1] - data['df_ohlc']['DateTime_frmt'][0] - dt.timedelta(seconds=1)
@@ -272,10 +308,24 @@ def merge_ohlc_data(data):
     x = data['df']['DateTime_frmt']
 
     for idx in tqdm(y.index):
-        # df_rows = x[x <= y[idx]]
-        # if len(df_rows) > 0:
-        # max_row = max(x[x <= y[idx]].index)
-        y[idx] = x[max(x[x <= y[idx]].index)]
+        if idx == 0:
+            # try:
+            temp_df = x[(x <= y[idx])][-1:]
+            if len(temp_df) > 0:
+                y[idx] = temp_df.values[0]
+                temp_start = y[idx]
+            # except:
+            #     temp_start = y[idx]
+        
+        else:
+            # try:
+            temp_df = x[(temp_start < x) & (x <= y[idx])][-1:]
+
+            if len(temp_df) > 0:
+                y[idx] = temp_df.values[0]
+                temp_start = y[idx]
+            # except:
+            #     temp_start = y[idx]
 
 
     data['df_ohlc']['DateTime_frmt'] = y
