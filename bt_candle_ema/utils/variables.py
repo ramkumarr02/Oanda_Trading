@@ -143,13 +143,12 @@ data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 data['df_subset_size'] = None
 
 data['start_date'] = {'year':2022, 'month':6, 'date':1}
-data['end_date']   = {'year':2022, 'month':6, 'date':5}
+data['end_date']   = {'year':2022, 'month':6, 'date':2}
 
 data['ema_roll_method'] = 'new'
 
 data['sema_len']    = 2500
-data['slema_len']   = 10000
-# data['lema_len']    = 20000
+data['lema_len']    = 10000
 
 # x                   = 1000
 # data['sema_len']    = int(x / 5)
@@ -157,11 +156,19 @@ data['slema_len']   = 10000
 # data['lema_len']    = int(x * 2)
 # data['angle_len']   = int(x * 2)
 # data['angle_len_2']   = int(x * 2)
-data['candle_size'] = '5T'
+data['candle_size'] = '15T'
 data['avg_candle_num'] = 2
+data['range_size'] = 0.0002
 
 # data['merge_col_names'] = ['open', 'high', 'low', 'close', 'cdl_hammer', 'cdl_shootingstar', 'cdl_engulfing_up', 'cdl_engulfing_down']
-data['merge_col_names'] = ['open', 'high', 'low', 'close', 'ind_candle_size', 'cdl_engulfing_up', 'cdl_engulfing_down']
+data['merge_col_names'] = ['open', 'high', 'low', 'close', 'Volume', 'candle_size', 'up_range', 'down_range', 'up', 'down']
+
+data['cols'] = ['DateTime_frmt', 
+ 'Bid', 'Ask', 'tick', 'sema', 'lema', 
+ 'BBand_upper', 'BBand_middle', 'BBand_lower', 
+ 'open', 'high', 'low', 'close', 'Volume',
+ 'num_ticks', 'candle_size', 
+ 'up_range', 'down_range', 'up', 'down']       
 
 data['ema_type'] = 'slema'
 
@@ -181,7 +188,7 @@ data['plot_type'] = 'file'
 data['reduce_plot'] = True
 data['plot_start']  = '2022-07-4'
 data['plot_stop']   = '2022-07-5'
-data['things_to_plot'] = ['tick', 'ema', 'indicators', 'positions']
+data['things_to_plot'] = ['tick', 'ema', 'BBands']
 # data['things_to_plot'] = ['tick', 'lema', 'h_l_lema', 'tick_angle', 'positions']
 
 # data['direction'] = 'reverse'

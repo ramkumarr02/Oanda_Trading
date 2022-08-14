@@ -221,25 +221,73 @@ def plot_graph(data):
                                 name='sema',
                                 line=dict(color='red', width=1),
                             )
-                    )                                                                         
+                    )                                                                                                                                                 
 
             fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
-                                y=data['plot_df']['slema'],
+                                y=data['plot_df']['lema'],
                                 mode='lines',
-                                name='slema',
-                                line=dict(color='black', width=1),
+                                name='lema',
+                                line=dict(color='blue', width=1),
+                            )
+                    ) 
+        # -------------------------------------------------------------------
+
+        # -------------------------------------------------------------------
+
+        if 'BBands' in data['things_to_plot']:
+            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+                                y=data['plot_df']['BBand_upper'],
+                                mode='lines',
+                                name='BBand_upper',
+                                line=dict(color='red', width=0.5, dash = 'dash'),
                             )
                     )                                                                         
 
-            # fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
-            #                     y=data['plot_df']['lema'],
-            #                     mode='lines',
-            #                     name='lema',
-            #                     line=dict(color='blue', width=1),
-            #                 )
-            #         ) 
+            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+                                y=data['plot_df']['BBand_middle'],
+                                mode='lines',
+                                name='BBand_middle',
+                                line=dict(color='black', width=0.5, dash = 'dash'),
+                            )
+                    )                                                                         
+
+            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+                                y=data['plot_df']['BBand_lower'],
+                                mode='lines',
+                                name='BBand_lower',
+                                line=dict(color='blue', width=0.5, dash = 'dash'),
+                            )
+                    ) 
         # -------------------------------------------------------------------
 
+
+        # -------------------------------------------------------------------
+        if 'dots' in data['things_to_plot']:
+            fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
+                                y = data['plot_df']['up'], 
+                                mode = 'markers', 
+                                name = 'up',
+                                marker_symbol = 'triangle-up',
+                                marker=dict(color='blue',
+                                            size=10,
+                                            line=dict(
+                                                color='blue',
+                                                width=1
+                                            )),
+                                opacity=1)
+            fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
+                                y = data['plot_df']['down'], 
+                                mode = 'markers', 
+                                name = 'down',
+                                marker_symbol = 'triangle-down',
+                                marker=dict(color='red',
+                                            size=10,
+                                            line=dict(
+                                                color='red',
+                                                width=1
+                                            )),
+                                opacity=1)
+        # -------------------------------------------------------------------
 
         # -------------------------------------------------------------------
         if 'h_l' in data['things_to_plot']:

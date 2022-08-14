@@ -183,30 +183,81 @@ def get_rolling_emas(data):
 
     print('EMA Rolling completed')
     return(data)
+
 #...............................................................................................  
 
-# def get_ohlc(data):
-#     data['df_ohlc'] = data['df'][['DateTime_frmt', 'tick']]
-#     data['df_ohlc'] = data['df_ohlc'].set_index('DateTime_frmt')
-#     data['df_ohlc'] = data['df_ohlc'].resample(data['candle_size']).ohlc(_method='ohlc')
+def format_tick_time(data):
+    
+    data['df_name']             = f"data/ema_df-({data['start_date'].year}-{data['end_date'].year})-({data['start_date'].month}-{data['end_date'].month})-({data['start_date'].day}-{data['end_date'].day}).csv"
+    data['df']['tick']          = (data["df"]['Ask'] + data["df"]['Bid'])/2
+    data['df']['DateTime_frmt'] = [dt.datetime.strptime(x.split(".")[0],"%Y%m%d %H:%M:%S") for x in data["df"]['DateTime']]    
 
-#     col_names = [col[1] for col in data['df_ohlc'].columns.values]
-#     col_names.insert(0,'DateTime_frmt')
-#     data['df_ohlc'] = pd.DataFrame(data['df_ohlc'].to_records())
-#     data['df_ohlc'].columns = col_names
+    print('Tick and Time formatting completed')
+    if data['send_message_to_phone']:
+        send_telegram_message(f'format_tick_time : Completed')
 
-#     data['df_ohlc']['ind_candle_size'] = data['df_ohlc']['high'] - data['df_ohlc']['low']
+    return(data)
 
-#     return(data)
+#...............................................................................................  
+def get_tick_indicators(data):
+    
+    # Building Lema --------------------------------------
+    data['df']['lema'] = talib.EMA(data['df']['tick'], timeperiod = data['lema_len'])
+    data['df'] = data['df'].dropna()
+
+    # Building Sema --------------------------------------
+    data['df']['sema'] = talib.EMA(data['df']['tick'], timeperiod = data['sema_len'])
+    data['df'] = data['df'].dropna()
+
+    # Building BBands --------------------------------------
+    data['df']['BBand_upper'], data['df']['BBand_middle'], data['df']['BBand_lower'] = talib.BBANDS(data['df']['tick'], timeperiod = data['sema_len'], nbdevup = 2, nbdevdn = 2, matype=0)
+
+    data['df'] = data['df'].reset_index(drop=True).round(6)  
+    data['df'] = data['df'].round(6)  
+
+    print('EMA Rolling completed')    
+    if data['send_message_to_phone']:
+        send_telegram_message(f'get_tick_indicators : Completed')
+
+    return(data)
+
+#...............................................................................................  
 
 def get_ohlc(data):
     data['df_ohlc'] = data['df'][['DateTime_frmt', 'tick', 'Volume']]
     data['df_ohlc'] = data['df_ohlc'].set_index('DateTime_frmt')
 
-    temp1 = data['df_ohlc']['tick'].resample(data['candle_size']).ohlc(_method='ohlc')
-    temp2 = data['df_ohlc']['Volume'].resample(data['candle_size']).sum()
+    ohlc            = data['df_ohlc']['tick'].resample(data['candle_size']).ohlc(_method='ohlc')
+    vol             = data['df_ohlc']['Volume'].resample(data['candle_size']).sum()
+    ticks_in_candle = data['df_ohlc']['tick'].resample(data['candle_size']).count()
 
-    data['df_ohlc'] = temp1.join(temp2).reset_index()
+    ohlc = ohlc.join(vol)
+    ohlc = ohlc.join(ticks_in_candle)
+    data['df_ohlc'] = ohlc.reset_index()
+    data['df_ohlc'] = data['df_ohlc'].rename(columns={'tick':'num_ticks'})
+
+    data['df_ohlc']['candle_size'] = data['df_ohlc']['high'] - data['df_ohlc']['low']
+
+    del ohlc
+    del vol
+    del ticks_in_candle
+
+
+    # Get Candle Dir --------------------------------------------------------
+    data['df_ohlc']['up_range'] = data['df_ohlc']['high'] - data['df_ohlc']['open']
+    data['df_ohlc']['down_range'] = data['df_ohlc']['open'] - data['df_ohlc']['low']
+
+    data['df_ohlc'].loc[(data['df_ohlc']['up_range'] > data['df_ohlc']['down_range']) & (data['df_ohlc']['up_range'] > data['range_size']),'up'] = '1'
+    data['df_ohlc'].loc[(data['df_ohlc']['up_range'] < data['df_ohlc']['down_range']) & (data['df_ohlc']['down_range'] > data['range_size']),'down'] = '1'
+
+    # del data['df_ohlc']['up_range']
+    # del data['df_ohlc']['down_range']
+    # Get Candle Dir --------------------------------------------------------
+
+
+    print('EMA Rolling completed')    
+    if data['send_message_to_phone']:
+        send_telegram_message(f'get_ohlc : Completed')    
 
     return(data)
 
@@ -246,71 +297,9 @@ def get_cdl_engulfing(data):
 #...............................................................................................  
 
 #...............................................................................................  
-# def merge_ohlc_data(data):
-
-#     for col_name in data['merge_col_names']:
-#         data['df'][col_name]          = np.nan
-
-#     for i in tqdm(range(len(data['df_ohlc']['DateTime_frmt']))):
-#         if i == 0:
-#             time_gap = data['df_ohlc']['DateTime_frmt'][i+1] - data['df_ohlc']['DateTime_frmt'][i]
-
-#         filter_time = data['df_ohlc']['DateTime_frmt'][i] + time_gap
-#         df_rows = data['df'][data['df']['DateTime_frmt'] < filter_time]
-#         if len(df_rows) > 0:
-#             max_row = max(df_rows.index)
-            
-#             for col_name in data['merge_col_names']:
-#                 data['df'][col_name][max_row] = data['df_ohlc'][col_name][i]
-
-#     data['df'] = data['df'].reset_index(drop=True) 
-#     data['df_len'] = len(data["df"])
-#     if data['to_csv']:
-#         data['df'].to_csv(data['df_name'], index = False) 
-
-#     # del data['df_ohlc']
-    
-#     return(data)
-#...............................................................................................  
-
-#...............................................................................................  
-# def merge_ohlc_data(data):
-
-#     gap = data['df_ohlc']['DateTime_frmt'][1] - data['df_ohlc']['DateTime_frmt'][0] - dt.timedelta(seconds=1)
-#     y = data['df_ohlc']['DateTime_frmt'] + gap
-
-#     print('Merging OHLC data with full data ...')
-
-#     x = data['df']['DateTime_frmt']
-
-#     for idx in tqdm(y.index):
-#         # df_rows = x[x <= y[idx]]
-#         # if len(df_rows) > 0:
-#         # max_row = max(x[x <= y[idx]].index)
-#         y[idx] = x[max(x[x <= y[idx]].index)]
-
-
-#     data['df_ohlc']['DateTime_frmt'] = y
-
-#     data['df'] = data['df'].merge(data['df_ohlc'], how='left', on = 'DateTime_frmt')
-#     temp = data['df'][~pd.isna(data['df']['open'])]
-#     temp = temp[temp[['DateTime_frmt', 'open', 'high', 'low', 'close']].duplicated(keep = 'last')]
-#     dup_ind = temp.index
-#     # data['df'].loc[dup_ind, ['open', 'high', 'low', 'close']] = np.nan
-#     data['df'].loc[dup_ind, data['merge_col_names']] = np.nan
-
-#     data['df'] = data['df'].reset_index(drop=True) 
-#     data['df_len'] = len(data["df"])
-#     if data['to_csv']:
-#         data['df'].to_csv(data['df_name'], index = False) 
-
-#     # del data['df_ohlc']
-    
-#     return(data)
-#...............................................................................................  
-
-#...............................................................................................  
 def merge_ohlc_data(data):
+
+    data['df'] = data['df'].drop(columns = ['Volume', 'DateTime' , 'i'])
 
     gap     = data['df_ohlc']['DateTime_frmt'][1] - data['df_ohlc']['DateTime_frmt'][0] - dt.timedelta(seconds=1)
     y       = data['df_ohlc']['DateTime_frmt'] + gap
@@ -338,10 +327,18 @@ def merge_ohlc_data(data):
     temp        = data['df'][~pd.isna(data['df']['open'])]
     temp        = temp[temp[['DateTime_frmt', 'open', 'high', 'low', 'close']].duplicated(keep = 'last')]
     dup_ind     = temp.index
-    # data['df'].loc[dup_ind, ['open', 'high', 'low', 'close']] = np.nan
+
     data['df'].loc[dup_ind, data['merge_col_names']] = np.nan
+    
+    data['df'].loc[data['df']['up'].notnull(), 'up'] = data['df']['tick']    
+    data['df'].loc[data['df']['down'].notnull(), 'down'] = data['df']['tick']    
+    data['df'].loc[data['df']['up'].notnull(), 'dir'] = 'up'
+    data['df'].loc[data['df']['down'].notnull(), 'dir'] = 'down'
 
     data['df']  = data['df'].reset_index(drop=True) 
+
+    data['df'] = data['df'][data['cols']]
+
     data['df_len'] = len(data["df"])
     if data['to_csv']:
         data['df'].to_csv(data['df_name'], index = False) 
