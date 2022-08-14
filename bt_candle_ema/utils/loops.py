@@ -185,19 +185,31 @@ def get_rolling_emas(data):
     return(data)
 #...............................................................................................  
 
+# def get_ohlc(data):
+#     data['df_ohlc'] = data['df'][['DateTime_frmt', 'tick']]
+#     data['df_ohlc'] = data['df_ohlc'].set_index('DateTime_frmt')
+#     data['df_ohlc'] = data['df_ohlc'].resample(data['candle_size']).ohlc(_method='ohlc')
+
+#     col_names = [col[1] for col in data['df_ohlc'].columns.values]
+#     col_names.insert(0,'DateTime_frmt')
+#     data['df_ohlc'] = pd.DataFrame(data['df_ohlc'].to_records())
+#     data['df_ohlc'].columns = col_names
+
+#     data['df_ohlc']['ind_candle_size'] = data['df_ohlc']['high'] - data['df_ohlc']['low']
+
+#     return(data)
+
 def get_ohlc(data):
-    data['df_ohlc'] = data['df'][['DateTime_frmt', 'tick']]
+    data['df_ohlc'] = data['df'][['DateTime_frmt', 'tick', 'Volume']]
     data['df_ohlc'] = data['df_ohlc'].set_index('DateTime_frmt')
-    data['df_ohlc'] = data['df_ohlc'].resample(data['candle_size']).ohlc(_method='ohlc')
 
-    col_names = [col[1] for col in data['df_ohlc'].columns.values]
-    col_names.insert(0,'DateTime_frmt')
-    data['df_ohlc'] = pd.DataFrame(data['df_ohlc'].to_records())
-    data['df_ohlc'].columns = col_names
+    temp1 = data['df_ohlc']['tick'].resample(data['candle_size']).ohlc(_method='ohlc')
+    temp2 = data['df_ohlc']['Volume'].resample(data['candle_size']).sum()
 
-    data['df_ohlc']['ind_candle_size'] = data['df_ohlc']['high'] - data['df_ohlc']['low']
+    data['df_ohlc'] = temp1.join(temp2).reset_index()
 
     return(data)
+
 #...............................................................................................  
 
 def get_cdl_hammer_sstar(data):
@@ -300,44 +312,36 @@ def get_cdl_engulfing(data):
 #...............................................................................................  
 def merge_ohlc_data(data):
 
-    gap = data['df_ohlc']['DateTime_frmt'][1] - data['df_ohlc']['DateTime_frmt'][0] - dt.timedelta(seconds=1)
-    y = data['df_ohlc']['DateTime_frmt'] + gap
+    gap     = data['df_ohlc']['DateTime_frmt'][1] - data['df_ohlc']['DateTime_frmt'][0] - dt.timedelta(seconds=1)
+    y       = data['df_ohlc']['DateTime_frmt'] + gap
 
     print('Merging OHLC data with full data ...')
 
-    x = data['df']['DateTime_frmt']
+    x       = data['df']['DateTime_frmt']
 
     for idx in tqdm(y.index):
         if idx == 0:
-            # try:
             temp_df = x[(x <= y[idx])][-1:]
             if len(temp_df) > 0:
-                y[idx] = temp_df.values[0]
-                temp_start = y[idx]
-            # except:
-            #     temp_start = y[idx]
+                y[idx]      = temp_df.values[0]
+                temp_start  = y[idx]
         
         else:
-            # try:
             temp_df = x[(temp_start < x) & (x <= y[idx])][-1:]
-
             if len(temp_df) > 0:
-                y[idx] = temp_df.values[0]
-                temp_start = y[idx]
-            # except:
-            #     temp_start = y[idx]
-
+                y[idx]      = temp_df.values[0]
+                temp_start  = y[idx]
 
     data['df_ohlc']['DateTime_frmt'] = y
 
-    data['df'] = data['df'].merge(data['df_ohlc'], how='left', on = 'DateTime_frmt')
-    temp = data['df'][~pd.isna(data['df']['open'])]
-    temp = temp[temp[['DateTime_frmt', 'open', 'high', 'low', 'close']].duplicated(keep = 'last')]
-    dup_ind = temp.index
+    data['df']  = data['df'].merge(data['df_ohlc'], how='left', on = 'DateTime_frmt')
+    temp        = data['df'][~pd.isna(data['df']['open'])]
+    temp        = temp[temp[['DateTime_frmt', 'open', 'high', 'low', 'close']].duplicated(keep = 'last')]
+    dup_ind     = temp.index
     # data['df'].loc[dup_ind, ['open', 'high', 'low', 'close']] = np.nan
     data['df'].loc[dup_ind, data['merge_col_names']] = np.nan
 
-    data['df'] = data['df'].reset_index(drop=True) 
+    data['df']  = data['df'].reset_index(drop=True) 
     data['df_len'] = len(data["df"])
     if data['to_csv']:
         data['df'].to_csv(data['df_name'], index = False) 

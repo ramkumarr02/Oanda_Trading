@@ -143,7 +143,7 @@ data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 data['df_subset_size'] = None
 
 data['start_date'] = {'year':2022, 'month':6, 'date':1}
-data['end_date']   = {'year':2022, 'month':6, 'date':30}
+data['end_date']   = {'year':2022, 'month':6, 'date':5}
 
 data['ema_roll_method'] = 'new'
 
