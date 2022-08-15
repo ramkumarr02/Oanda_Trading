@@ -185,22 +185,20 @@ def generate_result_report(data):
 #...............................................................................................
 #...............................................................................................
 def plot_graph(data):
+    temp_df = data['df_ohlc']
+
     if data["plot"]:
         if data['reduce_plot']:
-            data['plot_df'] = data['df'][(data['df']['DateTime_frmt'] > data['plot_start']) & (data['df']['DateTime_frmt'] < data['plot_stop'])]
+            data['plot_df'] = temp_df[(temp_df['DateTime_frmt'] > data['plot_start']) & (temp_df['DateTime_frmt'] < data['plot_stop'])]
         else:
-            data['plot_df'] = data['df']
+            data['plot_df'] = temp_df            
 
         # Plot Layout --------------------------------
-        chart_name = f"Trade Chart"
-        layout = go.Layout(title = chart_name,
-                        xaxis = dict(title="DateTime"),
-                        xaxis2 = dict(title= 'x', side= 'top'),
-                        
-                        yaxis = dict(title="PIP"),
-                        yaxis2 = dict(title= 'Trend Angle', overlaying="y", side="right",)
-                        )
-        fig = go.Figure(layout = layout)
+        fig = go.Figure(data=[go.Candlestick(x=data['plot_df']['DateTime_frmt'],
+                open=data['plot_df']['open'],
+                high=data['plot_df']['high'],
+                low=data['plot_df']['low'],
+                close=data['plot_df']['close'])])
         # -------------------------------------------------------------------
 
 
@@ -230,6 +228,15 @@ def plot_graph(data):
                                 line=dict(color='blue', width=1),
                             )
                     ) 
+
+            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+                                y=data['plot_df']['HT_trendline'],
+                                mode='lines',
+                                name='HT_trendline',
+                                line=dict(color='black', width=0.5, dash = 'dot'),
+                            )
+                    ) 
+
         # -------------------------------------------------------------------
 
         # -------------------------------------------------------------------

@@ -117,8 +117,6 @@ data['stop_loss_method']    = 'simple'
 data['pl_loss_trail_trigger']       = -0.0020
 data['pl_loss_trail_size']          = 1.25
 
-
-
 data['input_rows'] = None
 data['sema_close_flag'] = False
 
@@ -143,12 +141,12 @@ data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 data['df_subset_size'] = None
 
 data['start_date'] = {'year':2022, 'month':6, 'date':1}
-data['end_date']   = {'year':2022, 'month':6, 'date':2}
+data['end_date']   = {'year':2022, 'month':6, 'date':10}
 
 data['ema_roll_method'] = 'new'
 
-data['sema_len']    = 2500
-data['lema_len']    = 10000
+data['sema_len']    = 20
+data['lema_len']    = 50
 
 # x                   = 1000
 # data['sema_len']    = int(x / 5)
@@ -156,12 +154,20 @@ data['lema_len']    = 10000
 # data['lema_len']    = int(x * 2)
 # data['angle_len']   = int(x * 2)
 # data['angle_len_2']   = int(x * 2)
-data['candle_size'] = '15T'
+data['candle_size'] = '5T'
+data['num_fwd_candles'] = 3
+data['min_pip_target'] = 0.0002
+
+data['classifier'] = xgboost.XGBClassifier(eval_metric = 'logloss')
+
+data["target_col"] = 'dir'
+
 data['avg_candle_num'] = 2
 data['range_size'] = 0.0002
 
 # data['merge_col_names'] = ['open', 'high', 'low', 'close', 'cdl_hammer', 'cdl_shootingstar', 'cdl_engulfing_up', 'cdl_engulfing_down']
-data['merge_col_names'] = ['open', 'high', 'low', 'close', 'Volume', 'candle_size', 'up_range', 'down_range', 'up', 'down']
+# data['merge_col_names'] = ['open', 'high', 'low', 'close', 'Volume', 'candle_size', 'up_range', 'down_range', 'up', 'down']
+data['merge_col_names'] = ['open', 'high', 'low', 'close', 'Volume', 'candle_size', 'dir']
 
 data['cols'] = ['DateTime_frmt', 
  'Bid', 'Ask', 'tick', 'sema', 'lema', 

@@ -2,6 +2,7 @@ from utils.packages import *
 from utils.loops import *
 from utils.dir_slope import *
 from utils.order import *
+from utils.ml import *
 
 if data['plot']:
     import matplotlib.pyplot as plt
@@ -11,12 +12,20 @@ if data['plot']:
 def run_engine(data):
 
     data["start_ts"]    = dt.datetime.strftime(dt.datetime.now(), '%Y-%m-%d-%H-%M')
+
     data                = get_date_list(data)
     data                = read_data(data)
     data                = format_tick_time(data)
-    data                = get_tick_indicators(data)   
+
     data                = get_ohlc(data)
-    data                = merge_ohlc_data(data)
+    data                = get_indicators(data)
+
+    data                = encode_x_y_split(data)
+    data                = train_model(data)
+    data                = print_classification_report(data)
+
+    # data                = get_tick_indicators(data)   
+    # data                = merge_ohlc_data(data)
 
     # data['df']['touched_line']  = np.nan
     # data['df']['order_side']    = np.nan

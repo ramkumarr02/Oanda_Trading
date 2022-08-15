@@ -192,9 +192,7 @@ def format_tick_time(data):
     data['df']['tick']          = (data["df"]['Ask'] + data["df"]['Bid'])/2
     data['df']['DateTime_frmt'] = [dt.datetime.strptime(x.split(".")[0],"%Y%m%d %H:%M:%S") for x in data["df"]['DateTime']]    
 
-    print('Tick and Time formatting completed')
-    if data['send_message_to_phone']:
-        send_telegram_message(f'format_tick_time : Completed')
+    print('format_tick_time : Completed')
 
     return(data)
 
@@ -212,10 +210,14 @@ def get_tick_indicators(data):
     # Building BBands --------------------------------------
     data['df']['BBand_upper'], data['df']['BBand_middle'], data['df']['BBand_lower'] = talib.BBANDS(data['df']['tick'], timeperiod = data['sema_len'], nbdevup = 2, nbdevdn = 2, matype=0)
 
+    # Building HT Trendline --------------------------------------
+    data['df']['HT_trendline'] = talib.HT_TRENDLINE(data['df']['tick'])
+    data['df'] = data['df'].dropna()
+
     data['df'] = data['df'].reset_index(drop=True).round(6)  
     data['df'] = data['df'].round(6)  
 
-    print('EMA Rolling completed')    
+    print('get_tick_indicators                      : Completed')    
     if data['send_message_to_phone']:
         send_telegram_message(f'get_tick_indicators : Completed')
 
@@ -233,6 +235,8 @@ def get_ohlc(data):
 
     ohlc = ohlc.join(vol)
     ohlc = ohlc.join(ticks_in_candle)
+
+    ohlc = ohlc.dropna()
     data['df_ohlc'] = ohlc.reset_index()
     data['df_ohlc'] = data['df_ohlc'].rename(columns={'tick':'num_ticks'})
 
@@ -242,20 +246,46 @@ def get_ohlc(data):
     del vol
     del ticks_in_candle
 
+    data['df_ohlc']['dir'] = np.nan
+
+    for i in tqdm(range(0,len(data['df_ohlc'])-1)):
+        open_tick = data['df_ohlc']['open'][i+1]    
+        high_tick = max(data['df_ohlc']['high'][i+1:i+1+data['num_fwd_candles']])
+        low_tick = min(data['df_ohlc']['low'][i+1:i+1+data['num_fwd_candles']])
+        
+        up_range = high_tick - open_tick
+        down_range = open_tick - low_tick
+        
+        if up_range > down_range:
+            if up_range > data['min_pip_target']:
+                data['df_ohlc']['dir'][i] = 'up'
+            else:
+                data['df_ohlc']['dir'][i] = 'no_dir'
+                
+        elif up_range < down_range:
+            if down_range > data['min_pip_target']:
+                data['df_ohlc']['dir'][i] = 'down'
+            else:
+                data['df_ohlc']['dir'][i] = 'no_dir'
+
+        else:
+            data['df_ohlc']['dir'][i] = 'no_dir'
+
+
 
     # Get Candle Dir --------------------------------------------------------
-    data['df_ohlc']['up_range'] = data['df_ohlc']['high'] - data['df_ohlc']['open']
-    data['df_ohlc']['down_range'] = data['df_ohlc']['open'] - data['df_ohlc']['low']
+    # data['df_ohlc'].loc[data['df_ohlc']['dir'] == 'up', 'up'] = data['df_ohlc']['close']    
+    # data['df_ohlc'].loc[data['df_ohlc']['dir'] == 'down', 'down'] = data['df_ohlc']['close']      
+        
+    # Split timestamp --------------------------------------------------------
+    # data['df_ohlc']['year'] = data['df_ohlc']['DateTime_frmt'].dt.year
+    # data['df_ohlc']['month'] = data['df_ohlc']['DateTime_frmt'].dt.month
+    # data['df_ohlc']['day'] = data['df_ohlc']['DateTime_frmt'].dt.day
+    data['df_ohlc']['weekday'] = data['df_ohlc']['DateTime_frmt'].dt.weekday
+    data['df_ohlc']['hour'] = data['df_ohlc']['DateTime_frmt'].dt.hour
+    data['df_ohlc']['min'] = data['df_ohlc']['DateTime_frmt'].dt.minute
 
-    data['df_ohlc'].loc[(data['df_ohlc']['up_range'] > data['df_ohlc']['down_range']) & (data['df_ohlc']['up_range'] > data['range_size']),'up'] = '1'
-    data['df_ohlc'].loc[(data['df_ohlc']['up_range'] < data['df_ohlc']['down_range']) & (data['df_ohlc']['down_range'] > data['range_size']),'down'] = '1'
-
-    # del data['df_ohlc']['up_range']
-    # del data['df_ohlc']['down_range']
-    # Get Candle Dir --------------------------------------------------------
-
-
-    print('EMA Rolling completed')    
+    print('get_ohlc         : completed')    
     if data['send_message_to_phone']:
         send_telegram_message(f'get_ohlc : Completed')    
 
@@ -263,38 +293,41 @@ def get_ohlc(data):
 
 #...............................................................................................  
 
-def get_cdl_hammer_sstar(data):
-    data['df_ohlc']['cdl_hammer'] = talib.CDLHAMMER(data['df_ohlc']['open'], data['df_ohlc']['high'], data['df_ohlc']['low'], data['df_ohlc']['close'])
-    data['df_ohlc']['cdl_hammer'] = data['df_ohlc']['cdl_hammer'].replace({0:np.nan})
-    data['df_ohlc']['cdl_hammer'] = np.where(data['df_ohlc']['cdl_hammer'] == 100, data['df_ohlc']['close'], data['df_ohlc']['cdl_hammer'])
+#...............................................................................................  
+def get_indicators(data):
+    
+    # Building Lema --------------------------------------
+    data['df_ohlc']['lema'] = talib.EMA(data['df_ohlc']['close'], timeperiod = data['lema_len'])
 
-    data['df_ohlc']['cdl_shootingstar'] = talib.CDLSHOOTINGSTAR(data['df_ohlc']['open'], data['df_ohlc']['high'], data['df_ohlc']['low'], data['df_ohlc']['close'])
-    data['df_ohlc']['cdl_shootingstar'] = data['df_ohlc']['cdl_shootingstar'].replace({0:np.nan})
-    data['df_ohlc']['cdl_shootingstar'] = np.where(data['df_ohlc']['cdl_shootingstar'] == -100, data['df_ohlc']['close'], data['df_ohlc']['cdl_shootingstar'])
+    # Building Sema --------------------------------------
+    data['df_ohlc']['sema'] = talib.EMA(data['df_ohlc']['close'], timeperiod = data['sema_len'])
+
+    # Building BBands --------------------------------------
+    data['df_ohlc']['BBand_upper'], data['df_ohlc']['BBand_middle'], data['df_ohlc']['BBand_lower'] = talib.BBANDS(data['df_ohlc']['close'], timeperiod = data['sema_len'], nbdevup = 2, nbdevdn = 2, matype=0)
+
+    # Building HT Trendline --------------------------------------
+    data['df_ohlc']['HT_trendline'] = talib.HT_TRENDLINE(data['df_ohlc']['close'])
+
+    # Building HT Trendline --------------------------------------
+    data['df_ohlc']['ADX'] = talib.ADX(data['df_ohlc']['high'], data['df_ohlc']['low'], data['df_ohlc']['close'], timeperiod = data['sema_len'])
+
+    data['df_ohlc'] = data['df_ohlc'].reset_index(drop=True).round(6)  
+    data['df_ohlc'] = data['df_ohlc'].round(6)  
+
+    data['df_ohlc'] = data['df_ohlc'].dropna()
+    data['df_ohlc'] = data['df_ohlc'].reset_index(drop=True) 
+    
+    if data['to_csv']:
+        data['df_ohlc'].to_csv(data['df_name'], index = False) 
+
+    print('get_tick_indicators  : Completed')    
+    if data['send_message_to_phone']:
+        send_telegram_message(f'get_tick_indicators : Completed')
+
 
     return(data)
 
-#...............................................................................................  
-
-#...............................................................................................  
-
-def get_cdl_engulfing(data):
-    data['df_ohlc']['cdl_engulfing'] = talib.CDLENGULFING(data['df_ohlc']['open'], data['df_ohlc']['high'], data['df_ohlc']['low'], data['df_ohlc']['close'])
-
-    data['df_ohlc']['cdl_engulfing_up'] = data['df_ohlc']['cdl_engulfing'][data['df_ohlc']['cdl_engulfing'] == 100]
-    data['df_ohlc']['cdl_engulfing_down'] = data['df_ohlc']['cdl_engulfing'][data['df_ohlc']['cdl_engulfing'] == -100]
-
-    data['df_ohlc']['cdl_engulfing_up'] = data['df_ohlc']['cdl_engulfing_up'].replace({0:np.nan})
-    data['df_ohlc']['cdl_engulfing_up'] = np.where(data['df_ohlc']['cdl_engulfing_up'] == 100, data['df_ohlc']['close'], data['df_ohlc']['cdl_engulfing_up'])
-
-    data['df_ohlc']['cdl_engulfing_down'] = data['df_ohlc']['cdl_engulfing_down'].replace({0:np.nan})
-    data['df_ohlc']['cdl_engulfing_down'] = np.where(data['df_ohlc']['cdl_engulfing_down'] == -100, data['df_ohlc']['close'], data['df_ohlc']['cdl_engulfing_down'])
-
-    del data['df_ohlc']['cdl_engulfing'] 
-
-    return(data)
-
-#...............................................................................................  
+#...............................................................................................
 
 #...............................................................................................  
 def merge_ohlc_data(data):
@@ -330,14 +363,17 @@ def merge_ohlc_data(data):
 
     data['df'].loc[dup_ind, data['merge_col_names']] = np.nan
     
-    data['df'].loc[data['df']['up'].notnull(), 'up'] = data['df']['tick']    
-    data['df'].loc[data['df']['down'].notnull(), 'down'] = data['df']['tick']    
-    data['df'].loc[data['df']['up'].notnull(), 'dir'] = 'up'
-    data['df'].loc[data['df']['down'].notnull(), 'dir'] = 'down'
+    data['df'].loc[data['df']['dir'] == 'up', 'up'] = data['df']['tick']    
+    data['df'].loc[data['df']['dir'] == 'down', 'down'] = data['df']['tick']    
+
+    # data['df'].loc[data['df']['up'].notnull(), 'up'] = data['df']['tick']    
+    # data['df'].loc[data['df']['down'].notnull(), 'down'] = data['df']['tick']    
+    # data['df'].loc[data['df']['up'].notnull(), 'dir'] = 'up'
+    # data['df'].loc[data['df']['down'].notnull(), 'dir'] = 'down'
 
     data['df']  = data['df'].reset_index(drop=True) 
 
-    data['df'] = data['df'][data['cols']]
+    # data['df'] = data['df'][data['cols']]
 
     data['df_len'] = len(data["df"])
     if data['to_csv']:
@@ -363,6 +399,38 @@ def capture_iterative_data(data):
     data['cdl_engulfing_down']  = data['df']['cdl_engulfing_down'][data['i']]   
     if not pd.isna(data['df']['ind_candle_size'][data['i']]):
         data['min_stop_loss_pip']  = -data['df']['ind_candle_size'][data['i']]    
+    return(data)
+
+#...............................................................................................  
+def get_cdl_hammer_sstar(data):
+    data['df_ohlc']['cdl_hammer'] = talib.CDLHAMMER(data['df_ohlc']['open'], data['df_ohlc']['high'], data['df_ohlc']['low'], data['df_ohlc']['close'])
+    data['df_ohlc']['cdl_hammer'] = data['df_ohlc']['cdl_hammer'].replace({0:np.nan})
+    data['df_ohlc']['cdl_hammer'] = np.where(data['df_ohlc']['cdl_hammer'] == 100, data['df_ohlc']['close'], data['df_ohlc']['cdl_hammer'])
+
+    data['df_ohlc']['cdl_shootingstar'] = talib.CDLSHOOTINGSTAR(data['df_ohlc']['open'], data['df_ohlc']['high'], data['df_ohlc']['low'], data['df_ohlc']['close'])
+    data['df_ohlc']['cdl_shootingstar'] = data['df_ohlc']['cdl_shootingstar'].replace({0:np.nan})
+    data['df_ohlc']['cdl_shootingstar'] = np.where(data['df_ohlc']['cdl_shootingstar'] == -100, data['df_ohlc']['close'], data['df_ohlc']['cdl_shootingstar'])
+
+    return(data)
+
+#...............................................................................................  
+
+#...............................................................................................  
+
+def get_cdl_engulfing(data):
+    data['df_ohlc']['cdl_engulfing'] = talib.CDLENGULFING(data['df_ohlc']['open'], data['df_ohlc']['high'], data['df_ohlc']['low'], data['df_ohlc']['close'])
+
+    data['df_ohlc']['cdl_engulfing_up'] = data['df_ohlc']['cdl_engulfing'][data['df_ohlc']['cdl_engulfing'] == 100]
+    data['df_ohlc']['cdl_engulfing_down'] = data['df_ohlc']['cdl_engulfing'][data['df_ohlc']['cdl_engulfing'] == -100]
+
+    data['df_ohlc']['cdl_engulfing_up'] = data['df_ohlc']['cdl_engulfing_up'].replace({0:np.nan})
+    data['df_ohlc']['cdl_engulfing_up'] = np.where(data['df_ohlc']['cdl_engulfing_up'] == 100, data['df_ohlc']['close'], data['df_ohlc']['cdl_engulfing_up'])
+
+    data['df_ohlc']['cdl_engulfing_down'] = data['df_ohlc']['cdl_engulfing_down'].replace({0:np.nan})
+    data['df_ohlc']['cdl_engulfing_down'] = np.where(data['df_ohlc']['cdl_engulfing_down'] == -100, data['df_ohlc']['close'], data['df_ohlc']['cdl_engulfing_down'])
+
+    del data['df_ohlc']['cdl_engulfing'] 
+
     return(data)
 
 #...............................................................................................  
