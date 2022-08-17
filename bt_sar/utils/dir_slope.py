@@ -1,8 +1,23 @@
 from utils.packages import *
 
 
-def get_candle_indicator_direction(data):
+def get_direction(data):
     
+    if (data['BBand_width'] >= data['min_BBand_width']) & (data['close'] > data['lema']) & (data['close'] > data['sar']):
+        data['to_order'] = 'long'
+
+    elif (data['BBand_width'] >= data['min_BBand_width']) & (data['close'] < data['lema']) & (data['close'] < data['sar']):
+        data['to_order'] = 'short'
+
+    else:
+        data['to_order'] = None
+
+    return(data)
+
+#...............................................................................................
+
+    
+def get_candle_indicator_direction(data):
     if data['cdl_engulfing_up'] == data['close']:
         data['to_order'] = 'long'
 

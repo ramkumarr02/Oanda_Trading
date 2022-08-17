@@ -52,25 +52,25 @@ def get_date_list(data):
 
 #...............................................................................................
 def split_date_col(data):
-    data['df']['month_val'] = [x.month for x in data['df']['DateTime_frmt']]
-    data['df']['date_val'] = [x.day for x in data['df']['DateTime_frmt']]
-    data['df']['hour_val'] = [x.hour for x in data['df']['DateTime_frmt']]
+    # data['df']['month_val'] = [x.month for x in data['df']['DateTime_frmt']]
+    # data['df']['date_val'] = [x.day for x in data['df']['DateTime_frmt']]
+    # data['df']['hour_val'] = [x.hour for x in data['df']['DateTime_frmt']]
 
-    data['df']['long_profit'] = np.nan
-    data['df']['long_loss'] = np.nan
-    data['df']['short_profit'] = np.nan
-    data['df']['short_loss'] = np.nan
+    data['df_ohlc']['long_profit'] = np.nan
+    data['df_ohlc']['long_loss'] = np.nan
+    data['df_ohlc']['short_profit'] = np.nan
+    data['df_ohlc']['short_loss'] = np.nan
 
-    data['df']['long_profit'][data['df']['pl'] > 0] = data['df']['long_close']
-    data['df']['long_loss'][data['df']['pl'] < 0] = data['df']['long_close']
+    data['df_ohlc']['long_profit'][data['df_ohlc']['pl'] > 0] = data['df_ohlc']['long_close']
+    data['df_ohlc']['long_loss'][data['df_ohlc']['pl'] < 0] = data['df_ohlc']['long_close']
 
-    data['df']['short_profit'][data['df']['pl'] > 0] = data['df']['short_close']
-    data['df']['short_loss'][data['df']['pl'] < 0] = data['df']['short_close']
+    data['df_ohlc']['short_profit'][data['df_ohlc']['pl'] > 0] = data['df_ohlc']['short_close']
+    data['df_ohlc']['short_loss'][data['df_ohlc']['pl'] < 0] = data['df_ohlc']['short_close']
 
-    # del data['df']['long_close']
-    # del data['df']['short_close']
+    del data['df_ohlc']['long_close']
+    del data['df_ohlc']['short_close']
 
-    # data['df'] = data['df'][data['final_columns_list']]
+    # data['df_ohlc'] = data['df_ohlc'][data['final_columns_list']]
     return(data)
 #...............................................................................................
 
@@ -93,9 +93,9 @@ def create_report(data):
     except: 
         pass
 
-    print(np.sum(data['df'][['pl']]))
+    print(np.sum(data['df_ohlc'][['pl']]))
     print('--------------------------------------')
-    print(data['df'][data['df']['pl'].notnull()][['DateTime_frmt', 'order_side','close_type', 'pl']].tail(15))
+    print(data['df_ohlc'][data['df_ohlc']['pl'].notnull()][['DateTime_frmt', 'order_side','close_type', 'pl']].tail(15))
 
 #...............................................................................................    
 
@@ -222,18 +222,19 @@ def plot_graph(data):
                     )                                                                                                                                                 
 
             fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
-                                y=data['plot_df']['lema'],
+                                y=data['plot_df']['slema'],
                                 mode='lines',
-                                name='lema',
+                                name='slema',
                                 line=dict(color='blue', width=1),
                             )
                     ) 
 
+
             fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
-                                y=data['plot_df']['HT_trendline'],
+                                y=data['plot_df']['lema'],
                                 mode='lines',
-                                name='HT_trendline',
-                                line=dict(color='black', width=0.5, dash = 'dot'),
+                                name='lema',
+                                line=dict(color='black', width=1),
                             )
                     ) 
 
@@ -250,13 +251,13 @@ def plot_graph(data):
                             )
                     )                                                                         
 
-            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
-                                y=data['plot_df']['BBand_middle'],
-                                mode='lines',
-                                name='BBand_middle',
-                                line=dict(color='black', width=0.5, dash = 'dash'),
-                            )
-                    )                                                                         
+            # fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+            #                     y=data['plot_df']['BBand_middle'],
+            #                     mode='lines',
+            #                     name='BBand_middle',
+            #                     line=dict(color='black', width=0.5, dash = 'dash'),
+            #                 )
+            #         )                                                                         
 
             fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
                                 y=data['plot_df']['BBand_lower'],
@@ -271,127 +272,21 @@ def plot_graph(data):
         # -------------------------------------------------------------------
         if 'dots' in data['things_to_plot']:
             fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
-                                y = data['plot_df']['up'], 
+                                y = data['plot_df']['sar'], 
                                 mode = 'markers', 
-                                name = 'up',
-                                marker_symbol = 'triangle-up',
-                                marker=dict(color='blue',
-                                            size=10,
-                                            line=dict(
-                                                color='blue',
-                                                width=1
-                                            )),
-                                opacity=1)
-            fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
-                                y = data['plot_df']['down'], 
-                                mode = 'markers', 
-                                name = 'down',
-                                marker_symbol = 'triangle-down',
+                                name = 'sar',
+                                marker_symbol = 'circle',
                                 marker=dict(color='red',
-                                            size=10,
+                                            size=5,
                                             line=dict(
-                                                color='red',
+                                                color='black',
                                                 width=1
                                             )),
                                 opacity=1)
-        # -------------------------------------------------------------------
 
         # -------------------------------------------------------------------
-        if 'h_l' in data['things_to_plot']:
-            fig.add_scatter(x = data['df']['DateTime_frmt'], 
-                            y = data['df']['h'], 
-                            mode = 'markers', 
-                            name = 'high',
-                            marker_symbol = 'circle',
-                            marker=dict(color='red',
-                                        size=data['marker_size'],
-                                        line=dict(
-                                            color='red',
-                                            width=5
-                                        )),                            
-                            opacity=1)
 
-            fig.add_scatter(x = data['df']['DateTime_frmt'], 
-                            y = data['df']['l'], 
-                            mode = 'markers', 
-                            name = 'low',
-                            marker_symbol = 'circle',
-                            marker=dict(color='blue',
-                                        size=data['marker_size'],
-                                        line=dict(
-                                            color='blue',
-                                            width=5
-                                        )),
-                            opacity=1)                             
-        # -------------------------------------------------------------------
-
-
-        # -------------------------------------------------------------------
-        if 'h_l_lema' in data['things_to_plot']:
-            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
-                                y=data['plot_df']['h_lema'],
-                                mode='lines',
-                                name='h_lema',
-                                line=dict(color='red', width=1, dash = 'dash'),
-                            )
-                    )   
-
-            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
-                                y=data['plot_df']['l_lema'],
-                                mode='lines',
-                                name='l_lema',
-                            line=dict(color='blue', width=1, dash = 'dash'),
-                            )
-                    )   
-
-            # fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
-            #                     y=data['plot_df']['h_lema_2'],
-            #                     mode='lines',
-            #                     name='h_lema_2',
-            #                     line=dict(color='red', width=1, dash = 'dash'),
-            #                 )
-            #         )   
-
-            # fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
-            #                     y=data['plot_df']['l_lema_2'],
-            #                     mode='lines',
-            #                     name='l_lema_2',
-            #                 line=dict(color='blue', width=1, dash = 'dash'),
-            #                 )
-            #         )                       
-        # -------------------------------------------------------------------
-
-
-        # -------------------------------------------------------------------
-        if 'tick_angle' in data['things_to_plot']:
-            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
-                                y=data['plot_df']['tick_angle'],
-                                mode='lines',
-                                name='tick_angle',
-                                yaxis='y2',
-                            line=dict(color='grey', width=1, dash = 'dot'),
-                            )
-                    )   
-                    
-            # fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
-            #                     y=data['plot_df']['tick_angle_2'],
-            #                     mode='lines',
-            #                     name='tick_angle_2',
-            #                     yaxis='y2',
-            #                 line=dict(color='darkcyan', width=1, dash = 'dot'),
-            #                 )
-            #         )   
-
-            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
-                                y=[0] * len(data['plot_df']['tick_angle']),
-                                mode='lines',
-                                name='angle_0',
-                                yaxis='y2',
-                            line=dict(color='grey', width=1),
-                            )
-                    )   
-        # -------------------------------------------------------------------
-
+ 
 
         # -------------------------------------------------------------------
         if 'positions' in data['things_to_plot']:
@@ -475,18 +370,18 @@ def plot_graph(data):
                                     )),
                         opacity=1)    
 
-            fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
-                        y = data['plot_df']['all_close'], 
-                        mode = 'markers', 
-                        name = 'all_close',
-                        marker_symbol = 'circle',
-                        marker=dict(color='black',
-                                    size=10,
-                                    line=dict(
-                                        color='red',
-                                        width=1
-                                    )),
-                        opacity=1)                           
+            # fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
+            #             y = data['plot_df']['all_close'], 
+            #             mode = 'markers', 
+            #             name = 'all_close',
+            #             marker_symbol = 'circle',
+            #             marker=dict(color='black',
+            #                         size=10,
+            #                         line=dict(
+            #                             color='red',
+            #                             width=1
+            #                         )),
+            #             opacity=1)                           
         # -------------------------------------------------------------------
         # -------------------------------------------------------------------
         if 'indicators' in data['things_to_plot']:

@@ -23,65 +23,16 @@ def get_ohlc(data):
     data['df_ohlc'] = data['df_ohlc'].set_index('DateTime_frmt')
 
     ohlc            = data['df_ohlc']['tick'].resample(data['candle_size']).ohlc(_method='ohlc')
-    vol             = data['df_ohlc']['Volume'].resample(data['candle_size']).sum()
-    ticks_in_candle = data['df_ohlc']['tick'].resample(data['candle_size']).count()
-
-    ohlc = ohlc.join(vol)
-    ohlc = ohlc.join(ticks_in_candle)
-
+    
     ohlc = ohlc.dropna()
     data['df_ohlc'] = ohlc.reset_index()
-    data['df_ohlc'] = data['df_ohlc'].rename(columns={'tick':'num_ticks'})
 
-    data['df_ohlc']['candle_size'] = data['df_ohlc']['high'] - data['df_ohlc']['low']
+    data['df_ohlc']['candle_size']  = data['df_ohlc']['high'] - data['df_ohlc']['low']
+    data['df_ohlc']['ask']          = data['df_ohlc']['close'] + (data['spread'] / 2)
+    data['df_ohlc']['bid']          = data['df_ohlc']['close'] - (data['spread'] / 2)
+
 
     del ohlc
-    del vol
-    del ticks_in_candle
-
-    data['df_ohlc']['dir'] = np.nan
-
-    for i in tqdm(range(0,len(data['df_ohlc'])-1)):
-        # open_tick = data['df_ohlc']['open'][i+1]    
-        # high_tick = max(data['df_ohlc']['high'][i+1:i+1+data['num_fwd_candles']])
-        # low_tick = min(data['df_ohlc']['low'][i+1:i+1+data['num_fwd_candles']])
-        
-        # up_range = high_tick - open_tick
-        # down_range = open_tick - low_tick
-
-        # data['min_pip_move'] = max(data['df_ohlc']['candle_size'][i], data['min_pip_target'])
-        
-        # if up_range > down_range:
-        #     if up_range > data['min_pip_move']:
-        #         data['df_ohlc']['dir'][i] = 'up'
-        #     else:
-        #         data['df_ohlc']['dir'][i] = 'no_dir'
-                
-        # elif up_range < down_range:
-        #     if down_range > data['min_pip_move']:
-        #         data['df_ohlc']['dir'][i] = 'down'
-        #     else:
-        #         data['df_ohlc']['dir'][i] = 'no_dir'
-
-        # else:
-        #     data['df_ohlc']['dir'][i] = 'no_dir'
-
-        open_tick = data['df_ohlc']['open'][i+1] 
-        close_tick = data['df_ohlc']['close'][i+1] 
-
-        if open_tick > close_tick:
-            data['df_ohlc']['dir'][i] = 'red'
-        elif open_tick < close_tick:
-            data['df_ohlc']['dir'][i] = 'green'
-
-        
-    # Split timestamp --------------------------------------------------------
-    # data['df_ohlc']['year'] = data['df_ohlc']['DateTime_frmt'].dt.year
-    # data['df_ohlc']['month'] = data['df_ohlc']['DateTime_frmt'].dt.month
-    # data['df_ohlc']['day'] = data['df_ohlc']['DateTime_frmt'].dt.day
-    data['df_ohlc']['weekday'] = data['df_ohlc']['DateTime_frmt'].dt.weekday
-    data['df_ohlc']['hour'] = data['df_ohlc']['DateTime_frmt'].dt.hour
-    data['df_ohlc']['min'] = data['df_ohlc']['DateTime_frmt'].dt.minute
 
     print('get_ohlc         : completed')    
     if data['send_message_to_phone']:
@@ -98,47 +49,24 @@ def get_indicators(data):
     data['df_ohlc']['lema'] = talib.EMA(data['df_ohlc']['close'], timeperiod = data['lema_len'])
 
     # Sema --------------------------------------
+    data['df_ohlc']['slema'] = talib.EMA(data['df_ohlc']['close'], timeperiod = data['slema_len'])
+
+    # Sema --------------------------------------
     data['df_ohlc']['sema'] = talib.EMA(data['df_ohlc']['close'], timeperiod = data['sema_len'])
 
     # BBands --------------------------------------
     data['df_ohlc']['BBand_upper'], data['df_ohlc']['BBand_middle'], data['df_ohlc']['BBand_lower'] = talib.BBANDS(data['df_ohlc']['close'], timeperiod = data['sema_len'], nbdevup = 2, nbdevdn = 2, matype=0)
+    data['df_ohlc']['BBand_width'] = data['df_ohlc']['BBand_upper'] - data['df_ohlc']['BBand_lower']
+    del data['df_ohlc']['BBand_middle']
 
-    data['df_ohlc']['green_candle'] = 0
-    data['df_ohlc']['red_candle'] = 0
-    data['df_ohlc'].loc[data['df_ohlc']['close'] > data['df_ohlc']['open'], 'green_candle'] = 1
-    data['df_ohlc'].loc[data['df_ohlc']['open'] > data['df_ohlc']['close'], 'red_candle'] = 1
-
-    data['df_ohlc']['lower_touch'] = 0
-    data['df_ohlc']['middle_touch'] = 0
-    data['df_ohlc']['high_touch'] = 0    
-    data['df_ohlc'].loc[(data['df_ohlc']['high'] >= data['df_ohlc']['BBand_lower']) & (data['df_ohlc']['BBand_lower'] >= data['df_ohlc']['low']), 'lower_touch'] = 1
-    data['df_ohlc'].loc[(data['df_ohlc']['high'] >= data['df_ohlc']['BBand_middle']) & (data['df_ohlc']['BBand_middle'] >= data['df_ohlc']['low']), 'middle_touch'] = 1
-    data['df_ohlc'].loc[(data['df_ohlc']['high'] >= data['df_ohlc']['BBand_upper']) & (data['df_ohlc']['BBand_upper'] >= data['df_ohlc']['low']), 'high_touch'] = 1
-
-    # HT Trendline --------------------------------------
-    data['df_ohlc']['HT_trendline'] = talib.HT_TRENDLINE(data['df_ohlc']['close'])
-
-    # Average Directional Movement Index --------------------------------------
-    data['df_ohlc']['ADX'] = talib.ADX(data['df_ohlc']['high'], data['df_ohlc']['low'], data['df_ohlc']['close'], timeperiod = data['sema_len'])
-
-    # Absolute Price Oscillator --------------------------------------
-    data['df_ohlc']['APO'] = talib.APO(data['df_ohlc']['close'], fastperiod = data['sema_len'], slowperiod = data['lema_len'], matype=0)
-
-    # cdl_hammer & Shooting star--------------------------------------
-    data['df_ohlc']['cdl_hammer'] = talib.CDLHAMMER(data['df_ohlc']['open'], data['df_ohlc']['high'], data['df_ohlc']['low'], data['df_ohlc']['close'])
-    data['df_ohlc']['cdl_shootingstar'] = talib.CDLSHOOTINGSTAR(data['df_ohlc']['open'], data['df_ohlc']['high'], data['df_ohlc']['low'], data['df_ohlc']['close'])
-
-    # cdl_engulfing --------------------------------------
-    data['df_ohlc']['cdl_engulfing'] = talib.CDLENGULFING(data['df_ohlc']['open'], data['df_ohlc']['high'], data['df_ohlc']['low'], data['df_ohlc']['close'])
-
-
-    data['df_ohlc'] = data['df_ohlc'].reset_index(drop=True).round(6)  
-    data['df_ohlc'] = data['df_ohlc'].round(6)  
+    # BBands --------------------------------------
+    data['df_ohlc']['sar'] = talib.SAR(data['df_ohlc']['high'], data['df_ohlc']['low'], acceleration=0.02, maximum=0.2)
 
     data['df_ohlc'] = data['df_ohlc'].dropna()
-    data['df_ohlc'] = data['df_ohlc'].reset_index(drop=True) 
+    data['df_ohlc'] = data['df_ohlc'].reset_index(drop=True).round(6)  
 
-    print(f'Record num : {len(data["df_ohlc"])}')
+    data['df_len'] = len(data["df_ohlc"])
+    print(f'Record num : {data["df_len"]}')
     
     if data['to_csv']:
         data['df_ohlc'].to_csv(data['df_name'], index = False) 
@@ -146,7 +74,6 @@ def get_indicators(data):
     print('get_tick_indicators  : Completed')    
     if data['send_message_to_phone']:
         send_telegram_message(f'get_tick_indicators : Completed')
-
 
     return(data)
 
@@ -241,20 +168,12 @@ def merge_ohlc_data(data):
 #...............................................................................................  
 
 def capture_iterative_data(data):
-    data['bid']                 = data["df"]['Bid'][data['i']]        
-    data['ask']                 = data["df"]['Ask'][data['i']]
-    data['tick']                = data['df']['tick'][data['i']]        
-    data['sema']                = data['df']['sema'][data['i']]    
-    data['slema']               = data['df']['slema'][data['i']]    
-    data['lema']                = data['df']['lema'][data['i']]    
-    # data['open']                = data['df']['open'][data['i']]    
-    # data['high']                = data['df']['high'][data['i']]    
-    # data['low']                 = data['df']['low'][data['i']]    
-    data['close']               = data['df']['close'][data['i']]    
-    data['cdl_engulfing_up']    = data['df']['cdl_engulfing_up'][data['i']]    
-    data['cdl_engulfing_down']  = data['df']['cdl_engulfing_down'][data['i']]   
-    if not pd.isna(data['df']['ind_candle_size'][data['i']]):
-        data['min_stop_loss_pip']  = -data['df']['ind_candle_size'][data['i']]    
+    
+    col_names = set(data['df_ohlc'].columns) - set(data['remove_list'])
+
+    for col_name in col_names:
+        data[col_name] = data['df_ohlc'][col_name][data['i']]
+
     return(data)
 
 #...............................................................................................  

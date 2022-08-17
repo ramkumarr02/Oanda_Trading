@@ -43,7 +43,7 @@ data['sell_markers_y'] = []
 
 data['position'] = False
 data['after_order_position'] = False
-data['open_order'] = 0    
+data['open_order'] = False    
 data['open_order_type'] = None
 data['pl_positive'] = False
 data['pl_positive_flag'] = True
@@ -140,13 +140,18 @@ data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 
 data['df_subset_size'] = None
 
-data['start_date'] = {'year':2022, 'month':1, 'date':1}
-data['end_date']   = {'year':2022, 'month':6, 'date':30}
+data['start_date'] = {'year':2022, 'month':7, 'date':11}
+data['end_date']   = {'year':2022, 'month':7, 'date':12}
 
 data['ema_roll_method'] = 'new'
 
-data['sema_len']    = 20
-data['lema_len']    = 50
+data['sema_len']    = 10
+data['slema_len']   = 20
+data['lema_len']    = 200
+data['min_BBand_width'] = 0.0010
+data['spread'] = 0.0001
+
+data['remove_list'] = ['order_side', 'order_size', 'long_open', 'long_close', 'short_open', 'short_close', 'close_type', 'pl']
 
 # x                   = 1000
 # data['sema_len']    = int(x / 5)
