@@ -52,9 +52,9 @@ def get_date_list(data):
 
 #...............................................................................................
 def split_date_col(data):
-    # data['df']['month_val'] = [x.month for x in data['df']['DateTime_frmt']]
-    # data['df']['date_val'] = [x.day for x in data['df']['DateTime_frmt']]
-    # data['df']['hour_val'] = [x.hour for x in data['df']['DateTime_frmt']]
+    data['df_ohlc']['month_val'] = [x.month for x in data['df_ohlc']['DateTime_frmt']]
+    data['df_ohlc']['date_val'] = [x.day for x in data['df_ohlc']['DateTime_frmt']]
+    data['df_ohlc']['hour_val'] = [x.hour for x in data['df_ohlc']['DateTime_frmt']]
 
     data['df_ohlc']['long_profit'] = np.nan
     data['df_ohlc']['long_loss'] = np.nan
@@ -184,6 +184,7 @@ def generate_result_report(data):
 
 #...............................................................................................
 #...............................................................................................
+#...............................................................................................
 def plot_graph(data):
     temp_df = data['df_ohlc']
 
@@ -194,7 +195,15 @@ def plot_graph(data):
             data['plot_df'] = temp_df            
 
         # Plot Layout --------------------------------
-        fig = go.Figure(data=[go.Candlestick(x=data['plot_df']['DateTime_frmt'],
+        layout = go.Layout(title = 'chart_name',
+                        xaxis = dict(title="DateTime"),
+                        xaxis2 = dict(title= 'x', side= 'top'),
+                        
+                        yaxis = dict(title="PIP"),
+                        yaxis2 = dict(title= 'Trend Angle', overlaying="y", side="right",)
+                        )
+
+        fig = go.Figure(layout = layout, data=[go.Candlestick(x=data['plot_df']['DateTime_frmt'],
                 open=data['plot_df']['open'],
                 high=data['plot_df']['high'],
                 low=data['plot_df']['low'],
@@ -238,6 +247,17 @@ def plot_graph(data):
                             )
                     ) 
 
+            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+                                y=data['plot_df']['sar_gap'],
+                                mode='lines',
+                                name='sar_gap',
+                                yaxis='y2',
+                            line=dict(color='grey', width=0.5, dash = 'dot'),
+                            )
+                    )     
+  
+
+
         # -------------------------------------------------------------------
 
         # -------------------------------------------------------------------
@@ -247,23 +267,23 @@ def plot_graph(data):
                                 y=data['plot_df']['BBand_upper'],
                                 mode='lines',
                                 name='BBand_upper',
-                                line=dict(color='red', width=0.5, dash = 'dash'),
+                                line=dict(color='red', width=0.5, dash = 'dot'),
                             )
                     )                                                                         
 
-            # fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
-            #                     y=data['plot_df']['BBand_middle'],
-            #                     mode='lines',
-            #                     name='BBand_middle',
-            #                     line=dict(color='black', width=0.5, dash = 'dash'),
-            #                 )
-            #         )                                                                         
+            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+                                y=data['plot_df']['BBand_middle'],
+                                mode='lines',
+                                name='BBand_middle',
+                                line=dict(color='black', width=0.5, dash = 'dot'),
+                            )
+                    )                                                                         
 
             fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
                                 y=data['plot_df']['BBand_lower'],
                                 mode='lines',
                                 name='BBand_lower',
-                                line=dict(color='blue', width=0.5, dash = 'dash'),
+                                line=dict(color='blue', width=0.5, dash = 'dot'),
                             )
                     ) 
         # -------------------------------------------------------------------
@@ -278,6 +298,34 @@ def plot_graph(data):
                                 marker_symbol = 'circle',
                                 marker=dict(color='red',
                                             size=5,
+                                            line=dict(
+                                                color='black',
+                                                width=1
+                                            )),
+                                opacity=1)
+
+        if 'cross' in data['things_to_plot']:
+            fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
+                                y = data['plot_df']['cross'], 
+                                mode = 'markers', 
+                                name = 'cross',
+                                marker_symbol = 'circle',
+                                marker=dict(color='blue',
+                                            size=10,
+                                            line=dict(
+                                                color='black',
+                                                width=1
+                                            )),
+                                opacity=1)
+
+        if 'tip' in data['things_to_plot']:
+            fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
+                                y = data['plot_df']['tip'], 
+                                mode = 'markers', 
+                                name = 'tip',
+                                marker_symbol = 'circle',
+                                marker=dict(color='yellow',
+                                            size=10,
                                             line=dict(
                                                 color='black',
                                                 width=1
@@ -458,6 +506,7 @@ def plot_graph(data):
             webbrowser.get(data['chrome_path']).open(data['chart_file_path'])
         elif data['plot_type'] == 'show':
             fig.show()
+#...............................................................................................
 #...............................................................................................
 
 def plot_feature_imp_xg(data):

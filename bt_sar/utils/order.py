@@ -48,15 +48,16 @@ def reverse_position(data):
 # ...............................................................................................   
 
 # ...............................................................................................
-def simple_close(data):   
+def dir_change_close(data):   
     if data['open_order']:
-        if data['to_order'] == None:
+        if data['to_order'] == 'short':
             if data['open_order_type'] == 'long':
-                data['stop_text'] = 'simple_stop'
+                data['stop_text'] = 'long_none'
                 data = close_long_order(data)
                 
+        if data['to_order'] == 'long':
             if data['open_order_type'] == 'short':                
-                data['stop_text'] = 'simple_stop'
+                data['stop_text'] = 'short_none'
                 data = close_short_order(data)
     return(data)   
 # ...............................................................................................   
@@ -64,7 +65,7 @@ def simple_close(data):
 #...............................................................................................
 def simple_take_profit(data):       
 
-    data['pl_move_trail_trigger']       = max(data['min_take_profit_pip'], data['h_l_gap'] * data['take_profit_multiplier'])
+    data['pl_move_trail_trigger']       = max(data['min_take_profit_pip'], data['avg_gap'] * data['take_profit_multiplier'])
 
     if data['open_order']:                        
         if data['pl'] >= data['pl_move_trail_trigger']:
@@ -76,6 +77,61 @@ def simple_take_profit(data):
                 data['stop_text'] = 'simple_take_profit'
                 data = close_short_order(data)  
     
+    return(data)    
+#...............................................................................................
+
+# ...............................................................................................
+def simple_stop_loss(data):   
+    data['stop_loss_pip']               = min(data['min_stop_loss_pip'], -data['avg_gap'] * data['stop_loss_multiplier'])
+
+    if data['open_order']:
+        if data['pl'] <= data['stop_loss_pip']:
+            if data['open_order_type'] == 'long':
+                data['stop_text'] = 'stop_loss'
+                data = close_long_order(data)
+                    
+            if data['open_order_type'] == 'short':                
+                data['stop_text'] = 'stop_loss'
+                data = close_short_order(data)
+    return(data)   
+# ...............................................................................................   
+
+
+#...............................................................................................
+def slema_positive_check(data):
+    if data['slema_check_flag']:
+        if data['open_order']:
+            if data['open_order_type'] == 'long':
+                if data['sema'] > data['slema']:
+                    data['slema_positive'] = True
+                    data['slema_check_flag'] = False
+                else:
+                    data['slema_positive'] = False
+
+            if data['open_order_type'] == 'short':
+                if data['sema'] < data['slema']:
+                    data['slema_positive'] = True
+                    data['slema_check_flag'] = False
+                else:
+                    data['slema_positive'] = False
+
+    return(data)
+#...............................................................................................
+
+def simple_slema_move_close(data):
+    if data['open_order']:
+        if data['slema_positive']: 
+            # if data['pl'] > 0:            
+            if data['open_order_type'] == 'long':
+                if data['sema'] <= data['slema']:
+                    data['stop_text'] = 'simple_slema_move_close'
+                    data = close_long_order(data)               
+        
+            if data['open_order_type'] == 'short':
+                if data['sema'] >= data['slema']:                
+                    data['stop_text'] = 'simple_slema_move_close'
+                    data = close_short_order(data)  
+
     return(data)    
 #...............................................................................................
 
@@ -141,6 +197,7 @@ def make_long_order(data):
     data['order_ask_price'] = data['ask']
     data['open_order'] = True
     data['open_order_type'] = 'long'
+    data['slema_check_flag'] = True
     data['pl_positive'] = False
     data['pl_safety_reached'] = False
     data['pl_move_min'] = 0
@@ -153,6 +210,7 @@ def make_short_order(data):
     data['order_bid_price'] = data['bid']
     data['open_order'] = True
     data['open_order_type'] = 'short'
+    data['slema_check_flag'] = True
     data['pl_positive'] = False
     data['pl_safety_reached'] = False
     data['pl_move_min'] = 0

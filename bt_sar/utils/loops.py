@@ -27,10 +27,9 @@ def get_ohlc(data):
     ohlc = ohlc.dropna()
     data['df_ohlc'] = ohlc.reset_index()
 
-    data['df_ohlc']['candle_size']  = data['df_ohlc']['high'] - data['df_ohlc']['low']
+    data['df_ohlc']['candle_size']  = data['df_ohlc']['high'] - data['df_ohlc']['low']    
     data['df_ohlc']['ask']          = data['df_ohlc']['close'] + (data['spread'] / 2)
     data['df_ohlc']['bid']          = data['df_ohlc']['close'] - (data['spread'] / 2)
-
 
     del ohlc
 
@@ -57,13 +56,20 @@ def get_indicators(data):
     # BBands --------------------------------------
     data['df_ohlc']['BBand_upper'], data['df_ohlc']['BBand_middle'], data['df_ohlc']['BBand_lower'] = talib.BBANDS(data['df_ohlc']['close'], timeperiod = data['sema_len'], nbdevup = 2, nbdevdn = 2, matype=0)
     data['df_ohlc']['BBand_width'] = data['df_ohlc']['BBand_upper'] - data['df_ohlc']['BBand_lower']
-    del data['df_ohlc']['BBand_middle']
 
     # BBands --------------------------------------
     data['df_ohlc']['sar'] = talib.SAR(data['df_ohlc']['high'], data['df_ohlc']['low'], acceleration=0.02, maximum=0.2)
 
+    data['df_ohlc'].loc[data['df_ohlc']['sar'] < data['df_ohlc']['close'], 'sar_gap'] = data['df_ohlc']['close'] - data['df_ohlc']['sar']
+    data['df_ohlc'].loc[data['df_ohlc']['sar'] > data['df_ohlc']['open'], 'sar_gap'] = data['df_ohlc']['sar'] - data['df_ohlc']['open']
+
+    # data['df_ohlc']['sar_gap']      = abs(data['df_ohlc']['sar'] - data['df_ohlc']['close'])
+    # data['df_ohlc']['avg_gap']      = data['df_ohlc'][['candle_size', 'sar_gap']].mean(axis=1)
+    data['df_ohlc']['avg_gap']      = data['df_ohlc']['sar_gap']
+
     data['df_ohlc'] = data['df_ohlc'].dropna()
-    data['df_ohlc'] = data['df_ohlc'].reset_index(drop=True).round(6)  
+    data['df_ohlc'] = data['df_ohlc'].reset_index(drop=True).round(6)                   
+
 
     data['df_len'] = len(data["df_ohlc"])
     print(f'Record num : {data["df_len"]}')
@@ -173,6 +179,26 @@ def capture_iterative_data(data):
 
     for col_name in col_names:
         data[col_name] = data['df_ohlc'][col_name][data['i']]
+
+    return(data)
+
+#...............................................................................................  
+
+def get_tips(data):
+    data["df_ohlc"]['tip'] = np.nan
+
+    for i in tqdm(range(4,len(data['df_ohlc']))):
+        if data['df_ohlc']['high'][i] < data['df_ohlc']['high'][i-1]:
+            if data['df_ohlc']['high'][i-1] < data['df_ohlc']['high'][i-2]:
+                if data['df_ohlc']['high'][i-2] > data['df_ohlc']['high'][i-3]:
+                    if data['df_ohlc']['high'][i-3] > data['df_ohlc']['high'][i-4]:                
+                        data["df_ohlc"]['tip'][i] = data['df_ohlc']['high'][i]
+
+        if data['df_ohlc']['low'][i] > data['df_ohlc']['low'][i-1]:
+            if data['df_ohlc']['low'][i-1] > data['df_ohlc']['low'][i-2]:
+                if data['df_ohlc']['low'][i-2] < data['df_ohlc']['low'][i-3]:
+                    if data['df_ohlc']['low'][i-3] < data['df_ohlc']['low'][i-4]:                
+                        data["df_ohlc"]['tip'][i] = data['df_ohlc']['low'][i]
 
     return(data)
 

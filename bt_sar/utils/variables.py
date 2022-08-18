@@ -126,8 +126,6 @@ data['order_num_i'] = 0
 
 
 data['min_hl_gap'] = 0.0003
-data['min_take_profit_pip'] = 0.00005
-data['min_stop_loss_pip']   = -0.0010
 
 data['num_of_switch_orders']    = 1
 data['loss_switch_pl_pip']      = -0.0005
@@ -150,6 +148,10 @@ data['slema_len']   = 20
 data['lema_len']    = 200
 data['min_BBand_width'] = 0.0010
 data['spread'] = 0.0001
+data['stop_loss_multiplier']    = 1
+data['take_profit_multiplier']  = 1
+data['min_take_profit_pip'] = 0.0010
+data['min_stop_loss_pip']   = -0.0010
 
 data['remove_list'] = ['order_side', 'order_size', 'long_open', 'long_close', 'short_open', 'short_close', 'close_type', 'pl']
 
@@ -187,9 +189,7 @@ data['cols'] = ['DateTime_frmt',
 
 data['ema_type'] = 'slema'
 
-data['stop_loss_multiplier']    = 1
 
-data['take_profit_multiplier']  = 0.5
 data['pl_move_trail_ratio']     = 0.8
 
 # data['get_cross_dir_type'] = 'multi_row_rl'
