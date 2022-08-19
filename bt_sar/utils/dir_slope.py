@@ -34,16 +34,16 @@ def get_cross_dir(data):
     if data['pos_1'] != data['pos_2'] and data['pos_2'] == -1:
         # if data['high'] >= data['BBand_upper']:
         # if data['BBand_width'] >= data['min_BBand_width']:
-        # if data['close'] < data['lema']:
-        if data['sema'] < data['slema']:
+        if data['close'] < data['lema']:
+            # if data['sema'] < data['slema']:
             data['to_order'] = 'short'      
             data["df_ohlc"]['cross'][data['i']] = data['close']
 
     elif data['pos_1'] != data['pos_2'] and data['pos_2'] == 1:
         # if data['low'] <= data['BBand_lower']:
         # if data['BBand_width'] >= data['min_BBand_width']:
-        # if data['close'] > data['lema']:
-        if data['sema'] > data['slema']:
+        if data['close'] > data['lema']:
+            # if data['sema'] > data['slema']:
             data['to_order'] = 'long'            
             data["df_ohlc"]['cross'][data['i']] = data['close']
 

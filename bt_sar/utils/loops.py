@@ -46,6 +46,9 @@ def get_indicators(data):
     
     # Lema --------------------------------------
     data['df_ohlc']['lema'] = talib.EMA(data['df_ohlc']['close'], timeperiod = data['lema_len'])
+    data['df_ohlc']['mp'] = talib.MIDPRICE(data['df_ohlc']['high'], data['df_ohlc']['low'], timeperiod = data['lema_len'])
+    # data['df_ohlc']['t3'] = talib.T3(data['df_ohlc']['close'], timeperiod = data['lema_len'], vfactor=0)
+
 
     # Sema --------------------------------------
     data['df_ohlc']['slema'] = talib.EMA(data['df_ohlc']['close'], timeperiod = data['slema_len'])
@@ -56,12 +59,26 @@ def get_indicators(data):
     # BBands --------------------------------------
     data['df_ohlc']['BBand_upper'], data['df_ohlc']['BBand_middle'], data['df_ohlc']['BBand_lower'] = talib.BBANDS(data['df_ohlc']['close'], timeperiod = data['sema_len'], nbdevup = 2, nbdevdn = 2, matype=0)
     data['df_ohlc']['BBand_width'] = data['df_ohlc']['BBand_upper'] - data['df_ohlc']['BBand_lower']
+    
+    data['df_ohlc']['avg_BBand_width'] = talib.EMA(data['df_ohlc']['BBand_width'], timeperiod = data['sema_len'])
+
+
+    # Lema --------------------------------------
+    data['df_ohlc']['lema_angle'] = pd.Series([math.degrees(math.atan(x)) for x in list(talib.LINEARREG_ANGLE(data['df_ohlc']['lema'], timeperiod = data['lema_len']))])
+    # data['df_ohlc']['lema_angle_2'] = pd.Series([math.degrees(math.atan(x)) for x in list(talib.LINEARREG_ANGLE(data['df_ohlc']['lema_angle'], timeperiod = data['lema_len']))])
+    data['df_ohlc']['lema_angle_2'] = talib.EMA(data['df_ohlc']['lema_angle'], timeperiod = data['lema_len'])
+    
+    # data['df_ohlc']['tema_angle'] = pd.Series([math.degrees(math.atan(x)) for x in list(talib.LINEARREG_ANGLE(data['df_ohlc']['tema'], timeperiod = data['sema_len']))])
+    # data['df_ohlc']['tema_angle_2'] = pd.Series([math.degrees(math.atan(x)) for x in list(talib.LINEARREG_ANGLE(data['df_ohlc']['tema_angle'], timeperiod = data['sema_len']))])
+
 
     # BBands --------------------------------------
     data['df_ohlc']['sar'] = talib.SAR(data['df_ohlc']['high'], data['df_ohlc']['low'], acceleration=0.02, maximum=0.2)
 
-    data['df_ohlc'].loc[data['df_ohlc']['sar'] < data['df_ohlc']['close'], 'sar_gap'] = data['df_ohlc']['close'] - data['df_ohlc']['sar']
-    data['df_ohlc'].loc[data['df_ohlc']['sar'] > data['df_ohlc']['open'], 'sar_gap'] = data['df_ohlc']['sar'] - data['df_ohlc']['open']
+    # data['df_ohlc']['sar_gap'] = abs(data['df_ohlc']['close'] - data['df_ohlc']['sar'])
+    data['df_ohlc']['sar_gap'] = abs(data['df_ohlc']['sema'] - data['df_ohlc']['sar'])
+    # data['df_ohlc'].loc[data['df_ohlc']['sar'] < data['df_ohlc']['close'], 'sar_gap'] = data['df_ohlc']['close'] - data['df_ohlc']['sar']
+    # data['df_ohlc'].loc[data['df_ohlc']['sar'] > data['df_ohlc']['open'], 'sar_gap'] = data['df_ohlc']['sar'] - data['df_ohlc']['open']
 
     # data['df_ohlc']['sar_gap']      = abs(data['df_ohlc']['sar'] - data['df_ohlc']['close'])
     # data['df_ohlc']['avg_gap']      = data['df_ohlc'][['candle_size', 'sar_gap']].mean(axis=1)

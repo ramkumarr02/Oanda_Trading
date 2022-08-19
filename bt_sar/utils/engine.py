@@ -34,35 +34,35 @@ def run_engine(data):
 
     data["df_ohlc"]['cross']            = np.nan
     
-    for data['i'] in tqdm(range(0, data['df_len'])):
+    # for data['i'] in tqdm(range(0, data['df_len'])):
 
-        data = capture_iterative_data(data)
+    #     data = capture_iterative_data(data)
 
-        # Get Dirs : Before Order --------------------------------
-        data = get_position(data)
-        if data['position'] == None:
-            continue
+    #     # Get Dirs : Before Order --------------------------------
+    #     data = get_position(data)
+    #     if data['position'] == None:
+    #         continue
 
-        if len(data['dir_list']) < 2:
-            data['dir_list'].append(data['position'])   
-            continue
+    #     if len(data['dir_list']) < 2:
+    #         data['dir_list'].append(data['position'])   
+    #         continue
 
-        elif len(data['dir_list']) == 2:
-            data = get_cross_dir(data)
-        # ----------------------------------------------------------  
+    #     elif len(data['dir_list']) == 2:
+    #         data = get_cross_dir(data)
+    #     # ----------------------------------------------------------  
 
-        data = calculate_pl(data)
+    #     data = calculate_pl(data)
 
-        data = simple_take_profit(data)
-        data = slema_positive_check(data)
-        data = simple_slema_move_close(data)
-        data = simple_stop_loss(data)
-        # data = dir_change_close(data)
+    #     data = simple_take_profit(data)
+    #     # data = slema_positive_check(data)
+    #     # data = simple_slema_move_close(data)
+    #     data = simple_stop_loss(data)
+    #     # data = dir_change_close(data)
         
-        # data = simple_close(data)
+    #     # data = simple_close(data)
         
-        data = make_order(data)
-        # data = reverse_position(data)
+    #     data = make_order(data)
+    #     # data = reverse_position(data)
 
     data = split_date_col(data)
             

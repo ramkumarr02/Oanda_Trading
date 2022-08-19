@@ -243,20 +243,86 @@ def plot_graph(data):
                                 y=data['plot_df']['lema'],
                                 mode='lines',
                                 name='lema',
-                                line=dict(color='black', width=1),
+                                line=dict(color='blue', width=0.5),
                             )
                     ) 
 
             fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
-                                y=data['plot_df']['sar_gap'],
+                                y=data['plot_df']['mp'],
                                 mode='lines',
-                                name='sar_gap',
-                                yaxis='y2',
-                            line=dict(color='grey', width=0.5, dash = 'dot'),
+                                name='mp',
+                                line=dict(color='green', width=1.25),
                             )
-                    )     
-  
+                    ) 
 
+
+        # if 'lema_slope' in data['things_to_plot']:
+        #     fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+        #                         y=data['plot_df']['lema_slope'],
+        #                         mode='lines',
+        #                         name='lema_slope',
+        #                         yaxis='y2',
+        #                     line=dict(color='grey', width=1, dash = 'dot'),
+        #                     )
+        #             )     
+            
+        if 'lema_angle' in data['things_to_plot']:
+            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+                                y=data['plot_df']['lema_angle'],
+                                mode='lines',
+                                name='lema_angle',
+                                yaxis='y2',
+                            line=dict(color='grey', width=1, dash = 'dot'),
+                            )
+                    )       
+
+
+            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+                                y=data['plot_df']['lema_angle_2'],
+                                mode='lines',
+                                name='lema_angle_2',
+                                yaxis='y2',
+                            line=dict(color='grey', width=1, dash = 'dash'),
+                            )
+                    )       
+
+            # fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+            #                     y=data['plot_df']['tema_angle'],
+            #                     mode='lines',
+            #                     name='tema_angle',
+            #                     yaxis='y2',
+            #                 line=dict(color='black', width=1, dash = 'dot'),
+            #                 )
+            #         )  
+
+            # fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+            #                     y=data['plot_df']['tema_angle_2'],
+            #                     mode='lines',
+            #                     name='tema_angle_2',
+            #                     yaxis='y2',
+            #                 line=dict(color='black', width=1, dash = 'dash'),
+            #                 )
+            #         )  
+
+
+            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+                                y=[0] * len(data['plot_df']['lema_angle']),
+                                mode='lines',
+                                name='angle_0',
+                                yaxis='y2',
+                            line=dict(color='grey', width=1),
+                            )
+                    )   
+
+        if 'sar_line' in data['things_to_plot']:
+            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+                                y=[data['sar_line']] * len(data['plot_df']['sar_gap']),
+                                mode='lines',
+                                name='sar_line',
+                                yaxis='y2',
+                            line=dict(color='grey', width=1),
+                            )
+                    )   
 
         # -------------------------------------------------------------------
 

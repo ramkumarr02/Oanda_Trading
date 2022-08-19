@@ -65,7 +65,9 @@ def dir_change_close(data):
 #...............................................................................................
 def simple_take_profit(data):       
 
-    data['pl_move_trail_trigger']       = max(data['min_take_profit_pip'], data['avg_gap'] * data['take_profit_multiplier'])
+    data['pl_move_trail_trigger']       = data['min_take_profit_pip']
+    # data['pl_move_trail_trigger']       = max(data['min_take_profit_pip'], data['avg_gap'] * data['take_profit_multiplier'])
+    # data['pl_move_trail_trigger']       = max(data['min_take_profit_pip'], data['avg_BBand_width'])
 
     if data['open_order']:                        
         if data['pl'] >= data['pl_move_trail_trigger']:
@@ -82,7 +84,9 @@ def simple_take_profit(data):
 
 # ...............................................................................................
 def simple_stop_loss(data):   
-    data['stop_loss_pip']               = min(data['min_stop_loss_pip'], -data['avg_gap'] * data['stop_loss_multiplier'])
+    data['stop_loss_pip']               = data['min_stop_loss_pip']
+    # data['stop_loss_pip']               = min(data['min_stop_loss_pip'], -data['avg_gap'] * data['stop_loss_multiplier'])
+    # data['stop_loss_pip']               = min(data['min_stop_loss_pip'], -data['avg_BBand_width'])
 
     if data['open_order']:
         if data['pl'] <= data['stop_loss_pip']:
@@ -121,16 +125,16 @@ def slema_positive_check(data):
 def simple_slema_move_close(data):
     if data['open_order']:
         if data['slema_positive']: 
-            # if data['pl'] > 0:            
-            if data['open_order_type'] == 'long':
-                if data['sema'] <= data['slema']:
-                    data['stop_text'] = 'simple_slema_move_close'
-                    data = close_long_order(data)               
-        
-            if data['open_order_type'] == 'short':
-                if data['sema'] >= data['slema']:                
-                    data['stop_text'] = 'simple_slema_move_close'
-                    data = close_short_order(data)  
+            if data['pl'] > 0:            
+                if data['open_order_type'] == 'long':
+                    if data['sema'] <= data['slema']:
+                        data['stop_text'] = 'simple_slema_move_close'
+                        data = close_long_order(data)               
+            
+                if data['open_order_type'] == 'short':
+                    if data['sema'] >= data['slema']:                
+                        data['stop_text'] = 'simple_slema_move_close'
+                        data = close_short_order(data)  
 
     return(data)    
 #...............................................................................................
