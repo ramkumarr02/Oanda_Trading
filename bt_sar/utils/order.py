@@ -62,6 +62,45 @@ def dir_change_close(data):
     return(data)   
 # ...............................................................................................   
 
+def get_multi_angle_open_pos(data):
+    
+    if not data['open_order']:
+        data['to_order'] = None
+
+        if data['lema'] > data['slema'] > data['sema']:
+            if (data['lema_angle'] < 0) & (data['slema_angle'] < 0) & (data['sema_angle'] < 0):
+                if (data['lema_angle_2'] < 0) & (data['slema_angle_2'] < 0) & (data['sema_angle_2'] < 0):       
+                    if data['rsi'] >= data['low_rsi']:         
+                        # data["df_ohlc"]['down'][data['i']] = data['close']
+                        data['to_order'] = 'short'
+                    
+        if data['lema'] < data['slema'] < data['sema']:
+            if (data['lema_angle'] > 0) & (data['slema_angle'] > 0) & (data['sema_angle'] > 0):
+                if (data['lema_angle_2'] > 0) & (data['slema_angle_2'] > 0) & (data['sema_angle_2'] > 0):                
+                    if data['rsi'] <= data['high_rsi']:         
+                        # data["df_ohlc"]['up'][data['i']] = data['close']
+                        data['to_order'] = 'long'
+
+    return(data)
+
+#...............................................................................................
+def get_multi_angle_close_pos(data):
+
+    if data['open_order']:
+        if data['open_order_type'] == 'long':
+            if data['sema'] < data['lema']:
+                data['stop_text'] = 'sema_close'
+                data = close_long_order(data)
+                
+                    
+        if data['open_order_type'] == 'short':
+            if data['sema'] > data['lema']:
+                data['stop_text'] = 'sema_close'
+                data = close_short_order(data)
+
+    return(data)
+
+#...............................................................................................
 #...............................................................................................
 def simple_take_profit(data):       
 

@@ -138,14 +138,17 @@ data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 
 data['df_subset_size'] = None
 
-data['start_date'] = {'year':2022, 'month':5, 'date':15}
-data['end_date']   = {'year':2022, 'month':6, 'date':30}
+data['start_date'] = {'year':2022, 'month':1, 'date':1}
+data['end_date']   = {'year':2022, 'month':7, 'date':15}
 
 data['ema_roll_method'] = 'new'
 
 data['sema_len']    = 20
 data['slema_len']   = 100
 data['lema_len']    = 200
+
+data['low_rsi']     = 30
+data['high_rsi']    = 70
 
 data['min_BBand_width'] = 0.0010
 data['spread'] = 0.0001

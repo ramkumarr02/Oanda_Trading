@@ -243,36 +243,57 @@ def plot_graph(data):
                                 y=data['plot_df']['lema'],
                                 mode='lines',
                                 name='lema',
-                                line=dict(color='blue', width=0.5),
+                                line=dict(color='black', width=0.5),
                             )
                     ) 
+
+        if 'sema_angle' in data['things_to_plot']:
+            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+                                y=data['plot_df']['sema_angle'],
+                                mode='lines',
+                                name='sema_angle',
+                                yaxis='y2',
+                            line=dict(color='red', width=1, dash = 'dot'),
+                            )
+                    )       
 
             fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
-                                y=data['plot_df']['mp'],
+                                y=data['plot_df']['sema_angle_2'],
                                 mode='lines',
-                                name='mp',
-                                line=dict(color='green', width=1.25),
+                                name='sema_angle_2',
+                                yaxis='y2',
+                            line=dict(color='red', width=1, dash = 'dash'),
                             )
-                    ) 
+                    )   
+
+        if 'slema_angle' in data['things_to_plot']:
+            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+                                y=data['plot_df']['slema_angle'],
+                                mode='lines',
+                                name='slema_angle',
+                                yaxis='y2',
+                            line=dict(color='blue', width=1, dash = 'dot'),
+                            )
+                    )       
 
 
-        # if 'lema_slope' in data['things_to_plot']:
-        #     fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
-        #                         y=data['plot_df']['lema_slope'],
-        #                         mode='lines',
-        #                         name='lema_slope',
-        #                         yaxis='y2',
-        #                     line=dict(color='grey', width=1, dash = 'dot'),
-        #                     )
-        #             )     
-            
+            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+                                y=data['plot_df']['slema_angle_2'],
+                                mode='lines',
+                                name='slema_angle_2',
+                                yaxis='y2',
+                            line=dict(color='blue', width=1, dash = 'dash'),
+                            )
+                    )   
+
+
         if 'lema_angle' in data['things_to_plot']:
             fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
                                 y=data['plot_df']['lema_angle'],
                                 mode='lines',
                                 name='lema_angle',
                                 yaxis='y2',
-                            line=dict(color='grey', width=1, dash = 'dot'),
+                            line=dict(color='black', width=1, dash = 'dot'),
                             )
                     )       
 
@@ -282,7 +303,35 @@ def plot_graph(data):
                                 mode='lines',
                                 name='lema_angle_2',
                                 yaxis='y2',
-                            line=dict(color='grey', width=1, dash = 'dash'),
+                            line=dict(color='black', width=1, dash = 'dash'),
+                            )
+                    )       
+
+        fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+                            y=[0] * len(data['plot_df']['lema_angle']),
+                            mode='lines',
+                            name='angle_0',
+                            yaxis='y2',
+                        line=dict(color='grey', width=1),
+                        )
+                )   
+
+        if 'rsi' in data['things_to_plot']:
+            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+                                y=data['plot_df']['rsi'],
+                                mode='lines',
+                                name='rsi',
+                                yaxis='y2',
+                            line=dict(color='blue', width=1, dash = 'dot'),
+                            )
+                    )       
+        if 'adx' in data['things_to_plot']:
+            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+                                y=data['plot_df']['adx'],
+                                mode='lines',
+                                name='adx',
+                                yaxis='y2',
+                            line=dict(color='black', width=1, dash = 'dot'),
                             )
                     )       
 
@@ -304,15 +353,6 @@ def plot_graph(data):
             #                 )
             #         )  
 
-
-            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
-                                y=[0] * len(data['plot_df']['lema_angle']),
-                                mode='lines',
-                                name='angle_0',
-                                yaxis='y2',
-                            line=dict(color='grey', width=1),
-                            )
-                    )   
 
         if 'sar_line' in data['things_to_plot']:
             fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
@@ -356,7 +396,7 @@ def plot_graph(data):
 
 
         # -------------------------------------------------------------------
-        if 'dots' in data['things_to_plot']:
+        if 'sar' in data['things_to_plot']:
             fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
                                 y = data['plot_df']['sar'], 
                                 mode = 'markers', 
@@ -400,7 +440,33 @@ def plot_graph(data):
 
         # -------------------------------------------------------------------
 
- 
+        if 'dir' in data['things_to_plot']:
+            fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
+                                y = data['plot_df']['up'], 
+                                mode = 'markers', 
+                                name = 'up',
+                                marker_symbol = 'triangle-up',
+                                marker=dict(color='blue',
+                                            size=10,
+                                            line=dict(
+                                                color='blue',
+                                                width=1
+                                            )),
+                                opacity=1)
+
+            fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
+                                y = data['plot_df']['down'], 
+                                mode = 'markers', 
+                                name = 'down',
+                                marker_symbol = 'triangle-down',
+                                marker=dict(color='red',
+                                            size=10,
+                                            line=dict(
+                                                color='red',
+                                                width=1
+                                            )),
+                                opacity=1)
+
 
         # -------------------------------------------------------------------
         if 'positions' in data['things_to_plot']:
