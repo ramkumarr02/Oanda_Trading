@@ -38,6 +38,8 @@ def run_engine(data):
     for data['i'] in tqdm(range(0, data['df_len'])):
 
         data = capture_iterative_data(data)
+        # data = get_lema_BBands_dir(data)
+        data = get_lema_adx_dir(data)
 
         # # Get Dirs : Before Order --------------------------------
         # data = get_position(data)
@@ -52,8 +54,9 @@ def run_engine(data):
         #     data = get_cross_dir(data)
         # # ----------------------------------------------------------  
 
-        data = get_multi_angle_close_pos(data)
-        data = get_multi_angle_open_pos(data)
+        # data = get_multi_angle_close_pos(data)
+        # data = get_multi_angle_open_pos(data)
+        data = sema_cross_close(data)
         data = make_order(data)
         data = calculate_pl(data)
 

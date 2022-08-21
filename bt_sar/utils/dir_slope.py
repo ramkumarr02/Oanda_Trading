@@ -74,3 +74,51 @@ def get_cross_dir(data):
 
     return(data)
 #...............................................................................................
+
+def get_lema_BBands_dir(data):
+    
+    data['to_order'] = None
+
+    if data['BBand_upper'] > data['lema']:
+        if data['BBand_middle'] > data['lema']:
+            if data['BBand_lower'] > data['lema']:
+                if data['sema'] > data['lema']:
+                    if data['slema'] > data['lema']:
+                        if data['lema_angle'] > data['min_lema_angle']:
+                            if data['BBand_lower'] - data['lema'] >= data['min_pip_gap']:
+                                data["df_ohlc"]['up'][data['i']] = data['close']
+                                data['to_order'] = 'long'            
+
+    if data['BBand_upper'] < data['lema']:
+        if data['BBand_middle'] < data['lema']:
+            if data['BBand_lower'] < data['lema']:
+                if data['sema'] < data['lema']:
+                    if data['slema'] < data['lema']:
+                        if data['lema_angle'] < -data['min_lema_angle']:
+                            if data['lema'] - data['BBand_upper'] >= data['min_pip_gap']:
+                                data["df_ohlc"]['down'][data['i']] = data['close']
+                                data['to_order'] = 'short'      
+
+    return(data)
+#...............................................................................................
+
+def get_lema_adx_dir(data):
+    
+    data['to_order'] = None
+
+    if data['sema'] > data['lema']:
+        if data['slema'] > data['lema']:
+            if data['lema_angle'] > data['min_lema_angle']:
+                if data['adx'] > data['min_adx']:
+                    data["df_ohlc"]['up'][data['i']] = data['close']
+                    data['to_order'] = 'long'            
+
+    if data['sema'] < data['lema']:
+        if data['slema'] < data['lema']:
+            if data['lema_angle'] < -data['min_lema_angle']:
+                if data['adx'] > data['min_adx']:
+                    data["df_ohlc"]['down'][data['i']] = data['close']
+                    data['to_order'] = 'short'      
+
+    return(data)
+#...............................................................................................

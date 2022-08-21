@@ -43,6 +43,9 @@ def get_ohlc(data):
 
 #...............................................................................................  
 def get_indicators(data):
+
+    # ma --------------------------------------
+    data['df_ohlc']['ma']         = talib.MA(data['df_ohlc']['close'], timeperiod = data['lema_len'], matype=0)
     
     # Lema --------------------------------------
     data['df_ohlc']['lema']         = talib.EMA(data['df_ohlc']['close'], timeperiod = data['lema_len'])
@@ -59,6 +62,11 @@ def get_indicators(data):
     data['df_ohlc']['sema_angle']   = talib.LINEARREG_ANGLE(data['df_ohlc']['sema'], timeperiod = data['sema_len'])
     data['df_ohlc']['sema_angle_2'] = talib.LINEARREG_ANGLE(data['df_ohlc']['sema_angle'], timeperiod = data['sema_len'])
 
+    # Mid Price --------------------------------------
+    # data['df_ohlc']['sema_mp'] = talib.MIDPRICE(data['df_ohlc']['high'], data['df_ohlc']['low'], timeperiod = data['sema_len'])
+    # data['df_ohlc']['slema_mp'] = talib.MIDPRICE(data['df_ohlc']['high'], data['df_ohlc']['low'], timeperiod = data['slema_len'])
+    # data['df_ohlc']['lema_mp'] = talib.MIDPRICE(data['df_ohlc']['high'], data['df_ohlc']['low'], timeperiod = data['lema_len'])
+
     # data['df_ohlc']['lema_angle']   = pd.Series([math.degrees(math.atan(x)) for x in list(talib.LINEARREG_ANGLE(data['df_ohlc']['lema'], timeperiod = data['sema_len']))])
     # data['df_ohlc']['lema_angle_2'] = pd.Series([math.degrees(math.atan(x)) for x in list(talib.LINEARREG_ANGLE(data['df_ohlc']['lema_angle'], timeperiod = data['sema_len']))])
     # data['df_ohlc']['slema_angle']   = pd.Series([math.degrees(math.atan(x)) for x in list(talib.LINEARREG_ANGLE(data['df_ohlc']['slema'], timeperiod = data['sema_len']))])
@@ -73,23 +81,25 @@ def get_indicators(data):
     data['df_ohlc']['avg_BBand_width'] = talib.EMA(data['df_ohlc']['BBand_width'], timeperiod = data['sema_len'])
 
 
-    # BBands --------------------------------------
-    data['df_ohlc']['sar'] = talib.SAR(data['df_ohlc']['high'], data['df_ohlc']['low'], acceleration=0.02, maximum=0.2)
+    # Lema rolling diff --------------------------------------
+    data['df_ohlc']['lema_diff'] = data['df_ohlc']['lema'].diff(periods=data['lema_len'])
 
-    # RSI --------------------------------------
-    data['df_ohlc']['rsi'] = talib.RSI(data['df_ohlc']['lema'], timeperiod = data['lema_len'])
+    # # sar --------------------------------------
+    # data['df_ohlc']['sar'] = talib.SAR(data['df_ohlc']['high'], data['df_ohlc']['low'], acceleration=0.02, maximum=0.2)
+
+    # # RSI --------------------------------------
+    # data['df_ohlc']['rsi'] = talib.RSI(data['df_ohlc']['lema'], timeperiod = data['lema_len'])
 
     # ADX --------------------------------------
-    data['df_ohlc']['adx'] = talib.ADX(data['df_ohlc']['high'], data['df_ohlc']['low'], data['df_ohlc']['close'], timeperiod = data['sema_len'])
+    data['df_ohlc']['adx'] = talib.ADX(data['df_ohlc']['high'], data['df_ohlc']['low'], data['df_ohlc']['close'], timeperiod = data['lema_len'])
 
-    # data['df_ohlc']['sar_gap'] = abs(data['df_ohlc']['close'] - data['df_ohlc']['sar'])
-    data['df_ohlc']['sar_gap'] = abs(data['df_ohlc']['sema'] - data['df_ohlc']['sar'])
+    # data['df_ohlc']['sar_gap'] = abs(data['df_ohlc']['sema'] - data['df_ohlc']['sar'])
     # data['df_ohlc'].loc[data['df_ohlc']['sar'] < data['df_ohlc']['close'], 'sar_gap'] = data['df_ohlc']['close'] - data['df_ohlc']['sar']
     # data['df_ohlc'].loc[data['df_ohlc']['sar'] > data['df_ohlc']['open'], 'sar_gap'] = data['df_ohlc']['sar'] - data['df_ohlc']['open']
 
     # data['df_ohlc']['sar_gap']      = abs(data['df_ohlc']['sar'] - data['df_ohlc']['close'])
     # data['df_ohlc']['avg_gap']      = data['df_ohlc'][['candle_size', 'sar_gap']].mean(axis=1)
-    data['df_ohlc']['avg_gap']      = data['df_ohlc']['sar_gap']
+    # data['df_ohlc']['avg_gap']      = data['df_ohlc']['sar_gap']
 
     data['df_ohlc'] = data['df_ohlc'].dropna()
     data['df_ohlc'] = data['df_ohlc'].reset_index(drop=True).round(6)                   

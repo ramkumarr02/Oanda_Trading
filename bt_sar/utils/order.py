@@ -84,7 +84,7 @@ def get_multi_angle_open_pos(data):
     return(data)
 
 #...............................................................................................
-def get_multi_angle_close_pos(data):
+def sema_cross_close(data):
 
     if data['open_order']:
         if data['open_order_type'] == 'long':

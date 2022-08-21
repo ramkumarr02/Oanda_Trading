@@ -247,6 +247,40 @@ def plot_graph(data):
                             )
                     ) 
 
+            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+                                y=data['plot_df']['ma'],
+                                mode='lines',
+                                name='ma',
+                                line=dict(color='blue', width=0.5),
+                            )
+                    ) 
+
+
+        if 'mp' in data['things_to_plot']:
+            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+                                y=data['plot_df']['sema_mp'],
+                                mode='lines',
+                                name='sema_mp',
+                                line=dict(color='red', width=1),
+                            )
+                    ) 
+
+            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+                                y=data['plot_df']['slema_mp'],
+                                mode='lines',
+                                name='slema_mp',
+                                line=dict(color='black', width=1),
+                            )
+                    ) 
+
+            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+                                y=data['plot_df']['lema_mp'],
+                                mode='lines',
+                                name='lema_mp',
+                                line=dict(color='blue', width=1),
+                            )
+                    ) 
+
         if 'sema_angle' in data['things_to_plot']:
             fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
                                 y=data['plot_df']['sema_angle'],
@@ -335,6 +369,16 @@ def plot_graph(data):
                             )
                     )       
 
+        if 'lema_diff' in data['things_to_plot']:
+            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+                                y=data['plot_df']['lema_diff'],
+                                mode='lines',
+                                name='lema_diff',
+                                yaxis='y2',
+                            line=dict(color='black', width=1, dash = 'dot'),
+                            )
+                    ) 
+
             # fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
             #                     y=data['plot_df']['tema_angle'],
             #                     mode='lines',
@@ -373,23 +417,23 @@ def plot_graph(data):
                                 y=data['plot_df']['BBand_upper'],
                                 mode='lines',
                                 name='BBand_upper',
-                                line=dict(color='red', width=0.5, dash = 'dot'),
+                                line=dict(color='red', width=2.5, dash = 'dot'),
                             )
                     )                                                                         
 
-            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
-                                y=data['plot_df']['BBand_middle'],
-                                mode='lines',
-                                name='BBand_middle',
-                                line=dict(color='black', width=0.5, dash = 'dot'),
-                            )
-                    )                                                                         
+            # fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+            #                     y=data['plot_df']['BBand_middle'],
+            #                     mode='lines',
+            #                     name='BBand_middle',
+            #                     line=dict(color='black', width=2.5, dash = 'dot'),
+            #                 )
+            #         )                                                                         
 
             fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
                                 y=data['plot_df']['BBand_lower'],
                                 mode='lines',
                                 name='BBand_lower',
-                                line=dict(color='blue', width=0.5, dash = 'dot'),
+                                line=dict(color='blue', width=2.5, dash = 'dot'),
                             )
                     ) 
         # -------------------------------------------------------------------

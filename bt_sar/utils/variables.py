@@ -138,8 +138,8 @@ data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 
 data['df_subset_size'] = None
 
-data['start_date'] = {'year':2022, 'month':1, 'date':1}
-data['end_date']   = {'year':2022, 'month':7, 'date':15}
+data['start_date'] = {'year':2022, 'month':6, 'date':1}
+data['end_date']   = {'year':2022, 'month':6, 'date':30}
 
 data['ema_roll_method'] = 'new'
 
@@ -154,10 +154,13 @@ data['min_BBand_width'] = 0.0010
 data['spread'] = 0.0001
 data['stop_loss_multiplier']    = 1
 data['take_profit_multiplier']  = 1
-data['min_take_profit_pip'] = 0.0050
-data['min_stop_loss_pip']   = -0.0050
-data['sar_line'] = 0.002
+data['min_take_profit_pip']     = 0.0050
+data['min_stop_loss_pip']       = -0.0050
+data['min_lema_angle']          = 0.001
+data['min_adx'] = 10
+data['min_pip_gap']             = 0.002
 
+data['sar_line'] = 0.002
 data['remove_list'] = ['order_side', 'order_size', 'long_open', 'long_close', 'short_open', 'short_close', 'close_type', 'pl']
 
 # x                   = 1000
