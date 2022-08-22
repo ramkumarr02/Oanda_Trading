@@ -222,22 +222,6 @@ def plot_graph(data):
                         )
 
         if 'ema' in data['things_to_plot']:
-            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
-                                y=data['plot_df']['sema'],
-                                mode='lines',
-                                name='sema',
-                                line=dict(color='red', width=1),
-                            )
-                    )                                                                                                                                                 
-
-            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
-                                y=data['plot_df']['slema'],
-                                mode='lines',
-                                name='slema',
-                                line=dict(color='blue', width=1),
-                            )
-                    ) 
-
 
             fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
                                 y=data['plot_df']['lema'],
@@ -247,13 +231,29 @@ def plot_graph(data):
                             )
                     ) 
 
-            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
-                                y=data['plot_df']['ma'],
-                                mode='lines',
-                                name='ma',
-                                line=dict(color='blue', width=0.5),
-                            )
-                    ) 
+            # fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+            #                     y=data['plot_df']['sema'],
+            #                     mode='lines',
+            #                     name='sema',
+            #                     line=dict(color='red', width=1),
+            #                 )
+            #         )                                                                                                                                                 
+
+            # fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+            #                     y=data['plot_df']['slema'],
+            #                     mode='lines',
+            #                     name='slema',
+            #                     line=dict(color='blue', width=1),
+            #                 )
+            #         ) 
+
+            # fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+            #                     y=data['plot_df']['ma'],
+            #                     mode='lines',
+            #                     name='ma',
+            #                     line=dict(color='blue', width=0.5),
+            #                 )
+            #         ) 
 
 
         if 'mp' in data['things_to_plot']:
@@ -478,6 +478,47 @@ def plot_graph(data):
                                             size=10,
                                             line=dict(
                                                 color='black',
+                                                width=1
+                                            )),
+                                opacity=1)
+
+        if 'lema_max_min' in data['things_to_plot']:
+            # fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
+            #                     y = data['plot_df']['lema_max'], 
+            #                     mode = 'markers', 
+            #                     name = 'lema_max',
+            #                     marker_symbol = 'circle',
+            #                     marker=dict(color='red',
+            #                                 size=1,
+            #                                 line=dict(
+            #                                     color='red',
+            #                                     width=1
+            #                                 )),
+            #                     opacity=1)
+
+            # fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
+            #                     y = data['plot_df']['lema_min'], 
+            #                     mode = 'markers', 
+            #                     name = 'lema_min',
+            #                     marker_symbol = 'circle',
+            #                     marker=dict(color='blue',
+            #                                 size=1,
+            #                                 line=dict(
+            #                                     color='blue',
+            #                                     width=1
+            #                                 )),
+            #                     opacity=1)
+
+                                
+            fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
+                                y = data['plot_df']['lema_angle_0'], 
+                                mode = 'markers', 
+                                name = 'lema_angle_0',
+                                marker_symbol = 'circle',
+                                marker=dict(color='blue',
+                                            size=1,
+                                            line=dict(
+                                                color='blue',
                                                 width=1
                                             )),
                                 opacity=1)

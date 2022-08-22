@@ -101,7 +101,6 @@ def get_lema_BBands_dir(data):
 
     return(data)
 #...............................................................................................
-
 def get_lema_adx_dir(data):
     
     data['to_order'] = None
@@ -109,14 +108,18 @@ def get_lema_adx_dir(data):
     if data['sema'] > data['lema']:
         if data['slema'] > data['lema']:
             if data['lema_angle'] > data['min_lema_angle']:
-                if data['adx'] > data['min_adx']:
+                # if data['lema_diff'] > min(data['min_lema_diff'], data['lema_gap']):
+                # if data['lema_diff'] > data['lema_gap']:
+                if data['lema_diff'] > data['min_lema_diff']:
                     data["df_ohlc"]['up'][data['i']] = data['close']
                     data['to_order'] = 'long'            
 
     if data['sema'] < data['lema']:
         if data['slema'] < data['lema']:
             if data['lema_angle'] < -data['min_lema_angle']:
-                if data['adx'] > data['min_adx']:
+                # if data['lema_diff'] > min(data['min_lema_diff'], data['lema_gap']):
+                # if data['lema_diff'] > data['lema_gap']:
+                if data['lema_diff'] < -data['min_lema_diff']:
                     data["df_ohlc"]['down'][data['i']] = data['close']
                     data['to_order'] = 'short'      
 
