@@ -207,9 +207,9 @@ def get_max_min_lema(data):
 
     # Lema rolling diff --------------------------------------
     data['df_ohlc']['lema_diff'] = np.nan
-    data['df_ohlc']['lema_diff'] = data['df_ohlc']['lema'] - data['df_ohlc']['lema_angle_0']
-    # data['df_ohlc'].loc[data['df_ohlc']['lema'] > data['df_ohlc']['lema_max'], 'lema_diff'] = data['df_ohlc']['lema'] - data['df_ohlc']['lema_max']
-    # data['df_ohlc'].loc[data['df_ohlc']['lema'] < data['df_ohlc']['lema_min'], 'lema_diff'] = data['df_ohlc']['lema_min'] - data['df_ohlc']['lema']   
+    # data['df_ohlc']['lema_diff'] = data['df_ohlc']['lema'] - data['df_ohlc']['lema_angle_0']
+    data['df_ohlc'].loc[data['df_ohlc']['lema'] > data['df_ohlc']['lema_max'], 'lema_diff'] = data['df_ohlc']['lema'] - data['df_ohlc']['lema_max']
+    data['df_ohlc'].loc[data['df_ohlc']['lema'] < data['df_ohlc']['lema_min'], 'lema_diff'] = data['df_ohlc']['lema_min'] - data['df_ohlc']['lema']   
 
 
     data['df_ohlc'].to_csv('data/temp.csv', index = False) 

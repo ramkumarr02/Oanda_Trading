@@ -133,13 +133,13 @@ data['all_close_min_pip']       = 0
 data['order_multiplier']        = 1
 
 data["product"] = 'eurusd'
-data["input_year"] = 2022
+data["input_year"] = 2020
 data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 
 data['df_subset_size'] = None
 
-data['start_date'] = {'year':2022, 'month':5, 'date':15}
-data['end_date']   = {'year':2022, 'month':6, 'date':30}
+data['start_date'] = {'year':2020, 'month':1, 'date':1}
+data['end_date']   = {'year':2020, 'month':12, 'date':30}
 
 data['ema_roll_method'] = 'new'
 
