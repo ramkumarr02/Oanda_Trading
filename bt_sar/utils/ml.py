@@ -49,3 +49,56 @@ def print_classification_report(data):
     
     return(data)
 #...............................................................................................     
+
+
+def plot_feature_imp_xg(data):
+    feature_important = data["clf"].get_booster().get_score(importance_type='weight')
+
+    temp_df = pd.DataFrame()
+    temp_df['feature'] = list(feature_important.keys())
+    temp_df['importance'] = list(feature_important.values())
+    temp_df = temp_df.sort_values(by = ['importance'], ascending=True)
+
+    fig = px.bar(temp_df, x='importance', y='feature')
+
+    if data['plot_type'] == 'file':
+        chart_name = str(dt.datetime.now())
+        chart_name = chart_name.replace(":", "-")
+        chart_name = chart_name.replace(".", "-")
+        chart_name = chart_name.replace(" ", "-")
+        data['chart_file_path'] = (f'{os.getcwd()}\\data\\chart-{chart_name}.html')
+
+        fig.write_html(data['chart_file_path'])
+        webbrowser.get(data['chrome_path']).open(data['chart_file_path'])
+
+    elif data['plot_type'] == 'show':
+        fig.show()
+    
+    return(data)
+
+#...............................................................................................
+
+def plot_feature_imp_rf(data):
+    temp_df = pd.DataFrame()
+    temp_df['feature'] = data['train_x'].columns
+    temp_df['importance'] = data["clf"].feature_importances_
+    temp_df = temp_df.sort_values(by = ['importance'], ascending=True)
+
+    fig = px.bar(temp_df, x='importance', y='feature')
+    
+    if data['plot_type'] == 'file':
+        chart_name = str(dt.datetime.now())
+        chart_name = chart_name.replace(":", "-")
+        chart_name = chart_name.replace(".", "-")
+        chart_name = chart_name.replace(" ", "-")
+        data['chart_file_path'] = (f'{os.getcwd()}\\data\\chart-{chart_name}.html')
+
+        fig.write_html(data['chart_file_path'])
+        webbrowser.get(data['chrome_path']).open(data['chart_file_path'])
+
+    elif data['plot_type'] == 'show':
+        fig.show()
+        
+    return(data)
+
+#...............................................................................................

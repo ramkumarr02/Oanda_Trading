@@ -67,6 +67,9 @@ def split_date_col(data):
     data['df_ohlc']['short_profit'][data['df_ohlc']['pl'] > 0] = data['df_ohlc']['short_close']
     data['df_ohlc']['short_loss'][data['df_ohlc']['pl'] < 0] = data['df_ohlc']['short_close']
 
+    data['df_ohlc'].loc[data['df_ohlc']['up'].notnull(), 'order_side'] = 'long'
+    data['df_ohlc'].loc[data['df_ohlc']['down'].notnull(), 'order_side'] = 'short'
+
     del data['df_ohlc']['long_close']
     del data['df_ohlc']['short_close']
 
@@ -181,6 +184,49 @@ def generate_result_report(data):
     if data['to_csv']:
         data['report_df'].to_csv('data/result.csv')
 #...............................................................................................
+#...............................................................................................
+
+def get_report_df(data):
+    
+    cols = ['DateTime_frmt', 'month_val', 'date_val', 'hour_val','open', 'high', 'low', 'close', 'candle_size', 'ask',
+           'bid', 'lema', 'lema_angle', 'lema_angle_2', 'lema_angle_0', 'slema',
+           'slema_angle', 'slema_angle_2', 'sema', 'sema_angle', 'sema_angle_2',
+           'BBand_upper', 'BBand_middle', 'BBand_lower', 'BBand_width',
+           'avg_BBand_width', 'adx', 'lema_max', 'lema_min', 'lema_gap',
+           'lema_diff', 'order_side', 'order_size', 'up', 'down', 'long_open', 'long_profit', 'long_loss', 'short_open',
+           'short_profit', 'short_loss', 'close_type', 'pl']
+
+    data['df_small'] = data['df_ohlc'][cols][data['df_ohlc'][['long_open', 'short_open', 'pl']].notnull().any(axis=1)].reset_index(drop=True)
+
+    data['df_small']['pl_type'] = np.nan
+
+    for i in tqdm(range(1, len(data['df_small']))):
+        if data['df_small']['pl'][i] > 0:
+            data['df_small'].loc[i-1, 'pl_type'] = 'positive'
+            data['df_small'].loc[i-1, 'long_profit'] = data['df_small'].loc[i, 'long_profit']
+            data['df_small'].loc[i-1, 'short_profit'] = data['df_small'].loc[i, 'short_profit']
+            data['df_small'].loc[i-1, 'pl'] = data['df_small'].loc[i, 'pl']
+            data['df_small'].loc[i-1, 'close_type'] = data['df_small'].loc[i, 'close_type']
+            data['df_small'].drop(i, inplace=True)
+
+        elif data['df_small']['pl'][i] < 0:
+            data['df_small']['pl_type'][i-1] = 'negative'
+            data['df_small'].loc[i-1, 'long_loss'] = data['df_small'].loc[i, 'long_loss']
+            data['df_small'].loc[i-1, 'short_loss'] = data['df_small'].loc[i, 'short_loss']
+            data['df_small'].loc[i-1, 'pl'] = data['df_small'].loc[i, 'pl']
+            data['df_small'].loc[i-1, 'close_type'] = data['df_small'].loc[i, 'close_type']        
+            data['df_small'].drop(i, inplace=True)
+
+        elif data['df_small']['pl'][i] == 0:
+            data['df_small']['pl_type'][i-1] = 'zero'        
+
+
+    data['df_small'].loc[data['df_small']['up'].notnull(),'order_side'] = 'long'
+    data['df_small'].loc[data['df_small']['down'].notnull(),'order_side'] = 'short'
+        
+    return(data)
+
+#...............................................................................................
 
 #...............................................................................................
 #...............................................................................................
@@ -231,13 +277,13 @@ def plot_graph(data):
                             )
                     ) 
 
-            # fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
-            #                     y=data['plot_df']['sema'],
-            #                     mode='lines',
-            #                     name='sema',
-            #                     line=dict(color='red', width=1),
-            #                 )
-            #         )                                                                                                                                                 
+            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+                                y=data['plot_df']['sema'],
+                                mode='lines',
+                                name='sema',
+                                line=dict(color='red', width=1),
+                            )
+                    )                                                                                                                                                 
 
             # fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
             #                     y=data['plot_df']['slema'],
@@ -483,37 +529,23 @@ def plot_graph(data):
                                 opacity=1)
 
         if 'lema_max_min' in data['things_to_plot']:
-            # fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
-            #                     y = data['plot_df']['lema_max'], 
-            #                     mode = 'markers', 
-            #                     name = 'lema_max',
-            #                     marker_symbol = 'circle',
-            #                     marker=dict(color='red',
-            #                                 size=1,
-            #                                 line=dict(
-            #                                     color='red',
-            #                                     width=1
-            #                                 )),
-            #                     opacity=1)
-
-            # fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
-            #                     y = data['plot_df']['lema_min'], 
-            #                     mode = 'markers', 
-            #                     name = 'lema_min',
-            #                     marker_symbol = 'circle',
-            #                     marker=dict(color='blue',
-            #                                 size=1,
-            #                                 line=dict(
-            #                                     color='blue',
-            #                                     width=1
-            #                                 )),
-            #                     opacity=1)
-
-                                
             fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
-                                y = data['plot_df']['lema_angle_0'], 
+                                y = data['plot_df']['lema_max'], 
                                 mode = 'markers', 
-                                name = 'lema_angle_0',
+                                name = 'lema_max',
+                                marker_symbol = 'circle',
+                                marker=dict(color='red',
+                                            size=1,
+                                            line=dict(
+                                                color='red',
+                                                width=1
+                                            )),
+                                opacity=1)
+
+            fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
+                                y = data['plot_df']['lema_min'], 
+                                mode = 'markers', 
+                                name = 'lema_min',
                                 marker_symbol = 'circle',
                                 marker=dict(color='blue',
                                             size=1,
@@ -522,6 +554,20 @@ def plot_graph(data):
                                                 width=1
                                             )),
                                 opacity=1)
+
+                                
+            # fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
+            #                     y = data['plot_df']['lema_angle_0'], 
+            #                     mode = 'markers', 
+            #                     name = 'lema_angle_0',
+            #                     marker_symbol = 'circle',
+            #                     marker=dict(color='blue',
+            #                                 size=1,
+            #                                 line=dict(
+            #                                     color='blue',
+            #                                     width=1
+            #                                 )),
+            #                     opacity=1)
 
         # -------------------------------------------------------------------
 
@@ -723,57 +769,4 @@ def plot_graph(data):
             webbrowser.get(data['chrome_path']).open(data['chart_file_path'])
         elif data['plot_type'] == 'show':
             fig.show()
-#...............................................................................................
-#...............................................................................................
-
-def plot_feature_imp_xg(data):
-    feature_important = data["clf"].get_booster().get_score(importance_type='weight')
-
-    temp_df = pd.DataFrame()
-    temp_df['feature'] = list(feature_important.keys())
-    temp_df['importance'] = list(feature_important.values())
-    temp_df = temp_df.sort_values(by = ['importance'], ascending=True)
-
-    fig = px.bar(temp_df, x='importance', y='feature')
-
-    if data['plot_type'] == 'file':
-        chart_name = str(dt.datetime.now())
-        chart_name = chart_name.replace(":", "-")
-        chart_name = chart_name.replace(".", "-")
-        chart_name = chart_name.replace(" ", "-")
-        data['chart_file_path'] = (f'{os.getcwd()}\\data\\chart-{chart_name}.html')
-
-        fig.write_html(data['chart_file_path'])
-        webbrowser.get(data['chrome_path']).open(data['chart_file_path'])
-
-    elif data['plot_type'] == 'show':
-        fig.show()
-    
-    return(data)
-
-#...............................................................................................
-
-def plot_feature_imp_rf(data):
-    temp_df = pd.DataFrame()
-    temp_df['feature'] = data['train_x'].columns
-    temp_df['importance'] = data["clf"].feature_importances_
-    temp_df = temp_df.sort_values(by = ['importance'], ascending=True)
-
-    fig = px.bar(temp_df, x='importance', y='feature')
-    
-    if data['plot_type'] == 'file':
-        chart_name = str(dt.datetime.now())
-        chart_name = chart_name.replace(":", "-")
-        chart_name = chart_name.replace(".", "-")
-        chart_name = chart_name.replace(" ", "-")
-        data['chart_file_path'] = (f'{os.getcwd()}\\data\\chart-{chart_name}.html')
-
-        fig.write_html(data['chart_file_path'])
-        webbrowser.get(data['chrome_path']).open(data['chart_file_path'])
-
-    elif data['plot_type'] == 'show':
-        fig.show()
-        
-    return(data)
-
 #...............................................................................................

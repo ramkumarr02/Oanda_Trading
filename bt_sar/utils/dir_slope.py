@@ -101,27 +101,31 @@ def get_lema_BBands_dir(data):
 
     return(data)
 #...............................................................................................
-def get_lema_adx_dir(data):
+def get_lema_gap_dir(data):
     
     data['to_order'] = None
 
     if data['sema'] > data['lema']:
         if data['slema'] > data['lema']:
-            if data['lema_angle'] > data['min_lema_angle']:
-                # if data['lema_diff'] > min(data['min_lema_diff'], data['lema_gap']):
-                if data['lema_diff'] > data['lema_gap']:
-                # if data['lema_diff'] > data['min_lema_diff']:
-                    data["df_ohlc"]['up'][data['i']] = data['close']
-                    data['to_order'] = 'long'            
+            if (data['lema_angle'] > 0) & (data['lema_angle_2'] > 0):
+                if (data['slema_angle'] > 0) & (data['slema_angle_2'] > 0):
+                    if (data['sema_angle'] > 0) & (data['sema_angle_2'] > 0):
+                        if data['lema_diff'] > data['lema_gap'] / 2:
+                        # if data['lema_diff'] > min(data['min_lema_diff'], data['lema_gap']):
+                        # if data['lema_diff'] > data['min_lema_diff']:
+                            data["df_ohlc"]['up'][data['i']] = data['close']
+                            data['to_order'] = 'long'            
 
     if data['sema'] < data['lema']:
         if data['slema'] < data['lema']:
-            if data['lema_angle'] < -data['min_lema_angle']:
-                # if data['lema_diff'] > min(data['min_lema_diff'], data['lema_gap']):
-                if data['lema_diff'] > data['lema_gap']:
-                # if data['lema_diff'] < -data['min_lema_diff']:
-                    data["df_ohlc"]['down'][data['i']] = data['close']
-                    data['to_order'] = 'short'      
+            if (data['lema_angle'] < 0) & (data['lema_angle_2'] < 0):
+                if (data['slema_angle'] < 0) & (data['slema_angle_2'] < 0):
+                    if (data['sema_angle'] < 0) & (data['sema_angle_2'] < 0):
+                        if data['lema_diff'] > data['lema_gap'] / 2:
+                        # if data['lema_diff'] > min(data['min_lema_diff'], data['lema_gap']):
+                        # if data['lema_diff'] < -data['min_lema_diff']:
+                            data["df_ohlc"]['down'][data['i']] = data['close']
+                            data['to_order'] = 'short'      
 
     return(data)
 #...............................................................................................

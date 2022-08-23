@@ -212,7 +212,7 @@ def get_max_min_lema(data):
     data['df_ohlc'].loc[data['df_ohlc']['lema'] < data['df_ohlc']['lema_min'], 'lema_diff'] = data['df_ohlc']['lema_min'] - data['df_ohlc']['lema']   
 
 
-    data['df_ohlc'].to_csv('data/temp.csv', index = False) 
+    # data['df_ohlc'].to_csv('data/temp.csv', index = False) 
 
     del temp
     

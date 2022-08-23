@@ -40,7 +40,7 @@ def run_engine(data):
 
         data = capture_iterative_data(data)
         # data = get_lema_BBands_dir(data)
-        data = get_lema_adx_dir(data)
+        data = get_lema_gap_dir(data)
 
         # # Get Dirs : Before Order --------------------------------
         # data = get_position(data)
@@ -72,6 +72,7 @@ def run_engine(data):
         # # data = reverse_position(data)
 
     data = split_date_col(data)
+    data = get_report_df(data)
             
     return(data)
 #...............................................................................................    
