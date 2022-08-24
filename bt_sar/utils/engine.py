@@ -57,7 +57,8 @@ def run_engine(data):
 
         # data = get_multi_angle_close_pos(data)
         # data = get_multi_angle_open_pos(data)
-        data = sema_cross_close(data)
+        # data = sema_cross_close(data)
+        data = sema_min_max_close(data)
         data = make_order(data)
         data = calculate_pl(data)
 

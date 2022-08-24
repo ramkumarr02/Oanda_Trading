@@ -101,6 +101,27 @@ def sema_cross_close(data):
     return(data)
 
 #...............................................................................................
+
+#...............................................................................................
+def sema_min_max_close(data):
+
+    if data['open_order']:
+        if data['open_order_type'] == 'long':
+            if data['sema'] < data['slema']:
+                data['stop_text'] = 'sema_close'
+                data = close_long_order(data)
+                
+                    
+        if data['open_order_type'] == 'short':
+            if data['sema'] > data['slema']:
+                data['stop_text'] = 'sema_close'
+                data = close_short_order(data)
+
+    return(data)
+
+#...............................................................................................
+
+
 #...............................................................................................
 def simple_take_profit(data):       
 

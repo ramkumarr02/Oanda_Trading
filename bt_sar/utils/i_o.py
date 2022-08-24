@@ -285,13 +285,13 @@ def plot_graph(data):
                             )
                     )                                                                                                                                                 
 
-            # fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
-            #                     y=data['plot_df']['slema'],
-            #                     mode='lines',
-            #                     name='slema',
-            #                     line=dict(color='blue', width=1),
-            #                 )
-            #         ) 
+            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+                                y=data['plot_df']['slema'],
+                                mode='lines',
+                                name='slema',
+                                line=dict(color='blue', width=1),
+                            )
+                    ) 
 
             # fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
             #                     y=data['plot_df']['ma'],
@@ -769,4 +769,40 @@ def plot_graph(data):
             webbrowser.get(data['chrome_path']).open(data['chart_file_path'])
         elif data['plot_type'] == 'show':
             fig.show()
+#...............................................................................................
+
+def lema_gap_pl_analysis(data):
+    order_side = 'positive'
+    y = pd.DataFrame(data['df_small'][data['df_small']['pl_type'] == order_side].lema_gap.round(3).value_counts())
+    y= y.reset_index()
+    y = y.rename(columns = {'lema_gap':order_side})
+
+    t = data['df_small'].loc[data['df_small']['pl_type'] == order_side, ['lema_gap', 'pl']]
+    t['lema_gap'] = t['lema_gap'].round(3)
+    t1 = pd.DataFrame(t.groupby('lema_gap').pl.sum()).reset_index().rename(columns={'lema_gap': 'index', 'pl':f'{order_side}_sum'})
+
+    order_side = 'negative'
+    x= pd.DataFrame(data['df_small'][data['df_small']['pl_type'] == order_side].lema_gap.round(3).value_counts())
+    x = x.reset_index()
+    x = x.rename(columns = {'lema_gap':order_side})
+
+    t = data['df_small'].loc[data['df_small']['pl_type'] == order_side, ['lema_gap', 'pl']]
+    t['lema_gap'] = t['lema_gap'].round(3)
+    t2 = pd.DataFrame(t.groupby('lema_gap').pl.sum()).reset_index().rename(columns={'lema_gap': 'index', 'pl':f'{order_side}_sum'})
+
+    x = x.merge(y, on = 'index', how = 'outer')
+    x = x.merge(t1, on = 'index', how = 'outer')
+    all = x.merge(t2, on = 'index', how = 'outer')
+
+    all = all.fillna(0)
+
+    all['count_diff'] = all['positive'] - all['negative']
+    all['sum_diff'] = all['positive_sum'] - abs(all['negative_sum'])
+
+    all = all.sort_values(by = ['count_diff', 'sum_diff', 'index'])
+    all = all[['index','positive', 'negative', 'count_diff', 'positive_sum', 'negative_sum', 'sum_diff']]
+    data['lema_gap_pl_report'] = all
+    
+    return(data)
+
 #...............................................................................................

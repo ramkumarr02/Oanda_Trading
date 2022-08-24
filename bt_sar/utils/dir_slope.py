@@ -110,9 +110,10 @@ def get_lema_gap_dir(data):
             if (data['lema_angle'] > 0) & (data['lema_angle_2'] > 0):
                 if (data['slema_angle'] > 0) & (data['slema_angle_2'] > 0):
                     if (data['sema_angle'] > 0) & (data['sema_angle_2'] > 0):
-                        if data['lema_diff'] > data['lema_gap'] / 2:
+                        # if data['lema_diff'] > data['lema_gap'] / 2:
                         # if data['lema_diff'] > min(data['min_lema_diff'], data['lema_gap']):
                         # if data['lema_diff'] > data['min_lema_diff']:
+                        if data['sema'] > data['lema_max']:
                             data["df_ohlc"]['up'][data['i']] = data['close']
                             data['to_order'] = 'long'            
 
@@ -121,9 +122,10 @@ def get_lema_gap_dir(data):
             if (data['lema_angle'] < 0) & (data['lema_angle_2'] < 0):
                 if (data['slema_angle'] < 0) & (data['slema_angle_2'] < 0):
                     if (data['sema_angle'] < 0) & (data['sema_angle_2'] < 0):
-                        if data['lema_diff'] > data['lema_gap'] / 2:
+                        # if data['lema_diff'] > data['lema_gap'] / 2:
                         # if data['lema_diff'] > min(data['min_lema_diff'], data['lema_gap']):
                         # if data['lema_diff'] < -data['min_lema_diff']:
+                        if data['sema'] < data['lema_min']:
                             data["df_ohlc"]['down'][data['i']] = data['close']
                             data['to_order'] = 'short'      
 

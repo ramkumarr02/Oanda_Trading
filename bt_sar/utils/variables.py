@@ -133,9 +133,9 @@ data['all_close_min_pip']       = 0
 data['order_multiplier']        = 1
 
 
-data["input_year"] = 2022
+data["input_year"] = 2021
 data['start_date'] = {'year':data["input_year"], 'month':1, 'date':1}
-data['end_date']   = {'year':data["input_year"], 'month':7, 'date':31}
+data['end_date']   = {'year':data["input_year"], 'month':12, 'date':31}
 data['df_subset_size'] = None
 
 data["product"] = 'eurusd'
@@ -174,8 +174,8 @@ data['remove_list'] = ['order_side', 'order_size', 'long_open', 'long_close', 's
 data['candle_size'] = '5T'
 data['num_fwd_candles'] = 3
 data['min_pip_target'] = 0.0002
-data['lema_min_max_duration'] = '1d'
-
+data['lema_min_max_duration']   = '1D'
+data['lema_min_max_span']       = 2
 # data['classifier'] = RandomForestClassifier()
 data['classifier'] = xgboost.XGBClassifier(eval_metric = 'logloss')
 

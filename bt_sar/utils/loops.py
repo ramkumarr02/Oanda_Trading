@@ -119,40 +119,6 @@ def get_indicators(data):
 
     return(data)
 
-#...............................................................................................
-
-def get_cdl_hammer_sstar(data):
-    data['df_ohlc']['cdl_hammer'] = talib.CDLHAMMER(data['df_ohlc']['open'], data['df_ohlc']['high'], data['df_ohlc']['low'], data['df_ohlc']['close'])
-    data['df_ohlc']['cdl_hammer'] = data['df_ohlc']['cdl_hammer'].replace({0:np.nan})
-    data['df_ohlc']['cdl_hammer'] = np.where(data['df_ohlc']['cdl_hammer'] == 100, data['df_ohlc']['close'], data['df_ohlc']['cdl_hammer'])
-
-    data['df_ohlc']['cdl_shootingstar'] = talib.CDLSHOOTINGSTAR(data['df_ohlc']['open'], data['df_ohlc']['high'], data['df_ohlc']['low'], data['df_ohlc']['close'])
-    data['df_ohlc']['cdl_shootingstar'] = data['df_ohlc']['cdl_shootingstar'].replace({0:np.nan})
-    data['df_ohlc']['cdl_shootingstar'] = np.where(data['df_ohlc']['cdl_shootingstar'] == -100, data['df_ohlc']['close'], data['df_ohlc']['cdl_shootingstar'])
-
-    return(data)
-
-#...............................................................................................  
-
-#...............................................................................................  
-
-def get_cdl_engulfing(data):
-    data['df_ohlc']['cdl_engulfing'] = talib.CDLENGULFING(data['df_ohlc']['open'], data['df_ohlc']['high'], data['df_ohlc']['low'], data['df_ohlc']['close'])
-
-    data['df_ohlc']['cdl_engulfing_up'] = data['df_ohlc']['cdl_engulfing'][data['df_ohlc']['cdl_engulfing'] == 100]
-    data['df_ohlc']['cdl_engulfing_down'] = data['df_ohlc']['cdl_engulfing'][data['df_ohlc']['cdl_engulfing'] == -100]
-
-    data['df_ohlc']['cdl_engulfing_up'] = data['df_ohlc']['cdl_engulfing_up'].replace({0:np.nan})
-    data['df_ohlc']['cdl_engulfing_up'] = np.where(data['df_ohlc']['cdl_engulfing_up'] == 100, data['df_ohlc']['close'], data['df_ohlc']['cdl_engulfing_up'])
-
-    data['df_ohlc']['cdl_engulfing_down'] = data['df_ohlc']['cdl_engulfing_down'].replace({0:np.nan})
-    data['df_ohlc']['cdl_engulfing_down'] = np.where(data['df_ohlc']['cdl_engulfing_down'] == -100, data['df_ohlc']['close'], data['df_ohlc']['cdl_engulfing_down'])
-
-    del data['df_ohlc']['cdl_engulfing'] 
-
-    return(data)
-
-#...............................................................................................  
 #...............................................................................................  
 def get_max_min_lema(data):
 
@@ -160,11 +126,11 @@ def get_max_min_lema(data):
     temp = temp.set_index('DateTime_frmt')
 
     max_temp = temp['lema'].resample(data['lema_min_max_duration']).max().reset_index()
-    max_temp['lema'] = max_temp['lema'].ewm(span = 2, min_periods = 1).mean()
+    max_temp['lema'] = max_temp['lema'].ewm(span = data['lema_min_max_span'], min_periods = 1).mean()
     max_temp = max_temp.rename(columns={'lema':'lema_max'})
 
     min_temp = temp['lema'].resample(data['lema_min_max_duration']).min().reset_index()
-    min_temp['lema'] = min_temp['lema'].ewm(span = 2, min_periods = 1).mean()
+    min_temp['lema'] = min_temp['lema'].ewm(span = data['lema_min_max_span'], min_periods = 1).mean()
     min_temp = min_temp.rename(columns={'lema':'lema_min'})
 
     temp = max_temp.merge(min_temp, on = 'DateTime_frmt')
@@ -208,8 +174,10 @@ def get_max_min_lema(data):
     # Lema rolling diff --------------------------------------
     data['df_ohlc']['lema_diff'] = np.nan
     # data['df_ohlc']['lema_diff'] = data['df_ohlc']['lema'] - data['df_ohlc']['lema_angle_0']
-    data['df_ohlc'].loc[data['df_ohlc']['lema'] > data['df_ohlc']['lema_max'], 'lema_diff'] = data['df_ohlc']['lema'] - data['df_ohlc']['lema_max']
-    data['df_ohlc'].loc[data['df_ohlc']['lema'] < data['df_ohlc']['lema_min'], 'lema_diff'] = data['df_ohlc']['lema_min'] - data['df_ohlc']['lema']   
+    # data['df_ohlc'].loc[data['df_ohlc']['lema'] > data['df_ohlc']['lema_max'], 'lema_diff'] = data['df_ohlc']['lema'] - data['df_ohlc']['lema_max']
+    # data['df_ohlc'].loc[data['df_ohlc']['lema'] < data['df_ohlc']['lema_min'], 'lema_diff'] = data['df_ohlc']['lema_min'] - data['df_ohlc']['lema']   
+    data['df_ohlc'].loc[data['df_ohlc']['lema'] > data['df_ohlc']['lema_max'], 'lema_diff'] = data['df_ohlc']['sema'] - data['df_ohlc']['lema_max']
+    data['df_ohlc'].loc[data['df_ohlc']['lema'] < data['df_ohlc']['lema_min'], 'lema_diff'] = data['df_ohlc']['lema_min'] - data['df_ohlc']['sema']   
 
 
     # data['df_ohlc'].to_csv('data/temp.csv', index = False) 
@@ -246,6 +214,40 @@ def get_tips(data):
                 if data['df_ohlc']['low'][i-2] < data['df_ohlc']['low'][i-3]:
                     if data['df_ohlc']['low'][i-3] < data['df_ohlc']['low'][i-4]:                
                         data["df_ohlc"]['tip'][i] = data['df_ohlc']['low'][i]
+
+    return(data)
+
+#...............................................................................................  
+#...............................................................................................
+
+def get_cdl_hammer_sstar(data):
+    data['df_ohlc']['cdl_hammer'] = talib.CDLHAMMER(data['df_ohlc']['open'], data['df_ohlc']['high'], data['df_ohlc']['low'], data['df_ohlc']['close'])
+    data['df_ohlc']['cdl_hammer'] = data['df_ohlc']['cdl_hammer'].replace({0:np.nan})
+    data['df_ohlc']['cdl_hammer'] = np.where(data['df_ohlc']['cdl_hammer'] == 100, data['df_ohlc']['close'], data['df_ohlc']['cdl_hammer'])
+
+    data['df_ohlc']['cdl_shootingstar'] = talib.CDLSHOOTINGSTAR(data['df_ohlc']['open'], data['df_ohlc']['high'], data['df_ohlc']['low'], data['df_ohlc']['close'])
+    data['df_ohlc']['cdl_shootingstar'] = data['df_ohlc']['cdl_shootingstar'].replace({0:np.nan})
+    data['df_ohlc']['cdl_shootingstar'] = np.where(data['df_ohlc']['cdl_shootingstar'] == -100, data['df_ohlc']['close'], data['df_ohlc']['cdl_shootingstar'])
+
+    return(data)
+
+#...............................................................................................  
+
+#...............................................................................................  
+
+def get_cdl_engulfing(data):
+    data['df_ohlc']['cdl_engulfing'] = talib.CDLENGULFING(data['df_ohlc']['open'], data['df_ohlc']['high'], data['df_ohlc']['low'], data['df_ohlc']['close'])
+
+    data['df_ohlc']['cdl_engulfing_up'] = data['df_ohlc']['cdl_engulfing'][data['df_ohlc']['cdl_engulfing'] == 100]
+    data['df_ohlc']['cdl_engulfing_down'] = data['df_ohlc']['cdl_engulfing'][data['df_ohlc']['cdl_engulfing'] == -100]
+
+    data['df_ohlc']['cdl_engulfing_up'] = data['df_ohlc']['cdl_engulfing_up'].replace({0:np.nan})
+    data['df_ohlc']['cdl_engulfing_up'] = np.where(data['df_ohlc']['cdl_engulfing_up'] == 100, data['df_ohlc']['close'], data['df_ohlc']['cdl_engulfing_up'])
+
+    data['df_ohlc']['cdl_engulfing_down'] = data['df_ohlc']['cdl_engulfing_down'].replace({0:np.nan})
+    data['df_ohlc']['cdl_engulfing_down'] = np.where(data['df_ohlc']['cdl_engulfing_down'] == -100, data['df_ohlc']['close'], data['df_ohlc']['cdl_engulfing_down'])
+
+    del data['df_ohlc']['cdl_engulfing'] 
 
     return(data)
 
