@@ -772,21 +772,27 @@ def plot_graph(data):
 #...............................................................................................
 
 def lema_gap_pl_analysis(data):
+
+    if data['lema_gap_pl_analysis_month']:
+        data['temp_df'] = data['df_small'][data['df_small']['month_val'] == data['lema_gap_pl_analysis_month']]
+    else:
+        data['temp_df'] = data['df_small']     
+    
     order_side = 'positive'
-    y = pd.DataFrame(data['df_small'][data['df_small']['pl_type'] == order_side].lema_gap.round(3).value_counts())
+    y = pd.DataFrame(data['temp_df'][data['temp_df']['pl_type'] == order_side].lema_gap.round(3).value_counts())
     y= y.reset_index()
     y = y.rename(columns = {'lema_gap':order_side})
 
-    t = data['df_small'].loc[data['df_small']['pl_type'] == order_side, ['lema_gap', 'pl']]
+    t = data['temp_df'].loc[data['temp_df']['pl_type'] == order_side, ['lema_gap', 'pl']]
     t['lema_gap'] = t['lema_gap'].round(3)
     t1 = pd.DataFrame(t.groupby('lema_gap').pl.sum()).reset_index().rename(columns={'lema_gap': 'index', 'pl':f'{order_side}_sum'})
 
     order_side = 'negative'
-    x= pd.DataFrame(data['df_small'][data['df_small']['pl_type'] == order_side].lema_gap.round(3).value_counts())
+    x= pd.DataFrame(data['temp_df'][data['temp_df']['pl_type'] == order_side].lema_gap.round(3).value_counts())
     x = x.reset_index()
     x = x.rename(columns = {'lema_gap':order_side})
 
-    t = data['df_small'].loc[data['df_small']['pl_type'] == order_side, ['lema_gap', 'pl']]
+    t = data['temp_df'].loc[data['temp_df']['pl_type'] == order_side, ['lema_gap', 'pl']]
     t['lema_gap'] = t['lema_gap'].round(3)
     t2 = pd.DataFrame(t.groupby('lema_gap').pl.sum()).reset_index().rename(columns={'lema_gap': 'index', 'pl':f'{order_side}_sum'})
 
@@ -799,7 +805,8 @@ def lema_gap_pl_analysis(data):
     all['count_diff'] = all['positive'] - all['negative']
     all['sum_diff'] = all['positive_sum'] - abs(all['negative_sum'])
 
-    all = all.sort_values(by = ['count_diff', 'sum_diff', 'index'])
+    # all = all.sort_values(by = ['count_diff', 'sum_diff', 'index'])
+    all = all.sort_values(by = ['index'])
     all = all[['index','positive', 'negative', 'count_diff', 'positive_sum', 'negative_sum', 'sum_diff']]
     data['lema_gap_pl_report'] = all
     

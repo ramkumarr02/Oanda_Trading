@@ -133,7 +133,7 @@ data['all_close_min_pip']       = 0
 data['order_multiplier']        = 1
 
 
-data["input_year"] = 2021
+data["input_year"] = 2022
 data['start_date'] = {'year':data["input_year"], 'month':1, 'date':1}
 data['end_date']   = {'year':data["input_year"], 'month':12, 'date':31}
 data['df_subset_size'] = None
@@ -158,6 +158,8 @@ data['min_take_profit_pip']     = 0.0050
 data['min_stop_loss_pip']       = -0.0050
 data['min_lema_angle']          = 0
 data['min_lema_diff']           = 0.0050
+
+data['lema_gap_pl_analysis_month'] = None
 
 data['min_adx'] = 10
 data['min_pip_gap']             = 0.002
