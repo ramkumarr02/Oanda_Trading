@@ -252,3 +252,73 @@ def get_cdl_engulfing(data):
     return(data)
 
 #...............................................................................................  
+
+
+# #...............................................................................................  
+# def get_max_min_lema(data):
+
+#     temp = data['df_ohlc'][['DateTime_frmt', 'close']]
+#     temp = temp.set_index('DateTime_frmt')
+
+#     max_temp = temp['close'].resample(data['lema_min_max_duration']).max().reset_index()
+#     # max_temp['lema'] = max_temp['lema'].ewm(span = data['lema_min_max_span'], min_periods = 1).mean()
+#     max_temp = max_temp.rename(columns={'close':'lema_max'})
+
+#     min_temp = temp['close'].resample(data['lema_min_max_duration']).min().reset_index()
+#     # min_temp['lema'] = min_temp['lema'].ewm(span = data['lema_min_max_span'], min_periods = 1).mean()
+#     min_temp = min_temp.rename(columns={'close':'lema_min'})
+
+#     temp = max_temp.merge(min_temp, on = 'DateTime_frmt')
+
+#     gap     = temp['DateTime_frmt'][1] - temp['DateTime_frmt'][0] - dt.timedelta(seconds=1)
+#     y       = temp['DateTime_frmt'] + gap
+
+#     print('Merging OHLC data with full data ...')
+
+#     x       = data['df_ohlc']['DateTime_frmt']
+
+
+#     for idx in tqdm(y.index):
+#         if idx == 0:
+#             temp_df = x[(x <= y[idx])][-1:]
+#             if len(temp_df) > 0:
+#                 y[idx]      = temp_df.values[0]
+#                 temp_start  = y[idx]
+
+#         else:
+#             temp_df = x[(temp_start < x) & (x <= y[idx])][-1:]
+#             if len(temp_df) > 0:
+#                 y[idx]      = temp_df.values[0]
+#                 temp_start  = y[idx]
+                
+#     temp['DateTime_frmt'] = y
+
+#     data['df_ohlc']  = data['df_ohlc'].merge(temp, how='left', on = 'DateTime_frmt')
+#     temp        = data['df_ohlc'][~pd.isna(data['df_ohlc']['lema_max'])]
+#     temp        = temp[temp[['DateTime_frmt', 'lema_max']].duplicated(keep = 'last')]
+#     dup_ind     = temp.index
+
+#     data['df_ohlc'].loc[dup_ind, ['lema_max', 'lema_min']] = np.nan
+
+#     data['df_ohlc']  = data['df_ohlc'].reset_index(drop=True) 
+
+#     data['df_ohlc']['lema_max'] = data['df_ohlc']['lema_max'].ffill()
+#     data['df_ohlc']['lema_min'] = data['df_ohlc']['lema_min'].ffill()
+#     data['df_ohlc']['lema_gap'] = data['df_ohlc']['lema_max'] - data['df_ohlc']['lema_min'] 
+
+#     # Lema rolling diff --------------------------------------
+#     data['df_ohlc']['lema_diff'] = np.nan
+#     # data['df_ohlc']['lema_diff'] = data['df_ohlc']['lema'] - data['df_ohlc']['lema_angle_0']
+#     # data['df_ohlc'].loc[data['df_ohlc']['lema'] > data['df_ohlc']['lema_max'], 'lema_diff'] = data['df_ohlc']['lema'] - data['df_ohlc']['lema_max']
+#     # data['df_ohlc'].loc[data['df_ohlc']['lema'] < data['df_ohlc']['lema_min'], 'lema_diff'] = data['df_ohlc']['lema_min'] - data['df_ohlc']['lema']   
+#     data['df_ohlc'].loc[data['df_ohlc']['lema'] > data['df_ohlc']['lema_max'], 'lema_diff'] = data['df_ohlc']['sema'] - data['df_ohlc']['lema_max']
+#     data['df_ohlc'].loc[data['df_ohlc']['lema'] < data['df_ohlc']['lema_min'], 'lema_diff'] = data['df_ohlc']['lema_min'] - data['df_ohlc']['sema']   
+
+
+#     # data['df_ohlc'].to_csv('data/temp.csv', index = False) 
+
+#     del temp
+    
+#     return(data)
+
+# #...............................................................................................  
