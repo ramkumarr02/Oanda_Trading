@@ -133,7 +133,7 @@ data['all_close_min_pip']       = 0
 data['order_multiplier']        = 1
 
 
-data["input_year"] = 2022
+data["input_year"] = 2020
 data['start_date'] = {'year':data["input_year"], 'month':1, 'date':1}
 data['end_date']   = {'year':data["input_year"], 'month':12, 'date':31}
 data['df_subset_size'] = None

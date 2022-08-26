@@ -249,13 +249,15 @@ def plot_graph(data):
                         yaxis2 = dict(title= 'Trend Angle', overlaying="y", side="right",)
                         )
 
-        fig = go.Figure(layout = layout, data=[go.Candlestick(x=data['plot_df']['DateTime_frmt'],
+        fig = go.Figure(layout = layout)        
+        # -------------------------------------------------------------------
+
+        if 'candles' in data['things_to_plot']:
+            fig.gogo.Candlestick(x=data['plot_df']['DateTime_frmt'],
                 open=data['plot_df']['open'],
                 high=data['plot_df']['high'],
                 low=data['plot_df']['low'],
-                close=data['plot_df']['close'])])
-        # -------------------------------------------------------------------
-
+                close=data['plot_df']['close'])
 
         # -------------------------------------------------------------------
         if 'tick' in data['things_to_plot']:
@@ -267,16 +269,16 @@ def plot_graph(data):
                                 )
                         )
 
-        if 'ema' in data['things_to_plot']:
-
+        if 'lema' in data['things_to_plot']:
             fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
                                 y=data['plot_df']['lema'],
                                 mode='lines',
                                 name='lema',
-                                line=dict(color='black', width=0.5),
+                                line=dict(color='black', width=2),
                             )
                     ) 
 
+        if 'sema' in data['things_to_plot']:
             fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
                                 y=data['plot_df']['sema'],
                                 mode='lines',
@@ -285,6 +287,7 @@ def plot_graph(data):
                             )
                     )                                                                                                                                                 
 
+        if 'slema' in data['things_to_plot']:
             fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
                                 y=data['plot_df']['slema'],
                                 mode='lines',
