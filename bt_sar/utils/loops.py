@@ -64,6 +64,8 @@ def get_indicators(data):
     data['df_ohlc']['sema_angle']   = talib.LINEARREG_ANGLE(data['df_ohlc']['sema'], timeperiod = data['sema_len'])
     data['df_ohlc']['sema_angle_2'] = talib.LINEARREG_ANGLE(data['df_ohlc']['sema_angle'], timeperiod = data['sema_len'])
 
+    data['df_ohlc']['sema_lema_diff'] = data['df_ohlc']['sema'] - data['df_ohlc']['lema']
+
     # Mid Price --------------------------------------
     # data['df_ohlc']['sema_mp'] = talib.MIDPRICE(data['df_ohlc']['high'], data['df_ohlc']['low'], timeperiod = data['sema_len'])
     # data['df_ohlc']['slema_mp'] = talib.MIDPRICE(data['df_ohlc']['high'], data['df_ohlc']['low'], timeperiod = data['slema_len'])

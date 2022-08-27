@@ -296,6 +296,16 @@ def plot_graph(data):
                             )
                     ) 
 
+        if 'sema_lema_diff' in data['things_to_plot']:
+            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+                                y=data['plot_df']['sema_lema_diff'],
+                                mode='lines',
+                                name='sema_lema_diff',
+                                yaxis='y2',
+                            line=dict(color='blue', width=1, dash = 'dot'),
+                            )
+                    )   
+
             # fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
             #                     y=data['plot_df']['ma'],
             #                     mode='lines',
