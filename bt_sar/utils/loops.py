@@ -9,7 +9,8 @@ def format_tick_time(data):
     
     data['df_name']             = f"data/ema_df-({data['start_date'].year}-{data['end_date'].year})-({data['start_date'].month}-{data['end_date'].month})-({data['start_date'].day}-{data['end_date'].day}).csv"
     data['df']['tick']          = (data["df"]['Ask'] + data["df"]['Bid'])/2
-    data['df']['DateTime_frmt'] = [dt.datetime.strptime(x.split(".")[0],"%Y%m%d %H:%M:%S") for x in data["df"]['DateTime']]    
+    # data['df']['DateTime_frmt'] = [dt.datetime.strptime(x.split(".")[0],"%Y%m%d %H:%M:%S") for x in data["df"]['DateTime']]    
+    data['df']['DateTime_frmt'] = pd.to_datetime(data['df']['DateTime'])
 
     print('format_tick_time : Completed')
 
@@ -47,8 +48,8 @@ def get_indicators(data):
     
     # Lema --------------------------------------
     data['df_ohlc']['lema']         = talib.EMA(data['df_ohlc']['close'], timeperiod = data['lema_len'])
-    data['df_ohlc']['lema_angle']   = talib.LINEARREG_ANGLE(data['df_ohlc']['lema'], timeperiod = data['sema_len'])
-    data['df_ohlc']['lema_angle_2'] = talib.LINEARREG_ANGLE(data['df_ohlc']['lema_angle'], timeperiod = data['sema_len'])
+    data['df_ohlc']['lema_angle']   = talib.LINEARREG_ANGLE(data['df_ohlc']['lema'], timeperiod = data['lema_len'])
+    data['df_ohlc']['lema_angle_2'] = talib.LINEARREG_ANGLE(data['df_ohlc']['lema_angle'], timeperiod = data['lema_len'])
 
     # Lema_angle_0 --------------------------------------
     data['df_ohlc'].loc[np.sign(data['df_ohlc']['lema_angle']).diff().ne(0), 'lema_angle_0'] = data['df_ohlc']['lema']
@@ -64,7 +65,7 @@ def get_indicators(data):
     data['df_ohlc']['sema_angle']   = talib.LINEARREG_ANGLE(data['df_ohlc']['sema'], timeperiod = data['sema_len'])
     data['df_ohlc']['sema_angle_2'] = talib.LINEARREG_ANGLE(data['df_ohlc']['sema_angle'], timeperiod = data['sema_len'])
 
-    data['df_ohlc']['sema_lema_diff'] = data['df_ohlc']['sema'] - data['df_ohlc']['lema']
+    # data['df_ohlc']['sema_lema_diff'] = data['df_ohlc']['sema'] - data['df_ohlc']['lema']
 
     # Mid Price --------------------------------------
     # data['df_ohlc']['sema_mp'] = talib.MIDPRICE(data['df_ohlc']['high'], data['df_ohlc']['low'], timeperiod = data['sema_len'])
