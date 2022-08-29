@@ -253,11 +253,11 @@ def plot_graph(data):
         # -------------------------------------------------------------------
 
         if 'candles' in data['things_to_plot']:
-            fig.gogo.Candlestick(x=data['plot_df']['DateTime_frmt'],
+            fig.add_trace(go.Candlestick(x=data['plot_df']['DateTime_frmt'],
                 open=data['plot_df']['open'],
                 high=data['plot_df']['high'],
                 low=data['plot_df']['low'],
-                close=data['plot_df']['close'])
+                close=data['plot_df']['close']))
 
         # -------------------------------------------------------------------
         if 'tick' in data['things_to_plot']:
@@ -358,6 +358,16 @@ def plot_graph(data):
                             line=dict(color='red', width=1, dash = 'dash'),
                             )
                     )   
+
+        if 'close_diff' in data['things_to_plot']:
+            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+                                    y=data['plot_df']['close_diff'],
+                                    mode='lines',
+                                    name='close_diff',
+                                    yaxis='y2',
+                                    line=dict(color='lightgrey', width=1),
+                                )
+                        )
 
         if 'slema_angle' in data['things_to_plot']:
             fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],

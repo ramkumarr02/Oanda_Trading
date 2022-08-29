@@ -28,6 +28,8 @@ def get_ohlc(data):
     ohlc = ohlc.dropna()
     data['df_ohlc'] = ohlc.reset_index()
 
+    data['df_ohlc']['close_diff'] = data['df_ohlc']['close'].diff(288)
+
     data['df_ohlc']['candle_size']  = data['df_ohlc']['high'] - data['df_ohlc']['low']    
     data['df_ohlc']['ask']          = data['df_ohlc']['close'] + (data['spread'] / 2)
     data['df_ohlc']['bid']          = data['df_ohlc']['close'] - (data['spread'] / 2)
