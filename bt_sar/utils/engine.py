@@ -22,7 +22,7 @@ def run_engine(data):
     data                = get_ohlc(data)
     data                = get_indicators(data)
     data                = get_max_min_lema(data)
-    # data                = get_tips(data)
+    data                = get_tips(data)
     
     data["df_ohlc"]['order_side']    = np.nan
     data["df_ohlc"]['order_size']    = np.nan

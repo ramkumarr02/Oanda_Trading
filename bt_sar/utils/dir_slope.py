@@ -114,8 +114,9 @@ def get_lema_gap_dir(data):
                         # if data['lema_diff'] > min(data['min_lema_diff'], data['lema_gap']):
                         # if data['lema_diff'] > data['min_lema_diff']:
                         if data['sema'] > data['lema_max']:
-                            data["df_ohlc"]['up'][data['i']] = data['close']
-                            data['to_order'] = 'long'            
+                            if data['close_diff'] >= 0.0030:
+                                data["df_ohlc"]['up'][data['i']] = data['close']
+                                data['to_order'] = 'long'            
 
     if data['sema'] < data['lema']:
         if data['slema'] < data['lema']:
@@ -126,8 +127,9 @@ def get_lema_gap_dir(data):
                         # if data['lema_diff'] > min(data['min_lema_diff'], data['lema_gap']):
                         # if data['lema_diff'] < -data['min_lema_diff']:
                         if data['sema'] < data['lema_min']:
-                            data["df_ohlc"]['down'][data['i']] = data['close']
-                            data['to_order'] = 'short'      
+                            if data['close_diff'] >= 0.0030:
+                                data["df_ohlc"]['down'][data['i']] = data['close']
+                                data['to_order'] = 'short'      
 
     return(data)
 #...............................................................................................

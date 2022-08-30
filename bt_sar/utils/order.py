@@ -108,13 +108,15 @@ def sema_min_max_close(data):
     if data['open_order']:
         if data['open_order_type'] == 'long':
             if data['sema'] < data['lema_max']:
-                data['stop_text'] = 'sema_close'
-                data = close_long_order(data)
+                if (data['lema_angle'] < 0) & (data['lema_angle_2'] < 0):
+                    data['stop_text'] = 'sema_close'
+                    data = close_long_order(data)
                     
         if data['open_order_type'] == 'short':
             if data['sema'] > data['lema_min']:
-                data['stop_text'] = 'sema_close'
-                data = close_short_order(data)
+                if (data['lema_angle'] > 0) & (data['lema_angle_2'] > 0):
+                    data['stop_text'] = 'sema_close'
+                    data = close_short_order(data)
 
     return(data)
 

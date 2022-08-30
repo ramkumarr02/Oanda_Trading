@@ -28,8 +28,6 @@ def get_ohlc(data):
     ohlc = ohlc.dropna()
     data['df_ohlc'] = ohlc.reset_index()
 
-    data['df_ohlc']['close_diff'] = data['df_ohlc']['close'].diff(288)
-
     data['df_ohlc']['candle_size']  = data['df_ohlc']['high'] - data['df_ohlc']['low']    
     data['df_ohlc']['ask']          = data['df_ohlc']['close'] + (data['spread'] / 2)
     data['df_ohlc']['bid']          = data['df_ohlc']['close'] - (data['spread'] / 2)
@@ -52,6 +50,8 @@ def get_indicators(data):
     data['df_ohlc']['lema']         = talib.EMA(data['df_ohlc']['close'], timeperiod = data['lema_len'])
     data['df_ohlc']['lema_angle']   = talib.LINEARREG_ANGLE(data['df_ohlc']['lema'], timeperiod = data['lema_len'])
     data['df_ohlc']['lema_angle_2'] = talib.LINEARREG_ANGLE(data['df_ohlc']['lema_angle'], timeperiod = data['lema_len'])
+    # data['df_ohlc']['lema_angle']   = talib.LINEARREG_SLOPE(data['df_ohlc']['lema'], timeperiod = data['lema_len'])
+    # data['df_ohlc']['lema_angle_2'] = talib.LINEARREG_SLOPE(data['df_ohlc']['lema_angle'], timeperiod = data['lema_len'])
 
     # Lema_angle_0 --------------------------------------
     data['df_ohlc'].loc[np.sign(data['df_ohlc']['lema_angle']).diff().ne(0), 'lema_angle_0'] = data['df_ohlc']['lema']
@@ -67,8 +67,10 @@ def get_indicators(data):
     data['df_ohlc']['sema_angle']   = talib.LINEARREG_ANGLE(data['df_ohlc']['sema'], timeperiod = data['sema_len'])
     data['df_ohlc']['sema_angle_2'] = talib.LINEARREG_ANGLE(data['df_ohlc']['sema_angle'], timeperiod = data['sema_len'])
 
-    # data['df_ohlc']['sema_lema_diff'] = data['df_ohlc']['sema'] - data['df_ohlc']['lema']
+    data['df_ohlc']['close_diff'] = data['df_ohlc']['sema'].diff(288).abs()
 
+    # data['df_ohlc']['sema_lema_diff'] = data['df_ohlc']['sema'] - data['df_ohlc']['lema']
+ 
     # Mid Price --------------------------------------
     # data['df_ohlc']['sema_mp'] = talib.MIDPRICE(data['df_ohlc']['high'], data['df_ohlc']['low'], timeperiod = data['sema_len'])
     # data['df_ohlc']['slema_mp'] = talib.MIDPRICE(data['df_ohlc']['high'], data['df_ohlc']['low'], timeperiod = data['slema_len'])
@@ -178,7 +180,7 @@ def get_max_min_lema(data):
 
     # Lema rolling diff --------------------------------------
     data['df_ohlc']['lema_diff'] = np.nan
-    # data['df_ohlc']['lema_diff'] = data['df_ohlc']['lema'] - data['df_ohlc']['lema_angle_0']
+    # # data['df_ohlc']['lema_diff'] = data['df_ohlc']['lema'] - data['df_ohlc']['lema_angle_0']
     # data['df_ohlc'].loc[data['df_ohlc']['lema'] > data['df_ohlc']['lema_max'], 'lema_diff'] = data['df_ohlc']['lema'] - data['df_ohlc']['lema_max']
     # data['df_ohlc'].loc[data['df_ohlc']['lema'] < data['df_ohlc']['lema_min'], 'lema_diff'] = data['df_ohlc']['lema_min'] - data['df_ohlc']['lema']   
     data['df_ohlc'].loc[data['df_ohlc']['lema'] > data['df_ohlc']['lema_max'], 'lema_diff'] = data['df_ohlc']['sema'] - data['df_ohlc']['lema_max']
@@ -223,6 +225,50 @@ def get_tips(data):
     return(data)
 
 #...............................................................................................  
+
+def get_tips(data):
+    data["df_ohlc"]['tip'] = np.nan
+
+    for i in tqdm(range(4,len(data['df_ohlc']))):
+        if data['df_ohlc']['lema'][i] < data['df_ohlc']['lema'][i-1]:
+            if data['df_ohlc']['lema'][i-1] < data['df_ohlc']['lema'][i-2]:
+                if data['df_ohlc']['lema'][i-2] > data['df_ohlc']['lema'][i-3]:
+                    if data['df_ohlc']['lema'][i-3] > data['df_ohlc']['lema'][i-4]:                
+                        data["df_ohlc"]['tip'][i] = data['df_ohlc']['lema'][i]
+
+        if data['df_ohlc']['lema'][i] > data['df_ohlc']['lema'][i-1]:
+            if data['df_ohlc']['lema'][i-1] > data['df_ohlc']['lema'][i-2]:
+                if data['df_ohlc']['lema'][i-2] < data['df_ohlc']['lema'][i-3]:
+                    if data['df_ohlc']['lema'][i-3] < data['df_ohlc']['lema'][i-4]:                
+                        data["df_ohlc"]['tip'][i] = data['df_ohlc']['lema'][i]
+
+    return(data)
+#...............................................................................................
+
+def get_tips(data):
+    data["df_ohlc"]['tip'] = np.nan
+
+    for i in tqdm(range(4,len(data['df_ohlc']))):
+        if data['df_ohlc']['lema'][i] < data['df_ohlc']['lema'][i-1]:
+            if data['df_ohlc']['lema'][i-1] > data['df_ohlc']['lema'][i-2]:
+                data["df_ohlc"]['tip'][i] = data['df_ohlc']['lema'][i]
+
+        if data['df_ohlc']['lema'][i] < data['df_ohlc']['lema'][i-1]:
+            if data['df_ohlc']['lema'][i-1] == data['df_ohlc']['lema'][i-2]:
+                if data['df_ohlc']['lema'][i-2] > data['df_ohlc']['lema'][i-3]:
+                    data["df_ohlc"]['tip'][i] = data['df_ohlc']['lema'][i]
+
+        if data['df_ohlc']['lema'][i] > data['df_ohlc']['lema'][i-1]:
+            if data['df_ohlc']['lema'][i-1] < data['df_ohlc']['lema'][i-2]:
+                data["df_ohlc"]['tip'][i] = data['df_ohlc']['lema'][i]
+
+        if data['df_ohlc']['lema'][i] > data['df_ohlc']['lema'][i-1]:
+            if data['df_ohlc']['lema'][i-1] == data['df_ohlc']['lema'][i-2]:
+                if data['df_ohlc']['lema'][i-2] < data['df_ohlc']['lema'][i-3]:
+                    data["df_ohlc"]['tip'][i] = data['df_ohlc']['lema'][i]
+
+    return(data)
+
 #...............................................................................................
 
 def get_cdl_hammer_sstar(data):

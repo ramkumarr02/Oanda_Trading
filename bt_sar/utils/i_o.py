@@ -220,6 +220,7 @@ def get_report_df(data):
         elif data['df_small']['pl'][i] == 0:
             data['df_small']['pl_type'][i-1] = 'zero'        
 
+    data['df_small']['weekday'] = data['df_small']['DateTime_frmt'].dt.weekday
 
     data['df_small'].loc[data['df_small']['up'].notnull(),'order_side'] = 'long'
     data['df_small'].loc[data['df_small']['down'].notnull(),'order_side'] = 'short'
@@ -365,7 +366,7 @@ def plot_graph(data):
                                     mode='lines',
                                     name='close_diff',
                                     yaxis='y2',
-                                    line=dict(color='lightgrey', width=1),
+                                    line=dict(color='black', width=1, dash = 'dot'),
                                 )
                         )
 
@@ -579,18 +580,19 @@ def plot_graph(data):
                                 opacity=1)
 
                                 
-            # fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
-            #                     y = data['plot_df']['lema_angle_0'], 
-            #                     mode = 'markers', 
-            #                     name = 'lema_angle_0',
-            #                     marker_symbol = 'circle',
-            #                     marker=dict(color='blue',
-            #                                 size=1,
-            #                                 line=dict(
-            #                                     color='blue',
-            #                                     width=1
-            #                                 )),
-            #                     opacity=1)
+        if 'lema_angle_0' in data['things_to_plot']:
+            fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
+                                y = data['plot_df']['lema_angle_0'], 
+                                mode = 'markers', 
+                                name = 'lema_angle_0',
+                                marker_symbol = 'circle',
+                                marker=dict(color='blue',
+                                            size=1,
+                                            line=dict(
+                                                color='blue',
+                                                width=1
+                                            )),
+                                opacity=1)
 
         # -------------------------------------------------------------------
 
