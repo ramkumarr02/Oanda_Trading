@@ -524,6 +524,20 @@ def plot_graph(data):
                                             )),
                                 opacity=1)
 
+        if 'lema_change' in data['things_to_plot']:
+            fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
+                                y = data['plot_df']['lema_change'], 
+                                mode = 'markers', 
+                                name = 'lema_change',
+                                marker_symbol = 'circle',
+                                marker=dict(color='red',
+                                            size=5,
+                                            line=dict(
+                                                color='black',
+                                                width=1
+                                            )),
+                                opacity=1)
+
         if 'cross' in data['things_to_plot']:
             fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
                                 y = data['plot_df']['cross'], 
