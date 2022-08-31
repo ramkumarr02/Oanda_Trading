@@ -304,6 +304,56 @@ def get_cdl_engulfing(data):
 
 #...............................................................................................  
 
+def get_lema_pick_points(data):
+    a = np.array(data['df_ohlc']['lema'].diff())
+
+    a1 = np.sign(a)
+
+    for i in tqdm(np.arange(1, len(a1))):
+        if a1[i] == 0:        
+            a1[i] = a1[i+1]
+
+        if a1[i] != a1[i-1]:
+            if a1[i+1] == a1[i-1]:
+                a1[i] = a1[i-1]
+
+    idx2 = []
+
+    for i in np.arange(len(a1)-1):
+        if i > 2:
+            if a1[i-1] == a1[i-2]:
+                if a1[i] == a1[i+1]:
+                    if a1[i] != a1[i-1]:
+                        idx2.append(i)
+
+    idx2 = (np.array(idx2))
+    
+    data['df_ohlc']['lema_change'] = np.nan
+    data['df_ohlc'].loc[idx2, 'lema_change'] = data['df_ohlc']['lema']
+    
+    return(data)
+
+#...............................................................................................  
+
+def get_returning_lema_points(data):
+    data['df_ohlc']['lema_match'] = np.nan
+
+    set2 = set(data['df_ohlc']['lema_change'][data['df_ohlc']['lema_change'].notnull()].index)
+
+    for i in tqdm(np.arange(data['look_back_window_size'], len(data['df_ohlc']))):
+        set1 = set(np.arange(i-data['look_back_window_size'],i))
+        lema_tips = list(set1 & set2)
+
+        if len(lema_tips) > 0:
+            last_lema_tip = lema_tips[-1]
+            idx = np.arange(i-data['look_back_window_size'], last_lema_tip+1)
+            lema_list = data['df_ohlc']['lema'].loc[idx].round(4)
+
+            if data['df_ohlc']['lema'][i].round(4) in set(lema_list):        
+                data['df_ohlc']['lema_match'][i] = data['df_ohlc']['lema'][i]
+
+    return(data)
+#...............................................................................................  
 
 # #...............................................................................................  
 # def get_max_min_lema(data):

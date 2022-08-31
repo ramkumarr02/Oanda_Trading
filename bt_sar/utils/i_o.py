@@ -538,6 +538,20 @@ def plot_graph(data):
                                             )),
                                 opacity=1)
 
+        if 'lema_match' in data['things_to_plot']:
+            fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
+                                y = data['plot_df']['lema_match'], 
+                                mode = 'markers', 
+                                name = 'lema_match',
+                                marker_symbol = 'circle',
+                                marker=dict(color='yellow',
+                                            size=5,
+                                            line=dict(
+                                                color='black',
+                                                width=1
+                                            )),
+                                opacity=1)
+
         if 'cross' in data['things_to_plot']:
             fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
                                 y = data['plot_df']['cross'], 

@@ -150,6 +150,8 @@ data['lema_len']    = 200
 data['low_rsi']     = 30
 data['high_rsi']    = 70
 
+data['look_back_window_size'] = 300
+
 data['min_BBand_width'] = 0.0010
 data['spread'] = 0.0001
 data['stop_loss_multiplier']    = 1
