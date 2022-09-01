@@ -304,8 +304,11 @@ def get_cdl_engulfing(data):
 
 #...............................................................................................  
 
-def get_lema_pick_points(data):
-    a = np.array(data['df_ohlc']['lema'].diff())
+def get_lema_pick_points(data):    
+
+    # a = np.array(data['df_ohlc']['lema'].diff())
+    # a = np.array(data['df_ohlc']['sema'].diff())
+    a = np.array(data['df_ohlc'][data['ema_type']].diff())
 
     a1 = np.sign(a)
 
@@ -329,7 +332,9 @@ def get_lema_pick_points(data):
     idx2 = (np.array(idx2))
     
     data['df_ohlc']['lema_change'] = np.nan
-    data['df_ohlc'].loc[idx2, 'lema_change'] = data['df_ohlc']['lema']
+    # data['df_ohlc'].loc[idx2, 'lema_change'] = data['df_ohlc']['lema']
+    # data['df_ohlc'].loc[idx2, 'lema_change'] = data['df_ohlc']['sema']
+    data['df_ohlc'].loc[idx2, 'lema_change'] = data['df_ohlc'][data['ema_type']]
     
     return(data)
 
@@ -347,10 +352,16 @@ def get_returning_lema_points(data):
         if len(lema_tips) > 0:
             last_lema_tip = lema_tips[-1]
             idx = np.arange(i-data['look_back_window_size'], last_lema_tip+1)
-            lema_list = data['df_ohlc']['lema'].loc[idx].round(4)
+            # lema_list = data['df_ohlc']['lema'].loc[idx].round(4)
+            # lema_list = data['df_ohlc']['sema'].loc[idx].round(4)
+            lema_list = data['df_ohlc'][data['ema_type']].loc[idx].round(4)
 
-            if data['df_ohlc']['lema'][i].round(4) in set(lema_list):        
-                data['df_ohlc']['lema_match'][i] = data['df_ohlc']['lema'][i]
+            # if data['df_ohlc']['lema'][i].round(4) in set(lema_list):        
+            #     data['df_ohlc']['lema_match'][i] = data['df_ohlc']['lema'][i]
+            # if data['df_ohlc']['sema'][i].round(4) in set(lema_list):        
+            #     data['df_ohlc']['lema_match'][i] = data['df_ohlc']['sema'][i]
+            if data['df_ohlc'][data['ema_type']][i].round(4) in set(lema_list):        
+                data['df_ohlc']['lema_match'][i] = data['df_ohlc'][data['ema_type']][i]
 
     return(data)
 #...............................................................................................  

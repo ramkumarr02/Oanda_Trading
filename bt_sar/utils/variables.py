@@ -133,7 +133,7 @@ data['all_close_min_pip']       = 0
 data['order_multiplier']        = 1
 
 
-data["input_year"] = 2020
+data["input_year"] = 2021
 data['start_date'] = {'year':data["input_year"], 'month':1, 'date':1}
 data['end_date']   = {'year':data["input_year"], 'month':12, 'date':31}
 data['df_subset_size'] = None
@@ -150,7 +150,9 @@ data['lema_len']    = 200
 data['low_rsi']     = 30
 data['high_rsi']    = 70
 
-data['look_back_window_size'] = 300
+data['look_back_window_size'] = 144
+
+data['ema_type'] = 'lema'
 
 data['min_BBand_width'] = 0.0010
 data['spread'] = 0.0001
@@ -202,7 +204,6 @@ data['cols'] = ['DateTime_frmt',
  'num_ticks', 'candle_size', 
  'up_range', 'down_range', 'up', 'down']       
 
-data['ema_type'] = 'slema'
 
 
 data['pl_move_trail_ratio']     = 0.8

@@ -115,8 +115,6 @@ def get_lema_gap_dir(data):
                         # if data['lema_diff'] > data['min_lema_diff']:
                         # if data['sema'] > data['lema_max']:
                         if np.isnan(data['lema_match']):
-                            pass
-                        else:
                             # if data['close_diff'] >= 0.0030:
                             data["df_ohlc"]['up'][data['i']] = data['close']
                             data['to_order'] = 'long'            
@@ -131,11 +129,33 @@ def get_lema_gap_dir(data):
                         # if data['lema_diff'] < -data['min_lema_diff']:
                         # if data['sema'] < data['lema_min']:
                         if np.isnan(data['lema_match']):
-                            pass
-                        else:
                             # if data['close_diff'] >= 0.0030:
                             data["df_ohlc"]['down'][data['i']] = data['close']
                             data['to_order'] = 'short'      
+
+    return(data)
+#...............................................................................................
+
+#...............................................................................................
+def get_lema_gap_dir(data):
+    
+    data['to_order'] = None
+
+    if data['sema'] > data['lema']:
+        if data['lema_angle'] > 0:
+            if data['slema_angle'] > 0:
+                if data['sema_angle'] > 0:
+                    if np.isnan(data['lema_match']):
+                        data["df_ohlc"]['up'][data['i']] = data['close']
+                        data['to_order'] = 'long'            
+
+    if data['sema'] < data['lema']:
+        if data['lema_angle'] < 0:
+            if data['slema_angle'] < 0:
+                if data['sema_angle'] < 0:
+                    if np.isnan(data['lema_match']):
+                        data["df_ohlc"]['down'][data['i']] = data['close']
+                        data['to_order'] = 'short'      
 
     return(data)
 #...............................................................................................
