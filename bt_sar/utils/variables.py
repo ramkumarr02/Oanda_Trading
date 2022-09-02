@@ -152,7 +152,8 @@ data['high_rsi']    = 70
 
 data['look_back_window_size'] = 144
 
-data['ema_type'] = 'lema'
+data['ema_type'] = 'close'
+data['match_round_value'] = 0.0005
 
 data['min_BBand_width'] = 0.0010
 data['spread'] = 0.0001

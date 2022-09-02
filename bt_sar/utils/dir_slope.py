@@ -159,3 +159,23 @@ def get_lema_gap_dir(data):
 
     return(data)
 #...............................................................................................
+
+# #...............................................................................................
+# def get_lema_gap_dir(data):
+    
+#     data['to_order'] = None
+
+#     if data['sema'] > data['lema']:
+#         if data['lema_angle'] > 0:
+#             if np.isnan(data['lema_match']):
+#                 data["df_ohlc"]['up'][data['i']] = data['close']
+#                 data['to_order'] = 'long'            
+
+#     if data['sema'] < data['lema']:
+#         if data['lema_angle'] < 0:
+#             if np.isnan(data['lema_match']):
+#                 data["df_ohlc"]['down'][data['i']] = data['close']
+#                 data['to_order'] = 'short'      
+
+#     return(data)
+# #...............................................................................................

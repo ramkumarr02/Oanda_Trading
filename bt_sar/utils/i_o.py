@@ -270,6 +270,16 @@ def plot_graph(data):
                                 )
                         )
 
+        if 'close' in data['things_to_plot']:
+            fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
+                                    y=data['plot_df']['close'],
+                                    mode='lines',
+                                    name='close',
+                                    line=dict(color='blue', width=1),
+                                )
+                        )
+
+
         if 'lema' in data['things_to_plot']:
             fig.add_trace(go.Scatter(x=data['plot_df']['DateTime_frmt'],
                                 y=data['plot_df']['lema'],
@@ -544,7 +554,7 @@ def plot_graph(data):
                                 mode = 'markers', 
                                 name = 'lema_match',
                                 marker_symbol = 'circle',
-                                marker=dict(color='yellow',
+                                marker=dict(color='black',
                                             size=5,
                                             line=dict(
                                                 color='black',
