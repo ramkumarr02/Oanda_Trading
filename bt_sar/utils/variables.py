@@ -182,6 +182,7 @@ data['candle_size'] = '5T'
 data['num_fwd_candles'] = 3
 data['min_pip_target'] = 0.0002
 data['lema_min_max_duration']   = '1D'
+data['close_min_max_duration']   = '30T'
 data['lema_min_max_span']       = 2
 # data['classifier'] = RandomForestClassifier()
 data['classifier'] = xgboost.XGBClassifier(eval_metric = 'logloss')

@@ -275,7 +275,7 @@ def plot_graph(data):
                                     y=data['plot_df']['close'],
                                     mode='lines',
                                     name='close',
-                                    line=dict(color='blue', width=1),
+                                    line=dict(color='red', width=1),
                                 )
                         )
 
@@ -536,9 +536,25 @@ def plot_graph(data):
 
         if 'lema_change' in data['things_to_plot']:
             fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
+                                # y = data['plot_df']['lema_change'], 
                                 y = data['plot_df']['lema_change'], 
                                 mode = 'markers', 
                                 name = 'lema_change',
+                                marker_symbol = 'circle',
+                                marker=dict(color='red',
+                                            size=5,
+                                            line=dict(
+                                                color='black',
+                                                width=1
+                                            )),
+                                opacity=1)
+
+        if 'close_max' in data['things_to_plot']:
+            fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
+                                # y = data['plot_df']['lema_change'], 
+                                y = data['plot_df']['close_max'], 
+                                mode = 'markers', 
+                                name = 'close_max',
                                 marker_symbol = 'circle',
                                 marker=dict(color='red',
                                             size=5,
