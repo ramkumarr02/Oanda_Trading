@@ -559,10 +559,25 @@ def plot_graph(data):
                                 marker=dict(color='red',
                                             size=5,
                                             line=dict(
-                                                color='black',
+                                                color='red',
                                                 width=1
                                             )),
                                 opacity=1)
+
+        if 'close_min' in data['things_to_plot']:
+            fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
+                                # y = data['plot_df']['lema_change'], 
+                                y = data['plot_df']['close_min'], 
+                                mode = 'markers', 
+                                name = 'close_min',
+                                marker_symbol = 'circle',
+                                marker=dict(color='blue',
+                                            size=5,
+                                            line=dict(
+                                                color='blue',
+                                                width=1
+                                            )),
+                                opacity=1)                                
 
         if 'lema_match' in data['things_to_plot']:
             fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 

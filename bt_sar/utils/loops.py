@@ -32,6 +32,9 @@ def get_ohlc(data):
     data['df_ohlc']['ask']          = data['df_ohlc']['close'] + (data['spread'] / 2)
     data['df_ohlc']['bid']          = data['df_ohlc']['close'] - (data['spread'] / 2)
 
+    data['df_ohlc']['close_max'] = data['df_ohlc']['close'].rolling(window = data['close_min_max_duration']).max()
+    data['df_ohlc']['close_min'] = data['df_ohlc']['close'].rolling(window = data['close_min_max_duration']).min()
+
     del ohlc
 
     print('get_ohlc         : completed')    
@@ -374,7 +377,7 @@ def get_tips(data):
 
     a1 = np.sign(a)
 
-    for i in tqdm(np.arange(1, len(a1))):
+    for i in tqdm(np.arange(1, len(a1)-1)):
         if a1[i] == 0:        
             a1[i] = a1[i+1]
 
