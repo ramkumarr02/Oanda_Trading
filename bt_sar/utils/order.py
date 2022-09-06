@@ -83,24 +83,43 @@ def get_multi_angle_open_pos(data):
 
     return(data)
 
+# #...............................................................................................
+# def sema_cross_close(data):
+
+#     if data['open_order']:
+#         if data['open_order_type'] == 'long':
+#             if data['sema'] < data['lema']:
+#                 # if data['lema_angle'] < 0:
+#                 if np.isnan(data['lema_match']):
+#                     data['stop_text'] = 'sema_close'
+#                     data = close_long_order(data)
+                
+                    
+#         if data['open_order_type'] == 'short':
+#             if data['sema'] > data['lema']:
+#                 # if data['lema_angle'] > 0:
+#                 if np.isnan(data['lema_match']):
+#                     data['stop_text'] = 'sema_close'
+#                     data = close_short_order(data)
+
+#     return(data)
+
+# #...............................................................................................
+
 #...............................................................................................
 def sema_cross_close(data):
 
     if data['open_order']:
         if data['open_order_type'] == 'long':
-            if data['sema'] < data['lema']:
-                # if data['lema_angle'] < 0:
-                if np.isnan(data['lema_match']):
-                    data['stop_text'] = 'sema_close'
-                    data = close_long_order(data)
+            if data['close'] < data['sema']:
+                data['stop_text'] = 'sema_close'
+                data = close_long_order(data)
                 
                     
         if data['open_order_type'] == 'short':
-            if data['sema'] > data['lema']:
-                # if data['lema_angle'] > 0:
-                if np.isnan(data['lema_match']):
-                    data['stop_text'] = 'sema_close'
-                    data = close_short_order(data)
+            if data['close'] > data['sema']:
+                data['stop_text'] = 'sema_close'
+                data = close_short_order(data)
 
     return(data)
 

@@ -135,7 +135,7 @@ data['order_multiplier']        = 1
 
 data["input_year"] = 2021
 data['start_date'] = {'year':data["input_year"], 'month':1, 'date':1}
-data['end_date']   = {'year':data["input_year"], 'month':3, 'date':31}
+data['end_date']   = {'year':data["input_year"], 'month':12, 'date':31}
 data['df_subset_size'] = None
 
 data["product"] = 'eurusd'
@@ -143,14 +143,14 @@ data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 
 data['ema_roll_method'] = 'new'
 
-data['sema_len']    = 20
+data['sema_len']    = 6
 data['slema_len']   = 100
 data['lema_len']    = 200
 
 data['low_rsi']     = 30
 data['high_rsi']    = 70
 
-data['look_back_window_size'] = 144
+data['look_back_window_size'] = 60
 
 data['ema_type'] = 'close'
 data['match_round_value'] = 0.0005

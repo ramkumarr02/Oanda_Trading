@@ -192,8 +192,7 @@ def get_report_df(data):
            'bid', 'lema', 'lema_angle', 'lema_angle_2', 'lema_angle_0', 'slema',
            'slema_angle', 'slema_angle_2', 'sema', 'sema_angle', 'sema_angle_2',
            'BBand_upper', 'BBand_middle', 'BBand_lower', 'BBand_width',
-           'avg_BBand_width', 'adx', 'lema_max', 'lema_min', 'lema_gap',
-           'lema_diff', 'order_side', 'order_size', 'up', 'down', 'long_open', 'long_profit', 'long_loss', 'short_open',
+           'avg_BBand_width', 'adx', 'order_side', 'order_size', 'up', 'down', 'long_open', 'long_profit', 'long_loss', 'short_open',
            'short_profit', 'short_loss', 'close_type', 'pl']
 
     data['df_small'] = data['df_ohlc'][cols][data['df_ohlc'][['long_open', 'short_open', 'pl']].notnull().any(axis=1)].reset_index(drop=True)
@@ -275,7 +274,7 @@ def plot_graph(data):
                                     y=data['plot_df']['close'],
                                     mode='lines',
                                     name='close',
-                                    line=dict(color='red', width=1),
+                                    line=dict(color='darkgrey', width=1),
                                 )
                         )
 

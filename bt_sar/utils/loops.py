@@ -273,140 +273,145 @@ def capture_iterative_data(data):
 
 #...............................................................................................  
 
-def get_tips(data):
-    data["df_ohlc"]['tip'] = np.nan
+# def get_tips(data):
+#     data["df_ohlc"]['tip'] = np.nan
 
-    for i in tqdm(range(4,len(data['df_ohlc']))):
-        if data['df_ohlc']['high'][i] < data['df_ohlc']['high'][i-1]:
-            if data['df_ohlc']['high'][i-1] < data['df_ohlc']['high'][i-2]:
-                if data['df_ohlc']['high'][i-2] > data['df_ohlc']['high'][i-3]:
-                    if data['df_ohlc']['high'][i-3] > data['df_ohlc']['high'][i-4]:                
-                        data["df_ohlc"]['tip'][i] = data['df_ohlc']['high'][i]
+#     for i in tqdm(range(4,len(data['df_ohlc']))):
+#         if data['df_ohlc']['high'][i] < data['df_ohlc']['high'][i-1]:
+#             if data['df_ohlc']['high'][i-1] < data['df_ohlc']['high'][i-2]:
+#                 if data['df_ohlc']['high'][i-2] > data['df_ohlc']['high'][i-3]:
+#                     if data['df_ohlc']['high'][i-3] > data['df_ohlc']['high'][i-4]:                
+#                         data["df_ohlc"]['tip'][i] = data['df_ohlc']['high'][i]
 
-        if data['df_ohlc']['low'][i] > data['df_ohlc']['low'][i-1]:
-            if data['df_ohlc']['low'][i-1] > data['df_ohlc']['low'][i-2]:
-                if data['df_ohlc']['low'][i-2] < data['df_ohlc']['low'][i-3]:
-                    if data['df_ohlc']['low'][i-3] < data['df_ohlc']['low'][i-4]:                
-                        data["df_ohlc"]['tip'][i] = data['df_ohlc']['low'][i]
+#         if data['df_ohlc']['low'][i] > data['df_ohlc']['low'][i-1]:
+#             if data['df_ohlc']['low'][i-1] > data['df_ohlc']['low'][i-2]:
+#                 if data['df_ohlc']['low'][i-2] < data['df_ohlc']['low'][i-3]:
+#                     if data['df_ohlc']['low'][i-3] < data['df_ohlc']['low'][i-4]:                
+#                         data["df_ohlc"]['tip'][i] = data['df_ohlc']['low'][i]
 
-    return(data)
+#     return(data)
 
-#...............................................................................................  
+# #...............................................................................................  
 
-def get_tips(data):
-    data["df_ohlc"]['tip'] = np.nan
+# def get_tips(data):
+#     data["df_ohlc"]['tip'] = np.nan
 
-    for i in tqdm(range(4,len(data['df_ohlc']))):
-        if data['df_ohlc']['lema'][i] < data['df_ohlc']['lema'][i-1]:
-            if data['df_ohlc']['lema'][i-1] < data['df_ohlc']['lema'][i-2]:
-                if data['df_ohlc']['lema'][i-2] > data['df_ohlc']['lema'][i-3]:
-                    if data['df_ohlc']['lema'][i-3] > data['df_ohlc']['lema'][i-4]:                
-                        data["df_ohlc"]['tip'][i] = data['df_ohlc']['lema'][i]
+#     for i in tqdm(range(4,len(data['df_ohlc']))):
+#         if data['df_ohlc']['lema'][i] < data['df_ohlc']['lema'][i-1]:
+#             if data['df_ohlc']['lema'][i-1] < data['df_ohlc']['lema'][i-2]:
+#                 if data['df_ohlc']['lema'][i-2] > data['df_ohlc']['lema'][i-3]:
+#                     if data['df_ohlc']['lema'][i-3] > data['df_ohlc']['lema'][i-4]:                
+#                         data["df_ohlc"]['tip'][i] = data['df_ohlc']['lema'][i]
 
-        if data['df_ohlc']['lema'][i] > data['df_ohlc']['lema'][i-1]:
-            if data['df_ohlc']['lema'][i-1] > data['df_ohlc']['lema'][i-2]:
-                if data['df_ohlc']['lema'][i-2] < data['df_ohlc']['lema'][i-3]:
-                    if data['df_ohlc']['lema'][i-3] < data['df_ohlc']['lema'][i-4]:                
-                        data["df_ohlc"]['tip'][i] = data['df_ohlc']['lema'][i]
+#         if data['df_ohlc']['lema'][i] > data['df_ohlc']['lema'][i-1]:
+#             if data['df_ohlc']['lema'][i-1] > data['df_ohlc']['lema'][i-2]:
+#                 if data['df_ohlc']['lema'][i-2] < data['df_ohlc']['lema'][i-3]:
+#                     if data['df_ohlc']['lema'][i-3] < data['df_ohlc']['lema'][i-4]:                
+#                         data["df_ohlc"]['tip'][i] = data['df_ohlc']['lema'][i]
 
-    return(data)
-#...............................................................................................
+#     return(data)
+# #...............................................................................................
 
-def get_tips(data):
-    data["df_ohlc"]['tip'] = np.nan
+# def get_tips(data):
+#     data["df_ohlc"]['tip'] = np.nan
 
-    for i in tqdm(range(4,len(data['df_ohlc']))):
-        if data['df_ohlc']['lema'][i] < data['df_ohlc']['lema'][i-1]:
-            if data['df_ohlc']['lema'][i-1] > data['df_ohlc']['lema'][i-2]:
-                data["df_ohlc"]['tip'][i] = data['df_ohlc']['lema'][i]
+#     for i in tqdm(range(4,len(data['df_ohlc']))):
+#         if data['df_ohlc']['lema'][i] < data['df_ohlc']['lema'][i-1]:
+#             if data['df_ohlc']['lema'][i-1] > data['df_ohlc']['lema'][i-2]:
+#                 data["df_ohlc"]['tip'][i] = data['df_ohlc']['lema'][i]
 
-        if data['df_ohlc']['lema'][i] < data['df_ohlc']['lema'][i-1]:
-            if data['df_ohlc']['lema'][i-1] == data['df_ohlc']['lema'][i-2]:
-                if data['df_ohlc']['lema'][i-2] > data['df_ohlc']['lema'][i-3]:
-                    data["df_ohlc"]['tip'][i] = data['df_ohlc']['lema'][i]
+#         if data['df_ohlc']['lema'][i] < data['df_ohlc']['lema'][i-1]:
+#             if data['df_ohlc']['lema'][i-1] == data['df_ohlc']['lema'][i-2]:
+#                 if data['df_ohlc']['lema'][i-2] > data['df_ohlc']['lema'][i-3]:
+#                     data["df_ohlc"]['tip'][i] = data['df_ohlc']['lema'][i]
 
-        if data['df_ohlc']['lema'][i] > data['df_ohlc']['lema'][i-1]:
-            if data['df_ohlc']['lema'][i-1] < data['df_ohlc']['lema'][i-2]:
-                data["df_ohlc"]['tip'][i] = data['df_ohlc']['lema'][i]
+#         if data['df_ohlc']['lema'][i] > data['df_ohlc']['lema'][i-1]:
+#             if data['df_ohlc']['lema'][i-1] < data['df_ohlc']['lema'][i-2]:
+#                 data["df_ohlc"]['tip'][i] = data['df_ohlc']['lema'][i]
 
-        if data['df_ohlc']['lema'][i] > data['df_ohlc']['lema'][i-1]:
-            if data['df_ohlc']['lema'][i-1] == data['df_ohlc']['lema'][i-2]:
-                if data['df_ohlc']['lema'][i-2] < data['df_ohlc']['lema'][i-3]:
-                    data["df_ohlc"]['tip'][i] = data['df_ohlc']['lema'][i]
+#         if data['df_ohlc']['lema'][i] > data['df_ohlc']['lema'][i-1]:
+#             if data['df_ohlc']['lema'][i-1] == data['df_ohlc']['lema'][i-2]:
+#                 if data['df_ohlc']['lema'][i-2] < data['df_ohlc']['lema'][i-3]:
+#                     data["df_ohlc"]['tip'][i] = data['df_ohlc']['lema'][i]
 
-    return(data)
+#     return(data)
 
-#...............................................................................................
+# #...............................................................................................
 
-def get_cdl_hammer_sstar(data):
-    data['df_ohlc']['cdl_hammer'] = talib.CDLHAMMER(data['df_ohlc']['open'], data['df_ohlc']['high'], data['df_ohlc']['low'], data['df_ohlc']['close'])
-    data['df_ohlc']['cdl_hammer'] = data['df_ohlc']['cdl_hammer'].replace({0:np.nan})
-    data['df_ohlc']['cdl_hammer'] = np.where(data['df_ohlc']['cdl_hammer'] == 100, data['df_ohlc']['close'], data['df_ohlc']['cdl_hammer'])
+# def get_tips(data):
+#     data["df_ohlc"]['tip'] = np.nan
 
-    data['df_ohlc']['cdl_shootingstar'] = talib.CDLSHOOTINGSTAR(data['df_ohlc']['open'], data['df_ohlc']['high'], data['df_ohlc']['low'], data['df_ohlc']['close'])
-    data['df_ohlc']['cdl_shootingstar'] = data['df_ohlc']['cdl_shootingstar'].replace({0:np.nan})
-    data['df_ohlc']['cdl_shootingstar'] = np.where(data['df_ohlc']['cdl_shootingstar'] == -100, data['df_ohlc']['close'], data['df_ohlc']['cdl_shootingstar'])
+#     for i in tqdm(range(4,len(data['df_ohlc']))):
+#         if data['df_ohlc']['close'][i] < data['df_ohlc']['close'][i-1]:
+#             if data['df_ohlc']['close'][i-1] < data['df_ohlc']['close'][i-2]:
+#                 if data['df_ohlc']['close'][i-2] > data['df_ohlc']['close'][i-3]:
+#                     if data['df_ohlc']['close'][i-3] > data['df_ohlc']['close'][i-4]:                
+#                         data["df_ohlc"]['tip'][i] = data['df_ohlc']['close'][i]
 
-    return(data)
+#         if data['df_ohlc']['close'][i] > data['df_ohlc']['close'][i-1]:
+#             if data['df_ohlc']['close'][i-1] > data['df_ohlc']['close'][i-2]:
+#                 if data['df_ohlc']['close'][i-2] < data['df_ohlc']['close'][i-3]:
+#                     if data['df_ohlc']['close'][i-3] < data['df_ohlc']['close'][i-4]:                
+#                         data["df_ohlc"]['tip'][i] = data['df_ohlc']['close'][i]
 
-#...............................................................................................  
+#     return(data)
 
-#...............................................................................................  
+# #...............................................................................................
 
-def get_cdl_engulfing(data):
-    data['df_ohlc']['cdl_engulfing'] = talib.CDLENGULFING(data['df_ohlc']['open'], data['df_ohlc']['high'], data['df_ohlc']['low'], data['df_ohlc']['close'])
+# def get_tips(data):    
 
-    data['df_ohlc']['cdl_engulfing_up'] = data['df_ohlc']['cdl_engulfing'][data['df_ohlc']['cdl_engulfing'] == 100]
-    data['df_ohlc']['cdl_engulfing_down'] = data['df_ohlc']['cdl_engulfing'][data['df_ohlc']['cdl_engulfing'] == -100]
+#     a = np.array(data['df_ohlc'][data['ema_type']].diff())
 
-    data['df_ohlc']['cdl_engulfing_up'] = data['df_ohlc']['cdl_engulfing_up'].replace({0:np.nan})
-    data['df_ohlc']['cdl_engulfing_up'] = np.where(data['df_ohlc']['cdl_engulfing_up'] == 100, data['df_ohlc']['close'], data['df_ohlc']['cdl_engulfing_up'])
+#     a1 = np.sign(a)
 
-    data['df_ohlc']['cdl_engulfing_down'] = data['df_ohlc']['cdl_engulfing_down'].replace({0:np.nan})
-    data['df_ohlc']['cdl_engulfing_down'] = np.where(data['df_ohlc']['cdl_engulfing_down'] == -100, data['df_ohlc']['close'], data['df_ohlc']['cdl_engulfing_down'])
+#     for i in tqdm(np.arange(1, len(a1)-1)):
+#         if a1[i] == 0:        
+#             a1[i] = a1[i+1]
 
-    del data['df_ohlc']['cdl_engulfing'] 
+#         if a1[i] != a1[i-1]:
+#             if a1[i+1] == a1[i-1]:
+#                 a1[i] = a1[i-1]
 
-    return(data)
+#     idx2 = []
 
-#...............................................................................................  
+#     for i in np.arange(len(a1)-1):
+#         if i > 2:
+#             if a1[i-1] == a1[i-2]:
+#                 if a1[i] == a1[i+1]:
+#                     if a1[i] != a1[i-1]:
+#                         idx2.append(i)
 
-def get_tips(data):    
-
-    a = np.array(data['df_ohlc'][data['ema_type']].diff())
-
-    a1 = np.sign(a)
-
-    for i in tqdm(np.arange(1, len(a1)-1)):
-        if a1[i] == 0:        
-            a1[i] = a1[i+1]
-
-        if a1[i] != a1[i-1]:
-            if a1[i+1] == a1[i-1]:
-                a1[i] = a1[i-1]
-
-    idx2 = []
-
-    for i in np.arange(len(a1)-1):
-        if i > 2:
-            if a1[i-1] == a1[i-2]:
-                if a1[i] == a1[i+1]:
-                    if a1[i] != a1[i-1]:
-                        idx2.append(i)
-
-    idx2 = (np.array(idx2))
+#     idx2 = (np.array(idx2))
     
-    data['df_ohlc']['lema_change'] = np.nan
-    data['df_ohlc'].loc[idx2, 'lema_change'] = data['df_ohlc'][data['ema_type']]
+#     data['df_ohlc']['lema_change'] = np.nan
+#     data['df_ohlc'].loc[idx2, 'lema_change'] = data['df_ohlc'][data['ema_type']]
     
+#     return(data)
+
+# #...............................................................................................  
+
+def get_tips(data):
+    data["df_ohlc"]['tip'] = np.nan
+
+    for i in tqdm(range(2,len(data['df_ohlc']))):
+        if data['df_ohlc']['close'][i-1] > data['df_ohlc']['close'][i]:
+            if data['df_ohlc']['close'][i-1] > data['df_ohlc']['close'][i-2]:
+                data["df_ohlc"]['tip'][i-1] = data['df_ohlc']['close'][i-1]
+
+        if data['df_ohlc']['close'][i-1] < data['df_ohlc']['close'][i]:
+            if data['df_ohlc']['close'][i-1] < data['df_ohlc']['close'][i-2]:
+                data["df_ohlc"]['tip'][i-1] = data['df_ohlc']['close'][i-1]
+
     return(data)
+
 
 #...............................................................................................  
 
 def get_returning_points(data):
     data['df_ohlc']['lema_match'] = np.nan
 
-    set2 = set(data['df_ohlc']['lema_change'][data['df_ohlc']['lema_change'].notnull()].index)
+    # set2 = set(data['df_ohlc']['lema_change'][data['df_ohlc']['lema_change'].notnull()].index)
+    set2 = set(data['df_ohlc']['tip'][data['df_ohlc']['tip'].notnull()].index)
 
     for i in tqdm(np.arange(data['look_back_window_size'], len(data['df_ohlc']))):
         set1 = set(np.arange(i-data['look_back_window_size'],i))
@@ -496,3 +501,35 @@ def get_returning_points(data):
 #     return(data)
 
 # #...............................................................................................  
+
+# def get_cdl_hammer_sstar(data):
+#     data['df_ohlc']['cdl_hammer'] = talib.CDLHAMMER(data['df_ohlc']['open'], data['df_ohlc']['high'], data['df_ohlc']['low'], data['df_ohlc']['close'])
+#     data['df_ohlc']['cdl_hammer'] = data['df_ohlc']['cdl_hammer'].replace({0:np.nan})
+#     data['df_ohlc']['cdl_hammer'] = np.where(data['df_ohlc']['cdl_hammer'] == 100, data['df_ohlc']['close'], data['df_ohlc']['cdl_hammer'])
+
+#     data['df_ohlc']['cdl_shootingstar'] = talib.CDLSHOOTINGSTAR(data['df_ohlc']['open'], data['df_ohlc']['high'], data['df_ohlc']['low'], data['df_ohlc']['close'])
+#     data['df_ohlc']['cdl_shootingstar'] = data['df_ohlc']['cdl_shootingstar'].replace({0:np.nan})
+#     data['df_ohlc']['cdl_shootingstar'] = np.where(data['df_ohlc']['cdl_shootingstar'] == -100, data['df_ohlc']['close'], data['df_ohlc']['cdl_shootingstar'])
+
+#     return(data)
+
+# #...............................................................................................  
+
+# #...............................................................................................  
+
+# def get_cdl_engulfing(data):
+#     data['df_ohlc']['cdl_engulfing'] = talib.CDLENGULFING(data['df_ohlc']['open'], data['df_ohlc']['high'], data['df_ohlc']['low'], data['df_ohlc']['close'])
+
+#     data['df_ohlc']['cdl_engulfing_up'] = data['df_ohlc']['cdl_engulfing'][data['df_ohlc']['cdl_engulfing'] == 100]
+#     data['df_ohlc']['cdl_engulfing_down'] = data['df_ohlc']['cdl_engulfing'][data['df_ohlc']['cdl_engulfing'] == -100]
+
+#     data['df_ohlc']['cdl_engulfing_up'] = data['df_ohlc']['cdl_engulfing_up'].replace({0:np.nan})
+#     data['df_ohlc']['cdl_engulfing_up'] = np.where(data['df_ohlc']['cdl_engulfing_up'] == 100, data['df_ohlc']['close'], data['df_ohlc']['cdl_engulfing_up'])
+
+#     data['df_ohlc']['cdl_engulfing_down'] = data['df_ohlc']['cdl_engulfing_down'].replace({0:np.nan})
+#     data['df_ohlc']['cdl_engulfing_down'] = np.where(data['df_ohlc']['cdl_engulfing_down'] == -100, data['df_ohlc']['close'], data['df_ohlc']['cdl_engulfing_down'])
+
+#     del data['df_ohlc']['cdl_engulfing'] 
+
+#     return(data)
+# #...............................................................................................

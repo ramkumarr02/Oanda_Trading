@@ -136,26 +136,45 @@ def get_lema_gap_dir(data):
     return(data)
 #...............................................................................................
 
+# #...............................................................................................
+# def get_lema_gap_dir(data):
+    
+#     data['to_order'] = None
+
+#     if data['sema'] > data['lema']:
+#         if data['lema_angle'] > 0:
+#             if data['slema_angle'] > 0:
+#                 if data['sema_angle'] > 0:
+#                     if np.isnan(data['lema_match']):
+#                         data["df_ohlc"]['up'][data['i']] = data['close']
+#                         data['to_order'] = 'long'            
+
+#     if data['sema'] < data['lema']:
+#         if data['lema_angle'] < 0:
+#             if data['slema_angle'] < 0:
+#                 if data['sema_angle'] < 0:
+#                     if np.isnan(data['lema_match']):
+#                         data["df_ohlc"]['down'][data['i']] = data['close']
+#                         data['to_order'] = 'short'      
+
+#     return(data)
+# #...............................................................................................
+
+
 #...............................................................................................
-def get_lema_gap_dir(data):
+def get_match_dir(data):
     
     data['to_order'] = None
 
-    if data['sema'] > data['lema']:
-        if data['lema_angle'] > 0:
-            if data['slema_angle'] > 0:
-                if data['sema_angle'] > 0:
-                    if np.isnan(data['lema_match']):
-                        data["df_ohlc"]['up'][data['i']] = data['close']
-                        data['to_order'] = 'long'            
+    if data['close'] > data['sema']:
+        if np.isnan(data['lema_match']):
+            data["df_ohlc"]['up'][data['i']] = data['close']
+            data['to_order'] = 'long'            
 
-    if data['sema'] < data['lema']:
-        if data['lema_angle'] < 0:
-            if data['slema_angle'] < 0:
-                if data['sema_angle'] < 0:
-                    if np.isnan(data['lema_match']):
-                        data["df_ohlc"]['down'][data['i']] = data['close']
-                        data['to_order'] = 'short'      
+    if data['close'] < data['sema']:
+        if np.isnan(data['lema_match']):
+            data["df_ohlc"]['down'][data['i']] = data['close']
+            data['to_order'] = 'short'      
 
     return(data)
 #...............................................................................................
