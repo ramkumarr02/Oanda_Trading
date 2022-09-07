@@ -32,8 +32,8 @@ def get_ohlc(data):
     data['df_ohlc']['ask']          = data['df_ohlc']['close'] + (data['spread'] / 2)
     data['df_ohlc']['bid']          = data['df_ohlc']['close'] - (data['spread'] / 2)
 
-    data['df_ohlc']['close_max'] = data['df_ohlc']['close'].rolling(window = data['close_min_max_duration']).max()
-    data['df_ohlc']['close_min'] = data['df_ohlc']['close'].rolling(window = data['close_min_max_duration']).min()
+    # data['df_ohlc']['close_max'] = data['df_ohlc']['close'].rolling(window = data['close_min_max_duration']).max()
+    # data['df_ohlc']['close_min'] = data['df_ohlc']['close'].rolling(window = data['close_min_max_duration']).min()
 
     del ohlc
 
@@ -394,13 +394,13 @@ def get_tips(data):
     data["df_ohlc"]['tip'] = np.nan
 
     for i in tqdm(range(2,len(data['df_ohlc']))):
-        if data['df_ohlc']['close'][i-1] > data['df_ohlc']['close'][i]:
-            if data['df_ohlc']['close'][i-1] > data['df_ohlc']['close'][i-2]:
-                data["df_ohlc"]['tip'][i-1] = data['df_ohlc']['close'][i-1]
+        if data['df_ohlc'][data['tip_type']][i-1] > data['df_ohlc'][data['tip_type']][i]:
+            if data['df_ohlc'][data['tip_type']][i-1] > data['df_ohlc'][data['tip_type']][i-2]:
+                data["df_ohlc"]['tip'][i-1] = data['df_ohlc'][data['tip_type']][i-1]
 
-        if data['df_ohlc']['close'][i-1] < data['df_ohlc']['close'][i]:
-            if data['df_ohlc']['close'][i-1] < data['df_ohlc']['close'][i-2]:
-                data["df_ohlc"]['tip'][i-1] = data['df_ohlc']['close'][i-1]
+        if data['df_ohlc'][data['tip_type']][i-1] < data['df_ohlc'][data['tip_type']][i]:
+            if data['df_ohlc'][data['tip_type']][i-1] < data['df_ohlc'][data['tip_type']][i-2]:
+                data["df_ohlc"]['tip'][i-1] = data['df_ohlc'][data['tip_type']][i-1]
 
     return(data)
 
@@ -410,7 +410,6 @@ def get_tips(data):
 def get_returning_points(data):
     data['df_ohlc']['lema_match'] = np.nan
 
-    # set2 = set(data['df_ohlc']['lema_change'][data['df_ohlc']['lema_change'].notnull()].index)
     set2 = set(data['df_ohlc']['tip'][data['df_ohlc']['tip'].notnull()].index)
 
     for i in tqdm(np.arange(data['look_back_window_size'], len(data['df_ohlc']))):
@@ -420,15 +419,12 @@ def get_returning_points(data):
         if len(lema_tips) > 0:
             last_lema_tip = lema_tips[-1]
             idx = np.arange(i-data['look_back_window_size'], last_lema_tip+1)
-
-            # lema_list = data['df_ohlc'][data['ema_type']].loc[idx].round(4)
-            # rounded_current_lema_val = data['df_ohlc'][data['ema_type']][i].round(4)
             
-            lema_list = round(data['df_ohlc'][data['ema_type']].loc[idx]/data['match_round_value'])*data['match_round_value']
-            rounded_current_lema_val = round(data['df_ohlc'][data['ema_type']][i]/data['match_round_value'])*data['match_round_value']
+            lema_list = round(data['df_ohlc'][data['tip_type']].loc[idx]/data['match_round_value'])*data['match_round_value']
+            rounded_current_lema_val = round(data['df_ohlc'][data['tip_type']][i]/data['match_round_value'])*data['match_round_value']
             
             if rounded_current_lema_val in set(lema_list):        
-                data['df_ohlc']['lema_match'][i] = data['df_ohlc'][data['ema_type']][i]
+                data['df_ohlc']['lema_match'][i] = data['df_ohlc'][data['tip_type']][i]
 
     return(data)
 #...............................................................................................  

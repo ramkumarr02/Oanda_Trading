@@ -111,13 +111,13 @@ def sema_cross_close(data):
 
     if data['open_order']:
         if data['open_order_type'] == 'long':
-            if data['close'] < data['sema']:
+            if data['close'] < data['slema']:
                 data['stop_text'] = 'sema_close'
                 data = close_long_order(data)
                 
                     
         if data['open_order_type'] == 'short':
-            if data['close'] > data['sema']:
+            if data['close'] > data['slema']:
                 data['stop_text'] = 'sema_close'
                 data = close_short_order(data)
 

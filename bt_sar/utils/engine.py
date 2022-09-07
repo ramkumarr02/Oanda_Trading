@@ -21,7 +21,6 @@ def run_engine(data):
     # Get OHLC and indicators --------------------
     data                = get_ohlc(data)
     data                = get_indicators(data)
-    # data                = get_max_min_vals(data)
     data                = get_tips(data)
     data                = get_returning_points(data)
     
@@ -37,19 +36,19 @@ def run_engine(data):
     data["df_ohlc"]['up']            = np.nan
     data["df_ohlc"]['down']          = np.nan
     
-    for data['i'] in tqdm(range(0, data['df_len'])):
+    # for data['i'] in tqdm(range(0, data['df_len'])):
 
-        data = capture_iterative_data(data)
-        data = calculate_pl(data)
+    #     data = capture_iterative_data(data)
+    #     data = calculate_pl(data)
 
-        data = get_match_dir(data)
+    #     data = get_match_dir(data)
 
-        data = sema_cross_close(data)
-        data = make_order(data)
+    #     data = sema_cross_close(data)
+    #     data = make_order(data)
 
 
-    data = split_date_col(data)
-    data = get_report_df(data)
+    # data = split_date_col(data)
+    # data = get_report_df(data)
             
     return(data)
 #...............................................................................................    
