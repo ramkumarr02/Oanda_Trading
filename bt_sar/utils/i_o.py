@@ -592,6 +592,48 @@ def plot_graph(data):
                                             )),
                                 opacity=1)
 
+        if 'match_max' in data['things_to_plot']:
+            fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
+                                y = data['plot_df']['match_max'], 
+                                mode = 'markers', 
+                                name = 'match_max',
+                                marker_symbol = 'circle',
+                                marker=dict(color='red',
+                                            size=5,
+                                            line=dict(
+                                                color='red',
+                                                width=1
+                                            )),
+                                opacity=1)
+
+        if 'match_min' in data['things_to_plot']:
+            fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
+                                y = data['plot_df']['match_min'], 
+                                mode = 'markers', 
+                                name = 'match_min',
+                                marker_symbol = 'circle',
+                                marker=dict(color='blue',
+                                            size=5,
+                                            line=dict(
+                                                color='blue',
+                                                width=1
+                                            )),
+                                opacity=1)
+
+        if 'unmatched' in data['things_to_plot']:
+            fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
+                                y = data['plot_df']['unmatched'], 
+                                mode = 'markers', 
+                                name = 'unmatched',
+                                marker_symbol = 'circle',
+                                marker=dict(color='darkgrey',
+                                            size=5,
+                                            line=dict(
+                                                color='darkgrey',
+                                                width=1
+                                            )),
+                                opacity=1)
+
         if 'cross' in data['things_to_plot']:
             fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
                                 y = data['plot_df']['cross'], 
@@ -647,6 +689,32 @@ def plot_graph(data):
                                             )),
                                 opacity=1)
 
+        if 'sema_max_min' in data['things_to_plot']:
+            fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
+                                y = data['plot_df']['sema_max'], 
+                                mode = 'markers', 
+                                name = 'sema_max',
+                                marker_symbol = 'circle',
+                                marker=dict(color='red',
+                                            size=1,
+                                            line=dict(
+                                                color='red',
+                                                width=1
+                                            )),
+                                opacity=1)
+
+            fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
+                                y = data['plot_df']['sema_min'], 
+                                mode = 'markers', 
+                                name = 'sema_min',
+                                marker_symbol = 'circle',
+                                marker=dict(color='blue',
+                                            size=1,
+                                            line=dict(
+                                                color='blue',
+                                                width=1
+                                            )),
+                                opacity=1)
                                 
         if 'lema_angle_0' in data['things_to_plot']:
             fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 

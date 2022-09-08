@@ -131,7 +131,7 @@ def get_indicators(data):
 
 #...............................................................................................  
 def get_max_min_lema(data):
-
+    
     temp = data['df_ohlc'][['DateTime_frmt', 'lema']]
     temp = temp.set_index('DateTime_frmt')
 
@@ -197,21 +197,21 @@ def get_max_min_lema(data):
 #...............................................................................................  
 def get_max_min_vals(data):
 
-    temp = data['df_ohlc'][['DateTime_frmt', 'close']]
+    temp = data['df_ohlc'][['DateTime_frmt', 'sema']]
     temp = temp.set_index('DateTime_frmt')
 
-    max_temp = temp['close'].resample(data['close_min_max_duration']).max().reset_index()
-    max_temp = max_temp.rename(columns={'close':'close_max'})
+    max_temp = temp['sema'].resample(data['sema_min_max_duration']).max().reset_index()
+    max_temp = max_temp.rename(columns={'sema':'sema_max'})
 
-    min_temp = temp['close'].resample(data['close_min_max_duration']).min().reset_index()
-    min_temp = min_temp.rename(columns={'close':'close_min'})
+    min_temp = temp['sema'].resample(data['sema_min_max_duration']).min().reset_index()
+    min_temp = min_temp.rename(columns={'sema':'sema_min'})
 
     temp = max_temp.merge(min_temp, on = 'DateTime_frmt')
 
     gap     = temp['DateTime_frmt'][1] - temp['DateTime_frmt'][0] - dt.timedelta(seconds=1)
     y       = temp['DateTime_frmt'] + gap
 
-    print('Merging close min max data with ohlc data ...')
+    print('Merging sema min max data with ohlc data ...')
 
     x       = data['df_ohlc']['DateTime_frmt']
 
@@ -231,17 +231,17 @@ def get_max_min_vals(data):
     temp['DateTime_frmt'] = y
 
     data['df_ohlc']  = data['df_ohlc'].merge(temp, how='left', on = 'DateTime_frmt')
-    temp        = data['df_ohlc'][~pd.isna(data['df_ohlc']['close_max'])]
-    temp        = temp[temp[['DateTime_frmt', 'close_max']].duplicated(keep = 'last')]
+    temp        = data['df_ohlc'][~pd.isna(data['df_ohlc']['sema_max'])]
+    temp        = temp[temp[['DateTime_frmt', 'sema_max']].duplicated(keep = 'last')]
     dup_ind     = temp.index
 
-    data['df_ohlc'].loc[dup_ind, ['close_max', 'close_min']] = np.nan
+    data['df_ohlc'].loc[dup_ind, ['sema_max', 'sema_min']] = np.nan
 
     data['df_ohlc']  = data['df_ohlc'].reset_index(drop=True) 
 
-    # data['df_ohlc']['close_max'] = data['df_ohlc']['close_max'].ffill()
-    # data['df_ohlc']['close_min'] = data['df_ohlc']['close_min'].ffill()
-    # data['df_ohlc']['close_gap'] = data['df_ohlc']['close_max'] - data['df_ohlc']['close_min'] 
+    data['df_ohlc']['sema_max'] = data['df_ohlc']['sema_max'].ffill()
+    data['df_ohlc']['sema_min'] = data['df_ohlc']['sema_min'].ffill()
+    data['df_ohlc']['sema_gap'] = data['df_ohlc']['sema_max'] - data['df_ohlc']['sema_min'] 
 
     # Lema rolling diff --------------------------------------
     # data['df_ohlc']['lema_diff'] = np.nan
@@ -415,6 +415,7 @@ def get_returning_points(data):
     for i in tqdm(np.arange(data['look_back_window_size'], len(data['df_ohlc']))):
         set1 = set(np.arange(i-data['look_back_window_size'],i))
         lema_tips = list(set1 & set2)
+        lema_tips.sort()
 
         if len(lema_tips) > 0:
             last_lema_tip = lema_tips[-1]

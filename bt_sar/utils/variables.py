@@ -135,7 +135,7 @@ data['order_multiplier']        = 1
 
 data["input_year"] = 2020
 data['start_date'] = {'year':data["input_year"], 'month':1, 'date':1}
-data['end_date']   = {'year':data["input_year"], 'month':12, 'date':31}
+data['end_date']   = {'year':data["input_year"], 'month':3, 'date':31}
 data['df_subset_size'] = None
 
 data["product"] = 'eurusd'
@@ -182,6 +182,9 @@ data['candle_size'] = '5T'
 data['num_fwd_candles'] = 3
 data['min_pip_target'] = 0.0002
 data['lema_min_max_duration']   = '1D'
+
+data['sema_min_max_duration']   = '12H'
+
 # data['close_min_max_duration']   = '30T'
 data['close_min_max_duration']   = 6
 
