@@ -51,8 +51,8 @@ def get_indicators(data):
     
     # Lema --------------------------------------
     data['df_ohlc']['lema']         = talib.EMA(data['df_ohlc']['close'], timeperiod = data['lema_len'])
-    data['df_ohlc']['lema_angle']   = talib.LINEARREG_ANGLE(data['df_ohlc']['lema'], timeperiod = data['lema_len'])
-    data['df_ohlc']['lema_angle_2'] = talib.LINEARREG_ANGLE(data['df_ohlc']['lema_angle'], timeperiod = data['lema_len'])
+    data['df_ohlc']['lema_angle']   = talib.LINEARREG_ANGLE(data['df_ohlc']['lema'], timeperiod = data['lema_angle_len'])
+    data['df_ohlc']['lema_angle_2'] = talib.LINEARREG_ANGLE(data['df_ohlc']['lema_angle'], timeperiod = data['lema_angle_len'])
     # data['df_ohlc']['lema_angle']   = talib.LINEARREG_SLOPE(data['df_ohlc']['lema'], timeperiod = data['lema_len'])
     # data['df_ohlc']['lema_angle_2'] = talib.LINEARREG_SLOPE(data['df_ohlc']['lema_angle'], timeperiod = data['lema_len'])
 

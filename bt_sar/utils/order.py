@@ -111,13 +111,13 @@ def sema_cross_close(data):
 
     if data['open_order']:
         if data['open_order_type'] == 'long':
-            if data['close'] < data['slema']:
+            if data['sema'] < data['lema']:
                 data['stop_text'] = 'sema_close'
                 data = close_long_order(data)
                 
                     
         if data['open_order_type'] == 'short':
-            if data['close'] > data['slema']:
+            if data['sema'] > data['lema']:
                 data['stop_text'] = 'sema_close'
                 data = close_short_order(data)
 
@@ -145,6 +145,66 @@ def sema_min_max_close(data):
 
 #...............................................................................................
 
+#...............................................................................................
+def lema_min_max_close(data):
+
+    if data['open_order']:
+        if data['open_order_type'] == 'long':
+            if data['lema'] < data['lema_max']:
+                if (data['lema_angle'] < 0) & (data['lema_angle_2'] < 0):
+                    data['stop_text'] = 'lema_close'
+                    data = close_long_order(data)
+                    
+        if data['open_order_type'] == 'short':
+            if data['lema'] > data['lema_min']:
+                if (data['lema_angle'] > 0) & (data['lema_angle_2'] > 0):
+                    data['stop_text'] = 'lema_close'
+                    data = close_short_order(data)
+
+    return(data)
+
+#...............................................................................................
+
+
+def condition_close(data):
+
+    if data['open_order']:
+        if data['pl'] > 0:
+            if data['open_order_type'] == 'long':
+                if ~np.isnan(data['lema_match']):
+                    data['stop_text'] = 'condition_close'
+                    data = close_long_order(data)     
+
+                if data['sema'] < data['lema']:
+                    data['stop_text'] = 'condition_close'
+                    data = close_long_order(data)      
+                
+                if data['lema'] < data['lema_max']:
+                    data['stop_text'] = 'condition_close'
+                    data = close_long_order(data)         
+                
+                if data['lema_angle'] < 0:
+                    data['stop_text'] = 'condition_close'
+                    data = close_long_order(data)             
+
+            if data['open_order_type'] == 'short':
+                if ~np.isnan(data['lema_match']):
+                    data['stop_text'] = 'condition_close'
+                    data = close_long_order(data)     
+
+                if data['sema'] > data['lema']:
+                    data['stop_text'] = 'condition_close'
+                    data = close_long_order(data)      
+                
+                if data['lema'] > data['lema_min']:
+                    data['stop_text'] = 'condition_close'
+                    data = close_long_order(data)         
+                
+                if data['lema_angle'] > 0:
+                    data['stop_text'] = 'condition_close'
+                    data = close_long_order(data)             
+
+    return(data)
 
 #...............................................................................................
 def simple_take_profit(data):       

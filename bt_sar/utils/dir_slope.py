@@ -198,3 +198,46 @@ def get_match_dir(data):
 
 #     return(data)
 # #...............................................................................................
+
+#...............................................................................................
+def get_gap_match_dir(data):
+    
+    data['to_order'] = None
+
+    if data['sema'] > data['lema']:
+        if data['close'] > data['sema']:
+            if np.isnan(data['lema_match']):
+                if data['lema'] > data['lema_max']:
+                    if data['lema_angle'] > 0:
+                        data["df_ohlc"]['up'][data['i']] = data['close']
+                        data['to_order'] = 'long'            
+
+    if data['sema'] < data['lema']:
+        if data['close'] < data['sema']:
+            if np.isnan(data['lema_match']):
+                if data['lema'] < data['lema_min']:
+                    if data['lema_angle'] < 0:
+                        data["df_ohlc"]['down'][data['i']] = data['close']
+                        data['to_order'] = 'short'      
+
+    return(data)
+#...............................................................................................
+
+
+#...............................................................................................
+def sema_lema_dir(data):
+    
+    data['to_order'] = None
+
+    if data['close'] > data['sema']:
+        if data['sema'] > data['lema']:
+            data["df_ohlc"]['up'][data['i']] = data['close']
+            data['to_order'] = 'long'            
+
+    if data['close'] < data['sema']:
+        if data['sema'] < data['lema']:
+            data["df_ohlc"]['up'][data['i']] = data['close']
+            data['to_order'] = 'short'            
+
+    return(data)
+#...............................................................................................
