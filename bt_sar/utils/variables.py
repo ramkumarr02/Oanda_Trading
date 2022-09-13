@@ -133,7 +133,7 @@ data['all_close_min_pip']       = 0
 data['order_multiplier']        = 1
 
 
-data["input_year"] = 2020
+data["input_year"] = 2021
 data['start_date'] = {'year':data["input_year"], 'month':1, 'date':1}
 data['end_date']   = {'year':data["input_year"], 'month':12, 'date':31}
 data['df_subset_size'] = None
@@ -144,8 +144,8 @@ data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 data['ema_roll_method'] = 'new'
 
 data['sema_len']    = 20
-data['slema_len']   = 288 * 10
-data['lema_len']    = 288 * 20
+data['slema_len']   = 50
+data['lema_len']    = 200
 
 data['lema_angle_len'] = data['lema_len']
 

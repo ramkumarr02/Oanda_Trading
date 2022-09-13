@@ -42,10 +42,9 @@ def run_engine(data):
         data = capture_iterative_data(data)
         data = calculate_pl(data)
 
-        data = sema_lema_dir(data)
+        data = get_gap_match_dir(data)
 
-        data = sema_cross_close(data)
-        # data = condition_close(data)
+        data = sema_min_max_close(data)
         data = make_order(data)
 
 

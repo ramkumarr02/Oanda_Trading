@@ -193,7 +193,7 @@ def get_report_df(data):
            'slema_angle', 'slema_angle_2', 'sema', 'sema_angle', 'sema_angle_2',
            'BBand_upper', 'BBand_middle', 'BBand_lower', 'BBand_width',
            'avg_BBand_width', 'adx', 'order_side', 'order_size', 'up', 'down', 'long_open', 'long_profit', 'long_loss', 'short_open',
-           'short_profit', 'short_loss', 'close_type', 'pl']
+           'short_profit', 'short_loss', 'close_type', 'pl', 'close_diff', 'tip','lema_match',  'lema_max',  'lema_min',  'lema_gap', 'lema_diff']
 
     data['df_small'] = data['df_ohlc'][cols][data['df_ohlc'][['long_open', 'short_open', 'pl']].notnull().any(axis=1)].reset_index(drop=True)
 
