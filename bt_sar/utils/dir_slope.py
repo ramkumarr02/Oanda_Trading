@@ -241,3 +241,20 @@ def sema_lema_dir(data):
 
     return(data)
 #...............................................................................................
+
+
+#...............................................................................................
+def get_tip_dir(data):
+    
+    data['to_order'] = None
+
+    if ~np.isnan(data['bottom']):
+        data["df_ohlc"]['up'][data['i']] = data['close']
+        data['to_order'] = 'long'            
+
+    if ~np.isnan(data['top']):    
+        data["df_ohlc"]['up'][data['i']] = data['close']
+        data['to_order'] = 'short'            
+
+    return(data)
+#...............................................................................................

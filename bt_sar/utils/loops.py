@@ -114,7 +114,8 @@ def get_indicators(data):
     # data['df_ohlc']['avg_gap']      = data['df_ohlc']['sar_gap']
 
     data['df_ohlc'] = data['df_ohlc'].dropna()
-    data['df_ohlc'] = data['df_ohlc'].reset_index(drop=True).round(6)                   
+    # data['df_ohlc'] = data['df_ohlc'].reset_index(drop=True).round(6)                   
+    data['df_ohlc'] = data['df_ohlc'].reset_index(drop=True)                
 
 
     data['df_len'] = len(data["df_ohlc"])
@@ -390,7 +391,7 @@ def capture_iterative_data(data):
 
 # #...............................................................................................  
 
-def get_tips(data):
+def get_tips_3(data):
     data["df_ohlc"]['tip'] = np.nan
 
     for i in tqdm(range(2,len(data['df_ohlc']))):
@@ -404,6 +405,69 @@ def get_tips(data):
 
     return(data)
 
+#...............................................................................................  
+
+# def get_tips_5(data):
+#     data["df_ohlc"]['top'] = np.nan
+#     data["df_ohlc"]['bottom'] = np.nan
+
+#     for i in tqdm(range(4,len(data['df_ohlc']))):
+#         if data['df_ohlc'][data['tip_type']][i] < data['df_ohlc'][data['tip_type']][i-1]:
+#             if data['df_ohlc'][data['tip_type']][i-1] < data['df_ohlc'][data['tip_type']][i-2]:
+#                 if data['df_ohlc'][data['tip_type']][i-2] > data['df_ohlc'][data['tip_type']][i-3]:
+#                     if data['df_ohlc'][data['tip_type']][i-3] > data['df_ohlc'][data['tip_type']][i-4]:     
+
+#                         # data["df_ohlc"]['tip'][i-2] = data['df_ohlc'][data['tip_type']][i-2]
+#                         # data["df_ohlc"]['top'][i-2] = data['df_ohlc'][data['tip_type']][i-2]
+#                         data["df_ohlc"]['top'][i] = data['df_ohlc'][data['tip_type']][i]
+
+#         if data['df_ohlc'][data['tip_type']][i] > data['df_ohlc'][data['tip_type']][i-1]:
+#             if data['df_ohlc'][data['tip_type']][i-1] > data['df_ohlc'][data['tip_type']][i-2]:
+#                 if data['df_ohlc'][data['tip_type']][i-2] < data['df_ohlc'][data['tip_type']][i-3]:
+#                     if data['df_ohlc'][data['tip_type']][i-3] < data['df_ohlc'][data['tip_type']][i-4]:                
+                        
+#                         # data["df_ohlc"]['tip'][i-2] = data['df_ohlc'][data['tip_type']][i-2]
+#                         # data["df_ohlc"]['bottom'][i-2] = data['df_ohlc'][data['tip_type']][i-2]
+#                         data["df_ohlc"]['bottom'][i] = data['df_ohlc'][data['tip_type']][i]
+
+#     return(data)
+
+def get_tips_5(data):
+    data["df_ohlc"]['top'] = np.nan
+    data["df_ohlc"]['bottom'] = np.nan
+
+    for i in tqdm(range(4,len(data['df_ohlc']))):
+        if data['df_ohlc'][data['tip_type']][i] < data['df_ohlc'][data['tip_type']][i-1]:
+            if data['df_ohlc'][data['tip_type']][i-1] < data['df_ohlc'][data['tip_type']][i-2]:
+                if data['df_ohlc'][data['tip_type']][i-2] > data['df_ohlc'][data['tip_type']][i-3]:
+                    if data['df_ohlc'][data['tip_type']][i-3] > data['df_ohlc'][data['tip_type']][i-4]:     
+                        data["df_ohlc"]['top'][i] = data['df_ohlc'][data['tip_type']][i]
+
+        if data['df_ohlc'][data['tip_type']][i] > data['df_ohlc'][data['tip_type']][i-1]:
+            if data['df_ohlc'][data['tip_type']][i-1] > data['df_ohlc'][data['tip_type']][i-2]:
+                if data['df_ohlc'][data['tip_type']][i-2] < data['df_ohlc'][data['tip_type']][i-3]:
+                    if data['df_ohlc'][data['tip_type']][i-3] < data['df_ohlc'][data['tip_type']][i-4]:                
+                        data["df_ohlc"]['bottom'][i] = data['df_ohlc'][data['tip_type']][i]
+
+    return(data)
+#...............................................................................................  
+
+def get_tips_3_one_sided(data):
+    data["df_ohlc"]['top'] = np.nan
+    data["df_ohlc"]['bottom'] = np.nan
+
+    for i in tqdm(range(3,len(data['df_ohlc']))):
+        if data['df_ohlc'][data['tip_type']][i-3] < data['df_ohlc'][data['tip_type']][i-2]:
+            if data['df_ohlc'][data['tip_type']][i-1] < data['df_ohlc'][data['tip_type']][i-2]:
+                if data['df_ohlc'][data['tip_type']][i] < data['df_ohlc'][data['tip_type']][i-1]:
+                    data["df_ohlc"]['top'][i] = data['df_ohlc'][data['tip_type']][i]
+
+        if data['df_ohlc'][data['tip_type']][i-3] > data['df_ohlc'][data['tip_type']][i-2]:
+            if data['df_ohlc'][data['tip_type']][i-1] > data['df_ohlc'][data['tip_type']][i-2]:
+                if data['df_ohlc'][data['tip_type']][i] > data['df_ohlc'][data['tip_type']][i-1]:
+                    data["df_ohlc"]['bottom'][i] = data['df_ohlc'][data['tip_type']][i]
+
+    return(data)
 
 #...............................................................................................  
 

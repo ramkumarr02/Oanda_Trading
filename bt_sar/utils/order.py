@@ -163,7 +163,26 @@ def lema_min_max_close(data):
 
     return(data)
 
-#...............................................................................................
+#................................................................................................
+
+def tip_dir_close(data):
+    
+    if data['open_order']:
+        if data['open_order_type'] == 'long':
+            if data['to_order'] == 'short':
+                data['stop_text'] = 'tip_close'
+                data = close_long_order(data)
+                data = make_short_order(data)
+                
+        if data['open_order_type'] == 'short':
+            if data['to_order'] == 'long':
+                data['stop_text'] = 'tip_close'
+                data = close_short_order(data)
+                data = make_long_order(data)
+
+    return(data)
+
+#................................................................................................
 
 
 def condition_close(data):

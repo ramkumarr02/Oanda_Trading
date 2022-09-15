@@ -201,19 +201,19 @@ def get_report_df(data):
 
     for i in tqdm(range(1, len(data['df_small']))):
         if data['df_small']['pl'][i] > 0:
-            data['df_small'].loc[i-1, 'pl_type'] = 'positive'
-            data['df_small'].loc[i-1, 'long_profit'] = data['df_small'].loc[i, 'long_profit']
-            data['df_small'].loc[i-1, 'short_profit'] = data['df_small'].loc[i, 'short_profit']
-            data['df_small'].loc[i-1, 'pl'] = data['df_small'].loc[i, 'pl']
-            data['df_small'].loc[i-1, 'close_type'] = data['df_small'].loc[i, 'close_type']
+            data['df_small'].loc[i-1, 'pl_type']        = 'positive'
+            data['df_small'].loc[i-1, 'long_profit']    = data['df_small'].loc[i, 'long_profit']
+            data['df_small'].loc[i-1, 'short_profit']   = data['df_small'].loc[i, 'short_profit']
+            data['df_small'].loc[i-1, 'pl']             = data['df_small'].loc[i, 'pl']
+            data['df_small'].loc[i-1, 'close_type']     = data['df_small'].loc[i, 'close_type']
             data['df_small'].drop(i, inplace=True)
 
         elif data['df_small']['pl'][i] < 0:
-            data['df_small']['pl_type'][i-1] = 'negative'
-            data['df_small'].loc[i-1, 'long_loss'] = data['df_small'].loc[i, 'long_loss']
-            data['df_small'].loc[i-1, 'short_loss'] = data['df_small'].loc[i, 'short_loss']
-            data['df_small'].loc[i-1, 'pl'] = data['df_small'].loc[i, 'pl']
-            data['df_small'].loc[i-1, 'close_type'] = data['df_small'].loc[i, 'close_type']        
+            data['df_small']['pl_type'][i-1]            = 'negative'
+            data['df_small'].loc[i-1, 'long_loss']      = data['df_small'].loc[i, 'long_loss']
+            data['df_small'].loc[i-1, 'short_loss']     = data['df_small'].loc[i, 'short_loss']
+            data['df_small'].loc[i-1, 'pl']             = data['df_small'].loc[i, 'pl']
+            data['df_small'].loc[i-1, 'close_type']     = data['df_small'].loc[i, 'close_type']        
             data['df_small'].drop(i, inplace=True)
 
         elif data['df_small']['pl'][i] == 0:
@@ -661,6 +661,32 @@ def plot_graph(data):
                                                 width=1
                                             )),
                                 opacity=1)
+
+            # fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
+            #                     y = data['plot_df']['top'], 
+            #                     mode = 'markers', 
+            #                     name = 'top',
+            #                     marker_symbol = 'circle',
+            #                     marker=dict(color='red',
+            #                                 size=10,
+            #                                 line=dict(
+            #                                     color='red',
+            #                                     width=1
+            #                                 )),
+            #                     opacity=1)
+
+            # fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
+            #                     y = data['plot_df']['bottom'], 
+            #                     mode = 'markers', 
+            #                     name = 'bottom',
+            #                     marker_symbol = 'circle',
+            #                     marker=dict(color='blue',
+            #                                 size=10,
+            #                                 line=dict(
+            #                                     color='blue',
+            #                                     width=1
+            #                                 )),
+            #                     opacity=1)
 
         if 'lema_max_min' in data['things_to_plot']:
             fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
