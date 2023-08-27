@@ -43,7 +43,7 @@ data['sell_markers_y'] = []
 
 data['position'] = False
 data['after_order_position'] = False
-data['open_order'] = False    
+data['open_order'] = 0    
 data['open_order_type'] = None
 data['pl_positive'] = False
 data['pl_positive_flag'] = True
@@ -56,6 +56,7 @@ data['tick_close_flag'] = False
 data['pl_available'] = False
 data['stop_loss_flag'] = True
 data['reverse_order_flag'] =  None
+data['reverse'] =  None
 data['slema_closed_flag'] = None
 # data['slema_move_close_flag'] =  None
 
@@ -77,7 +78,7 @@ data['pip_size'] = 0.0001
 
 
 data['tick_order_angle'] = 20
-data['stop_loss_pip'] = 0.0010
+
 
 data['min_order_angle'] = 2.5
 data['position'] = None
@@ -114,8 +115,10 @@ data['min_llema_angle'] = 0
 data['take_profit_method']  = 'simple'
 data['stop_loss_method']    = 'simple'
 
-data['pl_loss_trail_trigger']       = -0.0020
+data['pl_loss_trail_trigger']       = -0.0002
 data['pl_loss_trail_size']          = 1.25
+
+
 
 data['input_rows'] = None
 data['sema_close_flag'] = False
@@ -127,94 +130,44 @@ data['order_num_i'] = 0
 
 data['min_hl_gap'] = 0.0003
 
-data['num_of_switch_orders']    = 1
-data['loss_switch_pl_pip']      = -0.0005
+data['min_take_profit_pip'] = 0.0010
+data['stop_loss_pip'] = -0.0020
+data['num_of_switch_orders']    = 2
+
+data['min_stop_loss_pip']   = -0.0002
+
+data['loss_switch_pl_pip']      = -0.0020
 data['all_close_min_pip']       = 0
 data['order_multiplier']        = 1
 
-
-data["input_year"] = 2021
-data['start_date'] = {'year':data["input_year"], 'month':1, 'date':1}
-data['end_date']   = {'year':data["input_year"], 'month':12, 'date':31}
-data['df_subset_size'] = None
-
 data["product"] = 'eurusd'
+data["input_year"] = 2021
 data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 
-data['ema_roll_method'] = 'new'
+data['df_subset_size'] = None
 
-data['sema_len']    = 20
-data['slema_len']   = 50
-data['lema_len']    = 200
+data['start_date'] = {'year':2021, 'month':1, 'date':1}
+data['end_date']   = {'year':2021, 'month':1, 'date':5}
 
-data['lema_angle_len'] = data['lema_len']
+data['ema_roll_method'] = 'file'
 
-data['low_rsi']     = 30
-data['high_rsi']    = 70
+# data['sema_len']    = 1000
+# data['slema_len']   = 5000
+# data['lema_len']    = 10000
+# data['angle_len']   = 10000
 
-data['tip_type'] = 'sema'
-data['look_back_window_size'] = 288
-
-data['match_round_value'] = 0.0005
-
-data['min_BBand_width'] = 0.0010
-data['spread'] = 0.0001
-data['stop_loss_multiplier']    = 1
-data['take_profit_multiplier']  = 1
-data['min_take_profit_pip']     = 0.0050
-data['min_stop_loss_pip']       = -0.0050
-data['min_lema_angle']          = 0
-data['min_lema_diff']           = 0.0050
-
-data['lema_gap_pl_analysis_month'] = None
-
-data['min_adx'] = 10
-data['min_pip_gap']             = 0.002
-
-data['sar_line'] = 0.002
-data['remove_list'] = ['order_side', 'order_size', 'long_open', 'long_close', 'short_open', 'short_close', 'close_type', 'pl']
-
-# x                   = 1000
-# data['sema_len']    = int(x / 5)
-# data['slema_len']   = int(x)
-# data['lema_len']    = int(x * 2)
-# data['angle_len']   = int(x * 2)
+x                   = 1000
+data['sema_len']    = int(x / 5)
+data['slema_len']   = int(x)
+data['lema_len']    = int(x * 2)
+data['angle_len']   = int(x * 2)
 # data['angle_len_2']   = int(x * 2)
-data['candle_size'] = '5T'
-data['num_fwd_candles'] = 3
-data['min_pip_target'] = 0.0002
-data['lema_min_max_duration']   = '1D'
-
-data['sema_min_max_duration']   = '12H'
-
-# data['close_min_max_duration']   = '30T'
-data['close_min_max_duration']   = 6
-
-data['lema_min_max_span']       = 2
-# data['classifier'] = RandomForestClassifier()
-data['classifier'] = xgboost.XGBClassifier(eval_metric = 'logloss')
-
-data['remove_cols'] = []
-# data['remove_cols'] = ['high_touch', 'lower_touch', 'middle_touch', 'weekday', 'APO']
-
-data["target_col"] = 'dir'
-
+data['candle_size'] = x
 data['avg_candle_num'] = 2
-data['range_size'] = 0.0002
-
-# data['merge_col_names'] = ['open', 'high', 'low', 'close', 'cdl_hammer', 'cdl_shootingstar', 'cdl_engulfing_up', 'cdl_engulfing_down']
-# data['merge_col_names'] = ['open', 'high', 'low', 'close', 'Volume', 'candle_size', 'up_range', 'down_range', 'up', 'down']
-data['merge_col_names'] = ['open', 'high', 'low', 'close', 'Volume', 'candle_size', 'dir']
-
-data['cols'] = ['DateTime_frmt', 
- 'Bid', 'Ask', 'tick', 'sema', 'lema', 
- 'BBand_upper', 'BBand_middle', 'BBand_lower', 
- 'open', 'high', 'low', 'close', 'Volume',
- 'num_ticks', 'candle_size', 
- 'up_range', 'down_range', 'up', 'down']       
 
 
-
+data['stop_loss_multiplier']    = 0.5
+data['take_profit_multiplier']  = 0.5
 data['pl_move_trail_ratio']     = 0.8
 
 # data['get_cross_dir_type'] = 'multi_row_rl'
@@ -223,13 +176,13 @@ data['pl_move_trail_ratio']     = 0.8
 # data['get_cross_dir_type'] = 'simple_rl'
 data['get_cross_dir_type'] = 'angle_alone'
 
-data["plot"] = False
+data["plot"] = True
 data['plot_type'] = 'file'
 data['reduce_plot'] = True
-data['plot_start']  = '2022-07-4'
-data['plot_stop']   = '2022-07-5'
-data['things_to_plot'] = ['tick', 'ema', 'BBands']
+data['plot_start']  = '2021-01-1'
+data['plot_stop']   = '2021-01-10'
 # data['things_to_plot'] = ['tick', 'lema', 'h_l_lema', 'tick_angle', 'positions']
+data['things_to_plot'] = ['tick', 'ema', 'h_l_lema', 'tick_angle', 'positions']
 
 # data['direction'] = 'reverse'
 data['direction'] = 'straight'
@@ -271,5 +224,5 @@ data['new_file'] = 'ema_2021-jan_dec'
 data['chrome_path'] = "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s"
 
 data['temp_total_pl'] = []
-data['send_message_to_phone'] = False
+data['send_message_to_phone'] = True
 #...............................................................................................
