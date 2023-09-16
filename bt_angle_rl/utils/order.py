@@ -8,16 +8,16 @@ def dynamic_make_order(data):
     for order_num_i in range(data['num_of_switch_orders']):    
         data['order_num_i'] = order_num_i
         if order_num_i == 0:
-            if data['open_order'] == order_num_i:
-                if data['to_order'] == 'long':                
-                    data['open_order'] = order_num_i + 1
-                    data['start_prices'] = {}
-                    data = make_long_order(data)
+            # if data['open_order'] == order_num_i:
+            if data['to_order'] == 'long':                
+                data['open_order'] = order_num_i + 1
+                data['start_prices'] = {}
+                data = make_long_order(data)
 
-                elif data['to_order'] == 'short':
-                    data['open_order'] = order_num_i + 1
-                    data['start_prices'] = {}
-                    data = make_short_order(data)
+            elif data['to_order'] == 'short':
+                data['open_order'] = order_num_i + 1
+                data['start_prices'] = {}
+                data = make_short_order(data)
 
         elif order_num_i > 0:
             if data['open_order'] == order_num_i:
@@ -28,18 +28,6 @@ def dynamic_make_order(data):
                     data['pl_available'] = False
 
                 if data['pl_available']:
-                    # data['stop_loss_pip'] = min(data['min_stop_loss_pip'], -data['h_l_gap'] * data['stop_loss_multiplier'])
-                    # if data['orders_list'][order_num_i]['open_order_type'] == 'short':
-                    #     if data['orders_list'][order_num_i]['pl'] < 0:
-                    #         if data['to_order'] == 'long':
-                    #             data['open_order'] = order_num_i + 1
-                    #             data = make_long_order(data)
-                             
-                    # if data['orders_list'][order_num_i]['open_order_type'] == 'long':
-                    #     if data['orders_list'][order_num_i]['pl'] < 0:
-                    #         if data['to_order'] == 'short':
-                    #             data['open_order'] = order_num_i + 1
-                    #             data = make_short_order(data)
 
                     if data['orders_list'][order_num_i]['pl'] < data['stop_loss_pip']:
                         if data['orders_list'][order_num_i]['open_order_type'] == 'long':

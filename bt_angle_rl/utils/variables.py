@@ -131,7 +131,7 @@ data['order_num_i'] = 0
 data['min_hl_gap'] = 0.0003
 
 data['min_take_profit_pip'] = 0.0010
-data['stop_loss_pip'] = -0.0020
+data['stop_loss_pip'] = -0.0002
 data['num_of_switch_orders']    = 2
 
 data['min_stop_loss_pip']   = -0.0002

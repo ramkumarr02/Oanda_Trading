@@ -32,4 +32,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 from plotly.graph_objs.layout import YAxis,XAxis,Margin
 import webbrowser
+
+from IPython.display import display, HTML
+display(HTML("<style>.container { width:80% !important; }</style>"))
 #...............................................................................................
