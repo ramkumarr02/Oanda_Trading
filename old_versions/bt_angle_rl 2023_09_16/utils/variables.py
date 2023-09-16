@@ -44,6 +44,7 @@ data['sell_markers_y'] = []
 data['position'] = False
 data['after_order_position'] = False
 data['open_order'] = 0    
+data['open_order_num'] = 0
 data['open_order_type'] = None
 data['pl_positive'] = False
 data['pl_positive_flag'] = True
@@ -78,7 +79,7 @@ data['pip_size'] = 0.0001
 
 
 data['tick_order_angle'] = 20
-data['stop_loss_pip'] = 0.0010
+
 
 data['min_order_angle'] = 2.5
 data['position'] = None
@@ -115,7 +116,7 @@ data['min_llema_angle'] = 0
 data['take_profit_method']  = 'simple'
 data['stop_loss_method']    = 'simple'
 
-data['pl_loss_trail_trigger']       = -0.0020
+data['pl_loss_trail_trigger']       = -0.0002
 data['pl_loss_trail_size']          = 1.25
 
 
@@ -129,10 +130,13 @@ data['order_num_i'] = 0
 
 
 data['min_hl_gap'] = 0.0003
-data['min_take_profit_pip'] = 0.00005
-data['min_stop_loss_pip']   = -0.0003
 
-data['num_of_switch_orders']    = 6
+data['min_take_profit_pip'] = 0.0010
+data['stop_loss_pip'] = -0.0002
+data['num_of_switch_orders']    = 2
+
+data['min_stop_loss_pip']   = -0.0002
+
 data['loss_switch_pl_pip']      = -0.0020
 data['all_close_min_pip']       = 0
 data['order_multiplier']        = 1
@@ -144,7 +148,7 @@ data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 data['df_subset_size'] = None
 
 data['start_date'] = {'year':2021, 'month':1, 'date':1}
-data['end_date']   = {'year':2021, 'month':1, 'date':11}
+data['end_date']   = {'year':2021, 'month':1, 'date':5}
 
 data['ema_roll_method'] = 'file'
 

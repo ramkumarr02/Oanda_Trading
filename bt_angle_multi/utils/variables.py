@@ -56,7 +56,6 @@ data['tick_close_flag'] = False
 data['pl_available'] = False
 data['stop_loss_flag'] = True
 data['reverse_order_flag'] =  None
-data['reverse'] =  None
 data['slema_closed_flag'] = None
 # data['slema_move_close_flag'] =  None
 
@@ -78,7 +77,7 @@ data['pip_size'] = 0.0001
 
 
 data['tick_order_angle'] = 20
-
+data['stop_loss_pip'] = 0.0002
 
 data['min_order_angle'] = 2.5
 data['position'] = None
@@ -115,7 +114,7 @@ data['min_llema_angle'] = 0
 data['take_profit_method']  = 'simple'
 data['stop_loss_method']    = 'simple'
 
-data['pl_loss_trail_trigger']       = -0.0002
+data['pl_loss_trail_trigger']       = -0.0020
 data['pl_loss_trail_size']          = 1.25
 
 
@@ -129,14 +128,11 @@ data['order_num_i'] = 0
 
 
 data['min_hl_gap'] = 0.0003
+data['min_take_profit_pip'] = 0.00005
+data['min_stop_loss_pip']   = -0.0003
 
-data['min_take_profit_pip'] = 0.0010
-data['stop_loss_pip'] = -0.0002
-data['num_of_switch_orders']    = 2
-
-data['min_stop_loss_pip']   = -0.0002
-
-data['loss_switch_pl_pip']      = -0.0020
+data['num_of_switch_orders']    = 4
+data['loss_switch_pl_pip']      = -0.0005
 data['all_close_min_pip']       = 0
 data['order_multiplier']        = 1
 
@@ -147,7 +143,7 @@ data["input_file_name"] = f'{data["product"]}_{data["input_year"]}.csv'
 data['df_subset_size'] = None
 
 data['start_date'] = {'year':2021, 'month':1, 'date':1}
-data['end_date']   = {'year':2021, 'month':1, 'date':5}
+data['end_date']   = {'year':2021, 'month':1, 'date':6}
 
 data['ema_roll_method'] = 'file'
 
@@ -165,8 +161,10 @@ data['angle_len']   = int(x * 2)
 data['candle_size'] = x
 data['avg_candle_num'] = 2
 
+data['ema_type'] = 'slema'
 
-data['stop_loss_multiplier']    = 0.5
+data['stop_loss_multiplier']    = 1
+
 data['take_profit_multiplier']  = 0.5
 data['pl_move_trail_ratio']     = 0.8
 
@@ -216,7 +214,7 @@ data['pl_temp_list']           = []
 data['first_type']             = None
 data['forward_order_list'] = []
 
-data["csv_file_name"] = 'ema_df-(2021-2021)-(1-1)-(1-10)'
+data["csv_file_name"] = 'ema_df-(2021-2021)-(1-1)-(1-6)'
 
 data['csv_list'] = ['ema_2021_jan_aug' , 'ema_df-(2021-2021)-(9-9)-(1-30)', 'ema_df-(2021-2021)-(10-10)-(1-31)', 'ema_df-(2021-2021)-(12-12)-(1-31)']
 data['new_file'] = 'ema_2021-jan_dec'
@@ -224,5 +222,5 @@ data['new_file'] = 'ema_2021-jan_dec'
 data['chrome_path'] = "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s"
 
 data['temp_total_pl'] = []
-data['send_message_to_phone'] = True
+data['send_message_to_phone'] = False
 #...............................................................................................

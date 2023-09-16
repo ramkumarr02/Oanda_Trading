@@ -112,7 +112,7 @@ def send_telegram_message(message_text):
 def generate_result_report(data):
     data['report_df'] = data['df'][data['df']['pl'].notnull()]
 
-    winsound.PlaySound('C:\\Windows\\Media\\tada.wav', winsound.SND_ASYNC)
+    # winsound.PlaySound('C:\\Windows\\Media\\tada.wav', winsound.SND_ASYNC)
     data["daily_pl"] = pd.DataFrame(data['report_df'].groupby(['date_val'])['pl'].sum())
     data["monthly_pl"] = pd.DataFrame(data['report_df'].groupby(['month_val'])['pl'].sum())
     data["net_pl"] = data['report_df']['pl'].sum().round(4)

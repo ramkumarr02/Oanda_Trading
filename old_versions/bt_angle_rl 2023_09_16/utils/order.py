@@ -3,6 +3,44 @@ from utils.i_o import *
 from utils.dir_slope import *
 
 
+# ...............................................................................................
+def dynamic_make_order(data):
+    for order_num_i in range(data['num_of_switch_orders']):    
+        data['order_num_i'] = order_num_i
+        if order_num_i == 0:
+            if data['open_order_num'] == order_num_i:
+                if data['to_order'] == 'long':                
+                    data['open_order_num'] = order_num_i + 1
+                    data['start_prices'] = {}
+                    data = make_long_order(data)
+
+                elif data['to_order'] == 'short':
+                    data['open_order_num'] = order_num_i + 1
+                    data['start_prices'] = {}
+                    data = make_short_order(data)
+
+        elif order_num_i > 0:
+            if data['open_order_num'] == order_num_i:
+                try:
+                    data['orders_list'][order_num_i]['pl']
+                    data['pl_available'] = True
+                except:
+                    data['pl_available'] = False
+
+                if data['pl_available']:
+
+                    if data['orders_list'][order_num_i]['pl'] < data['stop_loss_pip']:
+                        if data['orders_list'][order_num_i]['open_order_type'] == 'long':
+                            # if data['tick_angle'] < -data['min_order_angle']:
+                            data['open_order_num'] = order_num_i + 1
+                            data = make_short_order(data)
+
+                        if data['orders_list'][order_num_i]['open_order_type'] == 'short':
+                            # if data['tick_angle'] > data['min_order_angle']:
+                            data['open_order_num'] = order_num_i + 1
+                            data = make_long_order(data)
+
+    return(data)
 
 #...............................................................................................
 def make_order(data):
@@ -188,12 +226,14 @@ def simple_slema_move_close(data):
 
 #...............................................................................................
 def trail_take_profit(data):
-    data['pl_move_trail_trigger']       = max(data['min_take_profit_pip'], data['h_l_gap'] * data['take_profit_multiplier'])
+    # data['pl_move_trail_trigger']       = max(data['min_take_profit_pip'], data['h_l_gap'] * data['take_profit_multiplier'])
+    data['pl_move_trail_trigger']       = data['min_take_profit_pip']
 
     if data['open_order']:
         if data['pl'] >= data['pl_move_trail_trigger']:
             data['pl_positive'] = True
             data['pl_move_min'] = max((data['pl'] * data['pl_move_trail_ratio']), data['pl_move_min'])
+            # data['pl_move_min'] = max(data['pl'], data['pl_move_min']) * data['pl_move_trail_ratio']
 
         if data['pl_positive']:    
             if 0 < data['pl'] <= data['pl_move_min']: 
@@ -255,8 +295,8 @@ def make_long_order(data):
     data['reverse'] = None
     data['df']['order_side'].iloc[data['i']]    = 'long'
     data['df']['long_open'].iloc[data['i']]     = data['ask']
-    data['ordered_touched_line']                = data['touched_line']
-    data['df']['touched_line'].iloc[data['i']]  = data['ordered_touched_line']
+    # data['ordered_touched_line']                = data['touched_line']
+    # data['df']['touched_line'].iloc[data['i']]  = data['ordered_touched_line']
     return(data)
 
 
@@ -271,8 +311,8 @@ def make_short_order(data):
     data['reverse'] = None
     data['df']['order_side'].iloc[data['i']] = 'short'
     data['df']['short_open'].iloc[data['i']] = data['bid']
-    data['ordered_touched_line']                = data['touched_line']
-    data['df']['touched_line'].iloc[data['i']] = data['ordered_touched_line']
+    # data['ordered_touched_line']                = data['touched_line']
+    # data['df']['touched_line'].iloc[data['i']] = data['ordered_touched_line']
     return(data)
 
 
@@ -286,7 +326,7 @@ def close_long_order(data):
     data['df']['long_close'].iloc[data['i']] = data['bid']  
     data['df']['pl'].iloc[data['i']] = data['pl']
     data['df']['order_side'].iloc[data['i']] = 'long'
-    data['df']['touched_line'].iloc[data['i']]  = data['ordered_touched_line']
+    # data['df']['touched_line'].iloc[data['i']]  = data['ordered_touched_line']
     create_report(data)
     return(data)
 
@@ -300,7 +340,7 @@ def close_short_order(data):
     data['df']['short_close'].iloc[data['i']] = data['ask']  
     data['df']['pl'].iloc[data['i']] = data['pl']
     data['df']['order_side'].iloc[data['i']] = 'short'
-    data['df']['touched_line'].iloc[data['i']]  = data['ordered_touched_line']
+    # data['df']['touched_line'].iloc[data['i']]  = data['ordered_touched_line']
     data['reverse'] = None
     create_report(data)
     return(data)

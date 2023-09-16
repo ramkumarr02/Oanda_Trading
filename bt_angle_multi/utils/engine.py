@@ -18,10 +18,13 @@ def run_engine(data):
 
     data['df']['touched_line']  = np.nan
     data['df']['order_side']    = np.nan
+    data['df']['order_size']    = np.nan
+    data['df']['order_num']    = np.nan
     data['df']['long_open']     = np.nan
     data['df']['long_close']    = np.nan
     data['df']['short_open']    = np.nan
     data['df']['short_close']   = np.nan
+    data['df']['all_close']     = np.nan
     data['df']['close_type']    = np.nan
     data['df']['pl']            = np.nan
 
@@ -34,7 +37,6 @@ def run_engine(data):
         data['slema'] = data['df']['slema'][data['i']]    
         data['lema'] = data['df']['lema'][data['i']]    
         data['tick_angle'] = data['df']['tick_angle'][data['i']]    
-        # data['tick_angle_2'] = data['df']['tick_angle_2'][data['i']]    
         data['h_l_gap'] = data['df']['h_l_gap'][data['i']]    
         data['h_lema'] = data['df']['h_lema'][data['i']]    
         data['l_lema'] = data['df']['l_lema'][data['i']]    
@@ -49,21 +51,18 @@ def run_engine(data):
             continue
 
         elif len(data['dir_list']) == 2:
-            data = get_cross_dir_chooser(data)
+            data = get_cross_dir(data)
             
         # ----------------------------------------------------------  
 
-        # data = lock_profit(data)                 
-        # data = loss_reverse_position(data)
-        # data = trail_take_profit(data)                 
-        # data = simple_take_profit(data)       
         data = slema_positive_check(data)
         data = simple_slema_move_close(data)          
-        # data = simple_stop_loss(data)
-        data = make_order(data)
-        data = calculate_pl(data)
-        data = loss_reverse_position(data)
-        # data = loss_reverse_position_continous(data)
+        data = dynamic_make_order(data)
+        data = calculate_multi_pl(data)
+        data = close_all_orders(data)          
+        # data = simple_stop_loss(data)          
+        # data = make_order(data)
+        # data = calculate_pl(data)
 
     data = split_date_col(data)
             

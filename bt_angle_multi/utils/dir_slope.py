@@ -3,17 +3,37 @@ from utils.packages import *
 
 #...............................................................................................
 def get_position(data):
-    
-    if data['tick'] >= data['h_lema']:
+
+    if data['sema'] > data['lema']:
+        data['position'] = 1
+
+    elif data['sema'] < data['lema']:
         data['position'] = -1
 
-    elif data['tick'] <= data['l_lema']:
-        data['position'] = 1
-    
     else:
         data['position'] = 0
 
     return(data)
+
+#...............................................................................................
+def get_cross_dir(data):
+    data['dir_list'].popleft()
+    data['dir_list'].append(data['position'])   
+    
+    data['pos_1'] = data['dir_list'][0]
+    data['pos_2'] = data['dir_list'][1]
+
+    if data['pos_1'] != data['pos_2'] and data['pos_2'] == -1:
+        data['to_order'] = 'short'      
+
+    elif data['pos_1'] != data['pos_2'] and data['pos_2'] == 1:
+        data['to_order'] = 'long'            
+
+    else:
+        data['to_order'] = None
+
+    return(data)
+
 #...............................................................................................
 
 def get_cross_dir_chooser(data):
@@ -85,28 +105,28 @@ def get_cross_dir_angle_alone(data):
 
 #...............................................................................................
 #...............................................................................................
-def get_cross_dir(data):   
+# def get_cross_dir(data):   
     
-    data['dir_list'].popleft()
-    data['dir_list'].append(data['position'])   
+#     data['dir_list'].popleft()
+#     data['dir_list'].append(data['position'])   
     
-    data['pos_1'] = data['dir_list'][0]
-    data['pos_2'] = data['dir_list'][1]
+#     data['pos_1'] = data['dir_list'][0]
+#     data['pos_2'] = data['dir_list'][1]
 
-    if data['pos_1'] != data['pos_2'] and data['pos_2'] == -1:
-        if data['h_l_gap'] > data['min_hl_gap']:
-            data['touched_line'] = 'h_lema'
-            data['to_order'] = 'short'      
+#     if data['pos_1'] != data['pos_2'] and data['pos_2'] == -1:
+#         if data['h_l_gap'] > data['min_hl_gap']:
+#             data['touched_line'] = 'h_lema'
+#             data['to_order'] = 'short'      
 
-    elif data['pos_1'] != data['pos_2'] and data['pos_2'] == 1:
-        if data['h_l_gap'] > data['min_hl_gap']:
-            data['touched_line'] = 'l_lema'
-            data['to_order'] = 'long'            
-    else:
-        data['to_order'] = None
-        data['touched_line'] = None
+#     elif data['pos_1'] != data['pos_2'] and data['pos_2'] == 1:
+#         if data['h_l_gap'] > data['min_hl_gap']:
+#             data['touched_line'] = 'l_lema'
+#             data['to_order'] = 'long'            
+#     else:
+#         data['to_order'] = None
+#         data['touched_line'] = None
 
-    return(data)    
+#     return(data)    
 
 #...............................................................................................
 def get_cross_dir_simple_rl(data):   

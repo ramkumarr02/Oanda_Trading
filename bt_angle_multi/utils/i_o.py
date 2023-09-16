@@ -67,8 +67,8 @@ def split_date_col(data):
     data['df']['short_profit'][data['df']['pl'] > 0] = data['df']['short_close']
     data['df']['short_loss'][data['df']['pl'] < 0] = data['df']['short_close']
 
-    del data['df']['long_close']
-    del data['df']['short_close']
+    # del data['df']['long_close']
+    # del data['df']['short_close']
 
     # data['df'] = data['df'][data['final_columns_list']]
     return(data)
@@ -112,7 +112,7 @@ def send_telegram_message(message_text):
 def generate_result_report(data):
     data['report_df'] = data['df'][data['df']['pl'].notnull()]
 
-    winsound.PlaySound('C:\\Windows\\Media\\tada.wav', winsound.SND_ASYNC)
+    # winsound.PlaySound('C:\\Windows\\Media\\tada.wav', winsound.SND_ASYNC)
     data["daily_pl"] = pd.DataFrame(data['report_df'].groupby(['date_val'])['pl'].sum())
     data["monthly_pl"] = pd.DataFrame(data['report_df'].groupby(['month_val'])['pl'].sum())
     data["net_pl"] = data['report_df']['pl'].sum().round(4)
@@ -409,7 +409,20 @@ def plot_graph(data):
                                         color='red',
                                         width=1
                                     )),
-                        opacity=1)                        
+                        opacity=1)    
+
+            fig.add_scatter(x = data['plot_df']['DateTime_frmt'], 
+                        y = data['plot_df']['all_close'], 
+                        mode = 'markers', 
+                        name = 'all_close',
+                        marker_symbol = 'circle',
+                        marker=dict(color='black',
+                                    size=10,
+                                    line=dict(
+                                        color='red',
+                                        width=1
+                                    )),
+                        opacity=1)                           
         # -------------------------------------------------------------------
 
 
