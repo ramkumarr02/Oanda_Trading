@@ -55,8 +55,9 @@ def run_engine(data):
             
         # ----------------------------------------------------------  
 
-        data = slema_positive_check(data)
-        data = simple_slema_move_close(data)          
+        # data = slema_positive_check(data)
+        data = simple_slema_move_close(data)      
+        data = simple_take_profit(data)    
         data = dynamic_make_order(data)
         data = calculate_multi_pl(data)
         data = close_all_orders(data)          

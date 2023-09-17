@@ -77,7 +77,7 @@ data['pip_size'] = 0.0001
 
 
 data['tick_order_angle'] = 20
-data['stop_loss_pip'] = 0.0002
+data['stop_loss_pip'] = -0.0002
 
 data['min_order_angle'] = 2.5
 data['position'] = None
@@ -128,12 +128,12 @@ data['order_num_i'] = 0
 
 
 data['min_hl_gap'] = 0.0003
-data['min_take_profit_pip'] = 0.00005
+data['min_take_profit_pip'] = 0.0001
 data['min_stop_loss_pip']   = -0.0003
 
-data['num_of_switch_orders']    = 4
+data['num_of_switch_orders']    = 50
 data['loss_switch_pl_pip']      = -0.0005
-data['all_close_min_pip']       = 0
+data['all_close_min_pip']       = 0.0001
 data['order_multiplier']        = 1
 
 data["product"] = 'eurusd'

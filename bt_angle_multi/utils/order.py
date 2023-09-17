@@ -43,16 +43,42 @@ def dynamic_make_order(data):
 
                     if data['orders_list'][order_num_i]['pl'] < data['stop_loss_pip']:
                         if data['orders_list'][order_num_i]['open_order_type'] == 'long':
-                            if data['tick_angle'] < -data['min_order_angle']:
-                                data['open_order'] = order_num_i + 1
-                                data = make_short_order(data)
+                            # if data['tick_angle'] < -data['min_order_angle']:
+                            data['open_order'] = order_num_i + 1
+                            data = make_short_order(data)
 
                         if data['orders_list'][order_num_i]['open_order_type'] == 'short':
-                            if data['tick_angle'] > data['min_order_angle']:
-                                data['open_order'] = order_num_i + 1
-                                data = make_long_order(data)
+                            # if data['tick_angle'] > data['min_order_angle']:
+                            data['open_order'] = order_num_i + 1
+                            data = make_long_order(data)
 
     return(data)
+
+#...............................................................................................
+def simple_take_profit(data):
+    
+    if data['open_order'] == 1:
+        if data['orders_list']['total_pl'] >= data['min_take_profit_pip']:       
+
+            data['pl_positive']         = False
+            data['pl_move_min']         = 0
+            data['slema_check_flag'] = False
+            #------------------------
+            data['df']['close_type'].iloc[data['i']]    = 'simple_take_profit'
+            data['df']['all_close'].iloc[data['i']]    = data['tick']  
+            data['df']['pl'].iloc[data['i']]            = data['orders_list']['total_pl']
+            data['df']['order_side'].iloc[data['i']]    = data['to_order']
+            data['df']['order_size'].iloc[data['i']]    = data['order_size']
+            # data['df']['touched_line'].iloc[data['i']]  = data['ordered_touched_line']
+            #------------------------
+            data['orders_list'] = {}
+            data['open_order'] = 0
+            data['to_order']	= None
+            #------------------------
+            create_report(data)
+    return(data)
+
+
 #...............................................................................................
 def close_all_orders(data):
     
@@ -76,25 +102,25 @@ def close_all_orders(data):
             #------------------------
             create_report(data)
 
-        if data['open_order'] == data['num_of_switch_orders']:
-            if data['orders_list']['total_pl'] < data['stop_loss_pip']/2:
-                if data['orders_list'][data['num_of_switch_orders']]['pl'] < data['stop_loss_pip']/2:
-                    data['pl_positive']         = False
-                    data['pl_move_min']         = 0
-                    data['slema_check_flag'] = False
-                    #------------------------
-                    data['df']['close_type'].iloc[data['i']]    = 'all_close'
-                    data['df']['all_close'].iloc[data['i']]    = data['tick']  
-                    data['df']['pl'].iloc[data['i']]            = data['orders_list']['total_pl']
-                    data['df']['order_side'].iloc[data['i']]    = 'all'
-                    data['df']['order_size'].iloc[data['i']]    = data['order_size']
-                    # data['df']['touched_line'].iloc[data['i']]  = data['ordered_touched_line']
-                    #------------------------
-                    data['orders_list'] = {}
-                    data['open_order'] = 0
-                    data['to_order']	= None
-                    #------------------------
-                    create_report(data)
+        # if data['open_order'] == data['num_of_switch_orders']:
+        #     if data['orders_list']['total_pl'] < data['stop_loss_pip']/2:
+        #         if data['orders_list'][data['num_of_switch_orders']]['pl'] < data['stop_loss_pip']/2:
+        #             data['pl_positive']         = False
+        #             data['pl_move_min']         = 0
+        #             data['slema_check_flag'] = False
+        #             #------------------------
+        #             data['df']['close_type'].iloc[data['i']]    = 'all_close'
+        #             data['df']['all_close'].iloc[data['i']]    = data['tick']  
+        #             data['df']['pl'].iloc[data['i']]            = data['orders_list']['total_pl']
+        #             data['df']['order_side'].iloc[data['i']]    = 'all'
+        #             data['df']['order_size'].iloc[data['i']]    = data['order_size']
+        #             # data['df']['touched_line'].iloc[data['i']]  = data['ordered_touched_line']
+        #             #------------------------
+        #             data['orders_list'] = {}
+        #             data['open_order'] = 0
+        #             data['to_order']	= None
+        #             #------------------------
+        #             create_report(data)
 
     return(data)
 #...............................................................................................
@@ -124,6 +150,9 @@ def calculate_multi_pl(data):
 
     data['open_order_temp_list'].append(data['open_order'])
     data['pl_temp_list'].append(data['orders_list']['total_pl'])
+
+    data['df']['pl'].iloc[data['i']]            = data['orders_list']['total_pl']
+
     # if data['orders_list']['total_pl'] <= -0.31915:
     #     print(data['orders_list'])
     #     sys.exit()
